@@ -1,0 +1,71 @@
+<nav class="navbar">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" data-ng-bind="ctrl.brand"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li>
+          <a ui-sref="auth-login">Login</a>
+        </li>
+        <li>
+          <a ui-sref="user-register">Cadastro</a>
+        </li>
+        <li>
+          <a ui-sref="user-me">Perfil</a>
+        </li>
+        <li>
+          <a ui-sref="user-change">Change</a>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+
+      <ul class="nav navbar-nav">
+        <li>
+          <a data-ng-click="ctrl.logout()">Logout</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" uib-dropdown is-open="status.isopen">
+        <li class="dropdown">
+          <a href="#" uib-dropdown-toggle>
+            {{ctrl.user.name}} <span class="caret"></span>
+          </a>
+        </li>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+          <li role="menuitem" data-ng-repeat="item in ctrl.dropDownMenu">
+            <a ui-sref="{{item.url}}">{{item.label}}</a>
+          </li>
+          <li class="divider"></li>
+          <li role="menuitem"><a href="#">Separated link</a></li>
+        </ul>
+      </ul>
+      <!--<ul class="nav navbar-nav navbar-right">
+        <li><a data-ng-click="ctrl.logout()">Logout</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>-->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
