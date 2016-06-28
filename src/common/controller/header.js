@@ -13,7 +13,7 @@ export default class Header {
       logged: [
         {
           label: 'Perfil',
-          url: 'user-me'
+          url: 'user.me'
         },
         {
           label: 'Logout',

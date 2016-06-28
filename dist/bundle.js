@@ -338,7 +338,7 @@ var Header = function Header($scope, $state, $window) {
   this.dropDownMenu = {
     logged: [{
       label: 'Perfil',
-      url: 'user-me'
+      url: 'user.me'
     }, {
       label: 'Logout',
       url: 'auth.logout'
