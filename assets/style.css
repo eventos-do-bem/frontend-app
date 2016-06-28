@@ -1,6 +1,9 @@
 body {
 }
 
+.navbar .navbar-brand img {
+  max-width: 120px;
+}
 body.auth-login {
   background-image: url('images/auth-login.jpg');
 }

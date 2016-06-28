@@ -1,16 +1,15 @@
-<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-  </div>
+<form name="login" class="form-signin" data-ng-submit="ctrl.register()">
+  <h2 class="form-signin-heading">Cadastro</h2>
+  <label for="email" class="sr-only">Email</label>
+  <input type="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Email address" required autofocus>
+  <label for="password" class="sr-only">Senha</label>
+  <input type="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Password" required>
+  <label for="password_confirmation" class="sr-only">Confirmação da senha</label>
+  <input type="password_confirmation" id="password_confirmation" class="form-control" data-ng-model="ctrl.user.password" placeholder="Email address" required autofocus>
   <div class="checkbox">
     <label>
-      <input type="checkbox"> Check me out
+      <input type="checkbox" value="remember-me"> Lembrar da senha
     </label>
   </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 </form>

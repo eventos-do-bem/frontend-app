@@ -1,5 +1,5 @@
 export default class AuthLogin {
-  constructor($scope, $stateParams, $state, $window, AuthService) {
+  constructor($rootScope, $stateParams, $state, $window, AuthService) {
     this.rememberme = true
     this.login = () => {
       AuthService.login(this.user)
@@ -8,6 +8,7 @@ export default class AuthLogin {
             $window.localStorage.setItem('token', response.data.token)
             delete response.data.token
             $window.localStorage.setItem('user', JSON.stringify(response.data))
+            $rootScope.$broadcast('auth.login')
           },
           error => {
             console.error('error', error)
@@ -18,4 +19,4 @@ export default class AuthLogin {
   }
 }
 
-AuthLogin.$inject = ['$scope', '$stateParams', '$state', '$window', 'AuthService']
+AuthLogin.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService']

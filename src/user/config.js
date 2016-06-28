@@ -1,21 +1,25 @@
 export default function UserConfig($stateProvider) {
   $stateProvider
-    .state('user-register', {
-      url: '/usuario/cadastro',
-      templateUrl: './src/user/view/register.html',
-      controller: 'UserRegisterController',
-      controllerAs: 'ctrl'
+    .state('user', {
+      url: '/usuario',
+      templateUrl: './src/user/view/user.html'
     })
-    .state('user-me', {
-      url: '/usuario/eu',
+    .state('user.me', {
+      url: '/eu',
       templateUrl: './src/user/view/me.html',
-      controller: 'UserMeController',
+      controller: 'UserMe',
       controllerAs: 'ctrl'
     })
-    .state('user-change', {
-      url: '/usuario/eu/change',
+    .state('user.register', {
+      url: '/cadastro',
+      templateUrl: './src/user/view/register.html',
+      controller: 'UserRegister',
+      controllerAs: 'ctrl'
+    })
+    .state('user.change', {
+      url: '/eu/alterar',
       templateUrl: './src/user/view/change.html',
-      controller: 'UserChangeController',
+      controller: 'UserChange',
       controllerAs: 'ctrl'
     })
 }

@@ -9,6 +9,10 @@ export default class AuthService extends CommonService {
     this.setRoute('auth/login')
     return this.$http.post(this.url + this.route, data)
   }
+  logout() {
+    this.setRoute('auth/logout')
+    return this.$http.get(this.url + this.route);
+  }
 }
 
 AuthService.$inject = ['API','$http']
