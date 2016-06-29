@@ -16,6 +16,12 @@ export default function UserConfig($stateProvider) {
       controller: 'UserRegister',
       controllerAs: 'ctrl'
     })
+    .state('user.confirmation', {
+      url: '/confirmacao/:uuid/:confirmation_code',
+      templateUrl: './src/user/view/confirmation.html',
+      controller: 'UserConfirmation',
+      controllerAs: 'ctrl'
+    })
     .state('user.change', {
       url: '/eu/alterar',
       templateUrl: './src/user/view/change.html',

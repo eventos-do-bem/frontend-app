@@ -27,7 +27,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = AppConfig;
-function AppConfig($httpProvider) {
+function AppConfig($httpProvider, $injector) {
   $httpProvider.interceptors.push('HttpInterceptor');
 }
 
@@ -77,15 +77,16 @@ AppController.$inject = ['$state', '$window'];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-function config(API, $q, $window) {
+function config(API, $q, $injector, $window) {
   return {
     'request': function request(config) {
+      config.headers = config.headers || {};
       config['headers']['Accept'] = API.accept;
       config['headers']['Content-Type'] = API.contenttype;
       if ($window.localStorage.getItem('token')) {
         config['headers']['Authorization'] = 'Bearer ' + $window.localStorage.getItem('token');
       }
-      return $q.resolve(config);
+      return config || $q.when(config);
     },
     'requestError': function requestError(rejection) {
       return $q.reject(rejection);
@@ -93,8 +94,8 @@ function config(API, $q, $window) {
     'response': function response(_response) {
       return $q.resolve(_response);
     },
-    'responseError': function responseError(rejection) {
-      return $q.reject(rejection);
+    'responseError': function responseError(response) {
+      return $q.reject(response);
     }
   };
 }
@@ -145,9 +146,9 @@ var _module6 = _interopRequireDefault(_module5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMessages', 'common', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', _interceptor2.default).controller('AppController', _controller2.default);
+angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMessages', 'common', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default);
 
-},{"./../auth/module.js":10,"./../common/module.js":13,"./../user/module.js":19,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router"}],7:[function(require,module,exports){
+},{"./../auth/module.js":10,"./../common/module.js":13,"./../user/module.js":20,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -193,8 +194,8 @@ var AuthLogin = function AuthLogin($rootScope, $stateParams, $state, $window, Au
       $window.localStorage.setItem('user', JSON.stringify(response.data));
       $rootScope.$broadcast('auth.login');
     }, function (error) {
-      console.error('error', error);
-      _this.error = error;
+      _this.error = error.data;
+      console.log('error', error);
     });
   };
 };
@@ -302,6 +303,12 @@ var AuthService = function (_CommonService) {
       this.setRoute('auth/logout');
       return this.$http.get(this.url + this.route);
     }
+  }, {
+    key: 'confirmation',
+    value: function confirmation(data) {
+      this.setRoute('auth/confirmation');
+      return this.$http.get(this.url + this.route);
+    }
   }]);
 
   return AuthService;
@@ -348,7 +355,7 @@ var Header = function Header($scope, $state, $window) {
       url: 'auth.login'
     }, {
       label: 'Cadastrar',
-      url: 'user-register'
+      url: 'user.register'
     }]
   };
   this.toggleDropdown = function ($event) {
@@ -466,6 +473,11 @@ function UserConfig($stateProvider) {
     templateUrl: './src/user/view/register.html',
     controller: 'UserRegister',
     controllerAs: 'ctrl'
+  }).state('user.confirmation', {
+    url: '/confirmacao/:uuid/:confirmation_code',
+    templateUrl: './src/user/view/confirmation.html',
+    controller: 'UserConfirmation',
+    controllerAs: 'ctrl'
   }).state('user.change', {
     url: '/eu/alterar',
     templateUrl: './src/user/view/change.html',
@@ -511,6 +523,47 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var AuthConfirmation = function AuthConfirmation($rootScope, $stateParams, $state, $window, AuthService) {
+  var _this = this;
+
+  _classCallCheck(this, AuthConfirmation);
+
+  this.user = {
+    uuid: $stateParams.uuid,
+    confirmation_code: $stateParams.confirmation_code
+  };
+  this.confirmation = function () {
+    console.log(_this.user);
+    // AuthService.confirmation(this.user)
+    //   .then(
+    //     response => {
+    //       $window.localStorage.setItem('token', response.data.token)
+    //       delete response.data.token
+    //       $window.localStorage.setItem('user', JSON.stringify(response.data))
+    //       $rootScope.$broadcast('auth.login')
+    //     },
+    //     error => {
+    //       this.error = error.data
+    //       console.log('error', error)
+    //     }
+    //   )
+  };
+};
+
+exports.default = AuthConfirmation;
+
+
+AuthConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
+
+},{}],18:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var UserMe = function UserMe($scope, $stateParams, $state, UserService) {
   var _this = this;
 
@@ -530,7 +583,7 @@ exports.default = UserMe;
 
 UserMe.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -545,11 +598,15 @@ var UserRegister = function UserRegister($scope, $stateParams, $state, UserServi
   _classCallCheck(this, UserRegister);
 
   this.register = function () {
-    UserService.register(_this.user).then(function (response) {
-      console.log(response);
-    }, function (error) {
-      console.error(error);
-    });
+    console.log(_this.user);
+    // UserService.register(this.user)
+    //   .then(
+    //     response => {
+    //       console.log(response)
+    //     },
+    //     error => {
+    //       console.error(error)
+    //     })
   };
 };
 
@@ -558,7 +615,7 @@ exports.default = UserRegister;
 
 UserRegister.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -577,6 +634,10 @@ var _register = require('./controller/register.js');
 
 var _register2 = _interopRequireDefault(_register);
 
+var _confirmation = require('./controller/confirmation.js');
+
+var _confirmation2 = _interopRequireDefault(_confirmation);
+
 var _me = require('./controller/me.js');
 
 var _me2 = _interopRequireDefault(_me);
@@ -587,9 +648,9 @@ var _change2 = _interopRequireDefault(_change);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('user', []).config(_config2.default).controller('UserMe', _me2.default).controller('UserChange', _change2.default).controller('UserRegister', _register2.default).service('UserService', _service2.default);
+exports.default = angular.module('user', []).config(_config2.default).controller('UserMe', _me2.default).controller('UserChange', _change2.default).controller('UserConfirmation', _confirmation2.default).controller('UserRegister', _register2.default).service('UserService', _service2.default);
 
-},{"./config.js":15,"./controller/change.js":16,"./controller/me.js":17,"./controller/register.js":18,"./service.js":20}],20:[function(require,module,exports){
+},{"./config.js":15,"./controller/change.js":16,"./controller/confirmation.js":17,"./controller/me.js":18,"./controller/register.js":19,"./service.js":21}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

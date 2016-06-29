@@ -1,14 +1,15 @@
 export default class UserRegister {
   constructor($scope, $stateParams, $state, UserService) {
     this.register = () => {
-      UserService.register(this.user)
-        .then(
-          response => {
-            console.log(response)
-          },
-          error => {
-            console.error(error)
-          })
+      console.log(this.user)
+      // UserService.register(this.user)
+      //   .then(
+      //     response => {
+      //       console.log(response)
+      //     },
+      //     error => {
+      //       console.error(error)
+      //     })
     }
   }
 }

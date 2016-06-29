@@ -20,5 +20,5 @@ angular
   ])
   .config(AppConfig)
   .constant('API', APIConfig)
-  .factory('HttpInterceptor', HttpInterceptor)
+  .factory('HttpInterceptor', ['API', '$q', '$injector', '$window', HttpInterceptor])
   .controller('AppController', controller)

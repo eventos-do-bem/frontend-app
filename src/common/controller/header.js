@@ -27,7 +27,7 @@ export default class Header {
         },
         {
           label: 'Cadastrar',
-          url: 'user-register'
+          url: 'user.register'
         }
       ]
     }

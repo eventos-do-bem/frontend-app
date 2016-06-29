@@ -13,6 +13,10 @@ export default class AuthService extends CommonService {
     this.setRoute('auth/logout')
     return this.$http.get(this.url + this.route);
   }
+  confirmation(data) {
+    this.setRoute('auth/confirmation')
+    return this.$http.get(this.url + this.route);
+  }
 }
 
 AuthService.$inject = ['API','$http']

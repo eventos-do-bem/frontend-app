@@ -11,8 +11,8 @@ export default class AuthLogin {
             $rootScope.$broadcast('auth.login')
           },
           error => {
-            console.error('error', error)
-            this.error = error
+            this.error = error.data
+            console.log('error', error)
           }
         )
     }
