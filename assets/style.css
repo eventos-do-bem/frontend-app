@@ -39,6 +39,7 @@ body.auth-login {
 .form-signin .alert,
 .form-signin .checkbox,
 .form-signin .form-control,
+.form-signin ul,
 .form-signin p,
 .form-signin button {
   opacity: 1;
@@ -50,6 +51,10 @@ body.auth-login {
           box-sizing: border-box;
   padding: 10px;
   font-size: 16px;
+}
+.form-signin ul {
+  list-style: none;
+  font-size: 1em;
 }
 .form-signin .form-control:focus {
   z-index: 2;
