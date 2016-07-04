@@ -1,4 +1,4 @@
-export default function config(API, $q, $injector, $window) {
+export default function config(API, $q, $state, $window) {
   return {
     'request': (config) => {
       config.headers = config.headers || {}
@@ -16,6 +16,8 @@ export default function config(API, $q, $injector, $window) {
       return $q.resolve(response)
     },
     'responseError': (response) => {
+      // console.log(response)
+      // // if (response.status === 401) $state.go('auth-login')
       return $q.reject(response)
     }
   }

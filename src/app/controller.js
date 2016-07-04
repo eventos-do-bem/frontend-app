@@ -1,5 +1,10 @@
 export default class AppController {
-  constructor($state, $window) {
+  constructor($location, $window) {
+    switch($location.path()) {
+      case '/usuario/cadastro': {
+        this.background = 'auth-login.jpg'
+      }
+    }
     // this.brand = 'Eventos do Bem'
     // this.logout = () => {
     //   $window.localStorage.clear()
@@ -24,4 +29,4 @@ export default class AppController {
   }
 }
 
-AppController.$inject = ['$state','$window']
+AppController.$inject = ['$location','$window']

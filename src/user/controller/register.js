@@ -1,7 +1,11 @@
 export default class UserRegister {
-  constructor($scope, $stateParams, $state, UserService) {
+  constructor($scope, $stateParams, $state, $filter, UserService) {
+    // this.user = {
+    //   birthdate: $filter('date')(new Date(), 'dd-MM-yyyy')
+    // }
+    // console.log(this.user)
     this.register = () => {
-      console.log(this.user)
+      this.user.birthdate = $filter('date')(this.user.birthdate, 'yyyy-MM-dd')
       // UserService.register(this.user)
       //   .then(
       //     response => {
@@ -14,4 +18,4 @@ export default class UserRegister {
   }
 }
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', 'UserService']
+UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService']

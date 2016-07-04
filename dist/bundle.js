@@ -40,7 +40,15 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var AppController = function AppController($state, $window) {
+var AppController = function AppController($location, $window) {
+  _classCallCheck(this, AppController);
+
+  switch ($location.path()) {
+    case '/usuario/cadastro':
+      {
+        this.background = 'auth-login.jpg';
+      }
+  }
   // this.brand = 'Eventos do Bem'
   // this.logout = () => {
   //   $window.localStorage.clear()
@@ -62,14 +70,12 @@ var AppController = function AppController($state, $window) {
   //   $event.stopPropagation();
   //   this.status.isopen = !this.status.isopen;
   // };
-
-  _classCallCheck(this, AppController);
 };
 
 exports.default = AppController;
 
 
-AppController.$inject = ['$state', '$window'];
+AppController.$inject = ['$location', '$window'];
 
 },{}],5:[function(require,module,exports){
 'use strict';
@@ -77,7 +83,7 @@ AppController.$inject = ['$state', '$window'];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-function config(API, $q, $injector, $window) {
+function config(API, $q, $state, $window) {
   return {
     'request': function request(config) {
       config.headers = config.headers || {};
@@ -95,6 +101,8 @@ function config(API, $q, $injector, $window) {
       return $q.resolve(_response);
     },
     'responseError': function responseError(response) {
+      // console.log(response)
+      // // if (response.status === 401) $state.go('auth-login')
       return $q.reject(response);
     }
   };
@@ -111,6 +119,10 @@ var _angularUiRouter2 = _interopRequireDefault(_angularUiRouter);
 var _angularUiBootstrap = require('angular-ui-bootstrap');
 
 var _angularUiBootstrap2 = _interopRequireDefault(_angularUiBootstrap);
+
+var _ngMask = require('ng-mask');
+
+var _ngMask2 = _interopRequireDefault(_ngMask);
 
 var _angularMessages = require('angular-messages');
 
@@ -146,9 +158,9 @@ var _module6 = _interopRequireDefault(_module5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMessages', 'common', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default);
+angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'common', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default);
 
-},{"./../auth/module.js":10,"./../common/module.js":13,"./../user/module.js":20,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router"}],7:[function(require,module,exports){
+},{"./../auth/module.js":10,"./../common/module.js":13,"./../user/module.js":20,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -592,13 +604,17 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var UserRegister = function UserRegister($scope, $stateParams, $state, UserService) {
+var UserRegister = function UserRegister($scope, $stateParams, $state, $filter, UserService) {
   var _this = this;
 
   _classCallCheck(this, UserRegister);
 
+  // this.user = {
+  //   birthdate: $filter('date')(new Date(), 'dd-MM-yyyy')
+  // }
+  // console.log(this.user)
   this.register = function () {
-    console.log(_this.user);
+    _this.user.birthdate = $filter('date')(_this.user.birthdate, 'yyyy-MM-dd');
     // UserService.register(this.user)
     //   .then(
     //     response => {
@@ -613,7 +629,7 @@ var UserRegister = function UserRegister($scope, $stateParams, $state, UserServi
 exports.default = UserRegister;
 
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
+UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService'];
 
 },{}],20:[function(require,module,exports){
 'use strict';
