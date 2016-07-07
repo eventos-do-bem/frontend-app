@@ -137,7 +137,7 @@ body.auth-login {
   background-color: #fff;
   content:'';
   width:330px;
-  height:365px;
+  height:485px;
   padding: 15px;
   position:absolute;
   top:0;
@@ -175,6 +175,8 @@ body.auth-login {
 .form-signin .alert,
 .form-signin .checkbox,
 .form-signin .form-control,
+.form-signin .btn-group,
+.form-signin .btn-group label,
 .form-signin label,
 .form-signin ul,
 .form-signin p,
@@ -188,6 +190,9 @@ body.auth-login {
           box-sizing: border-box;
   padding: 10px;
   font-size: 16px;
+}
+.form-signin .btn-group {
+  padding: 10px 0 15px;
 }
 .form-signin .nav,
 .form-signin ul {

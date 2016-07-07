@@ -119,9 +119,9 @@ var _angularUiBootstrap = require('angular-ui-bootstrap');
 
 var _angularUiBootstrap2 = _interopRequireDefault(_angularUiBootstrap);
 
-var _ngMask = require('ng-mask');
+var _angularUiMask = require('angular-ui-mask');
 
-var _ngMask2 = _interopRequireDefault(_ngMask);
+var _angularUiMask2 = _interopRequireDefault(_angularUiMask);
 
 var _angularMessages = require('angular-messages');
 
@@ -165,9 +165,9 @@ var _module8 = _interopRequireDefault(_module7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'common', 'home', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default).run(_run2.default);
+angular.module('app', ['ui.bootstrap', 'ui.mask', _angularUiRouter2.default, 'ngMessages', 'common', 'home', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":11,"./../common/module.js":14,"./../home/module.js":18,"./../user/module.js":24,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+},{"./../auth/module.js":11,"./../common/module.js":14,"./../home/module.js":18,"./../user/module.js":24,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-mask":"angular-ui-mask","angular-ui-router":"angular-ui-router"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -686,29 +686,57 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var UserRegister = function UserRegister($scope, $stateParams, $state, $filter, UserService) {
-  var _this = this;
+var UserRegister = function () {
+  function UserRegister($scope, $stateParams, $state, $filter, UserService) {
+    var _this = this;
 
-  _classCallCheck(this, UserRegister);
+    _classCallCheck(this, UserRegister);
 
-  // this.user = {
-  //   birthdate: $filter('date')(new Date(), 'dd-MM-yyyy')
-  // }
-  // console.log(this.user)
-  this.register = function () {
-    _this.user.birthdate = $filter('date')(_this.user.birthdate, 'yyyy-MM-dd');
-    // UserService.register(this.user)
-    //   .then(
-    //     response => {
-    //       console.log(response)
-    //     },
-    //     error => {
-    //       console.error(error)
-    //     })
-  };
-};
+    // this.user = {
+    //   birthdate: $filter('date')(new Date(), 'dd-MM-yyyy')
+    // }
+    // console.log(this.user)
+    // this.register = () => {
+    //   this.user.birthdate = $filter('date')(this.user.birthdate, 'yyyy-MM-dd')
+    //   UserService.register(this.user)
+    //     .then(
+    //       response => {
+    //         console.log(response)
+    //       },
+    //       error => {
+    //         console.error(error)
+    //       })
+    // }
+    this.service = UserService;
+    this.user = {
+      gender: 'Masculino'
+    };
+    this.registerAction = function () {
+      var date = {
+        day: _this.user.birthdate.substring(0, 2),
+        month: _this.user.birthdate.substring(2, 4),
+        year: _this.user.birthdate.substring(4, 8)
+      };
+      _this.user.birthdate = date.year + '-' + date.month + '-' + date.day;
+      _this.register(_this.user).then(function (response) {
+        return console.log(response);
+      });
+    };
+  }
+
+  _createClass(UserRegister, [{
+    key: 'register',
+    value: function register(user) {
+      return this.service.register(user);
+    }
+  }]);
+
+  return UserRegister;
+}();
 
 exports.default = UserRegister;
 

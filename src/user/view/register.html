@@ -1,17 +1,21 @@
-<form name="register" class="form-signin" novalidate data-ng-submit="ctrl.register()">
+<form name="register" class="form-signin" novalidate data-ng-submit="ctrl.registerAction()">
   <uib-tabset active="activeForm" justified="true">
     <uib-tab index="0" heading="Usuário">
-      <!--<label for="email">Endereço de e-mail</label>-->
-      <input type="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail" required
+      <input type="text" id="name" class="form-control" data-ng-model="ctrl.user.name" placeholder="Nome completo" required
         autofocus>
+      <!--<label for="email">Endereço de e-mail</label>-->
+      <input type="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail" required>
       <!--<label for="password">Senha</label>-->
       <input type="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" required>
       <!--<label for="password_confirmation">Confirmação da senha</label>-->
       <input type="password" id="password_confirmation" class="form-control" data-ng-model="ctrl.user.password_confirmation" placeholder="Confirmação da senha"
         required>
       <!--<label for="birthdate">Data de nascimento</label>-->
-      <input type="text" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.user.birthdate" placeholder="Data de nascimento"
-        required>
+      <input type="text" id="birthdate" class="form-control" ui-mask="99/99/9999" data-ng-model="ctrl.user.birthdate" required>
+      <div class="btn-group btn-group-justified">
+        <label class="btn btn-primary" ng-model="ctrl.user.gender" uib-btn-radio="'Masculino'">Masculino</label>
+        <label class="btn btn-primary" ng-model="ctrl.user.gender" uib-btn-radio="'Feminino'">Feminino</label>
+      </div>
     </uib-tab>
     <uib-tab index="1" heading="Ong">
       <!--<label for="email">Email</label>-->
