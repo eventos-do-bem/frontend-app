@@ -7,6 +7,7 @@ import AppConfig        from './config.js'
 import HttpInterceptor  from './interceptor.js'
 import controller       from './controller.js'
 import common           from './../common/module.js'
+import home             from './../home/module.js'
 import auth             from './../auth/module.js'
 import user             from './../user/module.js'
 
@@ -17,6 +18,7 @@ angular
   , 'ngMask'
   ,'ngMessages'
   ,'common'
+  ,'home'
   ,'auth'
   ,'user'
   ])

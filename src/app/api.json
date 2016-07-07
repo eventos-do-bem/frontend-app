@@ -1,5 +1,5 @@
 {
-  "url": "http://dev.eventosdobem.com/api/",
+  "url": "https://dev.eventosdobem.com/api/",
   "accept": "application/vnd.api.v1+json",
   "contenttype": "application/json",
   "token": "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg"

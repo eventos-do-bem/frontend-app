@@ -14,12 +14,20 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li>
-            <a ui-sref="user-me">Como functiona</a>
+            <a ui-sref="user-me" class="btn navbar-btn btn-warning">Comece seu evento</a>
+          </li>
+          <li>
+            <a ui-sref="user-me">Como funciona</a>
           </li>
         </ul>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" ui-sref="home">
           <img src="/assets/images/logo.png" class="img-responsive" alt="{{ctrl.brand}}">
         </a>
+        <ul class="nav navbar-nav">
+          <li>
+            <a ui-sref="user-me">Explore novas causas</a>
+          </li>
+        </ul>
         <!--<form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
@@ -47,4 +55,14 @@
       </div>
     </div>
   </nav>
+  <!--<footer class="row">
+    <div class="col-md-3">
+      <h4>Sobre nós</h4>
+      <ul>
+        <li><a ui-sref="home">Quem somos</a></li>
+        <li><a ui-sref="home">Imprensa</a></li>
+        <li><a ui-sref="home">Suporte</a></li>
+      </ul>
+    </div>
+  </footer>-->
 </div>

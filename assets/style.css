@@ -1,9 +1,123 @@
 body {
 }
-
-.navbar .navbar-brand img {
-  max-width: 120px;
+.navbar {
+  margin-bottom: 8px;
 }
+.navbar .navbar-brand {
+  padding: 10px 40px;
+  text-align: center;
+}
+.navbar .navbar-brand img {
+  max-width: 150px;
+}
+.nav > li > a {
+  padding: 15px 70px;
+}
+.navbar-nav .navbar-btn {
+  margin: 7px 15px 7px;
+  padding: 6px 15px;
+  color: #000 !important;
+  font-weight: bold;
+}
+.navbar-right > li > a {
+  padding: 15px 15px;
+}
+
+.banner {
+  background-image: url('../assets/images/banner-home.jpg');
+  background-repeat: no-repeat;
+  background-size:contain;
+  background-position:top center;
+  position: relative;
+  width: 100%;
+  height: 510px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.banner h3 {
+  margin: 0 auto;
+  padding-top: 100px;
+  padding-bottom: 30px;
+  width: 400px;
+  font-weight: 400;
+}
+.banner a,
+.banner a:hover {
+  color: #000;
+  font-weight: 500;
+}
+
+.home section {
+  margin-bottom: 50px;
+}
+.container section header {
+  margin: 30px 0 50px;
+  text-align: center;
+}
+section header h2 {
+  font-weight: 400;
+}
+section header h3 {
+  font-weight: 300;
+}
+.how-it-works h2,
+.how-it-works h3,
+.how-it-works p {
+  padding: 0px 40px;
+  text-align: center;
+  font-weight: 400;
+  color: #444;
+}
+.how-it-works .icon {
+  height: 50px;
+  text-align: center;
+}
+.how-it-works .icon > img {
+  width: 32px;
+}
+.proven-impact h3 {
+  margin: 0 auto;
+  width: 600px;
+}
+.icons h3 {
+  margin: 0 auto;
+  width: 200px;
+  background-size:contain;
+  background-repeat: no-repeat;
+  background-position: left;
+  padding-left: 70px;
+  line-height: 42px;
+  font-weight: 300;
+}
+.icons .health {
+  background-image: url('../assets/icons/pngs/saude.png');
+}
+.icons .education {
+  background-image: url('../assets/icons/pngs/educacao.png');
+}
+.icons .habitation {
+  background-image: url('../assets/icons/pngs/moradia.png');
+}
+.icons .animals {
+  background-image: url('../assets/icons/pngs/animal.png');
+}
+.portfolio h2 {
+  margin: 0 auto;
+  width: 600px;
+}
+.portfolio {
+  text-align: center;
+}
+.portfolio > a {
+  padding: 20px 60px;
+}
+.portfolio > a,
+.portfolio > a:hover {
+  color: #000;
+  font-weight: 400;
+}
+
 body.auth-login {
   background-image: url('images/auth-login.jpg');
 }

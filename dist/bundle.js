@@ -15,7 +15,7 @@ _angular2.default.bootstrap(document, ['app']);
 
 },{"./src/app/module.js":6,"angular":"angular"}],2:[function(require,module,exports){
 module.exports={
-  "url": "http://dev.eventosdobem.com/api/",
+  "url": "https://dev.eventosdobem.com/api/",
   "accept": "application/vnd.api.v1+json",
   "contenttype": "application/json",
   "token": "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg"
@@ -148,19 +148,23 @@ var _module = require('./../common/module.js');
 
 var _module2 = _interopRequireDefault(_module);
 
-var _module3 = require('./../auth/module.js');
+var _module3 = require('./../home/module.js');
 
 var _module4 = _interopRequireDefault(_module3);
 
-var _module5 = require('./../user/module.js');
+var _module5 = require('./../auth/module.js');
 
 var _module6 = _interopRequireDefault(_module5);
 
+var _module7 = require('./../user/module.js');
+
+var _module8 = _interopRequireDefault(_module7);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'common', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default);
+angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'common', 'home', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default);
 
-},{"./../auth/module.js":10,"./../common/module.js":13,"./../user/module.js":20,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+},{"./../auth/module.js":10,"./../common/module.js":13,"./../home/module.js":17,"./../user/module.js":23,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -470,6 +474,65 @@ exports.default = CommonService;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = HomeConfig;
+function HomeConfig($stateProvider) {
+  $stateProvider.state('home', {
+    url: '/',
+    templateUrl: './src/home/view/home.html',
+    controller: 'Home',
+    controllerAs: 'ctrl'
+  });
+}
+
+},{}],16:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Home = function Home($scope, $stateParams, $state) {
+  _classCallCheck(this, Home);
+};
+
+exports.default = Home;
+
+
+Home.$inject = ['$scope', '$stateParams', '$state'];
+
+},{}],17:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _config = require('./config.js');
+
+var _config2 = _interopRequireDefault(_config);
+
+var _home = require('./controller/home.js');
+
+var _home2 = _interopRequireDefault(_home);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import Service      from './service.js'
+// import Confirmation from './controller/confirmation.js'
+// import Me           from './controller/me.js'
+// import Change       from './controller/change.js'
+
+exports.default = angular.module('home', []).config(_config2.default).controller('Home', _home2.default);
+// .service('UserService', Service)
+
+},{"./config.js":15,"./controller/home.js":16}],18:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = UserConfig;
 function UserConfig($stateProvider) {
   $stateProvider.state('user', {
@@ -498,7 +561,7 @@ function UserConfig($stateProvider) {
   });
 }
 
-},{}],16:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -526,7 +589,7 @@ exports.default = UserChange;
 
 UserChange.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],17:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -567,7 +630,7 @@ exports.default = AuthConfirmation;
 
 AuthConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
 
-},{}],18:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -595,7 +658,7 @@ exports.default = UserMe;
 
 UserMe.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],19:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -631,7 +694,7 @@ exports.default = UserRegister;
 
 UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService'];
 
-},{}],20:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -666,7 +729,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('user', []).config(_config2.default).controller('UserMe', _me2.default).controller('UserChange', _change2.default).controller('UserConfirmation', _confirmation2.default).controller('UserRegister', _register2.default).service('UserService', _service2.default);
 
-},{"./config.js":15,"./controller/change.js":16,"./controller/confirmation.js":17,"./controller/me.js":18,"./controller/register.js":19,"./service.js":21}],21:[function(require,module,exports){
+},{"./config.js":18,"./controller/change.js":19,"./controller/confirmation.js":20,"./controller/me.js":21,"./controller/register.js":22,"./service.js":24}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
