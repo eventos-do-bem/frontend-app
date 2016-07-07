@@ -41,14 +41,11 @@ Object.defineProperty(exports, "__esModule", {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var AppController = function AppController($location, $window) {
-  _classCallCheck(this, AppController);
-
-  switch ($location.path()) {
-    case '/usuario/cadastro':
-      {
-        this.background = 'auth-login.jpg';
-      }
-  }
+  // switch($location.path()) {
+  //   case '/usuario/cadastro': {
+  //     this.background = 'auth-login.jpg'
+  //   }
+  // }
   // this.brand = 'Eventos do Bem'
   // this.logout = () => {
   //   $window.localStorage.clear()
@@ -70,6 +67,8 @@ var AppController = function AppController($location, $window) {
   //   $event.stopPropagation();
   //   this.status.isopen = !this.status.isopen;
   // };
+
+  _classCallCheck(this, AppController);
 };
 
 exports.default = AppController;
@@ -140,6 +139,10 @@ var _interceptor = require('./interceptor.js');
 
 var _interceptor2 = _interopRequireDefault(_interceptor);
 
+var _run = require('./run.js');
+
+var _run2 = _interopRequireDefault(_run);
+
 var _controller = require('./controller.js');
 
 var _controller2 = _interopRequireDefault(_controller);
@@ -162,9 +165,27 @@ var _module8 = _interopRequireDefault(_module7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'common', 'home', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default);
+angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'common', 'home', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":10,"./../common/module.js":13,"./../home/module.js":17,"./../user/module.js":23,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+},{"./../auth/module.js":11,"./../common/module.js":14,"./../home/module.js":18,"./../user/module.js":24,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = run;
+function run($rootScope, $state) {
+  $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
+    switch (toState.name) {
+      case 'user.register':
+        $rootScope.background = 'auth-login.jpg';break;
+      default:
+        $rootScope.background = null;
+    }
+  });
+}
+
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -188,7 +209,7 @@ function AuthConfig($stateProvider) {
   });
 }
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -221,7 +242,7 @@ exports.default = AuthLogin;
 
 AuthLogin.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -249,7 +270,7 @@ exports.default = AuthLogout;
 
 AuthLogout.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -276,7 +297,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('auth', []).config(_config2.default).controller('AuthLogin', _login2.default).controller('AuthLogout', _logout2.default).service('AuthService', _service2.default);
 
-},{"./config.js":7,"./controller/login.js":8,"./controller/logout.js":9,"./service.js":11}],11:[function(require,module,exports){
+},{"./config.js":8,"./controller/login.js":9,"./controller/logout.js":10,"./service.js":12}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -335,7 +356,7 @@ exports.default = AuthService;
 
 AuthService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":14}],12:[function(require,module,exports){
+},{"./../common/service/common.js":15}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -386,7 +407,7 @@ exports.default = Header;
 
 Header.$inject = ['$scope', '$state', '$window'];
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -405,7 +426,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('common', []).service('CommonService', _common2.default).controller('Header', _header2.default);
 
-},{"./controller/header.js":12,"./service/common.js":14}],14:[function(require,module,exports){
+},{"./controller/header.js":13,"./service/common.js":15}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -468,7 +489,7 @@ var CommonService = function () {
 
 exports.default = CommonService;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -484,7 +505,7 @@ function HomeConfig($stateProvider) {
   });
 }
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -502,7 +523,7 @@ exports.default = Home;
 
 Home.$inject = ['$scope', '$stateParams', '$state'];
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -527,7 +548,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = angular.module('home', []).config(_config2.default).controller('Home', _home2.default);
 // .service('UserService', Service)
 
-},{"./config.js":15,"./controller/home.js":16}],18:[function(require,module,exports){
+},{"./config.js":16,"./controller/home.js":17}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -561,7 +582,7 @@ function UserConfig($stateProvider) {
   });
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -589,7 +610,7 @@ exports.default = UserChange;
 
 UserChange.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -630,7 +651,7 @@ exports.default = AuthConfirmation;
 
 AuthConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -658,7 +679,7 @@ exports.default = UserMe;
 
 UserMe.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -694,7 +715,7 @@ exports.default = UserRegister;
 
 UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService'];
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -729,7 +750,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('user', []).config(_config2.default).controller('UserMe', _me2.default).controller('UserChange', _change2.default).controller('UserConfirmation', _confirmation2.default).controller('UserRegister', _register2.default).service('UserService', _service2.default);
 
-},{"./config.js":18,"./controller/change.js":19,"./controller/confirmation.js":20,"./controller/me.js":21,"./controller/register.js":22,"./service.js":24}],24:[function(require,module,exports){
+},{"./config.js":19,"./controller/change.js":20,"./controller/confirmation.js":21,"./controller/me.js":22,"./controller/register.js":23,"./service.js":25}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -782,4 +803,4 @@ exports.default = UserService;
 
 UserService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":14}]},{},[1]);
+},{"./../common/service/common.js":15}]},{},[1]);

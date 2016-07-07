@@ -14,7 +14,7 @@
   <![endif]-->
 </head>
 
-<body style="background: url('/assets/images/{{ctrl.background}}')">
+<body class="background" style="background-image: url('/assets/images/{{background}}')">
   <div>
     <header data-ng-include="'src/common/view/header.html'"></header>
     <main ui-view></main>
@@ -22,5 +22,4 @@
   <script src="/dist/vendor.js"></script>
   <script src="/dist/bundle.js"></script>
 </body>
-
 </html>

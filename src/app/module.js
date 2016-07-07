@@ -5,6 +5,7 @@ import ngMessages       from 'angular-messages'
 import APIConfig        from './api.json'
 import AppConfig        from './config.js'
 import HttpInterceptor  from './interceptor.js'
+import Run              from './run.js'
 import controller       from './controller.js'
 import common           from './../common/module.js'
 import home             from './../home/module.js'
@@ -26,3 +27,4 @@ angular
   .constant('API', APIConfig)
   .factory('HttpInterceptor', ['API', '$q', '$injector', '$window', HttpInterceptor])
   .controller('AppController', controller)
+  .run(Run)

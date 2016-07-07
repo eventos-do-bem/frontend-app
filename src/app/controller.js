@@ -1,10 +1,10 @@
 export default class AppController {
   constructor($location, $window) {
-    switch($location.path()) {
-      case '/usuario/cadastro': {
-        this.background = 'auth-login.jpg'
-      }
-    }
+    // switch($location.path()) {
+    //   case '/usuario/cadastro': {
+    //     this.background = 'auth-login.jpg'
+    //   }
+    // }
     // this.brand = 'Eventos do Bem'
     // this.logout = () => {
     //   $window.localStorage.clear()

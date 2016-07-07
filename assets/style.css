@@ -1,4 +1,10 @@
-body {
+body.background {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top center;
+  position: relative;
+  width: 100%;
+  height: 1080px;
 }
 .navbar {
   margin-bottom: 8px;
@@ -10,7 +16,7 @@ body {
 .navbar .navbar-brand img {
   max-width: 150px;
 }
-.nav > li > a {
+.home .nav > li > a {
   padding: 15px 70px;
 }
 .navbar-nav .navbar-btn {
@@ -26,8 +32,8 @@ body {
 .banner {
   background-image: url('../assets/images/banner-home.jpg');
   background-repeat: no-repeat;
-  background-size:contain;
-  background-position:top center;
+  background-size: contain;
+  background-position: top center;
   position: relative;
   width: 100%;
   height: 510px;
