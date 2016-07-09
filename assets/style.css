@@ -6,6 +6,17 @@ body.background {
   width: 100%;
   height: 1080px;
 }
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+.clearfix {
+  *zoom: 1;
+}
 .navbar {
   margin-bottom: 8px;
 }
@@ -16,7 +27,7 @@ body.background {
 .navbar .navbar-brand img {
   max-width: 150px;
 }
-.home .nav > li > a {
+.nav > li > a {
   padding: 15px 70px;
 }
 .navbar-nav .navbar-btn {
@@ -36,20 +47,19 @@ body.background {
   background-position: top center;
   position: relative;
   width: 100%;
-  height: 510px;
-  margin-left: auto;
-  margin-right: auto;
+  height: auto;
   text-align: center;
 }
 .banner h3 {
   margin: 0 auto;
-  padding-top: 100px;
-  padding-bottom: 30px;
+  padding-top: 120px;
+  padding-bottom: 20px;
   width: 400px;
   font-weight: 400;
 }
 .banner a,
 .banner a:hover {
+  display: inline-block;
   color: #000;
   font-weight: 500;
 }
@@ -64,8 +74,8 @@ body.background {
 section header h2 {
   font-weight: 400;
 }
-section header h3 {
-  font-weight: 300;
+.how-it-works > div {
+  margin-bottom: 50px;
 }
 .how-it-works h2,
 .how-it-works h3,
@@ -81,6 +91,28 @@ section header h3 {
 }
 .how-it-works .icon > img {
   width: 32px;
+}
+
+.our-campaigns header h3 {
+  margin: 0 auto;
+  width: 700px;
+  font-weight: 300;
+}
+.our-campaigns .panel {
+  margin-top: 80px;
+}
+.our-campaigns .panel .avatar {
+  margin: 0 auto;
+  width: 200px;
+  margin-top: -80px;
+  border: 2px solid #ccc;
+}
+.our-campaigns .panel-body {
+  text-align: center;
+}
+.our-campaigns .panel .progress {
+  margin-bottom: 0px;
+  border-radius: 0px;
 }
 .proven-impact h3 {
   margin: 0 auto;
@@ -218,3 +250,25 @@ body.auth-login {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }*/
+
+footer {
+  padding: 80px 0 120px;
+  background-color: #111;
+}
+footer h5 {
+  font-size: 15px;
+  color: #FFF;
+}
+footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+footer li {
+  margin-bottom: 6px;
+}
+footer li a {
+  color: #888;
+  font-size: 16px;
+  font-weight: 700;
+}

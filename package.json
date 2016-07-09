@@ -9,10 +9,10 @@
     "frontend": "npm-run-all -p app:sequential vendor:sequential",
     "app:sequential": "npm-run-all -s -c app:minify app:concat",
     "app:minify": "uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
-    "app:concat": "watchify ./bootstrap.js -o ./dist/bundle.js -t [ babelify ] -v -x=angular -x=angular-animate -x=angular-aria -x=angular-messages -x=angular-mocks -x=angular-ui-router -x=angular-sanitize -x=bootstrap -x=angular-ui-bootstrap -x=angular-ui-mask -x=angular-i18n",
+    "app:concat": "watchify ./bootstrap.js -o ./dist/bundle.js -t [ babelify ] -v -x=angular -x=angular-animate -x=angular-aria -x=angular-messages -x=angular-mocks -x=angular-ui-router -x=angular-sanitize -x=bootstrap -x=angular-ui-bootstrap -x=angular-ui-mask",
     "vendor:sequential": "npm-run-all -s -c vendor:minify vendor:concat",
     "vendor:minify": "uglifyjs ./dist/vendor.js -o ./dist/vendor.min.js",
-    "vendor:concat": "watchify -o ./dist/vendor.js -v -r angular -r angular-animate -r angular-aria -r angular-messages -r angular-mocks -r angular-ui-router -r angular-sanitize -r bootstrap -r angular-ui-bootstrap -r angular-ui-mask -r angular-i18n"
+    "vendor:concat": "watchify -o ./dist/vendor.js -v -r angular -r angular-animate -r angular-aria -r angular-messages -r angular-mocks -r angular-ui-router -r angular-sanitize -r bootstrap -r angular-ui-bootstrap -r angular-ui-mask"
   },
   "babel": {
     "plugins": [
@@ -37,7 +37,6 @@
     "angular": "^1.5.5",
     "angular-animate": "^1.5.5",
     "angular-aria": "^1.5.5",
-    "angular-i18n": "^1.5.7",
     "angular-messages": "^1.5.5",
     "angular-mocks": "^1.5.5",
     "angular-sanitize": "^1.5.5",
