@@ -1,38 +1,28 @@
 export default class UserRegister {
-  constructor($scope, $stateParams, $state, $filter, UserService) {
-    // this.user = {
-    //   birthdate: $filter('date')(new Date(), 'dd-MM-yyyy')
-    // }
-    // console.log(this.user)
-    // this.register = () => {
-    //   this.user.birthdate = $filter('date')(this.user.birthdate, 'yyyy-MM-dd')
-    //   UserService.register(this.user)
-    //     .then(
-    //       response => {
-    //         console.log(response)
-    //       },
-    //       error => {
-    //         console.error(error)
-    //       })
-    // }
+  constructor($scope, $stateParams, $state, UserService) {
     this.service = UserService
+    this.state = $state
     this.user = {
       gender: 'Masculino'
     }
-    this.registerAction = () => {
-      let date = {
-        day: this.user.birthdate.substring(0,2),
-        month: this.user.birthdate.substring(2,4),
-        year: this.user.birthdate.substring(4,8)
-      }
-      this.user.birthdate = `${date.year}-${date.month}-${date.day}`
-      this.register(this.user)
-        .then(response => console.log(response))
-    }
   }
-  register(user) {
-    return this.service.register(user)
+  register() {
+    let user = angular.copy(this.user)
+    let birthdate = user.birthdate.split('/')
+    user.birthdate = `${birthdate[2]}-${birthdate[1]}-${birthdate[0]}`
+    this.service.register(user)
+      .then(
+        response => this.registerSuccess(response),
+        response => this.registerError(response)  
+      )
+  }
+  registerSuccess(response) {
+    console.log(response)
+  }
+  registerError(response) {
+    this.error = response.data
+    console.error(response)
   }
 }
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService']
+UserRegister.$inject = ['$scope', '$stateParams', '$state', 'UserService']

@@ -1,21 +1,25 @@
 export default class AuthLogin {
   constructor($rootScope, $stateParams, $state, $window, AuthService) {
+    this.service = AuthService
+    this.$window = $window
+    this.$rootScope = $rootScope
     this.rememberme = true
-    this.login = () => {
-      AuthService.login(this.user)
-        .then(
-          response => {
-            $window.localStorage.setItem('token', response.data.token)
-            delete response.data.token
-            $window.localStorage.setItem('user', JSON.stringify(response.data))
-            $rootScope.$broadcast('auth.login')
-          },
-          error => {
-            this.error = error.data
-            console.log('error', error)
-          }
-        )
-    }
+  }
+  login() {
+    this.service.login(this.user)
+      .then(
+        response => this.loginSuccess(response),
+        response => this.loginError(response)
+      )
+  }
+  loginSuccess(response) {
+    this.$window.localStorage.setItem('token', response.data.token)
+    let { email, name } = response.data
+    this.$window.localStorage.setItem('user', JSON.stringify({name: name, email: email}))
+    this.$rootScope.$broadcast('auth.login')
+  }
+  loginError(response) {
+    this.error = response.data
   }
 }
 

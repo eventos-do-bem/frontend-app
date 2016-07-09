@@ -1,6 +1,6 @@
 import uiRouter         from 'angular-ui-router'
 import uiBootstrap      from 'angular-ui-bootstrap'
-import uiMask           from 'angular-ui-mask'
+import ngMask           from 'ng-mask'
 import ngMessages       from 'angular-messages'
 import APIConfig        from './api.json'
 import AppConfig        from './config.js'
@@ -15,7 +15,7 @@ import user             from './../user/module.js'
 angular
   .module('app', [
     'ui.bootstrap'
-  , 'ui.mask'
+  , 'ngMask'
   , uiRouter
   ,'ngMessages'
   ,'common'

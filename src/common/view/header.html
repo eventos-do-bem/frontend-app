@@ -1,58 +1,48 @@
-<div class="container">
-  <nav class="navbar navbar-default" data-ng-controller="Header as ctrl">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-          aria-expanded="false">
+<nav class="navbar navbar-default" data-ng-controller="Header as ctrl">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+        aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      </div>
-
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li>
-            <a ui-sref="user-me" class="btn navbar-btn btn-warning">Comece seu evento</a>
-          </li>
-          <li>
-            <a ui-sref="user-me">Como funciona</a>
-          </li>
-        </ul>
-        <a class="navbar-brand" ui-sref="home">
-          <img src="/assets/images/logo.png" class="img-responsive" alt="{{ctrl.brand}}">
-        </a>
-        <ul class="nav navbar-nav">
-          <li>
-            <a ui-sref="user-me">Explore novas causas</a>
-          </li>
-        </ul>
-        <!--<form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>-->
-
-        <ul class="nav navbar-nav navbar-right" data-ng-show="!ctrl.user">
-          <li data-ng-repeat="item in ctrl.dropDownMenu.nologged">
-            <a ui-sref="{{item.url}}">{{item.label}}</a>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right" data-ng-show="ctrl.user" uib-dropdown is-open="status.isopen">
-          <li class="dropdown">
-            <a href="#" uib-dropdown-toggle>
-            {{ctrl.user.name}} <span class="caret"></span>
-          </a>
-          </li>
-          <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-            <li role="menuitem" data-ng-repeat="item in ctrl.dropDownMenu.logged">
-              <a ui-sref="{{item.url}}">{{item.label}}</a>
-            </li>
-          </ul>
-        </ul>
-      </div>
     </div>
-  </nav>
-</div>
+    <div class="navbar-center" ui-sref="home">
+      <a class="navbar-brand" alt="{{ctrl.brand}}"></a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li>
+          <a ui-sref="user-me" class="btn navbar-btn btn-warning">Comece seu evento</a>
+        </li>
+        <li>
+          <a ui-sref="user-me">Como funciona</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a ui-sref="user-me">Explore novas causas</a>
+        </li>
+        <li data-ng-show="!ctrl.user" data-ng-repeat="item in ctrl.dropDownMenu.nologged">
+          <a ui-sref="{{item.url}}">{{item.label}}</a>
+        </li>
+        <li data-ng-show="ctrl.user">
+          <ul class="nav navbar-nav navbar-right" uib-dropdown is-open="status.isopen">
+            <li class="dropdown">
+              <a uib-dropdown-toggle>
+              {{ctrl.user.name}} <span class="caret"></span>
+            </a>
+            </li>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+              <li role="menuitem" data-ng-repeat="item in ctrl.dropDownMenu.logged">
+                <a ui-sref="{{item.url}}">{{item.label}}</a>
+              </li>
+            </ul>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

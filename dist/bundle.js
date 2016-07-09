@@ -13,25 +13,796 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _angular2.default.bootstrap(document, ['app']);
 
-},{"./src/app/module.js":6,"angular":"angular"}],2:[function(require,module,exports){
+},{"./src/app/module.js":7,"angular":"angular"}],2:[function(require,module,exports){
+(function() {
+  'use strict';
+  angular.module('ngMask', []);
+})();(function() {
+  'use strict';
+  angular.module('ngMask')
+    .directive('mask', ['$log', '$timeout', 'MaskService', function($log, $timeout, MaskService) {
+      return {
+        restrict: 'A',
+        require: 'ngModel',
+        compile: function($element, $attrs) { 
+         if (!$attrs.mask || !$attrs.ngModel) {
+            $log.info('Mask and ng-model attributes are required!');
+            return;
+          }
+
+          var maskService = MaskService.create();
+          var timeout;
+          var promise;
+
+          function setSelectionRange(selectionStart){
+            if (typeof selectionStart !== 'number') {
+              return;
+            }
+
+            // using $timeout:
+            // it should run after the DOM has been manipulated by Angular
+            // and after the browser renders (which may cause flicker in some cases)
+            $timeout.cancel(timeout);
+            timeout = $timeout(function(){
+              var selectionEnd = selectionStart + 1;
+              var input = $element[0];
+
+              if (input.setSelectionRange) {
+                input.focus();
+                input.setSelectionRange(selectionStart, selectionEnd);
+              } else if (input.createTextRange) {
+                var range = input.createTextRange();
+
+                range.collapse(true);
+                range.moveEnd('character', selectionEnd);
+                range.moveStart('character', selectionStart);
+                range.select();
+              }
+            });
+          }
+
+          return {
+            pre: function($scope, $element, $attrs, controller) {
+              promise = maskService.generateRegex({
+                mask: $attrs.mask,
+                // repeat mask expression n times
+                repeat: ($attrs.repeat || $attrs.maskRepeat),
+                // clean model value - without divisors
+                clean: (($attrs.clean || $attrs.maskClean) === 'true'),
+                // limit length based on mask length
+                limit: (($attrs.limit || $attrs.maskLimit || 'true') === 'true'),
+                // how to act with a wrong value
+                restrict: ($attrs.restrict || $attrs.maskRestrict || 'select'), //select, reject, accept
+                // set validity mask
+                validate: (($attrs.validate || $attrs.maskValidate || 'true') === 'true'),
+                // default model value
+                model: $attrs.ngModel,
+                // default input value
+                value: $attrs.ngValue
+              });
+            },
+            post: function($scope, $element, $attrs, controller) {
+              var timeout;
+              var options = maskService.getOptions();
+
+              function parseViewValue(value) {
+                var untouchedValue = value;
+                options = maskService.getOptions();
+                // set default value equal 0
+                value = value || '';
+
+                // get view value object
+                var viewValue = maskService.getViewValue(value);
+
+                // get mask without question marks
+                var maskWithoutOptionals = options['maskWithoutOptionals'] || '';
+
+                // get view values capped
+                // used on view
+                var viewValueWithDivisors = viewValue.withDivisors(true);
+                // used on model
+                var viewValueWithoutDivisors = viewValue.withoutDivisors(true);
+
+                try {
+                  // get current regex
+                  var regex = maskService.getRegex(viewValueWithDivisors.length - 1);
+                  var fullRegex = maskService.getRegex(maskWithoutOptionals.length - 1);
+
+                  // current position is valid
+                  var validCurrentPosition = regex.test(viewValueWithDivisors) || fullRegex.test(viewValueWithDivisors);
+
+                  // difference means for select option
+                  var diffValueAndViewValueLengthIsOne = (value.length - viewValueWithDivisors.length) === 1;
+                  var diffMaskAndViewValueIsGreaterThanZero = (maskWithoutOptionals.length - viewValueWithDivisors.length) > 0;
+
+                  if (options.restrict !== 'accept') {
+                    if (options.restrict === 'select' && (!validCurrentPosition || diffValueAndViewValueLengthIsOne)) {
+                      var lastCharInputed = value[(value.length-1)];
+                      var lastCharGenerated = viewValueWithDivisors[(viewValueWithDivisors.length-1)];
+
+                      if ((lastCharInputed !== lastCharGenerated) && diffMaskAndViewValueIsGreaterThanZero) {
+                        viewValueWithDivisors = viewValueWithDivisors + lastCharInputed;
+                      }
+
+                      var wrongPosition = maskService.getFirstWrongPosition(viewValueWithDivisors);
+                      if (angular.isDefined(wrongPosition)) {
+                        setSelectionRange(wrongPosition);
+                      }
+                    } else if (options.restrict === 'reject' && !validCurrentPosition) {
+                      viewValue = maskService.removeWrongPositions(viewValueWithDivisors);
+                      viewValueWithDivisors = viewValue.withDivisors(true);
+                      viewValueWithoutDivisors = viewValue.withoutDivisors(true);
+
+                      // setSelectionRange(viewValueWithDivisors.length);
+                    }
+                  }
+
+                  if (!options.limit) {
+                    viewValueWithDivisors = viewValue.withDivisors(false);
+                    viewValueWithoutDivisors = viewValue.withoutDivisors(false);
+                  }
+
+                  // Set validity
+                  if (options.validate && controller.$dirty) {
+                    if (fullRegex.test(viewValueWithDivisors) || controller.$isEmpty(untouchedValue)) {
+                      controller.$setValidity('mask', true);
+                    } else {
+                      controller.$setValidity('mask', false);
+                    }
+                  }
+
+                  // Update view and model values
+                  if(value !== viewValueWithDivisors){
+                    controller.$setViewValue(angular.copy(viewValueWithDivisors), 'input');
+                    controller.$render();
+                  }
+                } catch (e) {
+                  $log.error('[mask - parseViewValue]');
+                  throw e;
+                }
+
+                // Update model, can be different of view value
+                if (options.clean) {
+                  return viewValueWithoutDivisors;
+                } else {
+                  return viewValueWithDivisors;
+                }
+              }
+
+              var callParseViewValue = function() {
+                parseViewValue();
+
+                controller.$parsers.push(parseViewValue);
+
+                // $evalAsync from a directive
+                // it should run after the DOM has been manipulated by Angular
+                // but before the browser renders
+                if(options.value) {
+                  $scope.$evalAsync(function($scope) {
+                    controller.$setViewValue(angular.copy(options.value), 'input');
+                    controller.$render();
+                  });
+                }
+              }
+
+              $element.on('click input paste keyup', function() {
+                timeout = $timeout(function() {
+                  // Manual debounce to prevent multiple execution
+                  $timeout.cancel(timeout);
+
+                  parseViewValue($element.val());
+                  $scope.$apply();
+                }, 100);
+              });
+
+              // Register the watch to observe remote loading or promised data
+              // Deregister calling returned function
+              var watcher = $scope.$watch($attrs.ngModel, function (newValue, oldValue) {
+                if (angular.isDefined(newValue)) {
+                  parseViewValue(newValue);
+                  watcher();
+                }
+              });
+
+              $scope.$watch(function () {
+                return [$attrs.mask];
+              }, function() {
+                promise = maskService.generateRegex({
+                  mask: $attrs.mask,
+                  // repeat mask expression n times
+                  repeat: ($attrs.repeat || $attrs.maskRepeat),
+                  // clean model value - without divisors
+                  clean: (($attrs.clean || $attrs.maskClean) === 'true'),
+                  // limit length based on mask length
+                  limit: (($attrs.limit || $attrs.maskLimit || 'true') === 'true'),
+                  // how to act with a wrong value
+                  restrict: ($attrs.restrict || $attrs.maskRestrict || 'select'), //select, reject, accept
+                  // set validity mask
+                  validate: (($attrs.validate || $attrs.maskValidate || 'true') === 'true'),
+                  // default model value
+                  model: $attrs.ngModel,
+                  // default input value
+                  value: $attrs.ngValue
+                }).then(function() {
+                  $element.triggerHandler('click');
+                });
+
+                promise.then(callParseViewValue);
+              }, true);
+
+              promise.then(callParseViewValue);
+            }
+          }
+        }
+      }
+    }]);
+})();
+(function() {
+  'use strict';
+  angular.module('ngMask')
+    .factory('MaskService', ['$q', 'OptionalService', 'UtilService', function($q, OptionalService, UtilService) {
+      function create() {
+        var options;
+        var maskWithoutOptionals;
+        var maskWithoutOptionalsLength = 0;
+        var maskWithoutOptionalsAndDivisorsLength = 0;
+        var optionalIndexes = [];
+        var optionalDivisors = {};
+        var optionalDivisorsCombinations = [];
+        var divisors = [];
+        var divisorElements = {};
+        var regex = [];
+        var patterns = {
+          '9': /[0-9]/,
+          '8': /[0-8]/,
+          '7': /[0-7]/,
+          '6': /[0-6]/,
+          '5': /[0-5]/,
+          '4': /[0-4]/,
+          '3': /[0-3]/,
+          '2': /[0-2]/,
+          '1': /[0-1]/,
+          '0': /[0]/,
+          '*': /./,
+          'w': /\w/,
+          'W': /\W/,
+          'd': /\d/,
+          'D': /\D/,
+          's': /\s/,
+          'S': /\S/,
+          'b': /\b/,
+          'A': /[A-Z]/,
+          'a': /[a-z]/,
+          'Z': /[A-ZÇÀÁÂÃÈÉÊẼÌÍÎĨÒÓÔÕÙÚÛŨ]/,
+          'z': /[a-zçáàãâéèêẽíìĩîóòôõúùũüû]/,
+          '@': /[a-zA-Z]/,
+          '#': /[a-zA-ZçáàãâéèêẽíìĩîóòôõúùũüûÇÀÁÂÃÈÉÊẼÌÍÎĨÒÓÔÕÙÚÛŨ]/,
+          '%': /[0-9a-zA-ZçáàãâéèêẽíìĩîóòôõúùũüûÇÀÁÂÃÈÉÊẼÌÍÎĨÒÓÔÕÙÚÛŨ]/
+        };
+
+        // REGEX
+
+        function generateIntermetiateElementRegex(i, forceOptional) {
+          var charRegex;
+          try {
+            var element = maskWithoutOptionals[i];
+            var elementRegex = patterns[element];
+            var hasOptional = isOptional(i);
+
+            if (elementRegex) {
+              charRegex = '(' + elementRegex.source + ')';
+            } else { // is a divisor
+              if (!isDivisor(i)) {
+                divisors.push(i);
+                divisorElements[i] = element;
+              }
+
+              charRegex = '(' + '\\' + element + ')';
+            }
+          } catch (e) {
+            throw e;
+          }
+
+          if (hasOptional || forceOptional) {
+            charRegex += '?';
+          }
+
+          return new RegExp(charRegex);
+        }
+
+        function generateIntermetiateRegex(i, forceOptional) {
+
+
+          var elementRegex
+          var elementOptionalRegex;
+          try {
+            var intermetiateElementRegex = generateIntermetiateElementRegex(i, forceOptional);
+            elementRegex = intermetiateElementRegex;
+
+            var hasOptional = isOptional(i);
+            var currentRegex = intermetiateElementRegex.source;
+
+            if (hasOptional && ((i+1) < maskWithoutOptionalsLength)) {
+              var intermetiateRegex = generateIntermetiateRegex((i+1), true).elementOptionalRegex();
+              currentRegex += intermetiateRegex.source;
+            }
+
+            elementOptionalRegex = new RegExp(currentRegex);
+          } catch (e) {
+            throw e;
+          }
+          return {
+            elementRegex: function() {
+              return elementRegex;
+            },
+            elementOptionalRegex: function() {
+              // from element regex, gets the flow of regex until first not optional
+              return elementOptionalRegex;
+            }
+          };
+        }
+
+        function generateRegex(opts) {
+          var deferred = $q.defer();
+          maskWithoutOptionals = null;
+          maskWithoutOptionalsLength = 0;
+          maskWithoutOptionalsAndDivisorsLength = 0;
+          optionalIndexes = [];
+          optionalDivisors = {};
+          optionalDivisorsCombinations = [];
+          divisors = [];
+          divisorElements = {};
+          regex = [];
+          options = opts;
+
+          try {
+            var mask = opts['mask'];
+            var repeat = opts['repeat'];
+
+            if (!mask)
+              return;
+
+            if (repeat) {
+              mask = Array((parseInt(repeat)+1)).join(mask);
+            }
+
+            optionalIndexes = OptionalService.getOptionals(mask).fromMaskWithoutOptionals();
+            options['maskWithoutOptionals'] = maskWithoutOptionals = OptionalService.removeOptionals(mask);
+            maskWithoutOptionalsLength = maskWithoutOptionals.length;
+
+            var cumulativeRegex;
+            for (var i=0; i<maskWithoutOptionalsLength; i++) {
+              var charRegex = generateIntermetiateRegex(i);
+              var elementRegex = charRegex.elementRegex();
+              var elementOptionalRegex = charRegex.elementOptionalRegex();
+
+              var newRegex = cumulativeRegex ? cumulativeRegex.source + elementOptionalRegex.source : elementOptionalRegex.source;
+              newRegex = new RegExp(newRegex);
+              cumulativeRegex = cumulativeRegex ? cumulativeRegex.source + elementRegex.source : elementRegex.source;
+              cumulativeRegex = new RegExp(cumulativeRegex);
+
+              regex.push(newRegex);
+            }
+
+            generateOptionalDivisors();
+            maskWithoutOptionalsAndDivisorsLength = removeDivisors(maskWithoutOptionals).length;
+
+            deferred.resolve({
+              options: options,
+              divisors: divisors,
+              divisorElements: divisorElements,
+              optionalIndexes: optionalIndexes,
+              optionalDivisors: optionalDivisors,
+              optionalDivisorsCombinations: optionalDivisorsCombinations
+            });
+          } catch (e) {
+            deferred.reject(e);
+            throw e;
+          }
+
+          return deferred.promise;
+        }
+
+        function getRegex(index) {
+          var currentRegex;
+
+          try {
+            currentRegex = regex[index] ? regex[index].source : '';
+          } catch (e) {
+            throw e;
+          }
+
+          return (new RegExp('^' + currentRegex + '$'));
+        }
+
+        // DIVISOR
+
+        function isOptional(currentPos) {
+          return UtilService.inArray(currentPos, optionalIndexes);
+        }
+
+        function isDivisor(currentPos) {
+          return UtilService.inArray(currentPos, divisors);
+        }
+
+        function generateOptionalDivisors() {
+          function sortNumber(a,b) {
+              return a - b;
+          }
+
+          var sortedDivisors = divisors.sort(sortNumber);
+          var sortedOptionals = optionalIndexes.sort(sortNumber);
+          for (var i = 0; i<sortedDivisors.length; i++) {
+            var divisor = sortedDivisors[i];
+            for (var j = 1; j<=sortedOptionals.length; j++) {
+              var optional = sortedOptionals[(j-1)];
+              if (optional >= divisor) {
+                break;
+              }
+
+              if (optionalDivisors[divisor]) {
+                optionalDivisors[divisor] = optionalDivisors[divisor].concat(divisor-j);
+              } else {
+                optionalDivisors[divisor] = [(divisor-j)];
+              }
+
+              // get the original divisor for alternative divisor
+              divisorElements[(divisor-j)] = divisorElements[divisor];
+            }
+          }
+        }
+
+        function removeDivisors(value) {
+              value = value.toString();
+          try {
+            if (divisors.length > 0 && value) {
+              var keys = Object.keys(divisorElements);
+              var elments = [];
+
+              for (var i = keys.length - 1; i >= 0; i--) {
+                var divisor = divisorElements[keys[i]];
+                if (divisor) {
+                  elments.push(divisor);
+                }
+              }
+
+              elments = UtilService.uniqueArray(elments);
+
+              // remove if it is not pattern
+              var regex = new RegExp(('[' + '\\' + elments.join('\\') + ']'), 'g');
+              return value.replace(regex, '');
+            } else {
+              return value;
+            }
+          } catch (e) {
+            throw e;
+          }
+        }
+
+        function insertDivisors(array, combination) {
+          function insert(array, output) {
+            var out = output;
+            for (var i=0; i<array.length; i++) {
+              var divisor = array[i];
+              if (divisor < out.length) {
+                out.splice(divisor, 0, divisorElements[divisor]);
+              }
+            }
+            return out;
+          }
+
+          var output = array;
+          var divs = divisors.filter(function(it) {
+            var optionalDivisorsKeys = Object.keys(optionalDivisors).map(function(it){
+              return parseInt(it);
+            });
+
+            return !UtilService.inArray(it, combination) && !UtilService.inArray(it, optionalDivisorsKeys);
+          });
+
+          if (!angular.isArray(array) || !angular.isArray(combination)) {
+            return output;
+          }
+
+          // insert not optional divisors
+          output = insert(divs, output);
+
+          // insert optional divisors
+          output = insert(combination, output);
+
+          return output;
+        }
+
+        function tryDivisorConfiguration(value) {
+          var output = value.split('');
+          var defaultDivisors = true;
+
+          // has optional?
+          if (optionalIndexes.length > 0) {
+            var lazyArguments = [];
+            var optionalDivisorsKeys = Object.keys(optionalDivisors);
+
+            // get all optional divisors as array of arrays [[], [], []...]
+            for (var i=0; i<optionalDivisorsKeys.length; i++) {
+              var val = optionalDivisors[optionalDivisorsKeys[i]];
+              lazyArguments.push(val);
+            }
+
+            // generate all possible configurations
+            if (optionalDivisorsCombinations.length === 0) {
+              UtilService.lazyProduct(lazyArguments, function() {
+                // convert arguments to array
+                optionalDivisorsCombinations.push(Array.prototype.slice.call(arguments));
+              });
+            }
+
+            for (var i = optionalDivisorsCombinations.length - 1; i >= 0; i--) {
+              var outputClone = angular.copy(output);
+              outputClone = insertDivisors(outputClone, optionalDivisorsCombinations[i]);
+
+              // try validation
+              var viewValueWithDivisors = outputClone.join('');
+              var regex = getRegex(maskWithoutOptionals.length - 1);
+
+              if (regex.test(viewValueWithDivisors)) {
+                defaultDivisors = false;
+                output = outputClone;
+                break;
+              }
+            }
+          }
+
+          if (defaultDivisors) {
+            output = insertDivisors(output, divisors);
+          }
+
+          return output.join('');
+        }
+
+        // MASK
+
+        function getOptions() {
+          return options;
+        }
+
+        function getViewValue(value) {
+          try {
+            var outputWithoutDivisors = removeDivisors(value);
+            var output = tryDivisorConfiguration(outputWithoutDivisors);
+
+            return {
+              withDivisors: function(capped) {
+                if (capped) {
+                  return output.substr(0, maskWithoutOptionalsLength);
+                } else {
+                  return output;
+                }
+              },
+              withoutDivisors: function(capped) {
+                if (capped) {
+                  return outputWithoutDivisors.substr(0, maskWithoutOptionalsAndDivisorsLength);
+                } else {
+                  return outputWithoutDivisors;
+                }
+              }
+            };
+          } catch (e) {
+            throw e;
+          }
+        }
+
+        // SELECTOR
+
+        function getWrongPositions(viewValueWithDivisors, onlyFirst) {
+          var pos = [];
+
+          if (!viewValueWithDivisors) {
+            return 0;
+          }
+
+          for (var i=0; i<viewValueWithDivisors.length; i++){
+            var pattern = getRegex(i);
+            var value = viewValueWithDivisors.substr(0, (i+1));
+
+            if(pattern && !pattern.test(value)){
+              pos.push(i);
+
+              if (onlyFirst) {
+                break;
+              }
+            }
+          }
+
+          return pos;
+        }
+
+        function getFirstWrongPosition(viewValueWithDivisors) {
+          return getWrongPositions(viewValueWithDivisors, true)[0];
+        }
+
+        function removeWrongPositions(viewValueWithDivisors) {
+          var wrongPositions = getWrongPositions(viewValueWithDivisors, false);
+          var newViewValue = viewValueWithDivisors;
+
+          for(var i = 0; i < wrongPositions.length; i++){
+            var wrongPosition = wrongPositions[i];
+            var viewValueArray = viewValueWithDivisors.split('');
+            viewValueArray.splice(wrongPosition, 1);
+            newViewValue = viewValueArray.join('');
+          }
+
+          return getViewValue(newViewValue);
+        }
+
+        return {
+          getViewValue: getViewValue,
+          generateRegex: generateRegex,
+          getRegex: getRegex,
+          getOptions: getOptions,
+          removeDivisors: removeDivisors,
+          getFirstWrongPosition: getFirstWrongPosition,
+          removeWrongPositions: removeWrongPositions
+        }
+      }
+
+      return {
+        create: create
+      }
+    }]);
+})();
+(function() {
+  'use strict';
+  angular.module('ngMask')
+    .factory('OptionalService', [function() {
+      function getOptionalsIndexes(mask) {
+        var indexes = [];
+
+        try {
+          var regexp = /\?/g;
+          var match = [];
+
+          while ((match = regexp.exec(mask)) != null) {
+            // Save the optional char
+            indexes.push((match.index - 1));
+          }
+        } catch (e) {
+          throw e;
+        }
+
+        return {
+          fromMask: function() {
+            return indexes;
+          },
+          fromMaskWithoutOptionals: function() {
+            return getOptionalsRelativeMaskWithoutOptionals(indexes);
+          }
+        };
+      }
+
+      function getOptionalsRelativeMaskWithoutOptionals(optionals) {
+        var indexes = [];
+        for (var i=0; i<optionals.length; i++) {
+          indexes.push(optionals[i]-i);
+        }
+        return indexes;
+      }
+
+      function removeOptionals(mask) {
+        var newMask;
+
+        try {
+          newMask = mask.replace(/\?/g, '');
+        } catch (e) {
+          throw e;
+        }
+
+        return newMask;
+      }
+
+      return {
+        removeOptionals: removeOptionals,
+        getOptionals: getOptionalsIndexes
+      }
+    }]);
+})();(function() {
+  'use strict';
+  angular.module('ngMask')
+    .factory('UtilService', [function() {
+
+      // sets: an array of arrays
+      // f: your callback function
+      // context: [optional] the `this` to use for your callback
+      // http://phrogz.net/lazy-cartesian-product
+      function lazyProduct(sets, f, context){
+        if (!context){
+          context=this;
+        }
+
+        var p = [];
+        var max = sets.length-1;
+        var lens = [];
+
+        for (var i=sets.length;i--;) {
+          lens[i] = sets[i].length;
+        }
+
+        function dive(d){
+          var a = sets[d];
+          var len = lens[d];
+
+          if (d === max) {
+            for (var i=0;i<len;++i) {
+              p[d] = a[i];
+              f.apply(context, p);
+            }
+          } else {
+            for (var i=0;i<len;++i) {
+              p[d]=a[i];
+              dive(d+1);
+            }
+          }
+
+          p.pop();
+        }
+
+        dive(0);
+      }
+
+      function inArray(i, array) {
+        var output;
+
+        try {
+          output = array.indexOf(i) > -1;
+        } catch (e) {
+          throw e;
+        }
+
+        return output;
+      }
+
+      function uniqueArray(array) {
+        var u = {};
+        var a = [];
+
+        for (var i = 0, l = array.length; i < l; ++i) {
+          if(u.hasOwnProperty(array[i])) {
+            continue;
+          }
+
+          a.push(array[i]);
+          u[array[i]] = 1;
+        }
+
+        return a;
+      }
+
+      return {
+        lazyProduct: lazyProduct,
+        inArray: inArray,
+        uniqueArray: uniqueArray
+      }
+    }]);
+})();
+},{}],3:[function(require,module,exports){
 module.exports={
   "url": "https://dev.eventosdobem.com/api/",
   "accept": "application/vnd.api.v1+json",
   "contenttype": "application/json",
   "token": "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg"
 }
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = AppConfig;
-function AppConfig($httpProvider, $injector) {
+function AppConfig($httpProvider, $injector, $urlRouterProvider) {
   $httpProvider.interceptors.push('HttpInterceptor');
+  $urlRouterProvider.otherwise('/#');
 }
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -76,7 +847,7 @@ exports.default = AppController;
 
 AppController.$inject = ['$location', '$window'];
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -108,7 +879,7 @@ function config(API, $q, $state, $window) {
 }
 exports.default = config;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 var _angularUiRouter = require('angular-ui-router');
@@ -119,9 +890,9 @@ var _angularUiBootstrap = require('angular-ui-bootstrap');
 
 var _angularUiBootstrap2 = _interopRequireDefault(_angularUiBootstrap);
 
-var _angularUiMask = require('angular-ui-mask');
+var _ngMask = require('ng-mask');
 
-var _angularUiMask2 = _interopRequireDefault(_angularUiMask);
+var _ngMask2 = _interopRequireDefault(_ngMask);
 
 var _angularMessages = require('angular-messages');
 
@@ -165,9 +936,9 @@ var _module8 = _interopRequireDefault(_module7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['ui.bootstrap', 'ui.mask', _angularUiRouter2.default, 'ngMessages', 'common', 'home', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default).run(_run2.default);
+angular.module('app', ['ui.bootstrap', 'ngMask', _angularUiRouter2.default, 'ngMessages', 'common', 'home', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":11,"./../common/module.js":14,"./../home/module.js":18,"./../user/module.js":24,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-mask":"angular-ui-mask","angular-ui-router":"angular-ui-router"}],7:[function(require,module,exports){
+},{"./../auth/module.js":12,"./../common/module.js":15,"./../home/module.js":19,"./../user/module.js":25,"./api.json":3,"./config.js":4,"./controller.js":5,"./interceptor.js":6,"./run.js":8,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":2}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -185,7 +956,7 @@ function run($rootScope, $state) {
   });
 }
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -209,40 +980,65 @@ function AuthConfig($stateProvider) {
   });
 }
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var AuthLogin = function AuthLogin($rootScope, $stateParams, $state, $window, AuthService) {
-  var _this = this;
+var AuthLogin = function () {
+  function AuthLogin($rootScope, $stateParams, $state, $window, AuthService) {
+    _classCallCheck(this, AuthLogin);
 
-  _classCallCheck(this, AuthLogin);
+    this.service = AuthService;
+    this.$window = $window;
+    this.$rootScope = $rootScope;
+    this.rememberme = true;
+  }
 
-  this.rememberme = true;
-  this.login = function () {
-    AuthService.login(_this.user).then(function (response) {
-      $window.localStorage.setItem('token', response.data.token);
-      delete response.data.token;
-      $window.localStorage.setItem('user', JSON.stringify(response.data));
-      $rootScope.$broadcast('auth.login');
-    }, function (error) {
-      _this.error = error.data;
-      console.log('error', error);
-    });
-  };
-};
+  _createClass(AuthLogin, [{
+    key: 'login',
+    value: function login() {
+      var _this = this;
+
+      this.service.login(this.user).then(function (response) {
+        return _this.loginSuccess(response);
+      }, function (response) {
+        return _this.loginError(response);
+      });
+    }
+  }, {
+    key: 'loginSuccess',
+    value: function loginSuccess(response) {
+      this.$window.localStorage.setItem('token', response.data.token);
+      var _response$data = response.data;
+      var email = _response$data.email;
+      var name = _response$data.name;
+
+      this.$window.localStorage.setItem('user', JSON.stringify({ name: name, email: email }));
+      this.$rootScope.$broadcast('auth.login');
+    }
+  }, {
+    key: 'loginError',
+    value: function loginError(response) {
+      this.error = response.data;
+    }
+  }]);
+
+  return AuthLogin;
+}();
 
 exports.default = AuthLogin;
 
 
 AuthLogin.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -270,7 +1066,7 @@ exports.default = AuthLogout;
 
 AuthLogout.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -297,7 +1093,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('auth', []).config(_config2.default).controller('AuthLogin', _login2.default).controller('AuthLogout', _logout2.default).service('AuthService', _service2.default);
 
-},{"./config.js":8,"./controller/login.js":9,"./controller/logout.js":10,"./service.js":12}],12:[function(require,module,exports){
+},{"./config.js":9,"./controller/login.js":10,"./controller/logout.js":11,"./service.js":13}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -356,7 +1152,7 @@ exports.default = AuthService;
 
 AuthService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":15}],13:[function(require,module,exports){
+},{"./../common/service/common.js":16}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -407,7 +1203,7 @@ exports.default = Header;
 
 Header.$inject = ['$scope', '$state', '$window'];
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -426,7 +1222,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('common', []).service('CommonService', _common2.default).controller('Header', _header2.default);
 
-},{"./controller/header.js":13,"./service/common.js":15}],15:[function(require,module,exports){
+},{"./controller/header.js":14,"./service/common.js":16}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -489,7 +1285,7 @@ var CommonService = function () {
 
 exports.default = CommonService;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -505,7 +1301,7 @@ function HomeConfig($stateProvider) {
   });
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -523,7 +1319,7 @@ exports.default = Home;
 
 Home.$inject = ['$scope', '$stateParams', '$state'];
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -548,7 +1344,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = angular.module('home', []).config(_config2.default).controller('Home', _home2.default);
 // .service('UserService', Service)
 
-},{"./config.js":16,"./controller/home.js":17}],19:[function(require,module,exports){
+},{"./config.js":17,"./controller/home.js":18}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -582,7 +1378,7 @@ function UserConfig($stateProvider) {
   });
 }
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -610,7 +1406,7 @@ exports.default = UserChange;
 
 UserChange.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -651,7 +1447,7 @@ exports.default = AuthConfirmation;
 
 AuthConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -679,7 +1475,7 @@ exports.default = UserMe;
 
 UserMe.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -691,47 +1487,40 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserRegister = function () {
-  function UserRegister($scope, $stateParams, $state, $filter, UserService) {
-    var _this = this;
-
+  function UserRegister($scope, $stateParams, $state, UserService) {
     _classCallCheck(this, UserRegister);
 
-    // this.user = {
-    //   birthdate: $filter('date')(new Date(), 'dd-MM-yyyy')
-    // }
-    // console.log(this.user)
-    // this.register = () => {
-    //   this.user.birthdate = $filter('date')(this.user.birthdate, 'yyyy-MM-dd')
-    //   UserService.register(this.user)
-    //     .then(
-    //       response => {
-    //         console.log(response)
-    //       },
-    //       error => {
-    //         console.error(error)
-    //       })
-    // }
     this.service = UserService;
+    this.state = $state;
     this.user = {
       gender: 'Masculino'
-    };
-    this.registerAction = function () {
-      var date = {
-        day: _this.user.birthdate.substring(0, 2),
-        month: _this.user.birthdate.substring(2, 4),
-        year: _this.user.birthdate.substring(4, 8)
-      };
-      _this.user.birthdate = date.year + '-' + date.month + '-' + date.day;
-      _this.register(_this.user).then(function (response) {
-        return console.log(response);
-      });
     };
   }
 
   _createClass(UserRegister, [{
     key: 'register',
-    value: function register(user) {
-      return this.service.register(user);
+    value: function register() {
+      var _this = this;
+
+      var user = angular.copy(this.user);
+      var birthdate = user.birthdate.split('/');
+      user.birthdate = birthdate[2] + '-' + birthdate[1] + '-' + birthdate[0];
+      this.service.register(user).then(function (response) {
+        return _this.registerSuccess(response);
+      }, function (response) {
+        return _this.registerError(response);
+      });
+    }
+  }, {
+    key: 'registerSuccess',
+    value: function registerSuccess(response) {
+      console.log(response);
+    }
+  }, {
+    key: 'registerError',
+    value: function registerError(response) {
+      this.error = response.data;
+      console.error(response);
     }
   }]);
 
@@ -741,9 +1530,9 @@ var UserRegister = function () {
 exports.default = UserRegister;
 
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService'];
+UserRegister.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -778,7 +1567,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('user', []).config(_config2.default).controller('UserMe', _me2.default).controller('UserChange', _change2.default).controller('UserConfirmation', _confirmation2.default).controller('UserRegister', _register2.default).service('UserService', _service2.default);
 
-},{"./config.js":19,"./controller/change.js":20,"./controller/confirmation.js":21,"./controller/me.js":22,"./controller/register.js":23,"./service.js":25}],25:[function(require,module,exports){
+},{"./config.js":20,"./controller/change.js":21,"./controller/confirmation.js":22,"./controller/me.js":23,"./controller/register.js":24,"./service.js":26}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -831,4 +1620,4 @@ exports.default = UserService;
 
 UserService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":15}]},{},[1]);
+},{"./../common/service/common.js":16}]},{},[1]);
