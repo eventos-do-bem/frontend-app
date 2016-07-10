@@ -1,6 +1,6 @@
 body.background {
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   background-position: top center;
   position: relative;
   width: 100%;
@@ -140,12 +140,15 @@ section header h2 {
 .icons .animals {
   background-image: url('../assets/icons/pngs/animal.png');
 }
+.portfolio {
+  text-align: center;
+}
 .portfolio h2 {
   margin: 0 auto;
   width: 600px;
 }
-.portfolio {
-  text-align: center;
+.portfolio h3 {
+  font-weight: 300;
 }
 .portfolio > a {
   padding: 20px 60px;
@@ -271,4 +274,9 @@ footer li a {
   color: #888;
   font-size: 16px;
   font-weight: 700;
+  transition-duration: 0.5s;
+}
+footer li a:hover {
+  color: #eaeaea;
+  text-decoration: none;
 }

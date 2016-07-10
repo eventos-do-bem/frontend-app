@@ -1,27 +1,11 @@
-<form name="login" class="form-signin" data-ng-submit="ctrl.login()">
-  <h2 class="form-signin-heading">Login</h2>
-  <div data-ng-show="ctrl.error" data-ng-class="{'alert alert-warning': ctrl.error.status_code == 401 || ctrl.error.status_code == 422}" role="alert">
-    <strong>Ops...</strong> <span data-ng-bind="ctrl.error.message"></span>
+<form name="login" class="form-signin" novalidate data-ng-submit="ctrl.login()">
+  <div class="alert alert-danger" data-ng-show="ctrl.error">
+    <strong>Ops...</strong>
+    <ul>
+      <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind="e.join(', ')"></li>
+    </ul>
   </div>
-  <div class="form-group">
-    <label for="email" class="sr-only">Email</label>
-    <input type="email" id="email" name="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail" required autofocus>
-    <p data-ng-show="login.email.$error.email">
-      <span class="text-danger">Endereço de e-mail obrigatório!</span>
-    </p>
-  </div>
-  <div class="form-group">
-    <label for="password" class="sr-only">Senha</label>
-    <input type="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Password" required>
-  </div>
-  <div data-ng-show="ctrl.error.status_code == 401">
-    <label for="multi_factor_code" class="sr-only">Código de segurança de 2 passos</label>
-    <input type="text" id="multi_factor_code" class="form-control" data-ng-model="ctrl.user.multi_factor_code" placeholder="Código">
-  </div>
-  <!--<div class="checkbox">
-    <label>
-      <input type="checkbox" data-ng-model="ctrl.rememberme"> Lembrar da senha
-    </label>
-  </div>-->
-  <button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-disabled="login.$invalid">Login</button>
+  <input type="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail" required autofocus>
+  <input type="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" required>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-disabled="register.$invalid">Cadastrar</button>
 </form>
