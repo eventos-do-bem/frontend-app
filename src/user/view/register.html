@@ -22,12 +22,15 @@
     <uib-tab index="1" heading="Ong">
       <input type="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail" required
         autofocus>
-      <!--<label for="password">Senha</label>-->
       <input type="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" required>
-      <!--<label for="password_confirmation">Confirmação da senha</label>-->
       <input type="password" id="password_confirmation" class="form-control" data-ng-model="ctrl.user.password_confirmation" placeholder="Confirmação da senha"
         required>
     </uib-tab>
+    <p class="text-center">Registre-se ou faça seu <a ui-sref="auth.login">login</a></p>
+    <button type="button" class="btn btn-block btn-primary btn-social" data-ng-click="ctrl.loginFb()">
+      <i class="fa fa-facebook" aria-hidden="true"></i>
+      Registrar-se com o Facebook
+    </button>
   </uib-tabset>
-  <button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-disabled="register.$invalid">Cadastrar</button>
+  <button class="btn btn-lg btn-success btn-block" type="submit" data-ng-disabled="register.$invalid">Cadastrar</button>
 </form>

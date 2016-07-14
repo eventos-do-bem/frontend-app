@@ -5,7 +5,42 @@
       <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind="e.join(', ')"></li>
     </ul>
   </div>
-  <input type="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail" required autofocus>
-  <input type="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" required>
-  <button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-disabled="register.$invalid">Cadastrar</button>
+  <uib-tabset active="activeForm" justified="true">
+    <uib-tab index="0" heading="Usuário">
+      <div data-ng-class="{{ctrl.validate.email}}">
+        <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail do usuário" required autofocus>
+      </div>
+      <div class="input-group" data-ng-class="{{ctrl.validate.password}}">
+        <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" data-ng-disabled="!ctrl.user.password" data-ng-click="ctrl.toggleShowPassword()">
+            <i data-ng-class="{'glyphicon glyphicon-eye-open': !ctrl.showPassword,'glyphicon glyphicon-eye-close': ctrl.showPassword}"></i>
+          </button>
+        </span>
+      </div>
+    </uib-tab>
+    <uib-tab index="1" heading="Ong">
+      <div data-ng-class="{{ctrl.validate.email}}">
+        <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail da Ong" required autofocus>
+      </div>
+      <div class="input-group" data-ng-class="{{ctrl.validate.password}}">
+        <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" data-ng-disabled="!ctrl.user.password" data-ng-click="ctrl.toggleShowPassword()">
+            <i data-ng-class="{'glyphicon glyphicon-eye-open': !ctrl.showPassword,'glyphicon glyphicon-eye-close': ctrl.showPassword}"></i>
+          </button>
+        </span>
+      </div>
+    </uib-tab>
+    <p class="text-center">Faça login ou <a ui-sref="user.register">registre-se</a></p>
+    <button type="button" class="btn btn-block btn-primary btn-social" data-ng-click="ctrl.loginFb()">
+      <i class="fa fa-facebook" aria-hidden="true"></i>
+      Login com o Facebook
+    </button>
+  </uib-tabset>
+  <label class="rememberme" data-ng-model="ctrl.user.rememberme" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+    <i data-ng-class="{'glyphicon glyphicon-check': !ctrl.user.rememberme,'glyphicon glyphicon-unchecked': ctrl.user.rememberme}"></i>
+    Lembrar da senha
+  </label>
+  <button class="btn btn-lg btn-success btn-block" type="submit" data-ng-disabled="login.$invalid">Login</button>
 </form>
