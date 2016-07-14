@@ -3,6 +3,7 @@ export default function AppConfig($httpProvider, $injector, $urlRouterProvider, 
   $urlRouterProvider.otherwise('/#')
   ezfbProvider.setLocale('pt_BR')
   ezfbProvider.setInitParams({
-    appId: '813381015395246'
+    appId: '813381015395246',
+    version: 'v2.2'
   })
 }

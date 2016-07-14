@@ -249,6 +249,9 @@ body.auth-login {
   padding: 10px;
   font-size: 16px;
 }
+.form-signin .input-group {
+  margin-bottom: 10px;
+}
 .form-signin label.rememberme {
   padding-left: 2px;
   font-weight: normal;
@@ -263,7 +266,7 @@ body.auth-login {
   margin: 0 6px;
 }
 .form-signin .btn-group {
-  padding: 10px 0 15px;
+  padding: 0px 0 20px;
 }
 .form-signin .nav,
 .form-signin ul {

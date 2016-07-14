@@ -1,7 +1,7 @@
 export default class AuthLogin {
-  constructor($rootScope, $stateParams, $state, $window, $q, AuthService, StorageService, ezfb) {
+  constructor($rootScope, $stateParams, $state, $window, $q, AuthService, StorageService, FbService) {
     this.service = AuthService
-    this.ezfb = ezfb
+    this.fbService = FbService
     this.storage = StorageService
     this.$window = $window
     this.$rootScope = $rootScope
@@ -18,24 +18,14 @@ export default class AuthLogin {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
   }
   loginFb() {
-    this.ezfb.login(res => {
-      if (res.authResponse) {
-        this.updateApiMe()
-        this.updateLoginStatus()
+    this.fbService.login(
+      response => {
+        console.log(response)
+      },
+      error => {
+        console.error(error)
       }
-    }, {
-      scope: 'email, user_likes'
-    })
-  }
-  updateLoginStatus(more) {
-    this.ezfb.getLoginStatus(res => {
-      console.log(res)
-    })
-  }
-  updateApiMe() {
-    this.ezfb.api('/me', (res) => {
-      console.log(res)
-    })
+    )
   }
   login() {
     this.service.login(this.user)
@@ -56,4 +46,4 @@ export default class AuthLogin {
   }
 }
 
-AuthLogin.$inject = ['$rootScope', '$stateParams', '$state', '$window', '$q', 'AuthService', 'StorageService', 'ezfb']
+AuthLogin.$inject = ['$rootScope', '$stateParams', '$state', '$window', '$q', 'AuthService', 'StorageService', 'FbService']
