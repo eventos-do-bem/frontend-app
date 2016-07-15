@@ -14,7 +14,6 @@ export default class AuthLogin {
     }
   }
   toggleShowPassword() {
-    this.showPassword = !this.showPassword
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
   }
   loginFb() {
