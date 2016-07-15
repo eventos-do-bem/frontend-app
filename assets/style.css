@@ -4,9 +4,9 @@ html {
   min-height: 100%;
 }
 body {
-  /* Margin bottom by footer height */
   margin-top: 60px;
   margin-bottom: 250px;
+  font-family: 'Lato', sans-serif;
 }
 /*
 html {
@@ -14,7 +14,6 @@ html {
   min-height: 100%;
 }
 body {
-  font-family: 'Lato', sans-serif;
   margin: 60px 0 300px;
 }
 body.background {
