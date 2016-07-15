@@ -885,7 +885,7 @@ var UserRegister = function () {
   _createClass(UserRegister, [{
     key: 'toggleShowPassword',
     value: function toggleShowPassword() {
-      this.showPassword = !this.showPassword;
+      // this.showPassword = !this.showPassword
       this.typeInputPassword = this.showPassword ? 'text' : 'password';
     }
   }, {

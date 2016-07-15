@@ -6,36 +6,32 @@
       <div data-ng-class="{{ctrl.validate.email}}">
         <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail do usuário" required>
       </div>
-      <div class="input-group" data-ng-class="{{ctrl.validate.password}}">
-        <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" data-ng-disabled="!ctrl.user.password" data-ng-click="ctrl.toggleShowPassword()">
-            <i data-ng-class="{'glyphicon glyphicon-eye-open': !ctrl.showPassword,'glyphicon glyphicon-eye-close': ctrl.showPassword}"></i>
-          </button>
-        </span>
-      </div>
-      <!--<input type="password" id="password_confirmation" class="form-control" data-ng-model="ctrl.user.password_confirmation" placeholder="Confirmação da senha"
-        required>-->
+      <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>
+      <label class="show-password" data-ng-disabled="!ctrl.user.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+        <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
+        Mostrar sua senha
+      </label>
       <input type="text" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.user.birthdate" placeholder="Data de nascimento" required>
-      <div class="btn-group btn-group-justified">
-        <label class="btn btn-primary" ng-model="ctrl.user.gender" uib-btn-radio="'Masculino'">Masculino</label>
-        <label class="btn btn-primary" ng-model="ctrl.user.gender" uib-btn-radio="'Feminino'">Feminino</label>
+      <div class="btn-group-justified">
+        <label class="gender" ng-model="ctrl.user.gender" uib-btn-radio="'Masculino'">
+          <i data-ng-class="{'glyphicon glyphicon-check': ctrl.user.gender == 'Masculino','glyphicon glyphicon-unchecked': ctrl.user.gender != 'Masculino'}"></i>
+          Masculino
+        </label>
+        <label class="gender" ng-model="ctrl.user.gender" uib-btn-radio="'Feminino'">
+          <i data-ng-class="{'glyphicon glyphicon-check': ctrl.user.gender == 'Feminino','glyphicon glyphicon-unchecked': ctrl.user.gender != 'Feminino'}"></i>
+          Feminino
+        </label>
       </div>
     </uib-tab>
     <uib-tab index="1" heading="Ong">
       <div data-ng-class="{{ctrl.validate.email}}">
         <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail da Ong" required autofocus>
       </div>
-      <div class="input-group" data-ng-class="{{ctrl.validate.password}}">
-        <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" data-ng-disabled="!ctrl.user.password" data-ng-click="ctrl.toggleShowPassword()">
-            <i data-ng-class="{'glyphicon glyphicon-eye-open': !ctrl.showPassword,'glyphicon glyphicon-eye-close': ctrl.showPassword}"></i>
-          </button>
-        </span>
-      </div>
-      <!--<input type="password" id="password_confirmation" class="form-control" data-ng-model="ctrl.user.password_confirmation" placeholder="Confirmação da senha"
-        required>-->
+      <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>
+      <label class="show-password" data-ng-disabled="!ctrl.user.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+        <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
+        Mostrar sua senha
+      </label>
     </uib-tab>
     <p class="text-center">Registre-se ou faça seu <a ui-sref="auth.login">login</a></p>
     <button type="button" class="btn btn-block btn-primary btn-social" data-ng-click="ctrl.registerFb()">

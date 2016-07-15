@@ -14,7 +14,7 @@ export default class UserRegister {
     }
   }
   toggleShowPassword() {
-    this.showPassword = !this.showPassword
+    // this.showPassword = !this.showPassword
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
   }
   registerFb() {

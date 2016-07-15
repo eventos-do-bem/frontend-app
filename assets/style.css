@@ -235,6 +235,7 @@ body.auth-login {
 .form-signin .btn,
 .form-signin .btn-group,
 .form-signin .btn-group label,
+.form-signin .show-password,
 .form-signin label,
 .form-signin ul,
 .form-signin p,
@@ -249,10 +250,16 @@ body.auth-login {
   padding: 10px;
   font-size: 16px;
 }
-.form-signin .input-group {
-  margin-bottom: 10px;
+.form-signin .show-password {
+  padding-top: 0px;
+  font-size: 14px;
 }
-.form-signin label.rememberme {
+.form-signin .show-password[disabled] {
+  color: #666;
+}
+.form-signin .show-password,
+.form-signin label.rememberme,
+.form-signin label.gender {
   padding-left: 2px;
   font-weight: normal;
   color: #000;
