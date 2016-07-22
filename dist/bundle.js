@@ -27,14 +27,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = AppConfig;
-function AppConfig($httpProvider, $injector, $urlRouterProvider, ezfbProvider) {
+function AppConfig($httpProvider, $injector, $urlRouterProvider) {
   $httpProvider.interceptors.push('HttpInterceptor');
   $urlRouterProvider.otherwise('/#');
-  ezfbProvider.setLocale('pt_BR');
-  ezfbProvider.setInitParams({
-    appId: '813381015395246',
-    version: 'v2.2'
-  });
 }
 
 },{}],4:[function(require,module,exports){
@@ -46,7 +41,12 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var AppController = function AppController($location, $window) {
+var AppController = function AppController($location, $window, FacebookService) {
+  _classCallCheck(this, AppController);
+
+  FacebookService.init({
+    appId: '922781867788493'
+  });
   // switch($location.path()) {
   //   case '/usuario/cadastro': {
   //     this.background = 'auth-login.jpg'
@@ -73,14 +73,12 @@ var AppController = function AppController($location, $window) {
   //   $event.stopPropagation();
   //   this.status.isopen = !this.status.isopen;
   // };
-
-  _classCallCheck(this, AppController);
 };
 
 exports.default = AppController;
 
 
-AppController.$inject = ['$location', '$window'];
+AppController.$inject = ['$location', '$window', 'FacebookService'];
 
 },{}],5:[function(require,module,exports){
 'use strict';
@@ -129,10 +127,6 @@ var _ngMask = require('ng-mask');
 
 var _ngMask2 = _interopRequireDefault(_ngMask);
 
-var _angularEasyfb = require('angular-easyfb');
-
-var _angularEasyfb2 = _interopRequireDefault(_angularEasyfb);
-
 var _angularMessages = require('angular-messages');
 
 var _angularMessages2 = _interopRequireDefault(_angularMessages);
@@ -175,17 +169,21 @@ var _module8 = _interopRequireDefault(_module7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['ui.bootstrap', 'ngMask', 'ezfb', _angularUiRouter2.default, 'ngMessages', 'common', 'home', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default).run(_run2.default);
+angular.module('app', ['ui.bootstrap', 'ngMask', _angularUiRouter2.default, 'ngMessages', 'common', 'home', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":11,"./../common/module.js":15,"./../home/module.js":20,"./../user/module.js":26,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-easyfb":"angular-easyfb","angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+},{"./../auth/module.js":11,"./../common/module.js":14,"./../home/module.js":21,"./../user/module.js":27,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = run;
-function run($rootScope, $state) {
+function run($rootScope, $state, StorageService) {
   $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
+    // if (StorageService.identifyStorage()) {
+    //   StorageService.setStorage(StorageService.identifyStorage())
+    // }
+    // console.log(StorageService.getStorage())
     switch (toState.name) {
       case 'user.register':
         $rootScope.background = 'auth-login.jpg';break;
@@ -222,7 +220,7 @@ function AuthConfig($stateProvider) {
 }
 
 },{}],9:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -233,42 +231,39 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var AuthLogin = function () {
-  function AuthLogin($rootScope, $stateParams, $state, $window, $q, AuthService, StorageService, FbService) {
+  function AuthLogin($rootScope, $stateParams, $state, $q, $window, AuthService, StorageService) {
     _classCallCheck(this, AuthLogin);
 
     this.service = AuthService;
-    this.fbService = FbService;
     this.storage = StorageService;
-    this.$window = $window;
     this.$rootScope = $rootScope;
-    this.rememberme = true;
+    this.$window = $window;
+    this.user = {
+      rememberme: true
+    };
     this.showPassword = false;
     this.typeInputPassword = 'password';
-    this.validate = {
-      email: "{'has-error':login.email.$error.email || login.email.$error.required}",
-      password: "{'has-error':login.password.$error.required || login.password.$error.minlength}"
-    };
   }
 
   _createClass(AuthLogin, [{
-    key: "toggleShowPassword",
+    key: 'toggleShowPassword',
     value: function toggleShowPassword() {
       this.typeInputPassword = this.showPassword ? 'text' : 'password';
     }
   }, {
-    key: "loginFb",
-    value: function loginFb() {
-      this.fbService.login(function (response) {
+    key: 'loginFacebook',
+    value: function loginFacebook() {
+      this.service.loginFacebook(function (response) {
         console.log(response);
-      }, function (error) {
-        console.error(error);
       });
     }
   }, {
-    key: "login",
+    key: 'login',
     value: function login() {
       var _this = this;
 
+      console.log(this.user);
+      this.$window.localStorage.setItem('rememberme', this.user.rememberme);
       this.service.login(this.user).then(function (response) {
         return _this.loginSuccess(response);
       }, function (response) {
@@ -276,19 +271,18 @@ var AuthLogin = function () {
       });
     }
   }, {
-    key: "loginSuccess",
+    key: 'loginSuccess',
     value: function loginSuccess(response) {
-      var storage = this.storage.getStorage(this.user.rememberme);
-      this.$window[storage].setItem('token', response.data.token);
+      this.$window.localStorage.setItem('token', response.data.token);
       var _response$data = response.data;
       var email = _response$data.email;
       var name = _response$data.name;
 
-      this.$window[storage].setItem('user', JSON.stringify({ name: name, email: email }));
+      this.$window.localStorage.setItem('user', JSON.stringify({ name: name, email: email }));
       this.$rootScope.$broadcast('auth.login');
     }
   }, {
-    key: "loginError",
+    key: 'loginError',
     value: function loginError(response) {
       this.error = response.data;
     }
@@ -300,7 +294,7 @@ var AuthLogin = function () {
 exports.default = AuthLogin;
 
 
-AuthLogin.$inject = ['$rootScope', '$stateParams', '$state', '$window', '$q', 'AuthService', 'StorageService', 'FbService'];
+AuthLogin.$inject = ['$rootScope', '$stateParams', '$state', '$q', '$window', 'AuthService', 'StorageService'];
 
 },{}],10:[function(require,module,exports){
 'use strict';
@@ -309,26 +303,47 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var AuthLogout = function AuthLogout($rootScope, $stateParams, $state, $window, AuthService) {
-  _classCallCheck(this, AuthLogout);
+var AuthLogout = function () {
+  function AuthLogout($rootScope, $stateParams, $state, $window, AuthService, StorageService) {
+    _classCallCheck(this, AuthLogout);
 
-  this.logout = function () {
-    AuthService.logout().then(function (response) {
-      $window.localStorage.clear();
-      $rootScope.$broadcast('auth.logout');
-    }, function (error) {
-      console.error('error', error);
-    });
-  };
-  this.logout();
-};
+    this.authService = AuthService;
+    this.storageService = StorageService;
+    this.$rootScope = $rootScope;
+    this.$window = $window;
+    this.logout();
+  }
+
+  _createClass(AuthLogout, [{
+    key: 'logout',
+    value: function logout() {
+      var _this = this;
+
+      // let storage = this.storageService.identifyStorage()
+      // console.log(storage)
+      // this.storageService.clearStorage()
+      this.authService.logout().then(function (response) {
+        _this.$window.localStorage.removeItem('rememberme');
+        _this.$window.localStorage.removeItem('token');
+        _this.$window.localStorage.removeItem('user');
+        _this.$rootScope.$broadcast('auth.logout');
+      }, function (error) {
+        console.error('error', error);
+      });
+    }
+  }]);
+
+  return AuthLogout;
+}();
 
 exports.default = AuthLogout;
 
 
-AuthLogout.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
+AuthLogout.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService', 'StorageService'];
 
 },{}],11:[function(require,module,exports){
 'use strict';
@@ -353,15 +368,11 @@ var _service = require('./service.js');
 
 var _service2 = _interopRequireDefault(_service);
 
-var _facebook = require('./social/facebook.js');
-
-var _facebook2 = _interopRequireDefault(_facebook);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('auth', []).config(_config2.default).controller('AuthLogin', _login2.default).controller('AuthLogout', _logout2.default).service('AuthService', _service2.default).service('FbService', _facebook2.default);
+exports.default = angular.module('auth', []).config(_config2.default).controller('AuthLogin', _login2.default).controller('AuthLogout', _logout2.default).service('AuthService', _service2.default);
 
-},{"./config.js":8,"./controller/login.js":9,"./controller/logout.js":10,"./service.js":12,"./social/facebook.js":13}],12:[function(require,module,exports){
+},{"./config.js":8,"./controller/login.js":9,"./controller/logout.js":10,"./service.js":12}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -385,10 +396,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AuthService = function (_CommonService) {
   _inherits(AuthService, _CommonService);
 
-  function AuthService(API, $http) {
+  function AuthService(API, $http, FacebookService) {
     _classCallCheck(this, AuthService);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(AuthService).call(this, API, $http));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AuthService).call(this, API, $http));
+
+    _this.facebookService = FacebookService;
+    return _this;
   }
 
   _createClass(AuthService, [{
@@ -397,6 +411,28 @@ var AuthService = function (_CommonService) {
       data = this.setDataToken(data);
       this.setRoute('auth/login');
       return this.$http.post(this.url + this.route, data);
+    }
+  }, {
+    key: 'loginFacebook',
+    value: function loginFacebook(callback) {
+      var _this2 = this;
+
+      this.facebookService.getLoginStatus(function (response) {
+        if (response.status === 'connected') {
+          callback(response);
+        } else {
+          _this2.facebookService.login(function (response) {
+            callback(response);
+          });
+        }
+      }, { scope: 'email' });
+    }
+  }, {
+    key: 'disconnectFacebook',
+    value: function disconnectFacebook(callback) {
+      return this.facebookService.disconnect(function (response) {
+        return callback(response);
+      });
     }
   }, {
     key: 'logout',
@@ -418,72 +454,9 @@ var AuthService = function (_CommonService) {
 exports.default = AuthService;
 
 
-AuthService.$inject = ['API', '$http'];
+AuthService.$inject = ['API', '$http', 'FacebookService'];
 
-},{"./../common/service/common.js":16}],13:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var FacebookService = function () {
-  function FacebookService(ezfb) {
-    _classCallCheck(this, FacebookService);
-
-    this.ezfb = ezfb;
-  }
-
-  _createClass(FacebookService, [{
-    key: 'login',
-    value: function login(cbSuccess, cbError) {
-      var _this = this;
-
-      this.ezfb.login(function (response) {
-        console.log(response);
-        if (response.authResponse) {
-          _this.getMe(function (response) {
-            cbSuccess(response);
-          });
-        } else {
-          cbError(response);
-        }
-      }, { scope: 'public_profile,email' });
-    }
-  }, {
-    key: 'logout',
-    value: function logout() {
-      this.ezfb.logout();
-    }
-  }, {
-    key: 'getMe',
-    value: function getMe(callback) {
-      this.ezfb.api('/me', function (response) {
-        callback(response);
-      });
-    }
-  }, {
-    key: 'getLoginStatus',
-    value: function getLoginStatus(callback) {
-      this.ezfb.getLoginStatus(function (response) {
-        callback(response);
-      });
-    }
-  }]);
-
-  return FacebookService;
-}();
-
-exports.default = FacebookService;
-
-
-FacebookService.$inject = ['ezfb'];
-
-},{}],14:[function(require,module,exports){
+},{"./../common/service/common.js":15}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -492,7 +465,7 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Header = function Header($scope, $state, $window) {
+var Header = function Header($scope, $state, $window, StorageService) {
   var _this = this;
 
   _classCallCheck(this, Header);
@@ -532,9 +505,9 @@ var Header = function Header($scope, $state, $window) {
 exports.default = Header;
 
 
-Header.$inject = ['$scope', '$state', '$window'];
+Header.$inject = ['$scope', '$state', '$window', 'StorageService'];
 
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -545,6 +518,10 @@ var _common = require('./service/common.js');
 
 var _common2 = _interopRequireDefault(_common);
 
+var _facebook = require('./service/facebook.js');
+
+var _facebook2 = _interopRequireDefault(_facebook);
+
 var _header = require('./controller/header.js');
 
 var _header2 = _interopRequireDefault(_header);
@@ -553,11 +530,15 @@ var _storage = require('./service/storage.js');
 
 var _storage2 = _interopRequireDefault(_storage);
 
+var _hydrator = require('./service/hydrator.js');
+
+var _hydrator2 = _interopRequireDefault(_hydrator);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('common', []).service('CommonService', _common2.default).service('StorageService', _storage2.default).controller('Header', _header2.default);
+exports.default = angular.module('common', []).service('CommonService', _common2.default).service('FacebookService', _facebook2.default).service('StorageService', _storage2.default).service('Hydrator', _hydrator2.default).controller('Header', _header2.default);
 
-},{"./controller/header.js":14,"./service/common.js":16,"./service/storage.js":17}],16:[function(require,module,exports){
+},{"./controller/header.js":13,"./service/common.js":15,"./service/facebook.js":16,"./service/hydrator.js":17,"./service/storage.js":18}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -620,7 +601,273 @@ var CommonService = function () {
 
 exports.default = CommonService;
 
+},{}],16:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var FacebookService = function () {
+  function FacebookService($window, $timeout, $q) {
+    var _this = this;
+
+    _classCallCheck(this, FacebookService);
+
+    this.options = {
+      appId: null,
+      status: true,
+      cookie: false,
+      xfbml: false,
+      version: 'v2.4',
+      scope: ''
+    };
+    var options = ['appId', 'status', 'cookie', 'xfbml', 'version', 'scope'];
+    options.map(function (name) {
+      _this[name] = angular.bind(_this, _this.getSetOption, name);
+    });
+    this.FB = null;
+    this.FBPromise = null;
+    this.initPromise = null;
+    this.$window = $window;
+    this.$timeout = $timeout;
+    this.$q = $q;
+    this.loading = false;
+    this.loaded = false;
+    this.initialized = false;
+  }
+
+  _createClass(FacebookService, [{
+    key: 'getSetOption',
+    value: function getSetOption(name, val) {
+      if (val === void 0) {
+        return this.options[name];
+      }
+      this.options[name] = val;
+      return this;
+    }
+  }, {
+    key: 'handleResponse',
+    value: function handleResponse(response) {
+      if (!response || response.error) {
+        this.reject(response && response.error || false);
+      } else {
+        this.resolve(response);
+      }
+    }
+  }, {
+    key: 'addCallbackToPromise',
+    value: function addCallbackToPromise(deferred, callback) {
+      var promise = deferred.promise;
+      if (typeof callback === 'function') {
+        promise.then(callback);
+      }
+      return promise;
+    }
+  }, {
+    key: 'load',
+    value: function load() {
+      var _this2 = this;
+
+      if (!this.FBPromise) {
+        (function () {
+          var deferred = _this2.$q.defer();
+          _this2.$window.fbAsyncInit = function () {
+            _this2.FB = _this2.$window.FB;
+            _this2.loading = false;
+            _this2.loaded = true;
+            _this2.$timeout(function () {
+              return deferred.resolve(FB);
+            });
+          };
+          (function (d, s, id) {
+            var js = void 0,
+                fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+              return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = '//connect.facebook.net/pt_BR/sdk.js';
+            fjs.parentNode.insertBefore(js, fjs);
+          })(_this2.$window.document, 'script', 'facebook-jssdk');
+
+          _this2.loading = true;
+
+          _this2.FBPromise = deferred.promise;
+        })();
+      }
+      return this.FBPromise;
+    }
+  }, {
+    key: 'init',
+    value: function init(params) {
+      var _this3 = this;
+
+      if (!this.initPromise) {
+        this.initPromise = this.load().then(function (FB) {
+          params = angular.extend({
+            appId: _this3.options.appId,
+            status: _this3.options.status,
+            cookie: _this3.options.cookie,
+            xfbml: _this3.options.xfbml,
+            version: _this3.options.version
+          }, params);
+
+          if (!params.appId) {
+            throw new Error('FacebookService: appId is not set');
+          }
+
+          FB.init(params);
+
+          _this3.initialized = true;
+
+          return FB;
+        });
+      }
+      return this.initPromise;
+    }
+  }, {
+    key: 'getLoginStatus',
+    value: function getLoginStatus(callback) {
+      var _this4 = this;
+
+      return this.init().then(function (FB) {
+        var deferred = _this4.$q.defer();
+
+        FB.getLoginStatus(angular.bind(deferred, _this4.handleResponse));
+
+        return _this4.addCallbackToPromise(deferred, callback);
+      });
+    }
+  }, {
+    key: 'api',
+    value: function api() {
+      var _this5 = this;
+
+      var apiArgs = arguments;
+
+      return this.init().then(function (FB) {
+        var deferred = _this5.$q.defer(),
+            args = Array.prototype.slice.call(apiArgs),
+            callback = void 0;
+
+        if (typeof args[args.length - 1] === 'function') {
+          callback = args.pop();
+        }
+        args.push(angular.bind(deferred, _this5.handleResponse));
+
+        FB.api.apply(FB, args);
+
+        return _this5.addCallbackToPromise(deferred, callback);
+      });
+    }
+  }, {
+    key: 'login',
+    value: function login(callback, opts) {
+      var _this6 = this;
+
+      return this.init().then(function (FB) {
+        var deferred = _this6.$q.defer();
+
+        if (typeof callback !== 'function') {
+          callback = null;
+          opts = callback;
+        }
+
+        var getOpt = function getOpt(name) {
+          var val = opts && opts[name];
+          return val === void 0 ? _this6.options[name] : val;
+        };
+
+        FB.login(angular.bind(deferred, _this6.handleResponse), {
+          scope: getOpt('scope')
+        });
+
+        return _this6.addCallbackToPromise(deferred, callback);
+      });
+    }
+  }, {
+    key: 'logout',
+    value: function logout(callback) {
+      var _this7 = this;
+
+      return this.getLoginStatus().then(function (response) {
+        var deferred = _this7.$q.defer();
+
+        if (response.authResponse) {
+          _this7.FB.logout(angular.bind(deferred, callback));
+        } else {
+          deferred.reject(response);
+        }
+
+        return _this7.addCallbackToPromise(deferred, callback);
+      });
+    }
+  }, {
+    key: 'disconnect',
+    value: function disconnect(callback) {
+      var _this8 = this;
+
+      return this.init().then(function (FB) {
+        var deferred = _this8.$q.defer();
+
+        FB.api('/me/permissions', 'DELETE', angular.bind(deferred, _this8.handleResponse));
+
+        return _this8.addCallbackToPromise(deferred, callback);
+      });
+    }
+  }]);
+
+  return FacebookService;
+}();
+
+exports.default = FacebookService;
+
+
+FacebookService.$inject = ['$window', '$timeout', '$q'];
+
 },{}],17:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HydratorService = function () {
+  function HydratorService() {
+    _classCallCheck(this, HydratorService);
+  }
+
+  _createClass(HydratorService, [{
+    key: "extract",
+    value: function extract(data, fields) {
+      var result = {};
+      var keys = Object.keys(data);
+      fields = fields ? fields : keys;
+      fields.map(function (field) {
+        if (keys.indexOf(field)) {
+          result[field] = data[field];
+        }
+      });
+      return result;
+    }
+  }]);
+
+  return HydratorService;
+}();
+
+exports.default = HydratorService;
+
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -636,21 +883,51 @@ var StorageService = function () {
     _classCallCheck(this, StorageService);
 
     this.$window = $window;
+    this.storage = undefined;
   }
 
   _createClass(StorageService, [{
     key: 'setItem',
     value: function setItem(key, data) {
-      this.$window.setItem(key, data);
+      this.$window[this.storage].setItem(key, data);
+    }
+  }, {
+    key: 'getItem',
+    value: function getItem(key) {
+      return this.$window[this.storage].getItem(key);
+    }
+  }, {
+    key: 'setStorage',
+    value: function setStorage(storage) {
+      this.storage = storage;
     }
   }, {
     key: 'getStorage',
-    value: function getStorage(storage) {
-      if (storage) {
-        return 'localStorage';
+    value: function getStorage() {
+      return this.storage;
+    }
+  }, {
+    key: 'setByRememberMe',
+    value: function setByRememberMe(rememberme) {
+      if (rememberme) {
+        this.setStorage('localStorage');
       } else {
+        this.setStorage('sessionStorage');
+      }
+    }
+  }, {
+    key: 'identifyStorage',
+    value: function identifyStorage() {
+      if (this.$window.localStorage.getItem('token')) {
+        return 'localStorage';
+      } else if (this.$window.sessionStorage.getItem('token')) {
         return 'sessionStorage';
       }
+    }
+  }, {
+    key: 'clearStorage',
+    value: function clearStorage() {
+      this.$window[this.storage].clear();
     }
   }]);
 
@@ -662,7 +939,7 @@ exports.default = StorageService;
 
 StorageService.$inject = ['$window'];
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -678,7 +955,7 @@ function HomeConfig($stateProvider) {
   });
 }
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -696,7 +973,7 @@ exports.default = Home;
 
 Home.$inject = ['$scope', '$stateParams', '$state'];
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -721,7 +998,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = angular.module('home', []).config(_config2.default).controller('Home', _home2.default);
 // .service('UserService', Service)
 
-},{"./config.js":18,"./controller/home.js":19}],21:[function(require,module,exports){
+},{"./config.js":19,"./controller/home.js":20}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -755,7 +1032,7 @@ function UserConfig($stateProvider) {
   });
 }
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -783,7 +1060,7 @@ exports.default = UserChange;
 
 UserChange.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -824,7 +1101,7 @@ exports.default = AuthConfirmation;
 
 AuthConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -852,7 +1129,7 @@ exports.default = UserMe;
 
 UserMe.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -864,21 +1141,18 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserRegister = function () {
-  function UserRegister($scope, $stateParams, $state, UserService, FbService) {
+  function UserRegister($scope, $stateParams, $state, $filter, Hydrator, UserService) {
     _classCallCheck(this, UserRegister);
 
     this.service = UserService;
-    this.fbService = FbService;
+    this.hydrator = Hydrator;
     this.state = $state;
+    this.filter = $filter;
     this.user = {
       gender: 'Feminino'
     };
     this.showPassword = false;
     this.typeInputPassword = 'password';
-    this.validate = {
-      email: "{'has-error':register.email.$error.email || register.email.$error.required}",
-      password: "{'has-error':register.password.$error.required || register.password.$error.minlength}"
-    };
   }
 
   _createClass(UserRegister, [{
@@ -887,37 +1161,50 @@ var UserRegister = function () {
       this.typeInputPassword = this.showPassword ? 'text' : 'password';
     }
   }, {
-    key: 'registerFb',
-    value: function registerFb() {
-      var _this = this;
-
-      this.fbService.login(function (response) {
-        var name = response.name;
-        var email = response.email;
-        var gender = response.gender;
-
-        gender = gender == 'male' ? 'Masculino' : 'Feminino';
-        _this.user = { name: name, email: email, gender: gender };
-        _this.register();
-      }, function (error) {
-        console.error(error);
+    key: 'registerFacebook',
+    value: function registerFacebook() {
+      this.service.registerFacebook(function (response) {
+        console.log(response);
+        // this.register(response)
       });
     }
   }, {
+    key: 'checkOfAge',
+    value: function checkOfAge(age) {
+      var date = new Date(),
+          timeDiff = date - age,
+          diffDays = timeDiff / (1000 * 3600 * 24 * 365);
+      return diffDays < 18 ? false : true;
+    }
+  }, {
     key: 'register',
-    value: function register() {
-      var _this2 = this;
+    value: function register(user) {
+      var _this = this;
 
-      var user = angular.copy(this.user);
-      if (user.birthdate) {
-        var birthdate = user.birthdate.split('/');
-        user.birthdate = birthdate[2] + '-' + birthdate[1] + '-' + birthdate[0];
+      user = user ? angular.copy(user) : angular.copy(this.user);
+      var birthdate = void 0;
+      if (user.facebook_token) {
+        user.gender = user.gender == 'male' ? 'Masculino' : 'Feminino';
+        birthdate = user.birthday.split('/');
+        user.birthdate = new Date(birthdate[2] + '-' + birthdate[0] + '-' + birthdate[1]);
+      } else {
+        birthdate = user.birthdate.split('/');
+        user.birthdate = new Date(birthdate[2] + '-' + birthdate[1] + '-' + birthdate[0]);
       }
-      this.service.register(user).then(function (response) {
-        return _this2.registerSuccess(response);
-      }, function (response) {
-        return _this2.registerError(response);
-      });
+      if (!this.checkOfAge(user.birthdate)) {
+        this.error = {
+          errors: {
+            birthdate: ['Desculpe, não podemos aceitar usuários menores de idade.']
+          }
+        };
+      } else {
+        user.birthdate = this.filter('date')(user.birthdate.setDate(user.birthdate.getDate() + 1), 'yyyy-MM-dd');
+        this.service.register(user).then(function (response) {
+          return _this.registerSuccess(response);
+        }, function (response) {
+          return _this.registerError(response);
+        });
+      }
     }
   }, {
     key: 'registerSuccess',
@@ -938,9 +1225,9 @@ var UserRegister = function () {
 exports.default = UserRegister;
 
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', 'UserService', 'FbService'];
+UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'Hydrator', 'UserService'];
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -975,7 +1262,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('user', []).config(_config2.default).controller('UserMe', _me2.default).controller('UserChange', _change2.default).controller('UserConfirmation', _confirmation2.default).controller('UserRegister', _register2.default).service('UserService', _service2.default);
 
-},{"./config.js":21,"./controller/change.js":22,"./controller/confirmation.js":23,"./controller/me.js":24,"./controller/register.js":25,"./service.js":27}],27:[function(require,module,exports){
+},{"./config.js":22,"./controller/change.js":23,"./controller/confirmation.js":24,"./controller/me.js":25,"./controller/register.js":26,"./service.js":28}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -999,10 +1286,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var UserService = function (_CommonService) {
   _inherits(UserService, _CommonService);
 
-  function UserService(API, $http) {
+  function UserService(API, $http, FacebookService) {
     _classCallCheck(this, UserService);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(UserService).call(this, API, $http));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserService).call(this, API, $http));
+
+    _this.facebookService = FacebookService;
+    return _this;
   }
 
   _createClass(UserService, [{
@@ -1018,6 +1308,50 @@ var UserService = function (_CommonService) {
       this.setRoute('users/me');
       return this.$http.get(this.url + this.route);
     }
+  }, {
+    key: 'meFaceBookCallback',
+    value: function meFaceBookCallback(token, callback) {
+      return this.meFacebook(function (response) {
+        response['facebook_token'] = token;
+        return callback(response);
+      });
+    }
+  }, {
+    key: 'registerFacebook',
+    value: function registerFacebook(callback) {
+      var _this2 = this;
+
+      this.facebookService.getLoginStatus(function (response) {
+        var token = '';
+        if (response.status === 'connected') {
+          token = response.authResponse.accessToken;
+          return _this2.meFaceBookCallback(token, callback);
+        } else {
+          return _this2.facebookService.login(function (response) {
+            if (response.status === 'connected') {
+              token = response.authResponse.accessToken;
+              return _this2.meFaceBookCallback(token, callback);
+            }
+          }, {
+            scope: 'public_profile,email,user_birthday'
+          });
+        }
+      });
+    }
+  }, {
+    key: 'logoutFacebook',
+    value: function logoutFacebook(callback) {
+      return this.facebookService.logout(callback);
+    }
+  }, {
+    key: 'meFacebook',
+    value: function meFacebook(callback) {
+      this.facebookService.api('/me', {
+        fields: 'name,email,gender,birthday'
+      }, function (response) {
+        return callback(response);
+      });
+    }
   }]);
 
   return UserService;
@@ -1026,6 +1360,6 @@ var UserService = function (_CommonService) {
 exports.default = UserService;
 
 
-UserService.$inject = ['API', '$http'];
+UserService.$inject = ['API', '$http', 'FacebookService'];
 
-},{"./../common/service/common.js":16}]},{},[1]);
+},{"./../common/service/common.js":15}]},{},[1]);

@@ -1,5 +1,8 @@
 export default class AppController {
-  constructor($location, $window) {
+  constructor($location, $window, FacebookService) {
+    FacebookService.init({
+      appId: '922781867788493'
+    })
     // switch($location.path()) {
     //   case '/usuario/cadastro': {
     //     this.background = 'auth-login.jpg'
@@ -29,4 +32,4 @@ export default class AppController {
   }
 }
 
-AppController.$inject = ['$location','$window']
+AppController.$inject = ['$location','$window','FacebookService']

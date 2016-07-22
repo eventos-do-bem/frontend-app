@@ -1,45 +1,56 @@
 export default class UserRegister {
-  constructor($scope, $stateParams, $state, UserService, FbService) {
+  constructor($scope, $stateParams, $state, $filter, Hydrator, UserService) {
     this.service = UserService
-    this.fbService = FbService
+    this.hydrator = Hydrator
     this.state = $state
+    this.filter = $filter
     this.user = {
-      gender: 'Feminino'
+      gender: 'Feminino',
     }
     this.showPassword = false
     this.typeInputPassword = 'password'
-    this.validate = {
-      email: "{'has-error':register.email.$error.email || register.email.$error.required}",
-      password: "{'has-error':register.password.$error.required || register.password.$error.minlength}"
-    }
   }
   toggleShowPassword() {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
   }
-  registerFb() {
-    this.fbService.login(
-      response => {
-        let { name, email, gender } = response
-        gender = (gender == 'male') ? 'Masculino' : 'Feminino'
-        this.user = {name: name, email: email, gender: gender }
-        this.register()
-      },
-      error => {
-        console.error(error)
-      }
-    )
+  registerFacebook() {
+    this.service.registerFacebook(response => {
+      console.log(response)
+      // this.register(response)
+    })
   }
-  register() {
-    let user = angular.copy(this.user)
-    if (user.birthdate) {
-      let birthdate = user.birthdate.split('/')
-      user.birthdate = `${birthdate[2]}-${birthdate[1]}-${birthdate[0]}`
+  checkOfAge(age) {
+    let date = new Date(),
+        timeDiff = date - age,
+        diffDays = timeDiff / (1000 * 3600 * 24 * 365)
+    return (diffDays < 18) ? false : true
+
+  }
+  register(user) {
+    user = (user) ? angular.copy(user) : angular.copy(this.user)
+    let birthdate
+    if (user.facebook_token) {
+      user.gender = (user.gender == 'male') ? 'Masculino' : 'Feminino'
+      birthdate = user.birthday.split('/')
+      user.birthdate = new Date(`${birthdate[2]}-${birthdate[0]}-${birthdate[1]}`)
+    } else {
+      birthdate = user.birthdate.split('/')
+      user.birthdate = new Date(`${birthdate[2]}-${birthdate[1]}-${birthdate[0]}`)
     }
-    this.service.register(user)
-      .then(
-        response => this.registerSuccess(response),
-        response => this.registerError(response)  
-      )
+    if (!this.checkOfAge(user.birthdate)) {
+      this.error = {
+        errors: {
+          birthdate: ['Desculpe, não podemos aceitar usuários menores de idade.']
+        }
+      }
+    } else {
+      user.birthdate = this.filter('date')(user.birthdate.setDate(user.birthdate.getDate() + 1), 'yyyy-MM-dd')
+      this.service.register(user)
+        .then(
+          response => this.registerSuccess(response),
+          response => this.registerError(response)  
+        )
+    }
   }
   registerSuccess(response) {
     console.log(response)
@@ -50,4 +61,4 @@ export default class UserRegister {
   }
 }
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', 'UserService', 'FbService']
+UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'Hydrator', 'UserService']

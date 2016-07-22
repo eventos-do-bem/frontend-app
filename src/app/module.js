@@ -1,7 +1,6 @@
 import uiRouter         from 'angular-ui-router'
 import uiBootstrap      from 'angular-ui-bootstrap'
 import ngMask           from 'ng-mask'
-import easyFb           from 'angular-easyfb'
 import ngMessages       from 'angular-messages'
 import APIConfig        from './api.json'
 import AppConfig        from './config.js'
@@ -17,7 +16,6 @@ angular
   .module('app', [
     'ui.bootstrap'
   , 'ngMask'
-  , 'ezfb'
   , uiRouter
   ,'ngMessages'
   ,'common'

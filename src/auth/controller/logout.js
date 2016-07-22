@@ -1,19 +1,28 @@
 export default class AuthLogout {
-  constructor($rootScope, $stateParams, $state, $window, AuthService) {
-    this.logout = () => {
-      AuthService.logout()
-        .then(
-          response => {
-            $window.localStorage.clear()
-            $rootScope.$broadcast('auth.logout')
-          },
-          error => {
-            console.error('error', error)
-          }
-        )
-    }
+  constructor($rootScope, $stateParams, $state, $window, AuthService, StorageService) {
+    this.authService = AuthService
+    this.storageService = StorageService
+    this.$rootScope = $rootScope
+    this.$window = $window
     this.logout()
+  }
+  logout() {
+    // let storage = this.storageService.identifyStorage()
+    // console.log(storage)
+    // this.storageService.clearStorage()
+    this.authService.logout()
+      .then(
+        response => {
+          this.$window.localStorage.removeItem('rememberme')
+          this.$window.localStorage.removeItem('token')
+          this.$window.localStorage.removeItem('user')
+          this.$rootScope.$broadcast('auth.logout')
+        },
+        error => {
+          console.error('error', error)
+        }
+      )
   }
 }
 
-AuthLogout.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService']
+AuthLogout.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService', 'StorageService']

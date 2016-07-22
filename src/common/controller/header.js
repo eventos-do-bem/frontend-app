@@ -1,5 +1,5 @@
 export default class Header {
-  constructor($scope, $state, $window) {
+  constructor($scope, $state, $window, StorageService) {
     this.brand = 'Eventos do Bem'
     this.user = JSON.parse($window.localStorage.getItem('user'))
     $scope.$on('auth.login', () => {
@@ -39,4 +39,4 @@ export default class Header {
   }
 }
 
-Header.$inject = ['$scope', '$state', '$window']
+Header.$inject = ['$scope', '$state', '$window', 'StorageService']

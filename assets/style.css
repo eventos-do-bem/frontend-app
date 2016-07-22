@@ -2,28 +2,24 @@
 html {
   position: relative;
   min-height: 100%;
+  font-size: 62.5%;
 }
 body {
   margin-top: 60px;
   margin-bottom: 250px;
   font-family: 'Lato', sans-serif;
+  font-size: 62.5%;
 }
-/*
-html {
-  position: relative;
-  min-height: 100%;
+h1 { font-size: 3rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 2.1rem; }
+h4 { font-size: 1.7rem; }
+h5 { font-size: 1.5rem; }
+h6 { font-size: 1.3rem; }
+p {
+  font-size: 1.4rem;
+  line-height: 1.6rem;
 }
-body {
-  margin: 60px 0 300px;
-}
-body.background {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: top center;
-  position: relative;
-  width: 100%;
-  height: auto;
-}*/
 
 header .navbar {
   margin-bottom: 8px;
@@ -31,6 +27,7 @@ header .navbar {
 }
 header .navbar a {
   cursor: pointer;
+  font-size: 1.4rem;
 }
 .navbar-brand {
   float: none;
@@ -55,7 +52,6 @@ header .navbar .navbar-brand {
   margin: 7px 15px 7px;
   padding: 6px 15px;
   color: #000 !important;
-  font-weight: bold;
 }
 
 .banner {
@@ -68,7 +64,7 @@ header .navbar .navbar-brand {
   height: auto;
   text-align: center;
 }
-.banner h3 {
+.banner h1 {
   margin: 0 auto;
   padding-top: 120px;
   padding-bottom: 20px;
@@ -89,14 +85,14 @@ header .navbar .navbar-brand {
   margin: 30px 0 50px;
   text-align: center;
 }
-section header h2 {
+section header h1 {
   font-weight: 400;
 }
 .how-it-works > div {
   margin-bottom: 50px;
 }
+.how-it-works h1,
 .how-it-works h2,
-.how-it-works h3,
 .how-it-works p {
   padding: 0px 40px;
   text-align: center;
@@ -111,7 +107,7 @@ section header h2 {
   width: 32px;
 }
 
-.our-campaigns header h3 {
+.our-campaigns header h1 {
   margin: 0 auto;
   width: 700px;
   font-weight: 300;
@@ -132,7 +128,7 @@ section header h2 {
   margin-bottom: 0px;
   border-radius: 0px;
 }
-.proven-impact h3 {
+.proven-impact h1 {
   margin: 0 auto;
   width: 600px;
 }
@@ -161,11 +157,11 @@ section header h2 {
 .portfolio {
   text-align: center;
 }
-.portfolio h2 {
+.portfolio h1 {
   margin: 0 auto;
   width: 600px;
 }
-.portfolio h3 {
+.portfolio h2 {
   font-weight: 300;
 }
 .portfolio > a {
@@ -197,8 +193,8 @@ body.auth-login {
   content: '';
   opacity: 0.7;
 }
-.form-signin .nav, .form-signin ul {
-  padding: 10px 0px !important;
+.form-signin .nav, .form-signin p {
+  margin: 5px 0px !important;
 }
 .form-signin .alert li::first-letter {
   text-transform: uppercase;
@@ -247,11 +243,11 @@ body.auth-login {
      -moz-box-sizing: border-box;
           box-sizing: border-box;
   padding: 10px;
-  font-size: 16px;
+  font-size: 1.6rem;
 }
 .form-signin .show-password {
   padding-top: 0px;
-  font-size: 14px;
+  font-size: 1.4rem;
 }
 .form-signin .show-password[disabled] {
   color: #666;
@@ -280,25 +276,15 @@ body.auth-login {
 }
 .form-signin ul {
   list-style: none;
-  font-size: 1em;
+  font-size: 1rem;
 }
 .form-signin .form-control:focus {
   z-index: 2;
 }
-.form-signin input {
+.form-signin input,
+.form-signin button {
   margin-bottom: 10px;
 }
-/*.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}*/
-
 
 footer {
   position: absolute;
@@ -313,7 +299,7 @@ footer .container {
 }
 
 footer h5 {
-  font-size: 15px;
+  font-size: 1.5rem;
   color: #FFF;
 }
 footer ul {
@@ -326,7 +312,7 @@ footer li {
 }
 footer li a {
   color: #888;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 400;
   transition-duration: 0.5s;
 }
