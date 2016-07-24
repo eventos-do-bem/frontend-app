@@ -14,6 +14,10 @@ export default class UserService extends CommonService {
     this.setRoute('users/me')
     return this.$http.get(this.url + this.route)
   }
+  change(data) {
+    this.setRoute('users/me')
+    return this.$http.post(this.url + this.route, data)
+  }
   meFaceBookCallback(token, callback) {
     return this.meFacebook(response => {
       response['facebook_token'] = token

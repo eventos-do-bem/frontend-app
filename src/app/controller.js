@@ -1,5 +1,5 @@
 export default class AppController {
-  constructor($location, $window, FacebookService) {
+  constructor($location, $window, API, FacebookService) {
     FacebookService.init({
       appId: '922781867788493'
     })
@@ -32,4 +32,4 @@ export default class AppController {
   }
 }
 
-AppController.$inject = ['$location','$window','FacebookService']
+AppController.$inject = ['$location','$window','API','FacebookService']

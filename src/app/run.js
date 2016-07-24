@@ -1,4 +1,5 @@
-export default function run($rootScope, $state, StorageService) {
+export default function run($rootScope, $state, StorageService, FacebookService, API) {
+  console.log(API)
   $rootScope.$on("$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) => {
     // if (StorageService.identifyStorage()) {
     //   StorageService.setStorage(StorageService.identifyStorage())

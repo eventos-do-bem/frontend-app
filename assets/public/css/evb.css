@@ -1,9 +1,18 @@
 .btn-primary {
-  background-color: #37ade5;
-  border-color: #3a93d0;
+  background-color: #249ff6;
+  border-color: #249ff6;
 }
 .btn-primary:hover {
-  background-color: #3a93d0;
+  background-color: #249ff6;
+  border-color: #0f8ee7;
+}
+.btn-primary[disabled] {
+  background-color: #75c2f9;
+  border-color: #75c2f9;
+}
+.btn-primary[disabled]:hover {
+  background-color: #75c2f9;
+  border-color: #75c2f9;
 }
 .btn-info {
   background-color: #9060c2;
@@ -14,23 +23,62 @@
   border-color: #9060c2;
 }
 .btn-success {
-  background-color: #53c83d;
-  border-color: #169b48;
+  background-color: #5fbc55;
+  border-color: #5fbc55;
 }
 .btn-success:hover {
-  background-color: #169b48;
+  background-color: #5fbc55;
+  border-color: #50b476;
+}
+.btn-success[disabled] {
+  background-color: #85cc7e;
+  border-color: #85cc7e;
+}
+.btn-success[disabled]:hover {
+  background-color: #85cc7e;
+  border-color: #85cc7e;
 }
 .btn-warning {
-  background-color: #ffcb00;
-  border-color: #ff9500;
+  background-color: #fdc323;
+  border-color: #fdc323;
 }
 .btn-warning:hover {
-  background-color: #ff9500;
+  background-color: #fdc323;
+  border-color: #ffb852;
 }
 .btn-danger {
-  background-color: #f25e5e;
-  border-color: #ff1e00;
+  background-color: #fb5b5d;
+  border-color: #fb5b5d;
 }
 .btn-danger:hover {
-  background-color: #ff1e00;
+  background-color: #fb5b5d;
+  border-color: #f34754;
+}
+.navbar-nav .navbar-btn:hover {
+  background-color: #fdc323 !important;
+  border-color: #ffb852;
+}
+.our-campaigns section .blue {
+  background-color: #37ade5;
+}
+.our-campaigns section .blue i {
+  color: #3a93d0;
+}
+.our-campaigns section .red {
+  background-color: #f25e5e;
+}
+.our-campaigns section .red i {
+  color: #ff1e00;
+}
+.our-campaigns section .green {
+  background-color: #53c83d;
+}
+.our-campaigns section .green i {
+  color: #169b48;
+}
+.get-inspired {
+  background-color: #ff9500;
+}
+.proven-impact .impact {
+  background-color: #9060c2;
 }

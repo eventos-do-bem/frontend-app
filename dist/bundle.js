@@ -41,7 +41,7 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var AppController = function AppController($location, $window, FacebookService) {
+var AppController = function AppController($location, $window, API, FacebookService) {
   _classCallCheck(this, AppController);
 
   FacebookService.init({
@@ -78,7 +78,7 @@ var AppController = function AppController($location, $window, FacebookService) 
 exports.default = AppController;
 
 
-AppController.$inject = ['$location', '$window', 'FacebookService'];
+AppController.$inject = ['$location', '$window', 'API', 'FacebookService'];
 
 },{}],5:[function(require,module,exports){
 'use strict';
@@ -178,7 +178,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = run;
-function run($rootScope, $state, StorageService) {
+function run($rootScope, $state, StorageService, FacebookService, API) {
+  console.log(API);
   $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
     // if (StorageService.identifyStorage()) {
     //   StorageService.setStorage(StorageService.identifyStorage())
@@ -1039,26 +1040,48 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var UserChange = function UserChange($scope, $stateParams, $state, UserService) {
-  var _this = this;
+var UserChange = function () {
+  function UserChange($scope, $stateParams, $state, $filter, UserService) {
+    var _this = this;
 
-  _classCallCheck(this, UserChange);
+    _classCallCheck(this, UserChange);
 
-  this.me = function () {
-    UserService.me().then(function (response) {
-      _this.me = response.data;
-    }, function (error) {
-      console.error('error: ', error);
-    });
-  };
-};
+    this.filter = $filter;
+    this.service = UserService;
+    this.me = function () {
+      UserService.me().then(function (response) {
+        console.log(response);
+        _this.me = response.data;
+        _this.user = response.data;
+      }, function (error) {
+        console.error('error: ', error);
+      });
+    };
+  }
+
+  _createClass(UserChange, [{
+    key: 'change',
+    value: function change(user) {
+      birthdate = user.birthdate.split('/');
+      user.birthdate = new Date(birthdate[2] + '-' + birthdate[1] + '-' + birthdate[0]);
+      user.birthdate = this.filter('date')(user.birthdate.setDate(user.birthdate.getDate() + 1), 'yyyy-MM-dd');
+      this.service.change(user).then(function (response) {
+        console.log(response);
+      });
+    }
+  }]);
+
+  return UserChange;
+}();
 
 exports.default = UserChange;
 
 
-UserChange.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
+UserChange.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService'];
 
 },{}],24:[function(require,module,exports){
 'use strict';
@@ -1163,9 +1186,10 @@ var UserRegister = function () {
   }, {
     key: 'registerFacebook',
     value: function registerFacebook() {
+      var _this = this;
+
       this.service.registerFacebook(function (response) {
-        console.log(response);
-        // this.register(response)
+        _this.register(response);
       });
     }
   }, {
@@ -1179,7 +1203,7 @@ var UserRegister = function () {
   }, {
     key: 'register',
     value: function register(user) {
-      var _this = this;
+      var _this2 = this;
 
       user = user ? angular.copy(user) : angular.copy(this.user);
       var birthdate = void 0;
@@ -1199,10 +1223,11 @@ var UserRegister = function () {
         };
       } else {
         user.birthdate = this.filter('date')(user.birthdate.setDate(user.birthdate.getDate() + 1), 'yyyy-MM-dd');
+        console.log(JSON.stringify(user));
         this.service.register(user).then(function (response) {
-          return _this.registerSuccess(response);
+          return _this2.registerSuccess(response);
         }, function (response) {
-          return _this.registerError(response);
+          return _this2.registerError(response);
         });
       }
     }
@@ -1307,6 +1332,12 @@ var UserService = function (_CommonService) {
     value: function me() {
       this.setRoute('users/me');
       return this.$http.get(this.url + this.route);
+    }
+  }, {
+    key: 'change',
+    value: function change(data) {
+      this.setRoute('users/me');
+      return this.$http.post(this.url + this.route, data);
     }
   }, {
     key: 'meFaceBookCallback',

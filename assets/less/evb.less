@@ -1,47 +1,111 @@
-@evb-brand-color: #ec1d26;
-@evb-purple: #9060c2;
-@evb-blue: #37ade5;
-@evb-blue-strong: #3a93d0;
-@evb-green: #53c83d;
-@evb-green-strong: #169b48;
-@evb-yellow: #ffcb00;
-@evb-yellow-strong: #ff9500;
-@evb-red: #f25e5e;
-@evb-red-strong: #ff1e00;
+@brand-color: #ec1d26;
+@purple: #9060c2;
+@blue: #37ade5;
+@blue-strong: #3a93d0;
+@green: #53c83d;
+@green-strong: #169b48;
+@yellow: #ffcb00;
+@orange: #ff9500;
+@red: #f25e5e;
+@red-strong: #ff1e00;
+
+@btn-primary-off: #249ff6;
+@btn-primary-on: #0f8ee7;
+@btn-primary-dis: #75c2f9;
+@btn-success-off: #5fbc55;
+@btn-success-on: #50b476;
+@btn-success-dis: #85cc7e;
+@btn-warning-off: #fdc323;
+@btn-warning-on: #ffb852;
+@btn-danger-off: #fb5b5d;
+@btn-danger-on: #f34754;
 
 .btn-primary {
-  background-color: @evb-blue;
-  border-color: @evb-blue-strong;
+  background-color: @btn-primary-off;
+  border-color: @btn-primary-off;
   &:hover {
-    background-color: @evb-blue-strong;
+    background-color: @btn-primary-off;
+    border-color: @btn-primary-on;
+  }
+}
+.btn-primary[disabled] {
+  background-color: @btn-primary-dis;
+  border-color: @btn-primary-dis;
+  &:hover {
+    background-color: @btn-primary-dis;
+    border-color: @btn-primary-dis;
   }
 }
 .btn-info {
-  background-color: @evb-purple;
-  border-color: @evb-purple;
+  background-color: @purple;
+  border-color: @purple;
   &:hover {
-    background-color: @evb-purple;
-    border-color: @evb-purple;
+    background-color: @purple;
+    border-color: @purple;
   }
 }
 .btn-success {
-  background-color: @evb-green;
-  border-color: @evb-green-strong;
+  background-color: @btn-success-off;
+  border-color: @btn-success-off;
   &:hover {
-    background-color: @evb-green-strong;
+    background-color: @btn-success-off;
+    border-color: @btn-success-on;
+  }
+}
+.btn-success[disabled] {
+  background-color: @btn-success-dis;
+  border-color: @btn-success-dis;
+  &:hover {
+    background-color: @btn-success-dis;
+    border-color: @btn-success-dis;
   }
 }
 .btn-warning {
-  background-color: @evb-yellow;
-  border-color: @evb-yellow-strong;
+  background-color: @btn-warning-off;
+  border-color: @btn-warning-off;
   &:hover {
-    background-color: @evb-yellow-strong;
+    background-color: @btn-warning-off;
+    border-color: @btn-warning-on;
   }
 }
 .btn-danger {
-  background-color: @evb-red;
-  border-color: @evb-red-strong;
+  background-color: @btn-danger-off;
+  border-color: @btn-danger-off;
   &:hover {
-    background-color: @evb-red-strong;
+    background-color: @btn-danger-off;
+    border-color: @btn-danger-on;
   }
+}
+.navbar-nav .navbar-btn {
+  &:hover {
+    background-color: @btn-warning-off !important;
+    border-color: @btn-warning-on;
+  }
+}
+
+.our-campaigns section .blue {
+  background-color: @blue;
+}
+.our-campaigns section .blue i {
+  color: @blue-strong;
+}
+.our-campaigns section .red {
+  background-color: @red;
+}
+.our-campaigns section .red i {
+  color: @red-strong;
+}
+.our-campaigns section .green {
+  background-color: @green;
+}
+.our-campaigns section .green i {
+  color: @green-strong;
+}
+
+.get-inspired {
+  background-color: @orange;
+}
+
+.proven-impact .impact {
+  background-color: @purple;
 }

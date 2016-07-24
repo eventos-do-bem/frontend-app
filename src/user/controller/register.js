@@ -15,8 +15,7 @@ export default class UserRegister {
   }
   registerFacebook() {
     this.service.registerFacebook(response => {
-      console.log(response)
-      // this.register(response)
+      this.register(response)
     })
   }
   checkOfAge(age) {
@@ -45,6 +44,7 @@ export default class UserRegister {
       }
     } else {
       user.birthdate = this.filter('date')(user.birthdate.setDate(user.birthdate.getDate() + 1), 'yyyy-MM-dd')
+      console.log(JSON.stringify(user))
       this.service.register(user)
         .then(
           response => this.registerSuccess(response),

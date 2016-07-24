@@ -20,6 +20,24 @@
     </div>
   </aside>
   <div class="col-md-9">
-
+    <form name="change" novalidate data-ng-submit="ctrl.change(ctrl.user)">
+      <div data-ng-class="{'has-error':change.name.$invalid}">
+        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.user.name" placeholder="Nome completo" required
+          autofocus>
+      </div>
+      <div data-ng-class="{'has-error':change.email.$invalid}">
+        <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail do usuário" required>
+      </div>
+      <div data-ng-class="{'has-error':change.password.$invalid}">
+        <input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>
+      </div>
+      <div data-ng-class="{'has-error':change.new_password.$invalid}">
+        <input type="password" name="new_password" id="new_password" class="form-control" data-ng-model="ctrl.user.new_password" placeholder="Nova senha" minlength="6" maxlength="10" required>
+      </div>
+      <div data-ng-class="{'has-error':change.birthdate.$invalid}">
+        <input type="text" name="birthdate" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.user.birthdate" placeholder="Data de nascimento" required>
+      </div>
+      <button class="btn btn-lg btn-success btn-block" type="submit" data-ng-disabled="change.$invalid">Alterar</button>
+    </form>
   </div>
 </div>

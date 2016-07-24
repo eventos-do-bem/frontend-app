@@ -16,11 +16,15 @@ h3 { font-size: 2.1rem; }
 h4 { font-size: 1.7rem; }
 h5 { font-size: 1.5rem; }
 h6 { font-size: 1.3rem; }
-p {
+p, a {
   font-size: 1.4rem;
   line-height: 1.6rem;
 }
 
+.navbar-default {
+  background-color: #fff;
+  border-color: #fff;
+}
 header .navbar {
   margin-bottom: 8px;
   border-radius: 0px;
@@ -54,6 +58,10 @@ header .navbar .navbar-brand {
   color: #000 !important;
 }
 
+.btn {
+  border-width: 2px;
+}
+
 .banner {
   background-image: url('../assets/images/banner-home.jpg');
   background-repeat: no-repeat;
@@ -81,18 +89,23 @@ header .navbar .navbar-brand {
 .home section {
   margin-bottom: 50px;
 }
-.container section header {
+.home section > header {
   margin: 30px 0 50px;
   text-align: center;
 }
-section header h1 {
-  font-weight: 400;
+.home section > header h1 {
+  font-weight: 600;
+}
+.home section > header h2 {
+  font-weight: 100;
+  margin-left: 150px;
+  margin-right: 150px;
 }
 .how-it-works > div {
   margin-bottom: 50px;
 }
 .how-it-works h1,
-.how-it-works h2,
+.how-it-works h3,
 .how-it-works p {
   padding: 0px 40px;
   text-align: center;
@@ -112,7 +125,14 @@ section header h1 {
   width: 700px;
   font-weight: 300;
 }
-.our-campaigns .panel {
+.our-campaigns .panel-body {
+  text-align: center;
+  color: #fff;
+}
+.our-campaigns section i {
+  font-size: 1.4rem;
+}
+/*.our-campaigns .panel {
   margin-top: 80px;
 }
 .our-campaigns .panel .avatar {
@@ -127,10 +147,37 @@ section header h1 {
 .our-campaigns .panel .progress {
   margin-bottom: 0px;
   border-radius: 0px;
+}*/
+.get-inspired header {
+  color: #fff;
+}
+.get-inspired > div {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.proven-impact .impact {
+  display: table;
+}
+.proven-impact .text,
+.proven-impact .image {
+  display: table-cell;
+}
+.proven-impact .text {
+  color: #fff;
+  padding: 60px 15px 30px 30px;
+}
+.proven-impact .text p {
+  line-height: 2rem;
+}
+.proven-impact .image {
+  padding-right: 0px;
 }
 .proven-impact h1 {
   margin: 0 auto;
   width: 600px;
+}
+.proven-impact .icons {
+  margin-bottom: 30px;
 }
 .icons h3 {
   margin: 0 auto;
@@ -178,7 +225,7 @@ body.auth-login {
 }
 .form-signin {
   max-width: 330px;
-  padding: 15px;
+  padding: 25px;
   margin: 20px auto 20px;
   position: relative;
 }
@@ -245,8 +292,14 @@ body.auth-login {
   padding: 10px;
   font-size: 1.6rem;
 }
+.form-signin .tab-pane p {
+  padding-top: 0px;
+  font-size: 2rem;
+  text-align: center;
+}
 .form-signin .show-password {
   padding-top: 0px;
+  padding-bottom: 10px;
   font-size: 1.4rem;
 }
 .form-signin .show-password[disabled] {
@@ -261,6 +314,7 @@ body.auth-login {
   cursor: pointer;
 }
 .form-signin .btn-social {
+  color: #fff;
   text-align: left;
   background-color: #3b5998;
 }
