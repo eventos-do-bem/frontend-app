@@ -1,3 +1,12 @@
+a {
+  color: #0ea4f1;
+}
+a:focus {
+  color: #3a93d0;
+}
+a:hover {
+  color: #3a93d0;
+}
 .btn-primary {
   background-color: #249ff6;
   border-color: #249ff6;
@@ -59,7 +68,7 @@
   border-color: #ffb852;
 }
 .our-campaigns section .blue {
-  background-color: #37ade5;
+  background-color: #0ea4f1;
 }
 .our-campaigns section .blue i {
   color: #3a93d0;

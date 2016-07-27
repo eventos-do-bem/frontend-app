@@ -9,6 +9,7 @@ import Run              from './run.js'
 import controller       from './controller.js'
 import common           from './../common/module.js'
 import home             from './../home/module.js'
+import faq              from './../faq/module.js'
 import auth             from './../auth/module.js'
 import user             from './../user/module.js'
 
@@ -20,11 +21,12 @@ angular
   ,'ngMessages'
   ,'common'
   ,'home'
+  ,'faq'
   ,'auth'
   ,'user'
   ])
   .config(AppConfig)
   .constant('API', APIConfig)
-  .factory('HttpInterceptor', ['API', '$q', '$injector', '$window', HttpInterceptor])
+  .factory('HttpInterceptor', HttpInterceptor)
   .controller('AppController', controller)
   .run(Run)

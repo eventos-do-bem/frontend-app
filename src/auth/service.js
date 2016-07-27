@@ -11,15 +11,7 @@ export default class AuthService extends CommonService {
     return this.$http.post(this.url + this.route, data)
   }
   loginFacebook(callback) {
-    this.facebookService.getLoginStatus(response => {
-      if (response.status === 'connected') {
-        callback(response)
-      } else {
-        this.facebookService.login(response => {
-          callback(response)
-        })
-      }
-    }, {scope: 'email' })
+    return this.facebookService.auth(callback)
   }
   disconnectFacebook(callback) {
     return this.facebookService.disconnect(response => callback(response))

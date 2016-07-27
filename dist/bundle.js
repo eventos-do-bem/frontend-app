@@ -41,10 +41,10 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var AppController = function AppController($location, $window, API, FacebookService) {
+var AppController = function AppController($location, $window, API, FacebookFactory) {
   _classCallCheck(this, AppController);
 
-  FacebookService.init({
+  FacebookFactory.init({
     appId: '922781867788493'
   });
   // switch($location.path()) {
@@ -78,7 +78,7 @@ var AppController = function AppController($location, $window, API, FacebookServ
 exports.default = AppController;
 
 
-AppController.$inject = ['$location', '$window', 'API', 'FacebookService'];
+AppController.$inject = ['$location', '$window', 'API', 'FacebookFactory'];
 
 },{}],5:[function(require,module,exports){
 'use strict';
@@ -86,7 +86,7 @@ AppController.$inject = ['$location', '$window', 'API', 'FacebookService'];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-function config(API, $q, $state, $window) {
+function config(API, $q, $window) {
   return {
     'request': function request(config) {
       config.headers = config.headers || {};
@@ -104,8 +104,10 @@ function config(API, $q, $state, $window) {
       return $q.resolve(_response);
     },
     'responseError': function responseError(response) {
-      // console.log(response)
-      // // if (response.status === 401) $state.go('auth-login')
+      if (response.status === 401) {
+        $window.localStorage.removeItem('token');
+        $window.localStorage.removeItem('user');
+      }
       return $q.reject(response);
     }
   };
@@ -159,32 +161,34 @@ var _module3 = require('./../home/module.js');
 
 var _module4 = _interopRequireDefault(_module3);
 
-var _module5 = require('./../auth/module.js');
+var _module5 = require('./../faq/module.js');
 
 var _module6 = _interopRequireDefault(_module5);
 
-var _module7 = require('./../user/module.js');
+var _module7 = require('./../auth/module.js');
 
 var _module8 = _interopRequireDefault(_module7);
 
+var _module9 = require('./../user/module.js');
+
+var _module10 = _interopRequireDefault(_module9);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['ui.bootstrap', 'ngMask', _angularUiRouter2.default, 'ngMessages', 'common', 'home', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', ['API', '$q', '$injector', '$window', _interceptor2.default]).controller('AppController', _controller2.default).run(_run2.default);
+angular.module('app', ['ui.bootstrap', 'ngMask', _angularUiRouter2.default, 'ngMessages', 'common', 'home', 'faq', 'auth', 'user']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', _interceptor2.default).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":11,"./../common/module.js":14,"./../home/module.js":21,"./../user/module.js":27,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+},{"./../auth/module.js":11,"./../common/module.js":15,"./../faq/module.js":24,"./../home/module.js":28,"./../user/module.js":34,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = run;
-function run($rootScope, $state, StorageService, FacebookService, API) {
-  console.log(API);
+function run($rootScope, $window, $state) {
   $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
-    // if (StorageService.identifyStorage()) {
-    //   StorageService.setStorage(StorageService.identifyStorage())
-    // }
-    // console.log(StorageService.getStorage())
+    if (toState.authenticate && !$window.localStorage.getItem('token')) {
+      $state.go('auth.login');
+    }
     switch (toState.name) {
       case 'user.register':
         $rootScope.background = 'auth-login.jpg';break;
@@ -254,21 +258,24 @@ var AuthLogin = function () {
   }, {
     key: 'loginFacebook',
     value: function loginFacebook() {
+      var _this = this;
+
       this.service.loginFacebook(function (response) {
-        console.log(response);
+        response['token'] = response.facebook_token;
+        _this.loginSuccess({ data: response });
       });
     }
   }, {
     key: 'login',
-    value: function login() {
-      var _this = this;
+    value: function login(user) {
+      var _this2 = this;
 
-      console.log(this.user);
-      this.$window.localStorage.setItem('rememberme', this.user.rememberme);
-      this.service.login(this.user).then(function (response) {
-        return _this.loginSuccess(response);
+      user = user ? angular.copy(user) : angular.copy(this.user);
+      this.$window.localStorage.setItem('rememberme', user.rememberme);
+      this.service.login(user).then(function (response) {
+        return _this2.loginSuccess(response);
       }, function (response) {
-        return _this.loginError(response);
+        return _this2.loginError(response);
       });
     }
   }, {
@@ -285,7 +292,16 @@ var AuthLogin = function () {
   }, {
     key: 'loginError',
     value: function loginError(response) {
-      this.error = response.data;
+      this.error = {};
+      if (response.data.errors) {
+        this.error = response.data;
+      } else {
+        this.error = {
+          errors: {
+            invalid: [response.data.message]
+          }
+        };
+      }
     }
   }]);
 
@@ -334,6 +350,10 @@ var AuthLogout = function () {
         _this.$rootScope.$broadcast('auth.logout');
       }, function (error) {
         console.error('error', error);
+        _this.$window.localStorage.removeItem('rememberme');
+        _this.$window.localStorage.removeItem('token');
+        _this.$window.localStorage.removeItem('user');
+        _this.$rootScope.$broadcast('auth.logout');
       });
     }
   }]);
@@ -416,17 +436,7 @@ var AuthService = function (_CommonService) {
   }, {
     key: 'loginFacebook',
     value: function loginFacebook(callback) {
-      var _this2 = this;
-
-      this.facebookService.getLoginStatus(function (response) {
-        if (response.status === 'connected') {
-          callback(response);
-        } else {
-          _this2.facebookService.login(function (response) {
-            callback(response);
-          });
-        }
-      }, { scope: 'email' });
+      return this.facebookService.auth(callback);
     }
   }, {
     key: 'disconnectFacebook',
@@ -457,7 +467,7 @@ exports.default = AuthService;
 
 AuthService.$inject = ['API', '$http', 'FacebookService'];
 
-},{"./../common/service/common.js":15}],13:[function(require,module,exports){
+},{"./../common/service/common.js":16}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -515,109 +525,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _common = require('./service/common.js');
-
-var _common2 = _interopRequireDefault(_common);
-
-var _facebook = require('./service/facebook.js');
-
-var _facebook2 = _interopRequireDefault(_facebook);
-
-var _header = require('./controller/header.js');
-
-var _header2 = _interopRequireDefault(_header);
-
-var _storage = require('./service/storage.js');
-
-var _storage2 = _interopRequireDefault(_storage);
-
-var _hydrator = require('./service/hydrator.js');
-
-var _hydrator2 = _interopRequireDefault(_hydrator);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = angular.module('common', []).service('CommonService', _common2.default).service('FacebookService', _facebook2.default).service('StorageService', _storage2.default).service('Hydrator', _hydrator2.default).controller('Header', _header2.default);
-
-},{"./controller/header.js":13,"./service/common.js":15,"./service/facebook.js":16,"./service/hydrator.js":17,"./service/storage.js":18}],15:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var CommonService = function () {
-  function CommonService(API, $http) {
-    _classCallCheck(this, CommonService);
-
-    this.url = API.url;
-    this.token = API.token;
-    this.$http = $http;
-  }
-
-  _createClass(CommonService, [{
-    key: 'setDataToken',
-    value: function setDataToken(data) {
-      data['token'] = this.token;
-      return data;
-    }
-  }, {
-    key: 'setRoute',
-    value: function setRoute(route) {
-      this.route = route;
-    }
-  }, {
-    key: 'findAll',
-    value: function findAll() {
-      return this.$http.get(this.url + this.route);
-    }
-  }, {
-    key: 'findById',
-    value: function findById(id) {
-      return this.$http.get(this.url + this.route + '/' + id);
-    }
-  }, {
-    key: 'create',
-    value: function create(data) {
-      return this.$http.post(this.url + this.route, data);
-    }
-  }, {
-    key: 'update',
-    value: function update(data) {
-      return this.$http.put(this.url + this.route + '/' + data._id, data);
-    }
-  }, {
-    key: 'remove',
-    value: function remove(id) {
-      return this.$http.delete(this.url + this.route + '/' + id);
-    }
-  }]);
-
-  return CommonService;
-}();
-
-exports.default = CommonService;
-
-},{}],16:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var FacebookService = function () {
-  function FacebookService($window, $timeout, $q) {
+var FacebookFactory = function () {
+  function FacebookFactory($window, $timeout, $q) {
     var _this = this;
 
-    _classCallCheck(this, FacebookService);
+    _classCallCheck(this, FacebookFactory);
 
     this.options = {
       appId: null,
@@ -642,7 +558,7 @@ var FacebookService = function () {
     this.initialized = false;
   }
 
-  _createClass(FacebookService, [{
+  _createClass(FacebookFactory, [{
     key: 'getSetOption',
     value: function getSetOption(name, val) {
       if (val === void 0) {
@@ -822,6 +738,181 @@ var FacebookService = function () {
         return _this8.addCallbackToPromise(deferred, callback);
       });
     }
+  }], [{
+    key: 'facebookFactory',
+    value: function facebookFactory($window, $timeout, $q) {
+      return new FacebookFactory($window, $timeout, $q);
+    }
+  }]);
+
+  return FacebookFactory;
+}();
+
+exports.default = FacebookFactory;
+
+
+FacebookFactory.facebookFactory.$inject = ['$window', '$timeout', '$q'];
+
+},{}],15:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _common = require('./service/common.js');
+
+var _common2 = _interopRequireDefault(_common);
+
+var _facebook = require('./factory/facebook.js');
+
+var _facebook2 = _interopRequireDefault(_facebook);
+
+var _facebook3 = require('./service/facebook.js');
+
+var _facebook4 = _interopRequireDefault(_facebook3);
+
+var _header = require('./controller/header.js');
+
+var _header2 = _interopRequireDefault(_header);
+
+var _storage = require('./service/storage.js');
+
+var _storage2 = _interopRequireDefault(_storage);
+
+var _hydrator = require('./service/hydrator.js');
+
+var _hydrator2 = _interopRequireDefault(_hydrator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = angular.module('common', []).service('CommonService', _common2.default).factory('FacebookFactory', _facebook2.default.facebookFactory).service('FacebookService', _facebook4.default).service('StorageService', _storage2.default).service('Hydrator', _hydrator2.default).controller('Header', _header2.default);
+
+},{"./controller/header.js":13,"./factory/facebook.js":14,"./service/common.js":16,"./service/facebook.js":17,"./service/hydrator.js":18,"./service/storage.js":19}],16:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var CommonService = function () {
+  function CommonService(API, $http) {
+    _classCallCheck(this, CommonService);
+
+    this.url = API.url;
+    this.token = API.token;
+    this.$http = $http;
+  }
+
+  _createClass(CommonService, [{
+    key: 'setDataToken',
+    value: function setDataToken(data) {
+      data['token'] = this.token;
+      return data;
+    }
+  }, {
+    key: 'setRoute',
+    value: function setRoute(route) {
+      this.route = route;
+    }
+  }, {
+    key: 'findAll',
+    value: function findAll() {
+      return this.$http.get(this.url + this.route);
+    }
+  }, {
+    key: 'findById',
+    value: function findById(id) {
+      return this.$http.get(this.url + this.route + '/' + id);
+    }
+  }, {
+    key: 'create',
+    value: function create(data) {
+      return this.$http.post(this.url + this.route, data);
+    }
+  }, {
+    key: 'update',
+    value: function update(data) {
+      return this.$http.put(this.url + this.route + '/' + data._id, data);
+    }
+  }, {
+    key: 'remove',
+    value: function remove(id) {
+      return this.$http.delete(this.url + this.route + '/' + id);
+    }
+  }]);
+
+  return CommonService;
+}();
+
+exports.default = CommonService;
+
+},{}],17:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var FacebookService = function () {
+  function FacebookService(FacebookFactory) {
+    _classCallCheck(this, FacebookService);
+
+    this.facebookFactory = FacebookFactory;
+  }
+
+  _createClass(FacebookService, [{
+    key: 'me',
+    value: function me(callback) {
+      this.facebookFactory.api('/me', {
+        fields: 'name,email,gender,birthday'
+      }, function (response) {
+        return callback(response);
+      });
+    }
+  }, {
+    key: 'meCallback',
+    value: function meCallback(token, callback) {
+      return this.me(function (response) {
+        response['facebook_token'] = token;
+        return callback(response);
+      });
+    }
+  }, {
+    key: 'auth',
+    value: function auth(callback) {
+      var _this = this;
+
+      this.facebookFactory.getLoginStatus(function (response) {
+        var token = '';
+        if (response.status === 'connected') {
+          token = response.authResponse.accessToken;
+          return _this.meCallback(token, callback);
+        } else {
+          return _this.facebookFactory.login(function (response) {
+            if (response.status === 'connected') {
+              token = response.authResponse.accessToken;
+              return _this.meCallback(token, callback);
+            }
+          }, {
+            scope: 'public_profile,email,user_birthday'
+          });
+        }
+      });
+    }
+  }, {
+    key: 'logout',
+    value: function logout(callback) {
+      return this.facebookFactory.logout(callback);
+    }
   }]);
 
   return FacebookService;
@@ -830,9 +921,9 @@ var FacebookService = function () {
 exports.default = FacebookService;
 
 
-FacebookService.$inject = ['$window', '$timeout', '$q'];
+FacebookService.$inject = ['FacebookFactory'];
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -868,7 +959,7 @@ var HydratorService = function () {
 
 exports.default = HydratorService;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -940,7 +1031,251 @@ exports.default = StorageService;
 
 StorageService.$inject = ['$window'];
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = FaqConfig;
+function FaqConfig($stateProvider) {
+  $stateProvider.state('faq', {
+    url: '/perguntas-frequentes',
+    templateUrl: './src/faq/view/faq.html',
+    controller: 'Faq',
+    controllerAs: 'ctrl'
+  }).state('faq.category', {
+    url: '/category/:categoryId',
+    templateUrl: './src/faq/view/category.html',
+    controller: 'FaqCategory',
+    controllerAs: 'ctrl'
+  }).state('faq.question', {
+    url: '/question/:questionId',
+    templateUrl: './src/faq/view/question.html',
+    controller: 'FaqQuestion',
+    controllerAs: 'ctrl'
+  });
+}
+
+},{}],21:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var FaqCategory = function FaqCategory($scope, $stateParams, $q, $state, FaqService) {
+  var _this = this;
+
+  _classCallCheck(this, FaqCategory);
+
+  this.faqService = FaqService;
+  console.log(FaqService);
+  if ($stateParams.categoryId) {
+    FaqService.getCategory($stateParams.categoryId).then(function (response) {
+      console.log(response);
+      _this.category = response;
+    });
+  }
+};
+
+exports.default = FaqCategory;
+
+
+FaqCategory.$inject = ['$scope', '$stateParams', '$q', '$state', 'FaqService'];
+
+},{}],22:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Faq = function Faq($scope, $stateParams, $q, $timeout, FaqService) {
+  var _this = this;
+
+  _classCallCheck(this, Faq);
+
+  this.$q = $q;
+  this.faqService = FaqService;
+  this.questions;
+  this.faqService.getCategories().then(function (response) {
+    _this.categories = response;
+  });
+};
+
+exports.default = Faq;
+
+
+Faq.$inject = ['$scope', '$stateParams', '$q', '$timeout', 'FaqService'];
+
+},{}],23:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _faq = require('./faq.js');
+
+var _faq2 = _interopRequireDefault(_faq);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FaqQuestion = function (_Faq) {
+  _inherits(FaqQuestion, _Faq);
+
+  function FaqQuestion($scope, $stateParams, $q, $state) {
+    _classCallCheck(this, FaqQuestion);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FaqQuestion).call(this, $scope, $stateParams, $q, $state));
+
+    if ($stateParams.questionId) {
+      _this.getQuestions($stateParams.questionId).then(function (response) {
+        console.log(response);
+        // this.questions = response
+      });
+    }
+    return _this;
+  }
+
+  return FaqQuestion;
+}(_faq2.default);
+
+exports.default = FaqQuestion;
+
+
+FaqQuestion.$inject = ['$scope', '$stateParams', '$q', '$state'];
+
+},{"./faq.js":22}],24:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _config = require('./config.js');
+
+var _config2 = _interopRequireDefault(_config);
+
+var _service = require('./service.js');
+
+var _service2 = _interopRequireDefault(_service);
+
+var _faq = require('./controller/faq.js');
+
+var _faq2 = _interopRequireDefault(_faq);
+
+var _faqCategory = require('./controller/faq.category.js');
+
+var _faqCategory2 = _interopRequireDefault(_faqCategory);
+
+var _faqQuestion = require('./controller/faq.question.js');
+
+var _faqQuestion2 = _interopRequireDefault(_faqQuestion);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = angular.module('faq', []).config(_config2.default).controller('Faq', _faq2.default).controller('FaqCategory', _faqCategory2.default).controller('FaqQuestion', _faqQuestion2.default).service('FaqService', _service2.default);
+
+},{"./config.js":20,"./controller/faq.category.js":21,"./controller/faq.js":22,"./controller/faq.question.js":23,"./service.js":25}],25:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _common = require('./../common/service/common.js');
+
+var _common2 = _interopRequireDefault(_common);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var FaqService = function FaqService(API, $http, $q) {
+  var _this = this;
+
+  _classCallCheck(this, FaqService);
+
+  this.$q = $q;
+  this.getQuestions = function (id) {
+    var deferred = _this.$q.defer();
+    _this.getCategories().then(function (response) {
+      var category = response.filter(function (value) {
+        return value.id == id;
+      });
+      return _this.$q.resolve(category[0].questions);
+    });
+  };
+  this.getCategory = function (id) {
+    var deferred = _this.$q.defer();
+    _this.getCategories().then(function (response) {
+      var category = response.filter(function (value) {
+        return value.id == id;
+      });
+      return _this.$q.resolve(category[0]);
+    });
+  };
+  this.getCategories = function () {
+    var deferred = _this.$q.defer();
+    var categories = [{
+      id: 1,
+      name: 'Criadores de campanhas',
+      questions: [{
+        id: 1,
+        title: 'Question 1',
+        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
+      }, {
+        id: 2,
+        title: 'Question 2',
+        question: 'Si num tem leite então bota uma pinga aí cumpadi! Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Leite de capivaris, leite de mula manquis.'
+      }]
+    }, {
+      id: 2,
+      name: 'Apoiadores',
+      questions: [{
+        id: 3,
+        title: 'Question 3',
+        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
+      }, {
+        id: 4,
+        title: 'Question 4',
+        question: 'Si num tem leite então bota uma pinga aí cumpadi! Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Leite de capivaris, leite de mula manquis.'
+      }]
+    }, {
+      id: 3,
+      name: 'Sobre a plataforma',
+      questions: [{
+        id: 5,
+        title: 'Question 5',
+        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
+      }, {
+        id: 6,
+        title: 'Question 6',
+        question: 'Si num tem leite então bota uma pinga aí cumpadi! Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Leite de capivaris, leite de mula manquis.'
+      }]
+    }];
+    return _this.$q.resolve(categories);
+  };
+};
+
+exports.default = FaqService;
+
+
+FaqService.$inject = ['API', '$http', '$q'];
+
+},{"./../common/service/common.js":16}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -956,7 +1291,7 @@ function HomeConfig($stateProvider) {
   });
 }
 
-},{}],20:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -974,7 +1309,7 @@ exports.default = Home;
 
 Home.$inject = ['$scope', '$stateParams', '$state'];
 
-},{}],21:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -999,7 +1334,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = angular.module('home', []).config(_config2.default).controller('Home', _home2.default);
 // .service('UserService', Service)
 
-},{"./config.js":19,"./controller/home.js":20}],22:[function(require,module,exports){
+},{"./config.js":26,"./controller/home.js":27}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1012,6 +1347,7 @@ function UserConfig($stateProvider) {
     templateUrl: './src/user/view/user.html'
   }).state('user.me', {
     url: '/eu',
+    authenticate: true,
     templateUrl: './src/user/view/me.html',
     controller: 'UserMe',
     controllerAs: 'ctrl'
@@ -1033,7 +1369,7 @@ function UserConfig($stateProvider) {
   });
 }
 
-},{}],23:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1083,7 +1419,7 @@ exports.default = UserChange;
 
 UserChange.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService'];
 
-},{}],24:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1124,7 +1460,7 @@ exports.default = AuthConfirmation;
 
 AuthConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService'];
 
-},{}],25:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1152,7 +1488,7 @@ exports.default = UserMe;
 
 UserMe.$inject = ['$scope', '$stateParams', '$state', 'UserService'];
 
-},{}],26:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1223,7 +1559,6 @@ var UserRegister = function () {
         };
       } else {
         user.birthdate = this.filter('date')(user.birthdate.setDate(user.birthdate.getDate() + 1), 'yyyy-MM-dd');
-        console.log(JSON.stringify(user));
         this.service.register(user).then(function (response) {
           return _this2.registerSuccess(response);
         }, function (response) {
@@ -1252,7 +1587,7 @@ exports.default = UserRegister;
 
 UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'Hydrator', 'UserService'];
 
-},{}],27:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1287,7 +1622,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('user', []).config(_config2.default).controller('UserMe', _me2.default).controller('UserChange', _change2.default).controller('UserConfirmation', _confirmation2.default).controller('UserRegister', _register2.default).service('UserService', _service2.default);
 
-},{"./config.js":22,"./controller/change.js":23,"./controller/confirmation.js":24,"./controller/me.js":25,"./controller/register.js":26,"./service.js":28}],28:[function(require,module,exports){
+},{"./config.js":29,"./controller/change.js":30,"./controller/confirmation.js":31,"./controller/me.js":32,"./controller/register.js":33,"./service.js":35}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1340,48 +1675,14 @@ var UserService = function (_CommonService) {
       return this.$http.post(this.url + this.route, data);
     }
   }, {
-    key: 'meFaceBookCallback',
-    value: function meFaceBookCallback(token, callback) {
-      return this.meFacebook(function (response) {
-        response['facebook_token'] = token;
-        return callback(response);
-      });
-    }
-  }, {
     key: 'registerFacebook',
     value: function registerFacebook(callback) {
-      var _this2 = this;
-
-      this.facebookService.getLoginStatus(function (response) {
-        var token = '';
-        if (response.status === 'connected') {
-          token = response.authResponse.accessToken;
-          return _this2.meFaceBookCallback(token, callback);
-        } else {
-          return _this2.facebookService.login(function (response) {
-            if (response.status === 'connected') {
-              token = response.authResponse.accessToken;
-              return _this2.meFaceBookCallback(token, callback);
-            }
-          }, {
-            scope: 'public_profile,email,user_birthday'
-          });
-        }
-      });
+      return this.facebookService.auth(callback);
     }
   }, {
     key: 'logoutFacebook',
     value: function logoutFacebook(callback) {
       return this.facebookService.logout(callback);
-    }
-  }, {
-    key: 'meFacebook',
-    value: function meFacebook(callback) {
-      this.facebookService.api('/me', {
-        fields: 'name,email,gender,birthday'
-      }, function (response) {
-        return callback(response);
-      });
     }
   }]);
 
@@ -1393,4 +1694,4 @@ exports.default = UserService;
 
 UserService.$inject = ['API', '$http', 'FacebookService'];
 
-},{"./../common/service/common.js":15}]},{},[1]);
+},{"./../common/service/common.js":16}]},{},[1]);

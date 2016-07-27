@@ -6,6 +6,7 @@ export default function UserConfig($stateProvider) {
     })
     .state('user.me', {
       url: '/eu',
+      authenticate: true,
       templateUrl: './src/user/view/me.html',
       controller: 'UserMe',
       controllerAs: 'ctrl'

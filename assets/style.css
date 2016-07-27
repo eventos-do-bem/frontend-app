@@ -20,6 +20,9 @@ p, a {
   font-size: 1.4rem;
   line-height: 1.6rem;
 }
+h1 a, h2 a, h3 a {
+  font-size: inherit;
+}
 
 .navbar-default {
   background-color: #fff;
@@ -86,6 +89,15 @@ header .navbar .navbar-brand {
   font-weight: 500;
 }
 
+.faq .search {
+  padding: 80px 200px;
+  text-align: center;
+  background-color: #f5f5f5;
+}
+.faq .search h1 {
+  font-size: 4.8rem;
+  margin-bottom: 50px;
+}
 .home section {
   margin-bottom: 50px;
 }

@@ -1,0 +1,33 @@
+<div class="container faq">
+  <section class="row search">
+    <div class="col-md-12">
+      <h1>Perguntas frequentes</h1>
+      <form name="search" novalidate>
+        <div class="input-group input-group-lg">
+          <input type="text" class="form-control" data-ng-model="ctrl.search" data-ng-model-options="{ debounce: 1000 }">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="button">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </section>
+  <section class="row">
+    <div class="col-md-8" ui-view></div>
+    <aside class="col-md-4">
+      <header class="page-header">
+        <h2>Perguntas</h2>
+      </header>
+      <section data-ng-repeat="category in ctrl.categories">
+        <h3><a ui-sref="faq.category({categoryId: category.id})" data-ng-bind="category.name"></a></h3>
+        <ul class="list-group">
+          <li class="list-group-item" data-ng-repeat="question in category.questions">
+            <a ui-sref="faq.question({questionId: question.id})" data-ng-bind="question.title"></a>
+          </li>
+        </ul>
+      </section>
+    </aside>
+  </section>
+</div>

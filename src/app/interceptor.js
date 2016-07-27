@@ -1,4 +1,4 @@
-export default function config(API, $q, $state, $window) {
+export default function config(API, $q, $window) {
   return {
     'request': (config) => {
       config.headers = config.headers || {}
@@ -16,8 +16,10 @@ export default function config(API, $q, $state, $window) {
       return $q.resolve(response)
     },
     'responseError': (response) => {
-      // console.log(response)
-      // // if (response.status === 401) $state.go('auth-login')
+      if (response.status === 401) {
+        $window.localStorage.removeItem('token')
+        $window.localStorage.removeItem('user')
+      }
       return $q.reject(response)
     }
   }

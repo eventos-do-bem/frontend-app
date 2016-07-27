@@ -1,10 +1,8 @@
-export default function run($rootScope, $state, StorageService, FacebookService, API) {
-  console.log(API)
+export default function run($rootScope, $window, $state) {
   $rootScope.$on("$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) => {
-    // if (StorageService.identifyStorage()) {
-    //   StorageService.setStorage(StorageService.identifyStorage())
-    // }
-    // console.log(StorageService.getStorage())
+    if (toState.authenticate && !$window.localStorage.getItem('token')) {
+      $state.go('auth.login')
+    }
     switch(toState.name) {
       case 'user.register': $rootScope.background = 'auth-login.jpg'; break;
       case 'auth.login': $rootScope.background = 'auth-login.jpg'; break;

@@ -1,10 +1,4 @@
 <form name="login" class="form-signin" novalidate data-ng-submit="ctrl.login()">
-  <div class="alert alert-danger" data-ng-show="ctrl.error">
-    <strong>Ops...</strong>
-    <ul>
-      <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind="e.join(', ')"></li>
-    </ul>
-  </div>
   <uib-tabset active="activeForm" justified="true">
     <uib-tab index="0" heading="Usuário">
       <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.loginFacebook()">
@@ -17,6 +11,12 @@
       <p>Entre na conta de uma organização cadastrada.</p>
     </uib-tab>
     <p class="text-center">Faça login ou <a ui-sref="user.register">registre-se</a></p>
+    <div class="alert alert-danger" data-ng-show="ctrl.error">
+      <strong>Ops...</strong>
+      <ul>
+        <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind="e.join(', ')"></li>
+      </ul>
+    </div>
   </uib-tabset>
   <div data-ng-class="{'has-error':login.email.$invalid}">
     <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Qual email você se cadastrou?" required autofocus>

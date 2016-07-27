@@ -1,6 +1,6 @@
 @brand-color: #ec1d26;
 @purple: #9060c2;
-@blue: #37ade5;
+@blue: #0ea4f1;
 @blue-strong: #3a93d0;
 @green: #53c83d;
 @green-strong: #169b48;
@@ -19,6 +19,16 @@
 @btn-warning-on: #ffb852;
 @btn-danger-off: #fb5b5d;
 @btn-danger-on: #f34754;
+
+a {
+  color: @blue;
+  &:focus {
+    color: @blue-strong;
+  }
+  &:hover {
+    color: @blue-strong;
+  }
+}
 
 .btn-primary {
   background-color: @btn-primary-off;

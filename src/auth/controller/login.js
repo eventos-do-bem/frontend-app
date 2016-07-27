@@ -15,13 +15,14 @@ export default class AuthLogin {
   }
   loginFacebook() {
     this.service.loginFacebook(response => {
-      console.log(response)
+      response['token'] = response.facebook_token
+      this.loginSuccess({ data: response })
     })
   }
-  login() {
-    console.log(this.user)
-    this.$window.localStorage.setItem('rememberme', this.user.rememberme)
-    this.service.login(this.user)
+  login(user) {
+    user = (user) ? angular.copy(user) : angular.copy(this.user)
+    this.$window.localStorage.setItem('rememberme', user.rememberme)
+    this.service.login(user)
       .then(
         response => this.loginSuccess(response),
         response => this.loginError(response)
@@ -34,7 +35,16 @@ export default class AuthLogin {
     this.$rootScope.$broadcast('auth.login')
   }
   loginError(response) {
-    this.error = response.data
+    this.error = {}
+    if (response.data.errors) {
+      this.error = response.data
+    } else {
+      this.error = {
+        errors: {
+          invalid: [response.data.message]
+        }
+      }
+    }
   }
 }
 
