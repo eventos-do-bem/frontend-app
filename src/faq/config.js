@@ -8,14 +8,14 @@ export default function FaqConfig($stateProvider) {
     })
     .state('faq.category', {
       url: '/category/:categoryId',
-      templateUrl: './src/faq/view/category.html',
-      controller: 'FaqCategory',
+      templateUrl: './src/faq/view/faq.category.html',
+      controller: 'Faq',
       controllerAs: 'ctrl'
     })
     .state('faq.question', {
       url: '/question/:questionId',
-      templateUrl: './src/faq/view/question.html',
-      controller: 'FaqQuestion',
+      templateUrl: './src/faq/view/faq.question.html',
+      controller: 'Faq',
       controllerAs: 'ctrl'
     })
 }

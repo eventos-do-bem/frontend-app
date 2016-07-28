@@ -1046,13 +1046,13 @@ function FaqConfig($stateProvider) {
     controllerAs: 'ctrl'
   }).state('faq.category', {
     url: '/category/:categoryId',
-    templateUrl: './src/faq/view/category.html',
-    controller: 'FaqCategory',
+    templateUrl: './src/faq/view/faq.category.html',
+    controller: 'Faq',
     controllerAs: 'ctrl'
   }).state('faq.question', {
     url: '/question/:questionId',
-    templateUrl: './src/faq/view/question.html',
-    controller: 'FaqQuestion',
+    templateUrl: './src/faq/view/faq.question.html',
+    controller: 'Faq',
     controllerAs: 'ctrl'
   });
 }
@@ -1072,10 +1072,8 @@ var FaqCategory = function FaqCategory($scope, $stateParams, $q, $state, FaqServ
   _classCallCheck(this, FaqCategory);
 
   this.faqService = FaqService;
-  console.log(FaqService);
   if ($stateParams.categoryId) {
-    FaqService.getCategory($stateParams.categoryId).then(function (response) {
-      console.log(response);
+    this.faqService.getCategory($stateParams.categoryId).then(function (response) {
       _this.category = response;
     });
   }
@@ -1095,23 +1093,33 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Faq = function Faq($scope, $stateParams, $q, $timeout, FaqService) {
+var Faq = function Faq($state, $stateParams, FaqService) {
   var _this = this;
 
   _classCallCheck(this, Faq);
 
-  this.$q = $q;
   this.faqService = FaqService;
-  this.questions;
   this.faqService.getCategories().then(function (response) {
-    _this.categories = response;
+    return _this.categories = response;
   });
+
+  if ($stateParams.categoryId) {
+    this.faqService.getCategory($stateParams.categoryId).then(function (response) {
+      return _this.category = response;
+    });
+  } else if ($stateParams.questionId) {
+    this.faqService.getQuestion($stateParams.questionId).then(function (response) {
+      return _this.question = response;
+    });
+  } else {
+    $state.go('faq.category', { categoryId: 1 });
+  }
 };
 
 exports.default = Faq;
 
 
-Faq.$inject = ['$scope', '$stateParams', '$q', '$timeout', 'FaqService'];
+Faq.$inject = ['$state', '$stateParams', 'FaqService'];
 
 },{}],23:[function(require,module,exports){
 'use strict';
@@ -1128,34 +1136,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+var FaqQuestion = function FaqQuestion($scope, $stateParams, $q, $state, FaqService) {
+  var _this = this;
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  _classCallCheck(this, FaqQuestion);
 
-var FaqQuestion = function (_Faq) {
-  _inherits(FaqQuestion, _Faq);
-
-  function FaqQuestion($scope, $stateParams, $q, $state) {
-    _classCallCheck(this, FaqQuestion);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FaqQuestion).call(this, $scope, $stateParams, $q, $state));
-
-    if ($stateParams.questionId) {
-      _this.getQuestions($stateParams.questionId).then(function (response) {
-        console.log(response);
-        // this.questions = response
-      });
-    }
-    return _this;
+  this.faqService = FaqService;
+  if ($stateParams.questionId) {
+    this.faqService.getQuestion($stateParams.questionId).then(function (response) {
+      _this.question = response;
+    });
   }
-
-  return FaqQuestion;
-}(_faq2.default);
+};
 
 exports.default = FaqQuestion;
 
 
-FaqQuestion.$inject = ['$scope', '$stateParams', '$q', '$state'];
+FaqQuestion.$inject = ['$scope', '$stateParams', '$q', '$state', 'FaqService'];
 
 },{"./faq.js":22}],24:[function(require,module,exports){
 'use strict';
@@ -1195,6 +1192,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _common = require('./../common/service/common.js');
 
 var _common2 = _interopRequireDefault(_common);
@@ -1203,33 +1202,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var FaqService = function FaqService(API, $http, $q) {
-  var _this = this;
+var FaqService = function () {
+  function FaqService(API, $http, $q) {
+    _classCallCheck(this, FaqService);
 
-  _classCallCheck(this, FaqService);
-
-  this.$q = $q;
-  this.getQuestions = function (id) {
-    var deferred = _this.$q.defer();
-    _this.getCategories().then(function (response) {
-      var category = response.filter(function (value) {
-        return value.id == id;
-      });
-      return _this.$q.resolve(category[0].questions);
-    });
-  };
-  this.getCategory = function (id) {
-    var deferred = _this.$q.defer();
-    _this.getCategories().then(function (response) {
-      var category = response.filter(function (value) {
-        return value.id == id;
-      });
-      return _this.$q.resolve(category[0]);
-    });
-  };
-  this.getCategories = function () {
-    var deferred = _this.$q.defer();
-    var categories = [{
+    this.$q = $q;
+    this.categories = [{
       id: 1,
       name: 'Criadores de campanhas',
       questions: [{
@@ -1266,9 +1244,43 @@ var FaqService = function FaqService(API, $http, $q) {
         question: 'Si num tem leite então bota uma pinga aí cumpadi! Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Leite de capivaris, leite de mula manquis.'
       }]
     }];
-    return _this.$q.resolve(categories);
-  };
-};
+  }
+
+  _createClass(FaqService, [{
+    key: 'getCategories',
+    value: function getCategories() {
+      var deferred = this.$q.defer();
+      deferred.resolve(this.categories);
+      return deferred.promise;
+    }
+  }, {
+    key: 'getCategory',
+    value: function getCategory(id) {
+      var deferred = this.$q.defer();
+      var category = this.categories.filter(function (value) {
+        return value.id == id;
+      });
+      deferred.resolve(category[0]);
+      return deferred.promise;
+    }
+  }, {
+    key: 'getQuestion',
+    value: function getQuestion(id) {
+      var deferred = this.$q.defer();
+      var category = this.categories.map(function (category) {
+        return category.questions.filter(function (question) {
+          return question.id == id;
+        });
+      }).filter(function (category) {
+        return category.length > 0;
+      });
+      deferred.resolve(category[0][0]);
+      return deferred.promise;
+    }
+  }]);
+
+  return FaqService;
+}();
 
 exports.default = FaqService;
 

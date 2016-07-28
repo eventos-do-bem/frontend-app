@@ -1,13 +1,19 @@
 export default class Faq {
-  constructor($scope, $stateParams, $q, $timeout, FaqService) {
-    this.$q = $q
+  constructor($state, $stateParams, FaqService) {
     this.faqService = FaqService
-    this.questions
     this.faqService.getCategories()
-      .then(response => {
-        this.categories = response
-      })
+      .then(response => this.categories = response)
+
+    if ($stateParams.categoryId) {
+      this.faqService.getCategory($stateParams.categoryId)
+        .then(response => this.category = response)
+    } else if ($stateParams.questionId) {
+      this.faqService.getQuestion($stateParams.questionId)
+        .then(response => this.question = response)
+    } else {
+      $state.go('faq.category', { categoryId: 1 })
+    }
   }
 }
 
-Faq.$inject = ['$scope', '$stateParams', '$q', '$timeout', 'FaqService']
+Faq.$inject = ['$state','$stateParams', 'FaqService']
