@@ -4,7 +4,7 @@
       <h1>Perguntas frequentes</h1>
       <form name="search" novalidate>
         <div class="input-group input-group-lg">
-          <input type="text" class="form-control" data-ng-model="ctrl.search" data-ng-model-options="{ debounce: 1000 }">
+          <input type="text" class="form-control" data-ng-model="query">
           <span class="input-group-btn">
             <button class="btn btn-primary" type="button">
               <i class="fa fa-search" aria-hidden="true"></i>
@@ -16,8 +16,7 @@
   </section>
   <section class="row" id="canView">
     <div class="col-md-8">
-      <div ui-view>
-      </div>
+      <ui-view autoscroll></ui-view>
       <h3>Tem alguma dúvida que não foi respondida aqui? <a href="#">Entre em contato</a>.</h3>
     </div>
     <aside class="col-md-4">

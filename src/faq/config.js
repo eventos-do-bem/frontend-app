@@ -1,6 +1,7 @@
 export default function FaqConfig($stateProvider) {
   $stateProvider
     .state('faq', {
+      // abstract: true,
       url: '/perguntas-frequentes',
       templateUrl: './src/faq/view/faq.html',
       controller: 'Faq',

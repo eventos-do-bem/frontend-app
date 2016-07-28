@@ -1,9 +1,9 @@
 export default class Faq {
   constructor($state, $stateParams, FaqService) {
+    this.$state = $state
     this.faqService = FaqService
     this.faqService.getCategories()
       .then(response => this.categories = response)
-
     if ($stateParams.categoryId) {
       this.faqService.getCategory($stateParams.categoryId)
         .then(response => this.category = response)

@@ -1040,6 +1040,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = FaqConfig;
 function FaqConfig($stateProvider) {
   $stateProvider.state('faq', {
+    // abstract: true,
     url: '/perguntas-frequentes',
     templateUrl: './src/faq/view/faq.html',
     controller: 'Faq',
@@ -1098,11 +1099,11 @@ var Faq = function Faq($state, $stateParams, FaqService) {
 
   _classCallCheck(this, Faq);
 
+  this.$state = $state;
   this.faqService = FaqService;
   this.faqService.getCategories().then(function (response) {
     return _this.categories = response;
   });
-
   if ($stateParams.categoryId) {
     this.faqService.getCategory($stateParams.categoryId).then(function (response) {
       return _this.category = response;
