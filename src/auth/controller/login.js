@@ -15,8 +15,7 @@ export default class AuthLogin {
   }
   loginFacebook() {
     this.service.loginFacebook(response => {
-      response['token'] = response.facebook_token
-      this.loginSuccess({ data: response })
+      this.login(response)
     })
   }
   login(user) {

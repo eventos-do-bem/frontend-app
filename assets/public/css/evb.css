@@ -1,11 +1,26 @@
 a {
   color: #0ea4f1;
 }
-a:focus {
-  color: #3a93d0;
-}
+a:focus,
 a:hover {
   color: #3a93d0;
+}
+.faq article hr {
+  background-color: #ff1e00;
+}
+.faq aside a {
+  padding: 2px;
+  color: #000;
+  text-decoration: none;
+}
+.faq aside a:focus,
+.faq aside a:hover {
+  color: #f25e5e;
+  border-bottom: 1px solid #f25e5e;
+}
+.faq aside a.active {
+  color: #ff1e00;
+  border-bottom: 1px solid #ff1e00;
 }
 .btn-primary {
   background-color: #249ff6;

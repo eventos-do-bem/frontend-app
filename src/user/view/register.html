@@ -34,7 +34,7 @@
       </div>
     </uib-tab>
     <uib-tab index="1" heading="Ong">
-      <div data-ng-class="{{ctrl.validate.email}}">
+      <div data-ng-class="{'has-error':register.email.$invalid}">
         <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail da ong" required autofocus>
       </div>
       <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>

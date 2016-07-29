@@ -261,8 +261,7 @@ var AuthLogin = function () {
       var _this = this;
 
       this.service.loginFacebook(function (response) {
-        response['token'] = response.facebook_token;
-        _this.loginSuccess({ data: response });
+        _this.login(response);
       });
     }
   }, {

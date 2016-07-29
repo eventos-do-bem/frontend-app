@@ -22,12 +22,26 @@
 
 a {
   color: @blue;
-  &:focus {
+  &:focus, &:hover {
     color: @blue-strong;
   }
-  &:hover {
-    color: @blue-strong;
+}
+
+.faq article hr {
+  background-color: @red-strong;
+}
+.faq aside a {
+  padding: 2px;
+  color: #000;
+  text-decoration: none;
+  &:focus, &:hover {
+    color: @red;
+    border-bottom: 1px solid @red;
   }
+}
+.faq aside a.active {
+  color: @red-strong;
+  border-bottom: 1px solid @red-strong;
 }
 
 .btn-primary {

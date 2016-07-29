@@ -1,36 +1,44 @@
-<div class="container faq">
-  <section class="row search">
-    <div class="col-md-12">
-      <h1>Perguntas frequentes</h1>
-      <form name="search" novalidate>
-        <div class="input-group input-group-lg">
-          <input type="text" class="form-control" data-ng-model="query">
-          <span class="input-group-btn">
-            <button class="btn btn-primary" type="button">
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </span>
+<div class="faq">
+  <section class="">
+    <div class="container">
+      <div class="row search">
+        <div class="col-md-12">
+          <h1>Perguntas frequentes</h1>
+          <form name="search" novalidate>
+            <div class="input-group input-group-lg">
+              <input type="text" class="form-control" data-ng-model="query">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </section>
-  <section class="row" id="canView">
-    <div class="col-md-8">
-      <ui-view autoscroll></ui-view>
-      <h3>Tem alguma dúvida que não foi respondida aqui? <a href="#">Entre em contato</a>.</h3>
+  <section class="container" id="canView">
+    <div class="row">
+      <div class="col-md-8">
+        <ui-view></ui-view>
+        <h3 class="feedback">Tem alguma dúvida que não foi respondida aqui? <a href="#">Entre em contato</a>.</h3>
+      </div>
+      <aside class="col-md-4">
+        <header class="page-header">
+          <h2>Perguntas</h2>
+        </header>
+        <section data-ng-repeat="category in ctrl.categories">
+          <h3>
+            <a ui-sref="faq.category({categoryId: category.id})" ui-sref-active="active" data-ng-bind="category.name"></a>
+          </h3>
+          <ul class="list-group">
+            <li class="list-group-item" data-ng-repeat="question in category.questions">
+              <a ui-sref="faq.question({questionId: question.id})" ui-sref-active="active" data-ng-bind="question.title"></a>
+            </li>
+          </ul>
+        </section>
+      </aside>
     </div>
-    <aside class="col-md-4">
-      <header class="page-header">
-        <h2>Perguntas</h2>
-      </header>
-      <section data-ng-repeat="category in ctrl.categories">
-        <h3><a ui-sref="faq.category({categoryId: category.id})" data-ng-bind="category.name"></a></h3>
-        <ul class="list-group">
-          <li class="list-group-item" data-ng-repeat="question in category.questions">
-            <a ui-sref="faq.question({questionId: question.id})" data-ng-bind="question.title"></a>
-          </li>
-        </ul>
-      </section>
-    </aside>
   </section>
 </div>
