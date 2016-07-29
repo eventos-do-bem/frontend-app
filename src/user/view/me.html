@@ -1,28 +1,33 @@
-<div class="row" data-ng-init="ctrl.me()">
-  <aside class="col-md-3">
-    <!--<figure>
+<p class="alert alert-info alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  Veja nosso <a href="#">kit</a> para bombar suas campanhas!
+</p>
+<div class="container">
+  <div class="row">
+    <aside class="col-md-3">
+      <!--<figure>
       <img src="" alt="">
     </figure>-->
-    <div class="text-center">
-      <h4>{{ctrl.me.name}}</h4>
-      <a href="#">
-        <i class="glyphicon glyphicon-camera"></i>
-        edite sua foto
-      </a>
-      <ul class="list-group">
-        <li class="list-group-item">
-          <a href="#">Minhas campanhas</a>
-        </li>
-        <li class="list-group-item">
-          <a href="#">Meu impacto</a>
-        </li>
-        <li class="list-group-item">
-          <a href="#">Configurações</a>
-        </li>
-      </ul>
+      <div class="text-center">
+        <h4>{{ctrl.me.name}}</h4>
+        <a href="#">
+          <i class="glyphicon glyphicon-camera"></i> edite sua foto
+        </a>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <a href="#">Minhas campanhas</a>
+          </li>
+          <li class="list-group-item">
+            <a href="#">Meu impacto</a>
+          </li>
+          <li class="list-group-item">
+            <a ui-sref="user.me.configurations">Configurações</a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <div class="col-md-9">
+      <ui-view></ui-view>
     </div>
-  </aside>
-  <div class="col-md-9">
-    <div ui-view></div>
   </div>
 </div>

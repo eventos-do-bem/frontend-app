@@ -10,6 +10,7 @@ import controller       from './controller.js'
 import common           from './../common/module.js'
 import home             from './../home/module.js'
 import faq              from './../faq/module.js'
+import event            from './../event/module.js'
 import auth             from './../auth/module.js'
 import user             from './../user/module.js'
 
@@ -22,6 +23,7 @@ angular
   ,'common'
   ,'home'
   ,'faq'
+  ,'event'
   ,'auth'
   ,'user'
   ])

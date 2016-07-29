@@ -27,6 +27,19 @@ h1 a, h2 a, h3 a {
   font-size: inherit;
 }
 
+.form-group .control-label,
+.checkbox label {
+  font-size: 1.4rem;
+  font-weight: normal;
+}
+.input-group.transparent .form-control {
+  border-right-width: 0px;
+}
+.input-group.transparent .form-control + .input-group-addon {
+  color: #777;
+  background-color: transparent;
+}
+
 .navbar-default {
   background-color: #fff;
   border-color: #fff;
@@ -93,6 +106,18 @@ header .navbar .navbar-brand {
   font-weight: 500;
 }
 
+.event .media {
+  background-color: #eee;
+}
+.event .media .media-left {
+  padding: 15px;
+}
+.event .media .media-body {
+  padding: 25px 0px;
+}
+.event .media .media-left .media-object {
+  width: 80px;
+}
 .faq section:first-child {
   background-color: #ececec;
   -webkit-box-shadow: inset 0px 3px 5px 0px rgba(0,0,0,0.20);

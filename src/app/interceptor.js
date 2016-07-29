@@ -1,4 +1,4 @@
-export default function config(API, $q, $window) {
+export default function config(API, $q, $window, $injector) {
   return {
     'request': (config) => {
       config.headers = config.headers || {}
@@ -19,6 +19,7 @@ export default function config(API, $q, $window) {
       if (response.status === 401) {
         $window.localStorage.removeItem('token')
         $window.localStorage.removeItem('user')
+        $injector.get('$state').transitionTo('auth.login')
       }
       return $q.reject(response)
     }

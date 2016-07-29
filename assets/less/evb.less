@@ -27,6 +27,45 @@ a {
   }
 }
 
+.alert {
+  color: #fff;
+  font-weight: 500;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+}
+.alert a {
+  color: inherit;
+  text-decoration: underline;
+}
+.alert .close {
+  color: #fff;
+  opacity: .8;
+}
+.alert-info {
+  background-color: @purple;
+}
+
+.has-error .control-label {
+  color: @red;
+}
+.has-error .form-control {
+  border-color: @red-strong;
+  &:focus {
+    border-color: @red-strong;
+  }
+}
+.has-error .input-group-addon {
+  border-color: @red-strong;
+}
+
+.form-buttons {
+  padding: 20px 0px 40px;
+}
+.form-buttons.form-buttons-left .btn {
+  margin-right: 5px;
+}
+
 .faq article hr {
   background-color: @red-strong;
 }
