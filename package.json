@@ -7,7 +7,7 @@
     "start": "npm-run-all -p live-server frontend",
     "live-server": "live-server --port=3000",
     "frontend": "npm-run-all -p app:sequential vendor:sequential app:style",
-    "app:sequential": "npm-run-all -s -c app:minify app:concat",
+    "app:sequential": "npm-run-all -s -c app:concat app:minify",
     "app:minify": "uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
     "app:concat": "watchify ./bootstrap.js -o ./dist/bundle.js -t [ babelify ] -v -x=angular -x=angular-animate -x=angular-aria -x=angular-messages -x=angular-mocks -x=angular-ui-router -x=angular-sanitize -x=bootstrap -x=angular-ui-bootstrap -x=ng-mask",
     "app:style": "catw -c 'lessc -' 'assets/less/*.less' -o assets/public/css/evb.css -v",

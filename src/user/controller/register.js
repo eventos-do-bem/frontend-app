@@ -9,9 +9,20 @@ export default class UserRegister {
     }
     this.showPassword = false
     this.typeInputPassword = 'password'
+    this.step = 0
+    this.occupations = [{
+      id: 1,
+      label: 'Animais abandonados'
+    }]
   }
   toggleShowPassword() {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
+  }
+  changeStep(direction) {
+    switch(direction) {
+      case 'next': this.step++; break;
+      case 'prev': this.step--; break;
+    }
   }
   registerFacebook() {
     this.service.registerFacebook(response => {

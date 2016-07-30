@@ -10,3 +10,5 @@ export default function run($rootScope, $window, $state) {
     }
   })
 }
+
+run.$inject = ['$rootScope', '$window', '$state']

@@ -349,6 +349,7 @@ body.auth-login {
 .form-signin label,
 .form-signin ul,
 .form-signin p,
+.form-signin h4,
 .form-signin button {
   opacity: 1;
   z-index: 1;
@@ -359,6 +360,9 @@ body.auth-login {
           box-sizing: border-box;
   padding: 10px;
   font-size: 1.6rem;
+}
+.form-signin textarea.form-control {
+  height: 100px;
 }
 .form-signin .tab-pane p {
   padding-top: 0px;
@@ -392,6 +396,9 @@ body.auth-login {
 .form-signin .btn-group {
   padding: 0px 0 20px;
 }
+.form-signin .btn-group-justified {
+  padding: 0px;
+}
 .form-signin .nav,
 .form-signin ul {
   padding: 0px;
@@ -404,6 +411,8 @@ body.auth-login {
   z-index: 2;
 }
 .form-signin input,
+.form-signin textarea,
+.form-signin select,
 .form-signin button {
   margin-bottom: 10px;
 }

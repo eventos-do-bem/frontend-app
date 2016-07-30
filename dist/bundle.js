@@ -205,6 +205,8 @@ function run($rootScope, $window, $state) {
   });
 }
 
+run.$inject = ['$rootScope', '$window', '$state'];
+
 },{}],8:[function(require,module,exports){
 'use strict';
 
@@ -1273,7 +1275,7 @@ var FaqService = function () {
       name: 'Criadores de campanhas',
       questions: [{
         id: 1,
-        title: 'Question 1',
+        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
         question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
       }, {
         id: 2,
@@ -1645,12 +1647,27 @@ var UserRegister = function () {
     };
     this.showPassword = false;
     this.typeInputPassword = 'password';
+    this.step = 0;
+    this.occupations = [{
+      id: 1,
+      label: 'Animais abandonados'
+    }];
   }
 
   _createClass(UserRegister, [{
     key: 'toggleShowPassword',
     value: function toggleShowPassword() {
       this.typeInputPassword = this.showPassword ? 'text' : 'password';
+    }
+  }, {
+    key: 'changeStep',
+    value: function changeStep(direction) {
+      switch (direction) {
+        case 'next':
+          this.step++;break;
+        case 'prev':
+          this.step--;break;
+      }
     }
   }, {
     key: 'registerFacebook',
