@@ -4,8 +4,8 @@ export default function run($rootScope, $window, $state) {
       $state.go('auth.login')
     }
     switch(toState.name) {
-      case 'user.register': $rootScope.background = 'auth-login.jpg'; break;
-      case 'auth.login': $rootScope.background = 'auth-login.jpg'; break;
+      case 'user.register': $rootScope.background = 'auth-login'; break;
+      case 'auth.login': $rootScope.background = 'auth-login'; break;
       default: $rootScope.background = null;
     }
   })

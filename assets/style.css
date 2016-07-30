@@ -10,6 +10,9 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 62.5%;
 }
+body.background.auth-login {
+  background-image: url('/assets/images/auth-login.jpg') no-repeat;
+}
 #canView {
   margin-bottom: 60px;
 }
@@ -43,6 +46,9 @@ h1 a, h2 a, h3 a {
 .navbar-default {
   background-color: #fff;
   border-color: #fff;
+  -webkit-box-shadow: 0px 0px 7px 0px rgba(50, 50, 56, 0.45);
+  -moz-box-shadow: 0px 0px 7px 0px rgba(50, 50, 56, 0.45);
+  box-shadow: 0px 0px 7px 0px rgba(50, 50, 56, 0.45);
 }
 header .navbar {
   margin-bottom: 8px;
@@ -120,9 +126,6 @@ header .navbar .navbar-brand {
 }
 .faq section:first-child {
   background-color: #ececec;
-  -webkit-box-shadow: inset 0px 3px 5px 0px rgba(0,0,0,0.20);
-  -moz-box-shadow: inset 0px 3px 5px 0px rgba(0,0,0,0.20);
-  box-shadow: inset 0px 3px 5px 0px rgba(0,0,0,0.20);
 }
 .faq section:last-child {
   padding-bottom: 60px;

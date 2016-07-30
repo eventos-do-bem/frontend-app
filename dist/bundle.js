@@ -196,9 +196,9 @@ function run($rootScope, $window, $state) {
     }
     switch (toState.name) {
       case 'user.register':
-        $rootScope.background = 'auth-login.jpg';break;
+        $rootScope.background = 'auth-login';break;
       case 'auth.login':
-        $rootScope.background = 'auth-login.jpg';break;
+        $rootScope.background = 'auth-login';break;
       default:
         $rootScope.background = null;
     }
@@ -1045,6 +1045,7 @@ exports.default = EventConfig;
 function EventConfig($stateProvider) {
   $stateProvider.state('start', {
     url: '/evento/comecar',
+    authenticate: true,
     templateUrl: './src/event/view/start.html',
     controller: 'EventStart',
     controllerAs: 'ctrl'
