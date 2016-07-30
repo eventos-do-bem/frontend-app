@@ -1,18 +1,10 @@
 export default class UserMe {
-  constructor($scope, $stateParams, $state, UserService, me) {
-    console.log(me)
+  constructor($scope, $window, $state, StorageService, UserService, me) {
     this.me = me.data
-    // this.me = () => {
-    //   UserService.me()
-    //     .then(
-    //       response => {
-    //         this.me = response.data
-    //       },
-    //       error => {
-    //         console.error('error: ',error)
-    //       })
-    // }
+    $scope.$on('user.change', () => {
+      this.me = StorageService.getItem('user')
+    })
   }
 }
 
-UserMe.$inject = ['$scope', '$stateParams', '$state', 'UserService', 'me']
+UserMe.$inject = ['$scope', '$window', '$state', 'StorageService', 'UserService', 'me']

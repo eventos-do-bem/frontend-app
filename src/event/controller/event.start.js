@@ -3,6 +3,9 @@ export default class EventStart {
     this.$state = $state
     this.window = $window
     this.service = EventService
+    if (this.hasDraft()) {
+      this.draft = this.getDraft()
+    }
   }
   getAttr(name,attr) {
     let e = document.querySelector(`[name='${name}']`)
@@ -14,7 +17,10 @@ export default class EventStart {
   }
   getDraft() {
     let draft = this.window.localStorage.getItem('draftEvent')
-    this.event = JSON.parse(draft)
+    return JSON.parse(draft)
+  }
+  loadDraft() {
+    this.event = this.getDraft()
   }
   removeDraft() {
     this.window.localStorage.removeItem('draftEvent')

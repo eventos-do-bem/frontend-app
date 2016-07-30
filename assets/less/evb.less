@@ -20,11 +20,28 @@
 @btn-danger-off: #fb5b5d;
 @btn-danger-on: #f34754;
 
+@btn-border: 2px;
+@btn-padding: 6px 24px;
+@btn-spacing-icon: 6px;
+
 a {
   color: @blue;
   &:focus, &:hover {
     color: @blue-strong;
   }
+}
+
+.text-primary {
+  color: @blue;
+}
+.text-success {
+  color: @green-strong;
+}
+.text-warning {
+  color: @orange;
+}
+.text-danger {
+  color: @red;
 }
 
 .alert {
@@ -45,6 +62,12 @@ a {
 .alert-info {
   background-color: @purple;
 }
+.alert-warning {
+  background-color: @orange;
+}
+.alert-danger {
+  background-color: @red;
+}
 
 .has-error .control-label {
   color: @red;
@@ -57,13 +80,6 @@ a {
 }
 .has-error .input-group-addon {
   border-color: @red-strong;
-}
-
-.form-buttons {
-  padding: 20px 0px 40px;
-}
-.form-buttons.form-buttons-left .btn {
-  margin-right: 5px;
 }
 
 .faq article hr {
@@ -83,6 +99,13 @@ a {
   border-bottom: 1px solid @red-strong;
 }
 
+.btn {
+  padding: @btn-padding;
+  border-width: @btn-border;
+}
+.btn > .fa {
+  margin-right: @btn-spacing-icon;
+}
 .btn-primary {
   background-color: @btn-primary-off;
   border-color: @btn-primary-off;

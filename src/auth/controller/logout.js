@@ -13,9 +13,6 @@ export default class AuthLogout {
     this.authService.logout()
       .then(
         response => {
-          this.$window.localStorage.removeItem('rememberme')
-          this.$window.localStorage.removeItem('token')
-          this.$window.localStorage.removeItem('user')
           this.$rootScope.$broadcast('auth.logout')
         },
         error => {

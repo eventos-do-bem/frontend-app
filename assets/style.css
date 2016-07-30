@@ -10,12 +10,24 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 62.5%;
 }
-body.background.auth-login {
-  background-image: url('/assets/images/auth-login.jpg') no-repeat;
+* {
+  font-size: inherit;
 }
-#canView {
-  margin-bottom: 60px;
+
+/* backgrounds */
+
+.auth-login {
+  background-image: url('images/auth-login.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
+
+/* /backgrounds */
+
+/* fonts */
+
 h1 { font-size: 3rem; }
 h2 { font-size: 2.5rem; }
 h3 { font-size: 2.1rem; }
@@ -26,7 +38,13 @@ p, a {
   font-size: 1.4rem;
   line-height: 1.6rem;
 }
-h1 a, h2 a, h3 a {
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a,
+p a {
   font-size: inherit;
 }
 
@@ -35,6 +53,36 @@ h1 a, h2 a, h3 a {
   font-size: 1.4rem;
   font-weight: normal;
 }
+
+/* /fonts */
+
+dl dt,
+dl dd {
+  font-size: 1.6rem;
+}
+dl dt {
+  padding-top: 6px;
+}
+dl dt:first-child {
+  padding-top: 0px;
+}
+dl dd {
+  padding-bottom: 6px;
+  border-bottom: 1px solid #ececec;
+}
+dl dd:last-child {
+  padding-bottom: 0px;
+  border-bottom-width: 0px;
+}
+
+.form-buttons {
+  padding: 24px 0px;
+}
+.form-buttons.form-buttons-left .btn {
+  margin-right: 5px;
+}
+
+
 .input-group.transparent .form-control {
   border-right-width: 0px;
 }
@@ -42,6 +90,8 @@ h1 a, h2 a, h3 a {
   color: #777;
   background-color: transparent;
 }
+
+/* navbar */
 
 .navbar-default {
   background-color: #fff;
@@ -84,9 +134,7 @@ header .navbar .navbar-brand {
   color: #000 !important;
 }
 
-.btn {
-  border-width: 2px;
-}
+/* /navbar */
 
 .banner {
   background-image: url('../assets/images/banner-home.jpg');
@@ -288,9 +336,8 @@ header .navbar .navbar-brand {
   font-weight: 400;
 }
 
-body.auth-login {
-  background-image: url('images/auth-login.jpg');
-}
+/* .form-signin */
+
 .form-signin {
   max-width: 330px;
   padding: 25px;
@@ -349,6 +396,7 @@ body.auth-login {
 .form-signin label,
 .form-signin ul,
 .form-signin p,
+.form-signin p.agree,
 .form-signin h4,
 .form-signin button {
   opacity: 1;
@@ -385,6 +433,12 @@ body.auth-login {
   color: #000;
   cursor: pointer;
 }
+.form-signin p.agree {
+  margin: 0px;
+  padding: 0px;
+  font-size: 1.3rem;
+}
+
 .form-signin .btn-social {
   color: #fff;
   text-align: left;
@@ -394,11 +448,9 @@ body.auth-login {
   margin: 0 6px;
 }
 .form-signin .btn-group {
-  padding: 0px 0 20px;
+  padding: 0px 0px 0px;
 }
-.form-signin .btn-group-justified {
-  padding: 0px;
-}
+
 .form-signin .nav,
 .form-signin ul {
   padding: 0px;
@@ -416,6 +468,7 @@ body.auth-login {
 .form-signin button {
   margin-bottom: 10px;
 }
+/* /.form-signin */
 
 footer {
   position: absolute;

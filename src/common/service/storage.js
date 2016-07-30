@@ -1,19 +1,15 @@
 export default class StorageService {
   constructor($window) {
     this.$window = $window
-    this.storage = undefined
   }
   setItem(key, data) {
-    this.$window[this.storage].setItem(key, data)
+    this.$window.localStorage.setItem(key, JSON.stringify(data))
   }
   getItem(key) {
-    return this.$window[this.storage].getItem(key)
+    return JSON.parse(this.$window.localStorage.getItem(key))
   }
-  setStorage(storage) {
-    this.storage = storage
-  }
-  getStorage() {
-    return this.storage
+  removeItem(key) {
+    this.$window.localStorage.removeItem(key)
   }
   setByRememberMe(rememberme) {
     if (rememberme) {

@@ -3,6 +3,7 @@ export default class AuthLogin {
     this.service = AuthService
     this.storage = StorageService
     this.$rootScope = $rootScope
+    this.state = $state
     this.$window = $window
     this.user = {
       rememberme: true
@@ -20,7 +21,6 @@ export default class AuthLogin {
   }
   login(user) {
     user = (user) ? angular.copy(user) : angular.copy(this.user)
-    this.$window.localStorage.setItem('rememberme', user.rememberme)
     this.service.login(user)
       .then(
         response => this.loginSuccess(response),
@@ -28,10 +28,11 @@ export default class AuthLogin {
       )
   }
   loginSuccess(response) {
-    this.$window.localStorage.setItem('token', response.data.token)
-    let { email, name } = response.data
-    this.$window.localStorage.setItem('user', JSON.stringify({name: name, email: email}))
-    this.$rootScope.$broadcast('auth.login')
+    this.storage.setItem('token', response.data.token)
+    let {name, email} = response.data
+    this.storage.setItem('user', {name: name, email: email})
+    this.$rootScope.$broadcast('user.change')
+    this.state.go('user.me')
   }
   loginError(response) {
     this.error = {}

@@ -86,7 +86,7 @@ AppController.$inject = ['$location', '$window', 'API', 'FacebookFactory'];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-function config(API, $q, $window, $injector) {
+function config(API, $q, $window, $rootScope, $injector) {
   return {
     'request': function request(config) {
       config.headers = config.headers || {};
@@ -107,6 +107,7 @@ function config(API, $q, $window, $injector) {
       if (response.status === 401) {
         $window.localStorage.removeItem('token');
         $window.localStorage.removeItem('user');
+        $rootScope.$broadcast('auth.logout');
         $injector.get('$state').transitionTo('auth.login');
       }
       return $q.reject(response);
@@ -249,6 +250,7 @@ var AuthLogin = function () {
     this.service = AuthService;
     this.storage = StorageService;
     this.$rootScope = $rootScope;
+    this.state = $state;
     this.$window = $window;
     this.user = {
       rememberme: true
@@ -277,7 +279,6 @@ var AuthLogin = function () {
       var _this2 = this;
 
       user = user ? angular.copy(user) : angular.copy(this.user);
-      this.$window.localStorage.setItem('rememberme', user.rememberme);
       this.service.login(user).then(function (response) {
         return _this2.loginSuccess(response);
       }, function (response) {
@@ -287,13 +288,14 @@ var AuthLogin = function () {
   }, {
     key: 'loginSuccess',
     value: function loginSuccess(response) {
-      this.$window.localStorage.setItem('token', response.data.token);
+      this.storage.setItem('token', response.data.token);
       var _response$data = response.data;
-      var email = _response$data.email;
       var name = _response$data.name;
+      var email = _response$data.email;
 
-      this.$window.localStorage.setItem('user', JSON.stringify({ name: name, email: email }));
-      this.$rootScope.$broadcast('auth.login');
+      this.storage.setItem('user', { name: name, email: email });
+      this.$rootScope.$broadcast('user.change');
+      this.state.go('user.me');
     }
   }, {
     key: 'loginError',
@@ -350,9 +352,6 @@ var AuthLogout = function () {
       // console.log(storage)
       // this.storageService.clearStorage()
       this.authService.logout().then(function (response) {
-        _this.$window.localStorage.removeItem('rememberme');
-        _this.$window.localStorage.removeItem('token');
-        _this.$window.localStorage.removeItem('user');
         _this.$rootScope.$broadcast('auth.logout');
       }, function (error) {
         console.error('error', error);
@@ -488,12 +487,14 @@ var Header = function Header($scope, $state, $window, StorageService) {
   _classCallCheck(this, Header);
 
   this.brand = 'Eventos do Bem';
-  this.user = JSON.parse($window.localStorage.getItem('user'));
-  $scope.$on('auth.login', function () {
-    _this.user = JSON.parse($window.localStorage.getItem('user'));
-    $state.go('user.me');
+  this.user = StorageService.getItem('user');
+  $scope.$on('user.change', function () {
+    _this.user = StorageService.getItem('user');
   });
   $scope.$on('auth.logout', function () {
+    StorageService.removeItem('rememberme');
+    StorageService.removeItem('token');
+    StorageService.removeItem('user');
     _this.user = null;
   });
   this.dropDownMenu = {
@@ -981,28 +982,22 @@ var StorageService = function () {
     _classCallCheck(this, StorageService);
 
     this.$window = $window;
-    this.storage = undefined;
   }
 
   _createClass(StorageService, [{
     key: 'setItem',
     value: function setItem(key, data) {
-      this.$window[this.storage].setItem(key, data);
+      this.$window.localStorage.setItem(key, JSON.stringify(data));
     }
   }, {
     key: 'getItem',
     value: function getItem(key) {
-      return this.$window[this.storage].getItem(key);
+      return JSON.parse(this.$window.localStorage.getItem(key));
     }
   }, {
-    key: 'setStorage',
-    value: function setStorage(storage) {
-      this.storage = storage;
-    }
-  }, {
-    key: 'getStorage',
-    value: function getStorage() {
-      return this.storage;
+    key: 'removeItem',
+    value: function removeItem(key) {
+      this.$window.localStorage.removeItem(key);
     }
   }, {
     key: 'setByRememberMe',
@@ -1072,6 +1067,9 @@ var EventStart = function () {
     this.$state = $state;
     this.window = $window;
     this.service = EventService;
+    if (this.hasDraft()) {
+      this.draft = this.getDraft();
+    }
   }
 
   _createClass(EventStart, [{
@@ -1090,7 +1088,12 @@ var EventStart = function () {
     key: 'getDraft',
     value: function getDraft() {
       var draft = this.window.localStorage.getItem('draftEvent');
-      this.event = JSON.parse(draft);
+      return JSON.parse(draft);
+    }
+  }, {
+    key: 'loadDraft',
+    value: function loadDraft() {
+      this.event = this.getDraft();
     }
   }, {
     key: 'removeDraft',
@@ -1563,23 +1566,43 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserMeConfigurations = function () {
-  function UserMeConfigurations($filter, UserService, user) {
+  function UserMeConfigurations($filter, $rootScope, StorageService, UserService, user) {
     _classCallCheck(this, UserMeConfigurations);
 
     this.filter = $filter;
+    this.rootScope = $rootScope;
+    this.storage = StorageService;
     this.service = UserService;
-    this.user = user.data;
+    this.load(user);
   }
 
   _createClass(UserMeConfigurations, [{
+    key: 'load',
+    value: function load(user) {
+      user = angular.copy(user.data);
+      user.birthdate = new Date(user.birthdate);
+      user.birthdate = this.filter('date')(user.birthdate.setDate(user.birthdate.getDate() + 1), 'dd/MM/yyyy');
+      this.user = user;
+    }
+  }, {
     key: 'save',
     value: function save(user) {
+      var _this = this;
+
       user = angular.copy(user);
       birthdate = user.birthdate.split('/');
       user.birthdate = new Date(birthdate[2] + '-' + birthdate[1] + '-' + birthdate[0]);
       user.birthdate = this.filter('date')(user.birthdate.setDate(user.birthdate.getDate() + 1), 'yyyy-MM-dd');
       this.service.change(user).then(function (response) {
-        console.log(response);
+        _this.storage.setItem('token', response.data.token);
+        var _response$data = response.data;
+        var name = _response$data.name;
+        var email = _response$data.email;
+
+        _this.storage.setItem('user', { name: name, email: email });
+        _this.rootScope.$broadcast('user.change');
+        _this.user.password = '';
+        _this.user.new_password = '';
       });
     }
   }]);
@@ -1590,7 +1613,7 @@ var UserMeConfigurations = function () {
 exports.default = UserMeConfigurations;
 
 
-UserMeConfigurations.$inject = ['$filter', 'UserService', 'user'];
+UserMeConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'UserService', 'user'];
 
 },{}],35:[function(require,module,exports){
 'use strict';
@@ -1601,27 +1624,21 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var UserMe = function UserMe($scope, $stateParams, $state, UserService, me) {
+var UserMe = function UserMe($scope, $window, $state, StorageService, UserService, me) {
+  var _this = this;
+
   _classCallCheck(this, UserMe);
 
-  console.log(me);
   this.me = me.data;
-  // this.me = () => {
-  //   UserService.me()
-  //     .then(
-  //       response => {
-  //         this.me = response.data
-  //       },
-  //       error => {
-  //         console.error('error: ',error)
-  //       })
-  // }
+  $scope.$on('user.change', function () {
+    _this.me = StorageService.getItem('user');
+  });
 };
 
 exports.default = UserMe;
 
 
-UserMe.$inject = ['$scope', '$stateParams', '$state', 'UserService', 'me'];
+UserMe.$inject = ['$scope', '$window', '$state', 'StorageService', 'UserService', 'me'];
 
 },{}],36:[function(require,module,exports){
 'use strict';
@@ -1635,11 +1652,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserRegister = function () {
-  function UserRegister($scope, $stateParams, $state, $filter, Hydrator, UserService) {
+  function UserRegister($scope, $stateParams, $state, $filter, $timeout, UserService) {
     _classCallCheck(this, UserRegister);
 
     this.service = UserService;
-    this.hydrator = Hydrator;
+    this.timeout = $timeout;
     this.state = $state;
     this.filter = $filter;
     this.user = {
@@ -1647,7 +1664,6 @@ var UserRegister = function () {
     };
     this.showPassword = false;
     this.typeInputPassword = 'password';
-    this.step = 0;
     this.occupations = [{
       id: 1,
       label: 'Animais abandonados'
@@ -1660,6 +1676,21 @@ var UserRegister = function () {
       this.typeInputPassword = this.showPassword ? 'text' : 'password';
     }
   }, {
+    key: 'changeTab',
+    value: function changeTab(active) {
+      this.changeStep();
+      switch (active) {
+        case 0:
+          this.timeout(function () {
+            return document.querySelector('form[name="registerOng"] input[name="organization"]').focus();
+          }, 300);break;
+        case 1:
+          this.timeout(function () {
+            return document.querySelector('form[name="registerUser"] input[name="name"]').focus();
+          }, 300);break;
+      }
+    }
+  }, {
     key: 'changeStep',
     value: function changeStep(direction) {
       switch (direction) {
@@ -1667,6 +1698,22 @@ var UserRegister = function () {
           this.step++;break;
         case 'prev':
           this.step--;break;
+        default:
+          this.step = 0;
+      }
+      switch (this.step) {
+        case 0:
+          this.timeout(function () {
+            return document.querySelector('form[name="registerOng"] input[name="organization"]').focus();
+          }, 300);break;
+        case 1:
+          this.timeout(function () {
+            return document.querySelector('form[name="registerOng"] input[name="phone"]').focus();
+          }, 300);break;
+        case 2:
+          this.timeout(function () {
+            return document.querySelector('form[name="registerOng"] input[name="name"]').focus();
+          }, 300);break;
       }
     }
   }, {
@@ -1735,7 +1782,7 @@ var UserRegister = function () {
 exports.default = UserRegister;
 
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'Hydrator', 'UserService'];
+UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'UserService'];
 
 },{}],37:[function(require,module,exports){
 'use strict';

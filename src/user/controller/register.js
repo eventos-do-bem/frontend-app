@@ -1,7 +1,7 @@
 export default class UserRegister {
-  constructor($scope, $stateParams, $state, $filter, Hydrator, UserService) {
+  constructor($scope, $stateParams, $state, $filter, $timeout, UserService) {
     this.service = UserService
-    this.hydrator = Hydrator
+    this.timeout = $timeout
     this.state = $state
     this.filter = $filter
     this.user = {
@@ -9,7 +9,6 @@ export default class UserRegister {
     }
     this.showPassword = false
     this.typeInputPassword = 'password'
-    this.step = 0
     this.occupations = [{
       id: 1,
       label: 'Animais abandonados'
@@ -18,10 +17,23 @@ export default class UserRegister {
   toggleShowPassword() {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
   }
+  changeTab(active) {
+    this.changeStep()
+    switch(active) {
+      case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="organization"]').focus(), 300); break;
+      case 1: this.timeout(() => document.querySelector('form[name="registerUser"] input[name="name"]').focus(), 300); break;
+    }
+  }
   changeStep(direction) {
     switch(direction) {
       case 'next': this.step++; break;
       case 'prev': this.step--; break;
+      default: this.step = 0
+    }
+    switch(this.step) {
+      case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="organization"]').focus(), 300); break;
+      case 1: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="phone"]').focus(), 300); break;
+      case 2: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="name"]').focus(), 300); break;
     }
   }
   registerFacebook() {
@@ -71,4 +83,4 @@ export default class UserRegister {
   }
 }
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', 'Hydrator', 'UserService']
+UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'UserService']

@@ -1,12 +1,14 @@
 export default class Header {
   constructor($scope, $state, $window, StorageService) {
     this.brand = 'Eventos do Bem'
-    this.user = JSON.parse($window.localStorage.getItem('user'))
-    $scope.$on('auth.login', () => {
-      this.user = JSON.parse($window.localStorage.getItem('user'))
-      $state.go('user.me')
+    this.user = StorageService.getItem('user')
+    $scope.$on('user.change', () => {
+      this.user = StorageService.getItem('user')
     })
     $scope.$on('auth.logout', () => {
+      StorageService.removeItem('rememberme')
+      StorageService.removeItem('token')
+      StorageService.removeItem('user')
       this.user = null
     })
     this.dropDownMenu = {

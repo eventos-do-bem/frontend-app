@@ -16,16 +16,25 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row" data-ng-show="ctrl.user.needpassword">
+    <div class="col-md-12">
+      <p class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Por ter usado o login social, você não tem uma senha cadastrada caso queira acessar sem login social.
+        <a href="#">Cadastre uma senha</a>.
+      </p>
+    </div>
+  </div>
+  <div class="row" data-ng-show="!ctrl.user.needpassword">
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.password.$invalid}">
-        <label for="" class="control-label">Nova senha</label>
+        <label for="password" class="control-label">Senha atual</label>
         <input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10">
       </div>
     </div>
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.new_password.$invalid}">
-        <label for="" class="control-label">Confirmar nova senha</label>
+        <label for="new_password" class="control-label">Nova senha</label>
         <input type="password" name="new_password" id="new_password" class="form-control" data-ng-model="ctrl.user.new_password" placeholder="Nova senha" minlength="6" maxlength="10">
       </div>
     </div>

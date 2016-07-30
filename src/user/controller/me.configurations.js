@@ -1,8 +1,16 @@
 export default class UserMeConfigurations {
-  constructor($filter, UserService, user) {
+  constructor($filter, $rootScope, StorageService, UserService, user) {
     this.filter = $filter
+    this.rootScope = $rootScope
+    this.storage = StorageService
     this.service = UserService
-    this.user = user.data
+    this.load(user)
+  }
+  load(user) {
+    user = angular.copy(user.data)
+    user.birthdate = new Date(user.birthdate)
+    user.birthdate = this.filter('date')(user.birthdate.setDate(user.birthdate.getDate() + 1), 'dd/MM/yyyy')
+    this.user = user
   }
   save(user) {
     user = angular.copy(user)
@@ -12,10 +20,15 @@ export default class UserMeConfigurations {
     this.service.change(user)
       .then(
         response => {
-          console.log(response)
+          this.storage.setItem('token', response.data.token)
+          let {name, email} = response.data
+          this.storage.setItem('user', {name: name, email: email})
+          this.rootScope.$broadcast('user.change')
+          this.user.password = '';
+          this.user.new_password = '';
         }
       )
   }
 }
 
-UserMeConfigurations.$inject = ['$filter','UserService', 'user']
+UserMeConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'UserService', 'user']

@@ -1,6 +1,6 @@
 <div class="form-signin">
   <uib-tabset active="activeForm" justified="true">
-    <uib-tab index="0" heading="Usuário">
+    <uib-tab index="0" heading="Usuário" select="ctrl.changeTab(activeForm)">
       <form name="registerUser" novalidate data-ng-submit="ctrl.register(ctrl.user)">
         <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.registerFacebook()">
           <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -36,12 +36,12 @@
         <button class="btn btn-lg btn-success btn-block" type="submit" data-ng-disabled="registerUser.$invalid">Cadastrar</button>
       </form>
     </uib-tab>
-    <uib-tab index="1" heading="Ong">
+    <uib-tab index="1" heading="Ong" select="ctrl.changeTab(activeForm)">
       <form name="registerOng" novalidate data-ng-submit="ctrl.register(ctrl.user)">
         <div data-ng-switch="ctrl.step">
           <div data-ng-switch-when="0">
             <div data-ng-class="{'has-error':registerOng.organization.$invalid}">
-              <input type="text" name="organization" class="form-control" data-ng-model="ctrl.user.organization" placeholder="Qual o nome da sua organização?" required>
+              <input type="text" name="organization" class="form-control" data-ng-model="ctrl.user.organization" placeholder="Qual o nome da sua organização?" required autofocus>
             </div>
             <div data-ng-class="{'has-error':registerOng.description.$invalid}">
               <textarea name="description" class="form-control" data-ng-model="ctrl.user.description" cols="5" placeholder="Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor." required></textarea>
@@ -68,7 +68,7 @@
               <input type="text" name="name" class="form-control" data-ng-model="ctrl.user.name" placeholder="Qual o seu nome?" required>
             </div>
             <div data-ng-class="{'has-error':registerOng.email.$invalid}">
-              <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Qual seu e-mail profissional?" required autofocus>
+              <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Qual seu e-mail profissional?" required>
             </div>
             <div data-ng-class="{'has-error':registerOng.password.$invalid}">
               <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>
@@ -79,22 +79,28 @@
             </label>
           </div>
         </div>
+        <div class="btn-group steps btn-group-lg btn-group-justified" role="group" aria-label="...">
+          <div class="btn-group" role="group">
+            <button data-ng-disabled="ctrl.step == 0" class="btn btn-lg btn-success" type="button" data-ng-click="ctrl.changeStep('prev')">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i>
+              Voltar
+            </button>
+          </div>
+          <div class="btn-group" role="group" data-ng-if="ctrl.step < 2">
+            <button class="btn btn-lg btn-success" type="button" data-ng-click="ctrl.changeStep('next')">
+              Proseguir
+              <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="btn-group" role="group" data-ng-if="ctrl.step == 2">
+            <button class="btn btn-lg btn-success btn-block" type="submit" data-ng-disabled="registerOng.$invalid">
+              Cadastrar
+              <i class="fa fa-check" aria-hidden="true"></i>
+          </button>
+          </div>
+        </div>
+        <p data-ng-show="ctrl.step == 2" class="agree">* Ao se cadastrar você está concordando com nossos <a href="#">termos de uso</a> e <a href="#">política de privacidade</a>.</p>
       </form>
-      <div data-ng-show="ctrl.step == 0 || ctrl.step == 1" class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
-        <div class="btn-group" role="group">
-          <button data-ng-disabled="ctrl.step == 0" class="btn btn-lg btn-success" type="button" data-ng-click="ctrl.changeStep('prev')">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-            Voltar
-          </button>
-        </div>
-        <div class="btn-group" role="group">
-          <button class="btn btn-lg btn-success" type="button" data-ng-click="ctrl.changeStep('next')">
-            Proseguir
-            <i class="fa fa-arrow-right" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-      <button data-ng-show="ctrl.step == 2" class="btn btn-lg btn-success btn-block" type="submit" data-ng-disabled="registerOng.$invalid">Cadastrar</button>
     </uib-tab>
     <p class="text-center">Registre-se ou faça seu <a ui-sref="auth.login">login</a></p>
     <div class="alert alert-danger" data-ng-show="ctrl.error">

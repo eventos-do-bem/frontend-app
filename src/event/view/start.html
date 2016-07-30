@@ -23,19 +23,19 @@
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.cause.$invalid}">
           <label for="cause" class="control-label">Escolha a causa que irá ajudar</label>
-          <select name="cause" id="cause" class="form-control">
+          <select name="cause" id="cause" class="form-control" data-ng-model="ctrl.event.cause">
             <option value="">Selecione</option>
-            <option value="">Causa 1</option>
-            <option value="">Causa 2</option>
+            <option value="Causa 1">Causa 1</option>
+            <option value="Causa 2">Causa 2</option>
           </select>
         </div>
         <p>Não tem causa? <a href="#">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a href="#">Entre em contato</a></p>
         <div class="form-group" data-ng-class="{'has-error':start.category.$invalid}">
           <label for="category" class="control-label">Categoria do Evento do Bem</label>
-          <select name="category" id="category" class="form-control">
+          <select name="category" id="category" class="form-control" data-ng-model="ctrl.event.category">
             <option value="">Selecione</option>
-            <option value="">Categoria 1</option>
-            <option value="">Categoria 2</option>
+            <option value="Categoria 1">Categoria 1</option>
+            <option value="Categoria 2">Categoria 2</option>
           </select>
         </div>
         <p>Se quiser você pode personalizar a foto da sua campanha</p>
@@ -105,15 +105,61 @@
     </div>
     <div class="col-md-5">
       <aside>
-        <div class="form-buttons form-buttons-left">
-          <button class="btn btn-primary" type="button" data-ng-click="ctrl.getDraft()" data-ng-disabled="!ctrl.hasDraft()">
-            <i class="fa fa-battery-half" aria-hidden="true"></i>
-            Carregar rascunho
-          </button>
-          <button class="btn btn-danger" type="button" data-ng-click="ctrl.removeDraft()" data-ng-disabled="!ctrl.hasDraft()">
-            <i class="fa fa-battery-empty" aria-hidden="true"></i>
-            Apagar rascunho
-          </button>
+        <h3>
+          Utilidades na hora de criar um evento
+        </h3>
+        <div>
+          <div class="form-buttons form-buttons-left">
+            <div class="btn-group" uib-dropdown>
+              <button id="split-button" type="button" class="btn btn-default" data-ng-disabled="!ctrl.hasDraft()" uib-dropdown-toggle>
+                Rascunho
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                <li role="menuitem">
+                  <a href="javascript:void(0)" data-ng-click="ctrl.loadDraft()">
+                    <span class="text-primary">
+                      <i class="fa fa-battery-half" aria-hidden="true"></i>
+                      Preencher com rascunho
+                    </span>
+                  </a>
+                </li>
+                <li role="menuitem">
+                  <a href="javascript:void(0)" data-ng-click="ctrl.removeDraft()">
+                    <span class="text-danger">
+                      <i class="fa fa-battery-empty" aria-hidden="true"></i>
+                      Apagar rascunho
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="panel panel-default" data-ng-show="ctrl.hasDraft()">
+            <div class="panel-heading">
+              <h5>Rascunho</h5>
+            </div>
+            <div class="panel-body">
+              <dl>
+                <dt>Nome:</dt>
+                <dd data-ng-bind="ctrl.draft.name"></dd>
+                <dt>Endereço da campanha:</dt>
+                <dd data-ng-bind="ctrl.draft.uri"></dd>
+                <dt>Causa:</dt>
+                <dd data-ng-bind="ctrl.draft.cause"></dd>
+                <dt>Categoria:</dt>
+                <dd data-ng-bind="ctrl.draft.category"></dd>
+                <dt>Meta:</dt>
+                <dd data-ng-bind="ctrl.draft.goal"></dd>
+                <dt>Término:</dt>
+                <dd data-ng-bind="ctrl.draft.end_date"></dd>
+                <dt>Descrição:</dt>
+                <dd data-ng-bind="ctrl.draft.description"></dd>
+                <dt>Vídeo:</dt>
+                <dd data-ng-bind="ctrl.draft.video"></dd>
+              </dl>
+            </div>
+          </div>
         </div>
       </aside>
     </div>

@@ -5,6 +5,18 @@ a:focus,
 a:hover {
   color: #3a93d0;
 }
+.text-primary {
+  color: #0ea4f1;
+}
+.text-success {
+  color: #169b48;
+}
+.text-warning {
+  color: #ff9500;
+}
+.text-danger {
+  color: #f25e5e;
+}
 .alert {
   color: #fff;
   font-weight: 500;
@@ -23,6 +35,12 @@ a:hover {
 .alert-info {
   background-color: #9060c2;
 }
+.alert-warning {
+  background-color: #ff9500;
+}
+.alert-danger {
+  background-color: #f25e5e;
+}
 .has-error .control-label {
   color: #f25e5e;
 }
@@ -34,12 +52,6 @@ a:hover {
 }
 .has-error .input-group-addon {
   border-color: #ff1e00;
-}
-.form-buttons {
-  padding: 20px 0px 40px;
-}
-.form-buttons.form-buttons-left .btn {
-  margin-right: 5px;
 }
 .faq article hr {
   background-color: #ff1e00;
@@ -57,6 +69,13 @@ a:hover {
 .faq aside a.active {
   color: #ff1e00;
   border-bottom: 1px solid #ff1e00;
+}
+.btn {
+  padding: 6px 24px;
+  border-width: 2px;
+}
+.btn > .fa {
+  margin-right: 6px;
 }
 .btn-primary {
   background-color: #249ff6;
