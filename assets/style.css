@@ -6,7 +6,7 @@ html {
 }
 body {
   margin-top: 60px;
-  margin-bottom: 250px;
+  margin-bottom: 200px;
   font-family: 'Lato', sans-serif;
   font-size: 62.5%;
 }
@@ -172,6 +172,21 @@ header .navbar .navbar-brand {
 .event .media .media-left .media-object {
   width: 80px;
 }
+.faq {
+  box-sizing: border-box;
+  overflow: hidden;
+  overflow: scroll;
+  height: 100%;
+}
+.faq > section:before,
+.faq > section:after {
+  content: "";
+  display: table;
+}
+.faq > section:after {
+  clear: both;
+}
+
 .faq section:first-child {
   background-color: #ececec;
 }
@@ -470,11 +485,146 @@ header .navbar .navbar-brand {
 }
 /* /.form-signin */
 
+/* .typeahead-popup > .dropdown-menu */
+.typeahead-popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  background-color: #f9f9f9;
+}
+
+.typeahead-popup > .dropdown-menu {
+  position: static;
+  float: none;
+  display: block;
+  min-width: 160px;
+  background-color: transparent;
+  border: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: none;
+}
+/* /.typeahead-popup > .dropdown-menu */
+
+/* .creditcard */
+.creditcard-container {
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    perspective: 1000px;
+    width: 350px;
+    max-width: 100%;
+    height: 200px;
+    margin: auto;
+    z-index: 1;
+    position: relative;
+}
+.creditcard {
+  font-family: "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
+  line-height: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 315px;
+  border-radius: 10px;
+  -webkit-perspective: 500;
+}
+.creditcard .card {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  border-radius: 10px;
+  background: #DDD;
+  -webkit-transition: -webkit-opacity 1s;
+  -moz-transition: -moz-opacity 1s;
+  transition: opacity 1s;
+}
+.creditcard .card .lower {
+  -webkit-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  transition: opacity 1s;
+}
+.creditcard .card .lower.front,
+.creditcard .card.validated .lower.back {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+}
+.creditcard .card .lower.back,
+.creditcard .card.validated .lower.front {
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  opacity: 0;
+}
+.creditcard .card .lower {
+  position: absolute;
+  width: 80%;
+  left: 10%;
+  top: 30px;
+  bottom: 30px;
+}
+.creditcard .chip {
+  width: 50px;
+  height: 35px;
+  border-radius: 5px;
+  background: #CCC;
+  position: relative;
+  content: " ";
+}
+.creditcard .flag {
+  float: right;
+  position: relative;
+  opacity: 0.8;
+  right: 5px;
+  top: 8px;
+  width: 50px;
+}
+.creditcard .flag img {
+  max-width: 100%;
+}
+.creditcard .number {
+  position: relative;
+  font-size: 24px;
+  clear: both;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  color: white;
+  font-weight: normal;
+  opacity: 0.8;
+}
+.creditcard .name {
+  position: absolute;
+  text-transform: uppercase;
+  font-size: 20px;
+  max-height: 45px;
+  bottom: 0;
+  width: 190px;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+  font-weight: normal;
+  opacity: 0.8;
+}
+.creditcard .expiry {
+  float: right;
+  width: 25%;
+  color: white;
+  opacity: 0.8;
+  position: relative;
+  text-align: right;
+  font-size: 20px;
+  margin-right: 5px;
+  margin-top: 2px;
+  bottom: 0;
+}
+/* /.creditcard */
+
 footer {
   position: absolute;
   bottom: 0px;
   width: 100%;
-  height: 250px;
+  height: 200px;
   background-color: #111;
 }
 

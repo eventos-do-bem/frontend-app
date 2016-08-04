@@ -1,0 +1,154 @@
+[
+   {
+      "id":"Idosos",
+      "label":"Idosos"
+   },
+   {
+      "id":"Empoderamento",
+      "label":"Empoderamento"
+   },
+   {
+      "id":"Deficiência intelectual",
+      "label":"Deficiência intelectual"
+   },
+   {
+      "id":"Deficientes físicos",
+      "label":"Deficientes físicos"
+   },
+   {
+      "id":"Deficiência visual / auditivo",
+      "label":"Deficiência visual / auditivo"
+   },
+   {
+      "id":"Câncer",
+      "label":"Câncer"
+   },
+   {
+      "id":"Dependentes químicos",
+      "label":"Dependentes químicos"
+   },
+   {
+      "id":"Diabetes",
+      "label":"Diabetes"
+   },
+   {
+      "id":"Esclerose multipla",
+      "label":"Esclerose multipla"
+   },
+   {
+      "id":"Aids",
+      "label":"Aids"
+   },
+   {
+      "id":"Apoio escolar",
+      "label":"Apoio escolar"
+   },
+   {
+      "id":"Formação de Professores",
+      "label":"Formação de Professores"
+   },
+   {
+      "id":"Empreendedorismo",
+      "label":"Empreendedorismo"
+   },
+   {
+      "id":"Empreendedorismo Social",
+      "label":"Empreendedorismo Social"
+   },
+   {
+      "id":"Formação Profissional",
+      "label":"Formação Profissional"
+   },
+   {
+      "id":"Reciclagem",
+      "label":"Reciclagem"
+   },
+   {
+      "id":"Consumo consciente",
+      "label":"Consumo consciente"
+   },
+   {
+      "id":"Meio ambiente",
+      "label":"Meio ambiente"
+   },
+   {
+      "id":"Cuidado com animais",
+      "label":"Cuidado com animais"
+   },
+   {
+      "id":"Vegetarianismo/ Veganismo",
+      "label":"Vegetarianismo/ Veganismo"
+   },
+   {
+      "id":"Militância Animal",
+      "label":"Militância Animal"
+   },
+   {
+      "id":"Artes Visuais",
+      "label":"Artes Visuais"
+   },
+   {
+      "id":"Artes Cênicas",
+      "label":"Artes Cênicas"
+   },
+   {
+      "id":"Musica",
+      "label":"Musica"
+   },
+   {
+      "id":"Literatura",
+      "label":"Literatura"
+   },
+   {
+      "id":"Incentivo à leitura",
+      "label":"Incentivo à leitura"
+   },
+   {
+      "id":"Criação literária",
+      "label":"Criação literária"
+   },
+   {
+      "id":"Doação de livros",
+      "label":"Doação de livros"
+   },
+   {
+      "id":"Esporte",
+      "label":"Esporte"
+   },
+   {
+      "id":"Direitos Humanos",
+      "label":"Direitos Humanos"
+   },
+   {
+      "id":"Emergenciais",
+      "label":"Emergenciais"
+   },
+   {
+      "id":"Assistencia Social",
+      "label":"Assistencia Social"
+   },
+   {
+      "id":"Minorias",
+      "label":"Minorias"
+   },
+   {
+      "id":"Pobreza",
+      "label":"Pobreza"
+   },
+   {
+      "id":"Abrigos",
+      "label":"Abrigos"
+   },
+   {
+      "id":"Alimentação",
+      "label":"Alimentação"
+   },
+   {
+      "id":"Engajamento social e cidadania",
+      "label":"Engajamento social e cidadania"
+   },
+   {
+      "id":"Negócios sociais",
+      "label":"Negócios sociais"
+   }
+]

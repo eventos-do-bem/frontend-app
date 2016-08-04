@@ -17,7 +17,7 @@ export default function UserConfig($stateProvider) {
       }
     })
     .state('user.me.configurations', {
-      url: '/eu/configuracoes',
+      url: '/configuracoes',
       authenticate: true,
       templateUrl: './src/user/view/me.configurations.html',
       controller: 'UserMeConfigurations',

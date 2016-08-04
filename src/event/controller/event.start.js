@@ -6,6 +6,13 @@ export default class EventStart {
     if (this.hasDraft()) {
       this.draft = this.getDraft()
     }
+    this.categories = [
+      { id: 'Aniversários', label: 'Aniversários' },
+      { id: 'Casamentos', label: 'Casamentos' },
+      { id: 'Corridas', label: 'Corridas' },
+      { id: 'Jantares', label: 'Jantares' },
+      { id: 'Voluntariado', label: 'Voluntariado' }
+    ]
   }
   getAttr(name,attr) {
     let e = document.querySelector(`[name='${name}']`)

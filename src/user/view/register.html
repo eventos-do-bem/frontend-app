@@ -1,7 +1,24 @@
+<script type="text/ng-template" id="typeaheadPopupTemplate.html">
+  <div class="typeahead-popup"
+     ng-style="{top: position().top+'px', left: position().left+'px'}"
+     style="display: block;width: 100%;"
+     ng-show="isOpen() && !moveInProgress"
+     aria-hidden="{{!isOpen()}}">
+    <ul class="dropdown-menu" role="listbox">
+      <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+        ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+        <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+      </li>
+      <li>
+        <a>Digite para encontrar outras...</a>
+      </li>
+    </ul>
+  </div>
+</script>
 <div class="form-signin">
   <uib-tabset active="activeForm" justified="true">
     <uib-tab index="0" heading="Usuário" select="ctrl.changeTab(activeForm)">
-      <form name="registerUser" novalidate data-ng-submit="ctrl.register(ctrl.user)">
+      <form name="registerUser" novalidate data-ng-submit="ctrl.registerUser(ctrl.user)">
         <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.registerFacebook()">
           <i class="fa fa-facebook" aria-hidden="true"></i>
           Registrar-se com o Facebook
@@ -37,30 +54,31 @@
       </form>
     </uib-tab>
     <uib-tab index="1" heading="Ong" select="ctrl.changeTab(activeForm)">
-      <form name="registerOng" novalidate data-ng-submit="ctrl.register(ctrl.user)">
+      <form name="registerOng" novalidate data-ng-submit="ctrl.registerOng(ctrl.user)">
         <div data-ng-switch="ctrl.step">
           <div data-ng-switch-when="0">
-            <div data-ng-class="{'has-error':registerOng.organization.$invalid}">
-              <input type="text" name="organization" class="form-control" data-ng-model="ctrl.user.organization" placeholder="Qual o nome da sua organização?" required autofocus>
+            <div data-ng-class="{'has-error':registerOng.name_organization.$invalid}">
+              <input type="text" name="name_organization" class="form-control" data-ng-model="ctrl.user.name_organization" placeholder="Qual o nome da sua organização?" minlength="5" required autofocus>
             </div>
-            <div data-ng-class="{'has-error':registerOng.description.$invalid}">
-              <textarea name="description" class="form-control" data-ng-model="ctrl.user.description" cols="5" placeholder="Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor." required></textarea>
+            <div data-ng-class="{'has-error':registerOng.mission.$invalid}">
+              <textarea name="mission" class="form-control" data-ng-model="ctrl.user.mission" cols="5" placeholder="Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor." minlength="20" maxlength="300" required></textarea>
             </div>
-            <div data-ng-class="{'has-error':registerOng.occupation.$invalid}">
-              <select ng-options="item as item.label for item in ctrl.occupations track by item.id" name="occupation" class="form-control" data-ng-model="ctrl.user.occupation" required>
+            <div data-ng-class="{'has-error':registerOng.area_activity.$invalid}">
+              <input type="text" name="area_activity" data-ng-model="ctrl.user.area_activity" placeholder="Qual sua área de atuação?" uib-typeahead="item as item.label for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
+              <!--<select ng-options="item as item.label for item in ctrl.area_activities track by item.id" name="area_activity" class="form-control" data-ng-model="ctrl.user.area_activity" required>
                 <option value="">Qual sua área de atuação?</option>
-              </select>
+              </select>-->
             </div>
           </div>
           <div data-ng-switch-when="1">
             <div data-ng-class="{'has-error':registerOng.phone.$invalid}">
-              <input type="text" name="phone" class="form-control" mask="99 9999-9999" data-ng-model="ctrl.user.phone" placeholder="Qual o telefone da organização?" required>
+              <input type="text" name="phone" class="form-control" mask="99 9999 9999" data-ng-model="ctrl.user.phone" placeholder="Qual o telefone da organização?" required>
             </div>
             <div data-ng-class="{'has-error':registerOng.facebook.$invalid}">
               <input type="url" name="facebook" class="form-control" data-ng-model="ctrl.user.facebook" placeholder="Qual a página do facebook oficial?" required>
             </div>
             <div data-ng-class="{'has-error':registerOng.website.$invalid}">
-              <input type="url" name="website" class="form-control" data-ng-model="ctrl.user.website" placeholder="Qual o website oficial?" required>
+              <input type="url" name="website" class="form-control" data-ng-model="ctrl.user.website" placeholder="Qual o website oficial?">
             </div>
           </div>
           <div data-ng-switch-when="2">

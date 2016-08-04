@@ -1,5 +1,17 @@
 export default class Faq {
-  constructor($state, $stateParams, FaqService) {
+  constructor($window, $state, $stateParams, FaqService) {
+    // console.log($window)
+    // angular.element($window).on('scroll', e => {
+    //   console.log(e.pageY)
+    //   let aside = document.querySelector('aside > div')
+    //   if (e.pageY > 350) {
+    //     aside.style.position = 'fixed'
+    //     aside.style.top = '0px'
+    //   }
+    //   else if (e.pageY < 350) {
+    //     aside.style.top = '380px'
+    //   }
+    // })
     this.$state = $state
     this.faqService = FaqService
     this.faqService.getCategories()
@@ -16,4 +28,4 @@ export default class Faq {
   }
 }
 
-Faq.$inject = ['$state','$stateParams', 'FaqService']
+Faq.$inject = ['$window','$state','$stateParams', 'FaqService']

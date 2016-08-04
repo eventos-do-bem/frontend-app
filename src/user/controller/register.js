@@ -1,5 +1,5 @@
 export default class UserRegister {
-  constructor($scope, $stateParams, $state, $filter, $timeout, UserService) {
+  constructor($scope, $stateParams, $state, $filter, $timeout, $http, UserService) {
     this.service = UserService
     this.timeout = $timeout
     this.state = $state
@@ -9,10 +9,8 @@ export default class UserRegister {
     }
     this.showPassword = false
     this.typeInputPassword = 'password'
-    this.occupations = [{
-      id: 1,
-      label: 'Animais abandonados'
-    }]
+    $http.get('data/area_activities.json')
+      .then(response => this.area_activities = response.data) 
   }
   toggleShowPassword() {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
@@ -20,7 +18,7 @@ export default class UserRegister {
   changeTab(active) {
     this.changeStep()
     switch(active) {
-      case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="organization"]').focus(), 300); break;
+      case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="name_organization"]').focus(), 300); break;
       case 1: this.timeout(() => document.querySelector('form[name="registerUser"] input[name="name"]').focus(), 300); break;
     }
   }
@@ -31,14 +29,14 @@ export default class UserRegister {
       default: this.step = 0
     }
     switch(this.step) {
-      case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="organization"]').focus(), 300); break;
+      case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="name_organization"]').focus(), 300); break;
       case 1: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="phone"]').focus(), 300); break;
       case 2: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="name"]').focus(), 300); break;
     }
   }
   registerFacebook() {
     this.service.registerFacebook(response => {
-      this.register(response)
+      this.registerUser(response)
     })
   }
   checkOfAge(age) {
@@ -48,7 +46,7 @@ export default class UserRegister {
     return (diffDays < 18) ? false : true
 
   }
-  register(user) {
+  registerUser(user) {
     user = (user) ? angular.copy(user) : angular.copy(this.user)
     let birthdate
     if (user.facebook_token) {
@@ -74,13 +72,22 @@ export default class UserRegister {
         )
     }
   }
+  registerOng(user) {
+    user = (user) ? angular.copy(user) : angular.copy(this.user)
+    user.phone = user.phone.replace(/\s/g, '');
+    this.service.register(user)
+      .then(
+        response => this.registerSuccess(response),
+        response => this.registerError(response)  
+      )
+  }
   registerSuccess(response) {
     console.log(response)
   }
   registerError(response) {
     this.error = response.data
-    console.error(response)
+    console.error(JSON.stringify(response.data))
   }
 }
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'UserService']
+UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', '$http', 'UserService']
