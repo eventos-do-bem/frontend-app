@@ -197,13 +197,6 @@ header .navbar .navbar-brand {
   margin-top: 50px;
   margin-bottom: 50px;
 }
-.faq aside {
-  position: static;
-  top: auto;
-  right: auto;
-  left: auto;
-  bottom: auto;
-}
 .faq aside .list-group-item {
   border: none;
   padding: 10px 0px;
