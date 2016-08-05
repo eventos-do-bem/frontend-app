@@ -203,16 +203,16 @@ header .navbar .navbar-brand {
 }
 /* /faq */
 .home section {
-  margin-bottom: 50px;
+  padding-bottom: 50px;
 }
-.home section > header {
+.home .row > header {
   margin: 30px 0 50px;
   text-align: center;
 }
-.home section > header h1 {
+.home .row > header h1 {
   font-weight: 600;
 }
-.home section > header h2 {
+.home .row > header h2 {
   font-weight: 100;
   margin-left: 150px;
   margin-right: 150px;
@@ -272,7 +272,7 @@ header .navbar .navbar-brand {
   padding-bottom: 15px;
 }
 .proven-impact .impact {
-  display: table;
+  /*display: table;*/
 }
 .proven-impact .text,
 .proven-impact .image {
@@ -541,10 +541,13 @@ header .navbar .navbar-brand {
   -moz-opacity: 0;
   opacity: 0;
 }
-.creditcard .card .lower {
-  position: absolute;
+.creditcard .card .lower.front {
   width: 80%;
   left: 10%;
+}
+.creditcard .card .lower {
+  position: absolute;
+  width: 100%;
   top: 30px;
   bottom: 30px;
 }
@@ -560,7 +563,7 @@ header .navbar .navbar-brand {
   float: right;
   position: relative;
   opacity: 0.8;
-  right: 5px;
+  right: 0px;
   top: 8px;
   width: 50px;
 }
@@ -569,7 +572,7 @@ header .navbar .navbar-brand {
 }
 .creditcard .number {
   position: relative;
-  font-size: 24px;
+  font-size: 2.4rem;
   clear: both;
   margin-top: 20px;
   margin-bottom: 30px;
@@ -580,7 +583,7 @@ header .navbar .navbar-brand {
 .creditcard .name {
   position: absolute;
   text-transform: uppercase;
-  font-size: 20px;
+  font-size: 2rem;
   max-height: 45px;
   bottom: 0;
   width: 190px;
@@ -598,10 +601,27 @@ header .navbar .navbar-brand {
   opacity: 0.8;
   position: relative;
   text-align: right;
-  font-size: 20px;
+  font-size: 2rem;
   margin-right: 5px;
   margin-top: 2px;
   bottom: 0;
+}
+.creditcard .bar {
+  background-color: #444;
+  background-image: -webkit-linear-gradient(#444, #333);
+  background-image: -o-linear-gradient(#444, #333);
+  background-image: linear-gradient(#444, #333);
+  width: 100%;
+  height: 25%;
+  position: absolute;
+  top: 10%;
+}
+.creditcard .cvc {
+  position: absolute;
+  top: 50%;
+  left: 85%;
+  font-size: 1.6rem;
+  color: #fff;
 }
 /* /.creditcard */
 

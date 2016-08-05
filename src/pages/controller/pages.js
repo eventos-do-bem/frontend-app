@@ -7,7 +7,8 @@ export default class Pages {
       expiry: {
         month: '00',
         year: '0000'
-      }
+      },
+      cvc: '•••'
     }
     this.months = []
     for (let m = 1; m <= 12; m++) {

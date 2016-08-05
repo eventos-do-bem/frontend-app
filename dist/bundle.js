@@ -561,6 +561,8 @@ var FixedOnScroll = function () {
       e.style.bottom = 'auto';
       e.style.left = 'auto';
 
+      console.log(e);
+
       angular.element(this.window).on('scroll', function (ev) {
         if (ev.pageY > offset) {
           e.style.position = 'sticky';
@@ -1621,7 +1623,8 @@ var Pages = function () {
       expiry: {
         month: '00',
         year: '0000'
-      }
+      },
+      cvc: '•••'
     };
     this.months = [];
     for (var m = 1; m <= 12; m++) {
