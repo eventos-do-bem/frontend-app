@@ -1,17 +1,16 @@
 export default class Faq {
   constructor($window, $state, $stateParams, FaqService) {
-    // console.log($window)
-    // angular.element($window).on('scroll', e => {
-    //   console.log(e.pageY)
-    //   let aside = document.querySelector('aside > div')
-    //   if (e.pageY > 350) {
-    //     aside.style.position = 'fixed'
-    //     aside.style.top = '0px'
-    //   }
-    //   else if (e.pageY < 350) {
-    //     aside.style.top = '380px'
-    //   }
-    // })
+    let aside = document.querySelector('aside')
+    angular.element($window).on('scroll', e => {
+      if (e.pageY > 350) {
+        aside.style.position = 'sticky'
+        aside.style.top = '30px'
+      }
+      else if (e.pageY < 350) {
+        aside.style.position = 'static'
+        aside.style.top = 'auto'
+      }
+    })
     this.$state = $state
     this.faqService = FaqService
     this.faqService.getCategories()

@@ -92,7 +92,6 @@ dl dd:last-child {
 }
 
 /* navbar */
-
 .navbar-default {
   background-color: #fff;
   border-color: #fff;
@@ -133,7 +132,6 @@ header .navbar .navbar-brand {
   padding: 6px 15px;
   color: #000 !important;
 }
-
 /* /navbar */
 
 .banner {
@@ -172,21 +170,8 @@ header .navbar .navbar-brand {
 .event .media .media-left .media-object {
   width: 80px;
 }
-.faq {
-  box-sizing: border-box;
-  overflow: hidden;
-  overflow: scroll;
-  height: 100%;
-}
-.faq > section:before,
-.faq > section:after {
-  content: "";
-  display: table;
-}
-.faq > section:after {
-  clear: both;
-}
 
+/* faq */
 .faq section:first-child {
   background-color: #ececec;
 }
@@ -212,11 +197,18 @@ header .navbar .navbar-brand {
   margin-top: 50px;
   margin-bottom: 50px;
 }
+.faq aside {
+  position: static;
+  top: auto;
+  right: auto;
+  left: auto;
+  bottom: auto;
+}
 .faq aside .list-group-item {
   border: none;
   padding: 10px 0px;
 }
-
+/* /faq */
 .home section {
   margin-bottom: 50px;
 }

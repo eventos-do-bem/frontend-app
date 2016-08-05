@@ -1,5 +1,5 @@
 <div class="faq">
-  <section class="">
+  <section>
     <div class="container">
       <div class="row search">
         <div class="col-md-12">
@@ -25,11 +25,10 @@
         <h3 class="feedback">Tem alguma dúvida que não foi respondida aqui? <a href="#">Entre em contato</a>.</h3>
       </div>
       <aside class="col-md-4">
-        <div>
         <header class="page-header">
           <h2>Perguntas</h2>
         </header>
-        <section data-ng-repeat="category in ctrl.categories">
+        <nav data-ng-repeat="category in ctrl.categories">
           <h3>
             <a ui-sref="faq.category({categoryId: category.id})" ui-sref-active="active" data-ng-bind="category.name"></a>
           </h3>
@@ -38,8 +37,7 @@
               <a ui-sref="faq.question({questionId: question.id})" ui-sref-active="active" data-ng-bind="question.title"></a>
             </li>
           </ul>
-        </section>
-        </div>
+        </nav>
       </aside>
     </div>
   </section>
