@@ -16,6 +16,7 @@ export default class UserRegister {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
   }
   changeTab(active) {
+    this.error = null;
     this.changeStep()
     switch(active) {
       case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="name_organization"]').focus(), 300); break;

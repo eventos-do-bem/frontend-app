@@ -1965,6 +1965,7 @@ var UserRegister = function () {
   }, {
     key: 'changeTab',
     value: function changeTab(active) {
+      this.error = null;
       this.changeStep();
       switch (active) {
         case 0:
