@@ -271,6 +271,11 @@ header .navbar .navbar-brand {
   padding-top: 15px;
   padding-bottom: 15px;
 }
+.get-inspired figure {
+  display: block;
+  max-height: 400px;
+  overflow: hidden;
+}
 .proven-impact .impact {
   /*display: table;*/
 }

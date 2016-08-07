@@ -561,8 +561,6 @@ var FixedOnScroll = function () {
       e.style.bottom = 'auto';
       e.style.left = 'auto';
 
-      console.log(e);
-
       angular.element(this.window).on('scroll', function (ev) {
         if (ev.pageY > offset) {
           e.style.position = 'sticky';
