@@ -24,10 +24,7 @@
         <div class="form-group" data-ng-class="{'has-error':start.cause.$invalid}">
           <label for="cause" class="control-label">Escolha a causa que irá ajudar</label>
           <!-- ONGs cadastradas -->
-          <select name="cause" id="cause" class="form-control" data-ng-model="ctrl.event.cause">
-            <option value="">Selecione</option>
-            <option value="Causa 1">Causa 1</option>
-            <option value="Causa 2">Causa 2</option>
+          <select ng-options="item.name for item in ctrl.institutions track by item.uuid" name="cause" class="form-control" data-ng-model="ctrl.event.cause" required>
           </select>
         </div>
         <p>Não tem causa? <a href="#">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a href="#">Entre em contato</a></p>

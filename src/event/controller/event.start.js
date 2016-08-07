@@ -1,5 +1,5 @@
 export default class EventStart {
-  constructor($state, $window, $stateParams, EventService) {
+  constructor($state, $window, $stateParams, EventService, InstitutionService) {
     this.$state = $state
     this.window = $window
     this.service = EventService
@@ -13,6 +13,11 @@ export default class EventStart {
       { id: 'Jantares', label: 'Jantares' },
       { id: 'Voluntariado', label: 'Voluntariado' }
     ]
+    InstitutionService.findAll()
+      .then(response => {
+        console.log(response)
+        this.institutions = response.data
+      })
   }
   getAttr(name,attr) {
     let e = document.querySelector(`[name='${name}']`)
@@ -37,4 +42,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$state','$window','$stateParams', 'EventService']
+EventStart.$inject = ['$state','$window','$stateParams', 'EventService', 'InstitutionService']

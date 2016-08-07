@@ -1,26 +1,36 @@
-export default class AuthConfirmation {
-  constructor($rootScope, $stateParams, $state, $window, AuthService) {
-    this.user = {
-      uuid: $stateParams.uuid,
-      confirmation_code: $stateParams.confirmation_code
+export default class UserConfirmation {
+  constructor($rootScope, $stateParams, $state, $window, UserService, StorageService) {
+    this.storage = StorageService
+    this.rootScope = $rootScope
+    this.state = $state
+    this.window = $window
+    this.confirmation = false
+    if ($stateParams.uuid && $stateParams.confirmation_code) {
+      let user = {
+        uuid: $stateParams.uuid,
+        confirmation_code: $stateParams.confirmation_code
+      }
+      UserService.confirmation(user)
+        .then(
+          response => {
+            this.confirmation = true
+            console.log(response)
+            this.user = response.data
+          },
+          error => {
+            this.error = error.data
+            console.log('error', error)
+          }
+        )
     }
-    this.confirmation = () => {
-      console.log(this.user)
-      // AuthService.confirmation(this.user)
-      //   .then(
-      //     response => {
-      //       $window.localStorage.setItem('token', response.data.token)
-      //       delete response.data.token
-      //       $window.localStorage.setItem('user', JSON.stringify(response.data))
-      //       $rootScope.$broadcast('auth.login')
-      //     },
-      //     error => {
-      //       this.error = error.data
-      //       console.log('error', error)
-      //     }
-      //   )
-    }
+  }
+  login() {
+    this.storage.setItem('token', this.user.token)
+    let {name, email} = this.user
+    this.storage.setItem('user', {name: name, email: email})
+    this.rootScope.$broadcast('user.change')
+    this.state.go('user.me')
   }
 }
 
-AuthConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'AuthService']
+UserConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'UserService', 'StorageService']

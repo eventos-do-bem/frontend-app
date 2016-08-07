@@ -1,12 +1,17 @@
-<form name="confirmation" class="form-signin" data-ng-submit="ctrl.confirmation()">
-  <h2 class="form-signin-heading">Confirmação</h2>
-  <div data-ng-show="ctrl.error" data-ng-class="{'alert alert-warning': ctrl.error.status_code == 401}" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>Ops...</strong> <span data-ng-bind="ctrl.error.message"></span>
+<section>
+  <p class="alert alert-info" data-ng-show="!ctrl.confirmation">
+    <i class="fa fa-hourglass-half" aria-hidden="true"></i>
+    Aguarde, estamos confirmando sua conta
+  </p>
+  <div data-ng-show="ctrl.confirmation">
+    <p class="alert alert-info">
+      <i class="fa fa-hourglass-half" aria-hidden="true"></i>
+      Sua conta foi confirmada!
+    </p>
+    <div class="navbar text-center">
+      <button type="button" class="btn btn-lg btn-success" data-ng-click="ctrl.login()">
+        Clique aqui para logar
+      </button>
+    </div>
   </div>
-  <label for="uuid" class="sr-only">ID</label>
-  <input type="text" id="uuid" class="form-control" data-ng-model="ctrl.user.uuid" placeholder="uuid" required autofocus>
-  <label for="confirmation_code" class="sr-only">Código de confirmação</label>
-  <input type="text" id="confirmation_code" class="form-control" data-ng-model="ctrl.user.confirmation_code" placeholder="Código de confirmação" required>
-  <button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-disabled="confirmation.$invalid">Confirmar</button>
-</form>
+</section>

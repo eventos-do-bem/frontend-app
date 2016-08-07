@@ -10,6 +10,10 @@ export default class UserService extends CommonService {
     this.setRoute('users')
     return this.$http.post(this.url + this.route, data)
   }
+  confirmation(data) {
+    this.setRoute('users/confirmation/' + data.uuid + '/' + data.confirmation_code)
+    return this.$http.put(this.url + this.route)
+  }
   me() {
     this.setRoute('users/me')
     return this.$http.get(this.url + this.route)
