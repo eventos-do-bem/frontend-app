@@ -1330,7 +1330,7 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Faq = function Faq($state, $stateParams, FaqService) {
+var Faq = function Faq($state, $stateParams, $anchorScroll, FaqService) {
   var _this = this;
 
   _classCallCheck(this, Faq);
@@ -1351,12 +1351,13 @@ var Faq = function Faq($state, $stateParams, FaqService) {
   } else if (!$stateParams.categoryId && !$stateParams.questionId) {
     $state.go('faq.category', { categoryId: 1 });
   }
+  $anchorScroll('scrollArea');
 };
 
 exports.default = Faq;
 
 
-Faq.$inject = ['$state', '$stateParams', 'FaqService'];
+Faq.$inject = ['$state', '$stateParams', '$anchorScroll', 'FaqService'];
 
 },{}],28:[function(require,module,exports){
 'use strict';

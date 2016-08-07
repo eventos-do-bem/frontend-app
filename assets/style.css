@@ -176,6 +176,7 @@ header .navbar .navbar-brand {
   background-color: #ececec;
 }
 .faq section:last-child {
+  padding-top: 60px;
   padding-bottom: 60px;
 }
 .faq .search {
