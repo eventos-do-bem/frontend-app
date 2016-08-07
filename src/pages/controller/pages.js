@@ -10,6 +10,9 @@ export default class Pages {
       },
       cvc: '•••'
     }
+    this.card = document.querySelector('.card')
+    console.log(this.card)
+    this.frontInputs = ['value','number','name','month','year']
     this.months = []
     for (let m = 1; m <= 12; m++) {
       if (m <= 9) {
@@ -23,11 +26,17 @@ export default class Pages {
     let curYear = today.getFullYear()
     for (let y = curYear; y <= curYear + 10; y++) this.years.push(y)
   }
+  onFocus(input) {
+    let card = document.querySelector('.card')
+    if (this.frontInputs.indexOf(input) !== -1) {
+      card.classList.remove('validated')
+    }
+  }
   onValidate(form) {
     let card = document.querySelector('.card')
     if (form.value.$valid && form.number.$valid && form.name.$valid && form.month.$valid && form.year.$valid) {
       card.classList.add('validated')
-      document.querySelector('form[name="donate"] input[name="cvc"]').focus()
+      // document.querySelector('form[name="donate"] input[name="cvc"]').focus()
     } else {
       card.classList.remove('validated')
     }

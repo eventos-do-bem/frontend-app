@@ -32,15 +32,15 @@
     <form name="donate" novalidate>
       <div class="form-group" data-ng-class="{'has-error':donate.value.$invalid}">
         <label for="" class="control-label">Valor que deseja doar</label>
-        <input type="text" name="value" id="value" class="form-control" data-ng-model="ctrl.donate.value" required>
+        <input type="text" name="value" id="value" class="form-control" data-ng-model="ctrl.donate.value" data-ng-focus="ctrl.onFocus('value')" data-ng-blur="ctrl.onValidate(donate)" required>
       </div>
       <div class="form-group" data-ng-class="{'has-error':donate.number.$invalid}">
         <label for="" class="control-label">Número do seu cartão</label>
-        <input type="text" name="number" id="number" class="form-control" data-ng-model="ctrl.donate.number" mask="9999-9999-9999-9999" data-ng-keyup="ctrl.getFlag(ctrl.donate.number)" data-ng-blur="ctrl.onValidate(donate)" required>
+        <input type="text" name="number" id="number" class="form-control" data-ng-model="ctrl.donate.number" mask="9999-9999-9999-9999" data-ng-keyup="ctrl.getFlag(ctrl.donate.number)" data-ng-focus="ctrl.onFocus('number')" data-ng-blur="ctrl.onValidate(donate)" required>
       </div>
       <div class="form-group" data-ng-class="{'has-error':donate.name.$invalid}">
         <label for="" class="control-label">Nome como está escrito no seu cartão</label>
-        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.donate.name" data-ng-blur="ctrl.onValidate(donate)" required>
+        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.donate.name" data-ng-focus="ctrl.onFocus('name')" data-ng-blur="ctrl.onValidate(donate)" required>
       </div>
       <div class="row">
         <div class="col-md-9">
@@ -48,7 +48,7 @@
             <div class="col-md-6">
               <div class="form-group" data-ng-class="{'has-error':donate.month.$invalid || donate.year.$invalid}">
                 <label for="" class="control-label">Validade</label>
-                <select ng-options="item for item in ctrl.months" name="month" class="form-control" data-ng-model="ctrl.donate.expiry.month" data-ng-blur="ctrl.onValidate(donate)" required>
+                <select ng-options="item for item in ctrl.months" name="month" class="form-control" data-ng-model="ctrl.donate.expiry.month" data-ng-focus="ctrl.onFocus('month')" data-ng-blur="ctrl.onValidate(donate)" required>
                   <option value="">Mês</option>
                 </select>
               </div>
@@ -56,7 +56,7 @@
             <div class="col-md-6">
               <div class="form-group" data-ng-class="{'has-error':donate.month.$invalid || donate.year.$invalid}">
                 <label for="" class="control-label">Validade</label>
-                <select ng-options="item for item in ctrl.years" name="year" class="form-control" data-ng-model="ctrl.donate.expiry.year" data-ng-blur="ctrl.onValidate(donate)" required>
+                <select ng-options="item for item in ctrl.years" name="year" class="form-control" data-ng-model="ctrl.donate.expiry.year" data-ng-focus="ctrl.onFocus('year')" data-ng-blur="ctrl.onValidate(donate)" required>
                   <option value="">Ano</option>
                 </select>
               </div>
