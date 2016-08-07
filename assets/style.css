@@ -217,9 +217,6 @@ header .navbar .navbar-brand {
   margin-left: 150px;
   margin-right: 150px;
 }
-.how-it-works > div {
-  margin-bottom: 50px;
-}
 .how-it-works h1,
 .how-it-works h3,
 .how-it-works p {
@@ -229,11 +226,11 @@ header .navbar .navbar-brand {
   color: #444;
 }
 .how-it-works .icon {
-  height: 50px;
+  height: 64px;
   text-align: center;
 }
 .how-it-works .icon > img {
-  width: 32px;
+  width: 64px;
 }
 
 .our-campaigns header h1 {
@@ -311,16 +308,20 @@ header .navbar .navbar-brand {
   font-weight: 300;
 }
 .icons .health {
-  background-image: url('../assets/icons/pngs/saude.png');
+  /*background-image: url('../assets/icons/pngs/saude.png');*/
+  background-image: url('../assets/icons/svgs/saude.svg');
 }
 .icons .education {
-  background-image: url('../assets/icons/pngs/educacao.png');
+  /*background-image: url('../assets/icons/pngs/educacao.png');*/
+  background-image: url('../assets/icons/svgs/causa-educacao.svg');
 }
 .icons .habitation {
-  background-image: url('../assets/icons/pngs/moradia.png');
+  /*background-image: url('../assets/icons/pngs/moradia.png');*/
+  background-image: url('../assets/icons/svgs/moradia.svg');
 }
 .icons .animals {
-  background-image: url('../assets/icons/pngs/animal.png');
+  /*background-image: url('../assets/icons/pngs/animal.png');*/
+  background-image: url('../assets/icons/svgs/causa-animal.svg');
 }
 .portfolio {
   text-align: center;
