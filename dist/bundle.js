@@ -47,6 +47,7 @@ var AppController = function AppController($location, $window, API, FacebookFact
   FacebookFactory.init({
     appId: '922781867788493'
   });
+  // console.log(FacebookFactory.ui)
   // switch($location.path()) {
   //   case '/usuario/cadastro': {
   //     this.background = 'auth-login.jpg'
@@ -1699,7 +1700,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Pages = function () {
-  function Pages(CreditCardFactory) {
+  function Pages(CreditCardFactory, FacebookFactory, $timeout) {
     _classCallCheck(this, Pages);
 
     this.creditCard = CreditCardFactory;
@@ -1713,7 +1714,6 @@ var Pages = function () {
       cvc: '•••'
     };
     this.card = document.querySelector('.card');
-    console.log(this.card);
     this.frontInputs = ['value', 'number', 'name', 'month', 'year'];
     this.months = [];
     for (var m = 1; m <= 12; m++) {
@@ -1764,7 +1764,7 @@ var Pages = function () {
 exports.default = Pages;
 
 
-Pages.$inject = ['CreditCardFactory'];
+Pages.$inject = ['CreditCardFactory', 'FacebookFactory', '$timeout'];
 
 },{}],38:[function(require,module,exports){
 'use strict';

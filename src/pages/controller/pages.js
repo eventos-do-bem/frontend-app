@@ -1,5 +1,5 @@
 export default class Pages {
-  constructor(CreditCardFactory) {
+  constructor(CreditCardFactory,FacebookFactory,$timeout) {
     this.creditCard = CreditCardFactory
     this.donateOff = {
       number: '0000-0000-0000-0000',
@@ -11,7 +11,6 @@ export default class Pages {
       cvc: '•••'
     }
     this.card = document.querySelector('.card')
-    console.log(this.card)
     this.frontInputs = ['value','number','name','month','year']
     this.months = []
     for (let m = 1; m <= 12; m++) {
@@ -47,4 +46,4 @@ export default class Pages {
   }
 }
 
-Pages.$inject = ['CreditCardFactory']
+Pages.$inject = ['CreditCardFactory','FacebookFactory','$timeout']

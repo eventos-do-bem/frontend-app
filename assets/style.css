@@ -207,6 +207,8 @@ header .navbar .navbar-brand {
   padding: 10px 0px;
 }
 /* /faq */
+
+/* home */
 .home section {
   padding-bottom: 50px;
 }
@@ -222,6 +224,9 @@ header .navbar .navbar-brand {
   margin-left: 150px;
   margin-right: 150px;
 }
+/* /home */
+
+/* how-it-works */
 .how-it-works h1,
 .how-it-works h3,
 .how-it-works p {
@@ -237,7 +242,9 @@ header .navbar .navbar-brand {
 .how-it-works .icon > img {
   width: 64px;
 }
+/* /how-it-works */
 
+/* out-campaigns */
 .our-campaigns header h1 {
   margin: 0 auto;
   width: 700px;
@@ -266,6 +273,8 @@ header .navbar .navbar-brand {
   margin-bottom: 0px;
   border-radius: 0px;
 }*/
+/* /out-campaigns */
+
 .get-inspired header {
   color: #fff;
 }
@@ -346,6 +355,38 @@ header .navbar .navbar-brand {
   color: #000;
   font-weight: 400;
 }
+
+/* contact */
+.contact > section:first-child {
+  margin-bottom: 50px;
+}
+.contact > section:first-child > div {
+  text-align: center;
+}
+.contact > section:first-child > div:first-child {
+  border-right: 1px solid #000;
+}
+.contact section > div > h2 {
+  font-size: 6.4rem;
+  font-weight: 900;
+}
+.contact section > div > h2 > span {
+  font-weight: 100;
+}
+.contact section > div > h3 {
+  font-size: 4.2rem;
+}
+.contact section > div > span {
+  font-size: 20.4rem;
+  line-height: 16.4rem;
+}
+.contact h2,
+.contact h3,
+.contact form > div,
+.contact form > p {
+  margin-bottom: 20px;
+}
+/* /contact */
 
 /* .form-signin */
 

@@ -3,6 +3,7 @@ export default class AppController {
     FacebookFactory.init({
       appId: '922781867788493'
     })
+    // console.log(FacebookFactory.ui)
     // switch($location.path()) {
     //   case '/usuario/cadastro': {
     //     this.background = 'auth-login.jpg'
