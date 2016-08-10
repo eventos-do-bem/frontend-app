@@ -4,24 +4,38 @@ export default class UserRegister {
     this.timeout = $timeout
     this.state = $state
     this.filter = $filter
-    this.user = {
+    this.masterUser = {
       gender: 'Feminino',
     }
+    this.step = 0
     this.showPassword = false
     this.typeInputPassword = 'password'
     $http.get('data/area_activities.json')
       .then(response => this.area_activities = response.data) 
+  }
+  resetUser() {
+    this.user = angular.copy(this.masterUser)
   }
   toggleShowPassword() {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
   }
   changeTab(active) {
     this.error = null;
+    this.resetUser()
     this.changeStep()
     switch(active) {
       case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="name_organization"]').focus(), 300); break;
       case 1: this.timeout(() => document.querySelector('form[name="registerUser"] input[name="name"]').focus(), 300); break;
     }
+  }
+  validateStep(form) {
+    let validated
+    switch(this.step) {
+      case 0: validated = (form.name_organization.$invalid || form.mission.$invalid || form.area_activity.$invalid) ? true : false; break;
+      case 1: validated = (form.phone.$invalid || form.facebook.$invalid) ? true : false; break;
+      case 2: validated = (form.name.$invalid || form.email.$invalid || form.password.$invalid) ? true : false; break;
+    }
+    return validated
   }
   changeStep(direction) {
     switch(direction) {

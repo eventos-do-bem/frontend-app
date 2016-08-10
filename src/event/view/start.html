@@ -25,9 +25,10 @@
           <label for="cause" class="control-label">Escolha a causa que irá ajudar</label>
           <!-- ONGs cadastradas -->
           <select ng-options="item.name for item in ctrl.institutions track by item.uuid" name="cause" class="form-control" data-ng-model="ctrl.event.cause" required>
+            <option value="">Selecione</option>
           </select>
         </div>
-        <p>Não tem causa? <a href="#">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a href="#">Entre em contato</a></p>
+        <p>Não tem causa? <a href="#">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a ui-sref="pages.contact">Entre em contato</a></p>
         <div class="form-group" data-ng-class="{'has-error':start.category.$invalid}">
           <label for="category" class="control-label">Categoria do Evento do Bem</label>
           <select ng-options="item as item.label for item in ctrl.categories track by item.id" name="category" class="form-control" data-ng-model="ctrl.event.category" required>
@@ -61,7 +62,7 @@
               <label for="goal" class="control-label">Meta</label>
               <div class="input-group">
                 <span class="input-group-addon">R$</span>
-                <input type="text" name="goal" id="goal" class="form-control" data-ng-model="ctrl.event.goal" ng-value="0/3/9" mask="3/9?" mask-repeat="2" placeholder="Digite o valor">
+                <input type="text" name="goal" id="goal" class="form-control" data-ng-model="ctrl.event.goal" placeholder="Digite o valor">
               </div>
               <div class="checkbox">
                 <label>

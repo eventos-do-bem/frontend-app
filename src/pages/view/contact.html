@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-md-7">
+    <h2>Entre em contato</h2>
+    <h3>
+      Você pode checar se sua pergunta está em nossa página de
+      <a ui-sref="faq">Perguntas frequentes</a>
+      ou entrar em contato por aqui:
+    </h3>
+    <form name="contact" novalidate data-ng-submit="ctrl.save(ctrl.contact)">
+      <div class="form-group" data-ng-class="{'has-error':contact.name.$invalid}">
+        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.contact.name" placeholder="Qual seu nome?" required autofocus>
+      </div>
+      <div class="form-group" data-ng-class="{'has-error':contact.email.$invalid}">
+        <input type="text" name="email" id="email" class="form-control" data-ng-model="ctrl.contact.email" placeholder="Qual seu email? para entrarmos em contato..." required>
+      </div>
+      <h4>Nos fale o assunto para encaminharmos para a pessoa que melhor pode te atender</h4>
+      <p>
+        <label class="radio-inline">
+          <input type="radio" name="destination" value="how-it-work" checked>
+          Dúvida sobre como funciona
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="destination" value="press">
+          Imprensa
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="destination" value="failures">
+          Falhas de funcionamento
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="destination" value="others">
+          Outros
+        </label>
+      </p>
+      <div class="form-group" data-ng-class="{'has-error':contact.message.$invalid}">
+        <textarea name="message" id="message" class="form-control" data-ng-model="ctrl.contact.message" required></textarea>
+      </div>
+      <div class="form-buttons form-buttons-center">
+        <button class="btn btn-lg btn-primary" type="submit" data-ng-click="ctrl.send(ctrl.contact)">
+          <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+          Enviar mensagem
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-5">
+  </div>
+</div>

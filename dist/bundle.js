@@ -198,7 +198,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = run;
-function run($rootScope, $window, $state) {
+function run($rootScope, $window, $state, $anchorScroll) {
   $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
     if (toState.authenticate && !$window.localStorage.getItem('token')) {
       $state.go('auth.login');
@@ -211,10 +211,11 @@ function run($rootScope, $window, $state) {
       default:
         $rootScope.background = null;
     }
+    $anchorScroll();
   });
 }
 
-run.$inject = ['$rootScope', '$window', '$state'];
+run.$inject = ['$rootScope', '$window', '$state', '$anchorScroll'];
 
 },{}],8:[function(require,module,exports){
 'use strict';
@@ -1207,8 +1208,7 @@ var EventStart = function () {
     }
     this.categories = [{ id: 'Aniversários', label: 'Aniversários' }, { id: 'Casamentos', label: 'Casamentos' }, { id: 'Corridas', label: 'Corridas' }, { id: 'Jantares', label: 'Jantares' }, { id: 'Voluntariado', label: 'Voluntariado' }];
     InstitutionService.findAll().then(function (response) {
-      console.log(response);
-      _this.institutions = response.data;
+      return _this.institutions = response.data.values;
     });
   }
 
@@ -1340,7 +1340,7 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Faq = function Faq($state, $stateParams, $anchorScroll, FaqService) {
+var Faq = function Faq($state, $stateParams, FaqService) {
   var _this = this;
 
   _classCallCheck(this, Faq);
@@ -1361,13 +1361,12 @@ var Faq = function Faq($state, $stateParams, $anchorScroll, FaqService) {
   } else if (!$stateParams.categoryId && !$stateParams.questionId) {
     $state.go('faq.category', { categoryId: 1 });
   }
-  $anchorScroll('scrollArea');
 };
 
 exports.default = Faq;
 
 
-Faq.$inject = ['$state', '$stateParams', '$anchorScroll', 'FaqService'];
+Faq.$inject = ['$state', '$stateParams', 'FaqService'];
 
 },{}],28:[function(require,module,exports){
 'use strict';
@@ -1682,6 +1681,9 @@ function PagesConfig($stateProvider) {
   }).state('pages.donate', {
     url: '/doacao',
     templateUrl: './src/pages/view/donate.html'
+  }).state('pages.contact', {
+    url: '/contato',
+    templateUrl: './src/pages/view/contact.html'
   });
 }
 
@@ -2051,9 +2053,10 @@ var UserRegister = function () {
     this.timeout = $timeout;
     this.state = $state;
     this.filter = $filter;
-    this.user = {
+    this.masterUser = {
       gender: 'Feminino'
     };
+    this.step = 0;
     this.showPassword = false;
     this.typeInputPassword = 'password';
     $http.get('data/area_activities.json').then(function (response) {
@@ -2062,6 +2065,11 @@ var UserRegister = function () {
   }
 
   _createClass(UserRegister, [{
+    key: 'resetUser',
+    value: function resetUser() {
+      this.user = angular.copy(this.masterUser);
+    }
+  }, {
     key: 'toggleShowPassword',
     value: function toggleShowPassword() {
       this.typeInputPassword = this.showPassword ? 'text' : 'password';
@@ -2070,6 +2078,7 @@ var UserRegister = function () {
     key: 'changeTab',
     value: function changeTab(active) {
       this.error = null;
+      this.resetUser();
       this.changeStep();
       switch (active) {
         case 0:
@@ -2081,6 +2090,20 @@ var UserRegister = function () {
             return document.querySelector('form[name="registerUser"] input[name="name"]').focus();
           }, 300);break;
       }
+    }
+  }, {
+    key: 'validateStep',
+    value: function validateStep(form) {
+      var validated = void 0;
+      switch (this.step) {
+        case 0:
+          validated = form.name_organization.$invalid || form.mission.$invalid || form.area_activity.$invalid ? true : false;break;
+        case 1:
+          validated = form.phone.$invalid || form.facebook.$invalid ? true : false;break;
+        case 2:
+          validated = form.name.$invalid || form.email.$invalid || form.password.$invalid ? true : false;break;
+      }
+      return validated;
     }
   }, {
     key: 'changeStep',

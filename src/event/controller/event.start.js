@@ -14,10 +14,7 @@ export default class EventStart {
       { id: 'Voluntariado', label: 'Voluntariado' }
     ]
     InstitutionService.findAll()
-      .then(response => {
-        console.log(response)
-        this.institutions = response.data
-      })
+      .then(response => this.institutions = response.data.values)
   }
   getAttr(name,attr) {
     let e = document.querySelector(`[name='${name}']`)

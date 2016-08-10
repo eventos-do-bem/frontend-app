@@ -18,4 +18,8 @@ export default function PagesConfig($stateProvider) {
       url: '/doacao',
       templateUrl: './src/pages/view/donate.html'
     })
+    .state('pages.contact', {
+      url: '/contato',
+      templateUrl: './src/pages/view/contact.html'
+    })
 }

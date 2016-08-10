@@ -1,5 +1,5 @@
 export default class Faq {
-  constructor($state, $stateParams, $anchorScroll, FaqService) {
+  constructor($state, $stateParams, FaqService) {
     this.$state = $state
     this.faqService = FaqService
     this.faqService.getCategories()
@@ -13,8 +13,7 @@ export default class Faq {
     } else if (!$stateParams.categoryId && !$stateParams.questionId) {
       $state.go('faq.category', { categoryId: 1 })
     }
-    $anchorScroll('scrollArea')
   }
 }
 
-Faq.$inject = ['$state','$stateParams', '$anchorScroll', 'FaqService']
+Faq.$inject = ['$state','$stateParams', 'FaqService']

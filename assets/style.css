@@ -81,6 +81,10 @@ dl dd:last-child {
 .form-buttons.form-buttons-left .btn {
   margin-right: 5px;
 }
+.form-buttons.form-buttons-center {
+  text-align: center;
+  margin-right: 5px;
+}
 
 
 .input-group.transparent .form-control {
