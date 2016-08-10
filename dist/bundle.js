@@ -673,7 +673,7 @@ var FacebookFactory = function () {
       appId: null,
       status: true,
       cookie: false,
-      xfbml: false,
+      xfbml: true,
       version: 'v2.4',
       scope: ''
     };
