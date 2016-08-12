@@ -2,9 +2,7 @@ export default function PagesConfig($stateProvider) {
   $stateProvider
     .state('pages', {
       url: '/paginas',
-      templateUrl: './src/pages/view/pages.html',
-      controller: 'Pages',
-      controllerAs: 'ctrl'
+      templateUrl: './src/pages/view/pages.html'
     })
     .state('pages.terms', {
       url: '/termos-de-uso',
@@ -16,10 +14,14 @@ export default function PagesConfig($stateProvider) {
     })
     .state('pages.donate', {
       url: '/doacao',
-      templateUrl: './src/pages/view/donate.html'
+      templateUrl: './src/pages/view/donate.html',
+      controller: 'Donate',
+      controllerAs: 'ctrl'
     })
     .state('pages.contact', {
       url: '/contato',
-      templateUrl: './src/pages/view/contact.html'
+      templateUrl: './src/pages/view/contact.html',
+      controller: 'Contact',
+      controllerAs: 'ctrl'
     })
 }

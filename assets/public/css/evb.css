@@ -17,6 +17,9 @@ a:hover {
 .text-danger {
   color: #f25e5e;
 }
+.panel.profile .panel-body h4 {
+  color: #0ea4f1;
+}
 .alert {
   color: #fff;
   font-weight: 500;

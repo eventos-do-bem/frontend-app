@@ -10,7 +10,7 @@
         <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
       </li>
       <li>
-        <a>Digite para encontrar outras...</a>
+        <a>Digite para encontrar mais...</a>
       </li>
     </ul>
   </div>
@@ -65,9 +65,6 @@
             </div>
             <div data-ng-class="{'has-error':registerOng.area_activity.$invalid}">
               <input type="text" name="area_activity" data-ng-model="ctrl.user.area_activity" placeholder="Qual sua área de atuação?" uib-typeahead="item.label for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
-              <!--<select ng-options="item as item.label for item in ctrl.area_activities track by item.id" name="area_activity" class="form-control" data-ng-model="ctrl.user.area_activity" required>
-                <option value="">Qual sua área de atuação?</option>
-              </select>-->
             </div>
           </div>
           <div data-ng-switch-when="1">

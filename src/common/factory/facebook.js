@@ -4,7 +4,7 @@ export default class FacebookFactory {
       appId: null,
       status: true,
       cookie: false,
-      xfbml: true,
+      xfbml: false,
       version: 'v2.4',
       scope: ''
     }

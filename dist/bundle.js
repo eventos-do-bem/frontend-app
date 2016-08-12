@@ -45,7 +45,8 @@ var AppController = function AppController($location, $window, API, FacebookFact
   _classCallCheck(this, AppController);
 
   FacebookFactory.init({
-    appId: '922781867788493'
+    appId: '922781867788493',
+    xfbml: true
   });
   // console.log(FacebookFactory.ui)
   // switch($location.path()) {
@@ -192,7 +193,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 angular.module('app', ['ui.bootstrap', 'ngMask', _angularUiRouter2.default, 'ngMessages', 'common', 'home', 'pages', 'faq', 'event', 'auth', 'user', 'institution']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', _interceptor2.default).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":11,"./../common/module.js":17,"./../event/module.js":24,"./../faq/module.js":28,"./../home/module.js":32,"./../institution/module.js":34,"./../pages/module.js":38,"./../user/module.js":45,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+},{"./../auth/module.js":11,"./../common/module.js":17,"./../event/module.js":24,"./../faq/module.js":28,"./../home/module.js":32,"./../institution/module.js":34,"./../pages/module.js":40,"./../user/module.js":47,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -673,7 +674,7 @@ var FacebookFactory = function () {
       appId: null,
       status: true,
       cookie: false,
-      xfbml: true,
+      xfbml: false,
       version: 'v2.4',
       scope: ''
     };
@@ -1207,6 +1208,7 @@ var EventStart = function () {
     if (this.hasDraft()) {
       this.draft = this.getDraft();
     }
+    this.event = {};
     this.categories = [{ id: 'Aniversários', label: 'Aniversários' }, { id: 'Casamentos', label: 'Casamentos' }, { id: 'Corridas', label: 'Corridas' }, { id: 'Jantares', label: 'Jantares' }, { id: 'Voluntariado', label: 'Voluntariado' }];
     InstitutionService.findAll().then(function (response) {
       return _this.institutions = response.data.values;
@@ -1670,9 +1672,7 @@ exports.default = PagesConfig;
 function PagesConfig($stateProvider) {
   $stateProvider.state('pages', {
     url: '/paginas',
-    templateUrl: './src/pages/view/pages.html',
-    controller: 'Pages',
-    controllerAs: 'ctrl'
+    templateUrl: './src/pages/view/pages.html'
   }).state('pages.terms', {
     url: '/termos-de-uso',
     templateUrl: './src/pages/view/terms.html'
@@ -1681,10 +1681,14 @@ function PagesConfig($stateProvider) {
     templateUrl: './src/pages/view/policies.html'
   }).state('pages.donate', {
     url: '/doacao',
-    templateUrl: './src/pages/view/donate.html'
+    templateUrl: './src/pages/view/donate.html',
+    controller: 'Donate',
+    controllerAs: 'ctrl'
   }).state('pages.contact', {
     url: '/contato',
-    templateUrl: './src/pages/view/contact.html'
+    templateUrl: './src/pages/view/contact.html',
+    controller: 'Contact',
+    controllerAs: 'ctrl'
   });
 }
 
@@ -1695,14 +1699,78 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Contact = function Contact($timeout) {
+  var _this = this;
+
+  _classCallCheck(this, Contact);
+
+  $timeout(function () {
+    _this.fbBoxWidth = document.querySelector('.fbBox').offsetWidth;
+  });
+};
+
+exports.default = Contact;
+
+
+Contact.$inject = ['$timeout'];
+
+},{}],38:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Pages = function () {
-  function Pages(CreditCardFactory, FacebookFactory, $timeout) {
-    _classCallCheck(this, Pages);
+var DonateBillet = function () {
+  function DonateBillet($uibModalInstance, donate) {
+    _classCallCheck(this, DonateBillet);
 
+    this.instance = $uibModalInstance;
+    this.donate = donate;
+  }
+
+  _createClass(DonateBillet, [{
+    key: 'buildBillet',
+    value: function buildBillet(donate) {
+      this.instance.close(donate);
+    }
+  }, {
+    key: 'cancel',
+    value: function cancel() {
+      this.instance.dismiss('cancel');
+    }
+  }]);
+
+  return DonateBillet;
+}();
+
+exports.default = DonateBillet;
+
+
+DonateBillet.$inject = ['$uibModalInstance', 'donate'];
+
+},{}],39:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Donate = function () {
+  function Donate($uibModal, CreditCardFactory) {
+    _classCallCheck(this, Donate);
+
+    this.modal = $uibModal;
     this.creditCard = CreditCardFactory;
     this.donateOff = {
       number: '0000-0000-0000-0000',
@@ -1714,7 +1782,7 @@ var Pages = function () {
       cvc: '•••'
     };
     this.card = document.querySelector('.card');
-    this.frontInputs = ['value', 'number', 'name', 'month', 'year'];
+    this.frontInputs = ['cardValue', 'cardNumber', 'cardName', 'cardMonth', 'cardYear'];
     this.months = [];
     for (var m = 1; m <= 12; m++) {
       if (m <= 9) {
@@ -1728,10 +1796,38 @@ var Pages = function () {
     var curYear = today.getFullYear();
     for (var y = curYear; y <= curYear + 10; y++) {
       this.years.push(y);
-    }
+    }this.questions = [{ question: 'Como eu apoio este projeto?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Como eu apoio este projeto?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }];
   }
 
-  _createClass(Pages, [{
+  _createClass(Donate, [{
+    key: 'openBillet',
+    value: function openBillet() {
+      var _this = this;
+
+      var modalInstance = this.modal.open({
+        templateUrl: './../src/pages/view/modalContent.html',
+        controller: 'DonateBillet',
+        controllerAs: 'ctrl',
+        resolve: {
+          donate: function donate() {
+            return _this.donate;
+          }
+        }
+      });
+      modalInstance.result.then(function (donate) {
+        return console.log(donate);
+      });
+    }
+  }, {
+    key: 'open',
+    value: function open(item) {
+      if (item.active) return item.active = false;
+      this.questions.map(function (q) {
+        return q.active = false;
+      });
+      item.active = true;
+    }
+  }, {
     key: 'onFocus',
     value: function onFocus(input) {
       var card = document.querySelector('.card');
@@ -1743,12 +1839,13 @@ var Pages = function () {
     key: 'onValidate',
     value: function onValidate(form) {
       var card = document.querySelector('.card');
-      if (form.value.$valid && form.number.$valid && form.name.$valid && form.month.$valid && form.year.$valid) {
-        card.classList.add('validated');
-        // document.querySelector('form[name="donate"] input[name="cvc"]').focus()
-      } else {
+      this.frontInputs.map(function (name) {
+        if (!form[name].$valid) {
           card.classList.remove('validated');
+          return;
         }
+      });
+      card.classList.add('validated');
       //5165-3011-0835-3140
     }
   }, {
@@ -1758,15 +1855,15 @@ var Pages = function () {
     }
   }]);
 
-  return Pages;
+  return Donate;
 }();
 
-exports.default = Pages;
+exports.default = Donate;
 
 
-Pages.$inject = ['CreditCardFactory', 'FacebookFactory', '$timeout'];
+Donate.$inject = ['$uibModal', 'CreditCardFactory'];
 
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1777,15 +1874,23 @@ var _config = require('./config.js');
 
 var _config2 = _interopRequireDefault(_config);
 
-var _pages = require('./controller/pages.js');
+var _contact = require('./controller/contact.js');
 
-var _pages2 = _interopRequireDefault(_pages);
+var _contact2 = _interopRequireDefault(_contact);
+
+var _donate = require('./controller/donate.js');
+
+var _donate2 = _interopRequireDefault(_donate);
+
+var _donateBillet = require('./controller/donate.billet.js');
+
+var _donateBillet2 = _interopRequireDefault(_donateBillet);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('pages', []).config(_config2.default).controller('Pages', _pages2.default);
+exports.default = angular.module('pages', []).config(_config2.default).controller('Contact', _contact2.default).controller('Donate', _donate2.default).controller('DonateBillet', _donateBillet2.default);
 
-},{"./config.js":36,"./controller/pages.js":37}],39:[function(require,module,exports){
+},{"./config.js":36,"./controller/contact.js":37,"./controller/donate.billet.js":38,"./controller/donate.js":39}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1836,7 +1941,7 @@ function UserConfig($stateProvider) {
   });
 }
 
-},{}],40:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1886,7 +1991,7 @@ exports.default = UserChange;
 
 UserChange.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService'];
 
-},{}],41:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1946,7 +2051,7 @@ exports.default = UserConfirmation;
 
 UserConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'UserService', 'StorageService'];
 
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2007,7 +2112,7 @@ exports.default = UserMeConfigurations;
 
 UserMeConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'UserService', 'user'];
 
-},{}],43:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2032,7 +2137,7 @@ exports.default = UserMe;
 
 UserMe.$inject = ['$scope', '$window', '$state', 'StorageService', 'UserService', 'me'];
 
-},{}],44:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2212,7 +2317,7 @@ exports.default = UserRegister;
 
 UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', '$http', 'UserService'];
 
-},{}],45:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2251,7 +2356,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('user', []).config(_config2.default).controller('UserMe', _me2.default).controller('UserMeConfigurations', _meConfigurations2.default).controller('UserChange', _change2.default).controller('UserConfirmation', _confirmation2.default).controller('UserRegister', _register2.default).service('UserService', _service2.default);
 
-},{"./config.js":39,"./controller/change.js":40,"./controller/confirmation.js":41,"./controller/me.configurations.js":42,"./controller/me.js":43,"./controller/register.js":44,"./service.js":46}],46:[function(require,module,exports){
+},{"./config.js":41,"./controller/change.js":42,"./controller/confirmation.js":43,"./controller/me.configurations.js":44,"./controller/me.js":45,"./controller/register.js":46,"./service.js":48}],48:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

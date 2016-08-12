@@ -6,6 +6,7 @@ export default class EventStart {
     if (this.hasDraft()) {
       this.draft = this.getDraft()
     }
+    this.event = {}
     this.categories = [
       { id: 'Aniversários', label: 'Aniversários' },
       { id: 'Casamentos', label: 'Casamentos' },

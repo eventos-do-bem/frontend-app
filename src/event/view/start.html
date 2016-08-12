@@ -1,7 +1,23 @@
+<script type="text/ng-template" id="typeaheadPopupTemplate.html">
+  <div class="typeahead-popup"
+     ng-style="{top: position().top+'px', left: position().left+'px'}"
+     style="display: block;width: 100%;"
+     ng-show="isOpen() && !moveInProgress"
+     aria-hidden="{{!isOpen()}}">
+    <ul class="dropdown-menu" role="listbox">
+      <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+        ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+        <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+      </li>
+      <li data-ng-show="ctrl.institutions.length > 10">
+        <a>Digite para encontrar mais...</a>
+      </li>
+    </ul>
+  </div>
+</script>
 <div class="event container">
   <div class="row">
     <div class="col-md-7">
-
       <h3>
         Comece um evento
       </h3>
@@ -23,10 +39,7 @@
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.cause.$invalid}">
           <label for="cause" class="control-label">Escolha a causa que irá ajudar</label>
-          <!-- ONGs cadastradas -->
-          <select ng-options="item.name for item in ctrl.institutions track by item.uuid" name="cause" class="form-control" data-ng-model="ctrl.event.cause" required>
-            <option value="">Selecione</option>
-          </select>
+          <input type="text" name="cause" data-ng-model="ctrl.event.cause" placeholder="Encontre uma causa" uib-typeahead="item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
         </div>
         <p>Não tem causa? <a href="#">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a ui-sref="pages.contact">Entre em contato</a></p>
         <div class="form-group" data-ng-class="{'has-error':start.category.$invalid}">
