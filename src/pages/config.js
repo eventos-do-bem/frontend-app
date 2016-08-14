@@ -4,6 +4,10 @@ export default function PagesConfig($stateProvider) {
       url: '/paginas',
       templateUrl: './src/pages/view/pages.html'
     })
+    .state('pages.about', {
+      url: '/quem-somos',
+      templateUrl: './src/pages/view/about.html'
+    })
     .state('pages.terms', {
       url: '/termos-de-uso',
       templateUrl: './src/pages/view/terms.html'

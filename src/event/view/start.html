@@ -15,166 +15,164 @@
     </ul>
   </div>
 </script>
-<div class="event container">
-  <div class="row">
-    <div class="col-md-7">
-      <h3>
-        Comece um evento
-      </h3>
-      <form name="start" novalidate data-ng-submit="ctrl.save(ctrl.event)">
-        <div class="form-group" data-ng-class="{'has-error':start.name.$invalid}">
-          <label for="" class="control-label">Nome</label>
-          <div class="input-group transparent">
-            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" placeholder="Digite o nome do evento aqui" maxlength="60" required autofocus>
-            <span class="input-group-addon">{{(ctrl.getAttr('name','maxlength') - ctrl.event.name.length)}}/{{ctrl.getAttr('name','maxlength')}}</span>
-          </div>
+<div class="row">
+  <div class="col-md-7">
+    <h3>
+      Comece um evento
+    </h3>
+    <form name="start" novalidate data-ng-submit="ctrl.save(ctrl.event)">
+      <div class="form-group" data-ng-class="{'has-error':start.name.$invalid}">
+        <label for="" class="control-label">Nome</label>
+        <div class="input-group transparent">
+          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" placeholder="Digite o nome do evento aqui" maxlength="60" required autofocus>
+          <span class="input-group-addon">{{(ctrl.getAttr('name','maxlength') - ctrl.event.name.length)}}/{{ctrl.getAttr('name','maxlength')}}</span>
         </div>
-        <div class="form-group" data-ng-class="{'has-error':start.uri.$invalid}">
-          <label for="uri" class="control-label">Como você quer o endereço da sua campanha?</label>
-          <div class="input-group transparent">
-            <span class="input-group-addon">www.eventosdobem.com.br/</span>
-            <input type="text" name="uri" id="uri" class="form-control" data-ng-model="ctrl.event.uri" placeholder="nome da campanha" data-ng-maxlength="50" maxlength="50" required>
-            <span class="input-group-addon">{{(ctrl.getAttr('uri','maxlength') - ctrl.event.uri.length)}}/{{ctrl.getAttr('uri','maxlength')}}</span>
-          </div>
+      </div>
+      <div class="form-group" data-ng-class="{'has-error':start.uri.$invalid}">
+        <label for="uri" class="control-label">Como você quer o endereço da sua campanha?</label>
+        <div class="input-group transparent">
+          <span class="input-group-addon">www.eventosdobem.com.br/</span>
+          <input type="text" name="uri" id="uri" class="form-control" data-ng-model="ctrl.event.uri" placeholder="nome da campanha" data-ng-maxlength="50" maxlength="50" required>
+          <span class="input-group-addon">{{(ctrl.getAttr('uri','maxlength') - ctrl.event.uri.length)}}/{{ctrl.getAttr('uri','maxlength')}}</span>
         </div>
-        <div class="form-group" data-ng-class="{'has-error':start.cause.$invalid}">
-          <label for="cause" class="control-label">Escolha a causa que irá ajudar</label>
-          <input type="text" name="cause" data-ng-model="ctrl.event.cause" placeholder="Encontre uma causa" uib-typeahead="item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
+      </div>
+      <div class="form-group" data-ng-class="{'has-error':start.cause.$invalid}">
+        <label for="cause" class="control-label">Escolha a causa que irá ajudar</label>
+        <input type="text" name="cause" data-ng-model="ctrl.event.cause" placeholder="Encontre uma causa" uib-typeahead="item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
+      </div>
+      <p>Não tem causa? <a href="#">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a ui-sref="pages.contact">Entre em contato</a></p>
+      <div class="form-group" data-ng-class="{'has-error':start.category.$invalid}">
+        <label for="category" class="control-label">Categoria do Evento do Bem</label>
+        <select ng-options="item as item.label for item in ctrl.categories track by item.id" name="category" class="form-control" data-ng-model="ctrl.event.category" required>
+          <option value="">Selecione</option>
+        </select>
+      </div>
+      <p>Se quiser você pode personalizar a foto da sua campanha</p>
+      <div class="media">
+        <div class="media-left">
+          <a href="#">
+            <img class="media-object" src="/assets/icons/svgs/upload.svg" alt="">
+          </a>
         </div>
-        <p>Não tem causa? <a href="#">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a ui-sref="pages.contact">Entre em contato</a></p>
-        <div class="form-group" data-ng-class="{'has-error':start.category.$invalid}">
-          <label for="category" class="control-label">Categoria do Evento do Bem</label>
-          <select ng-options="item as item.label for item in ctrl.categories track by item.id" name="category" class="form-control" data-ng-model="ctrl.event.category" required>
-            <option value="">Selecione</option>
-          </select>
+        <div class="media-body">
+          <p>
+            JPEG ou PNG - 1MB limite de tamanho do arquivo <br>
+            Essa é a principal imagem da sua campanha, pega uma lindona :) <br>
+            Tamanho recomendado: xxxx de largura por xxx de altura 
+          </p>
         </div>
-        <p>Se quiser você pode personalizar a foto da sua campanha</p>
-        <div class="media">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="/assets/icons/svgs/upload.svg" alt="">
-            </a>
-          </div>
-          <div class="media-body">
-            <p>
-              JPEG ou PNG - 1MB limite de tamanho do arquivo <br>
-              Essa é a principal imagem da sua campanha, pega uma lindona :) <br>
-              Tamanho recomendado: xxxx de largura por xxx de altura 
-            </p>
-          </div>
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" name="image_default">
-            Quero usar a imagem padrão registrada para a causa que escolhi.
-          </label>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group" data-ng-class="{'has-error':start.goal.$invalid}">
-              <label for="goal" class="control-label">Meta</label>
-              <div class="input-group">
-                <span class="input-group-addon">R$</span>
-                <input type="text" name="goal" id="goal" class="form-control" data-ng-model="ctrl.event.goal" placeholder="Digite o valor">
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="disable_goal">
-                  Desabilitar meta
-                </label>
-              </div>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="image_default">
+          Quero usar a imagem padrão registrada para a causa que escolhi.
+        </label>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group" data-ng-class="{'has-error':start.goal.$invalid}">
+            <label for="goal" class="control-label">Meta</label>
+            <div class="input-group">
+              <span class="input-group-addon">R$</span>
+              <input type="text" name="goal" id="goal" class="form-control" data-ng-model="ctrl.event.goal" placeholder="Digite o valor">
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group" data-ng-class="{'has-error':start.end_date.$invalid}">
-              <label for="end_date" class="control-label">Término</label>
-              <input type="text" name="end_date" id="end_date" mask="99/99/9999" class="form-control" data-ng-model="ctrl.event.end_date">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="disable_goal">
+                Desabilitar meta
+              </label>
             </div>
           </div>
         </div>
-        <div class="form-group" data-ng-class="{'has-error':start.description.$invalid}">
-          <label for="" class="control-label">Texto explicativo</label>
-          <textarea name="description" id="description" class="form-control" data-ng-model="ctrl.event.description"></textarea>
+        <div class="col-md-6">
+          <div class="form-group" data-ng-class="{'has-error':start.end_date.$invalid}">
+            <label for="end_date" class="control-label">Término</label>
+            <input type="text" name="end_date" id="end_date" mask="99/99/9999" class="form-control" data-ng-model="ctrl.event.end_date">
+          </div>
         </div>
-        <div class="form-group" data-ng-class="{'has-error':start.video.$invalid}">
-          <label for="video" class="control-label">Vídeo (Youtube ou Vimeo)</label>
-          <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video">
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" name="video_default">
-            Quero usar o vídeo padrão da causa que irei ajudar.
-          </label>
-        </div>
-        <div class="form-buttons form-buttons-left">
-          <button class="btn btn-default" type="button" data-ng-click="ctrl.saveDraft(ctrl.event)">Salvar rascunho</button>
-          <button class="btn btn-primary" type="submit">
-            <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-            Publicar Evento do Bem
-          </button>
-        </div>
-      </form>
+      </div>
+      <div class="form-group" data-ng-class="{'has-error':start.description.$invalid}">
+        <label for="" class="control-label">Texto explicativo</label>
+        <textarea name="description" id="description" class="form-control" data-ng-model="ctrl.event.description"></textarea>
+      </div>
+      <div class="form-group" data-ng-class="{'has-error':start.video.$invalid}">
+        <label for="video" class="control-label">Vídeo (Youtube ou Vimeo)</label>
+        <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video">
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="video_default">
+          Quero usar o vídeo padrão da causa que irei ajudar.
+        </label>
+      </div>
+      <div class="form-buttons form-buttons-left">
+        <button class="btn btn-default" type="button" data-ng-click="ctrl.saveDraft(ctrl.event)">Salvar rascunho</button>
+        <button class="btn btn-primary" type="submit">
+          <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+          Publicar Evento do Bem
+        </button>
+      </div>
+    </form>
 
-    </div>
-    <div class="col-md-5">
-      <aside>
-        <h3>
-          Utilidades na hora de criar um evento
-        </h3>
-        <div>
-          <div class="form-buttons form-buttons-left">
-            <div class="btn-group" uib-dropdown>
-              <button id="split-button" type="button" class="btn btn-default" data-ng-disabled="!ctrl.hasDraft()" uib-dropdown-toggle>
-                Rascunho
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                <li role="menuitem">
-                  <a href="javascript:void(0)" data-ng-click="ctrl.loadDraft()">
-                    <span class="text-primary">
-                      <i class="fa fa-battery-half" aria-hidden="true"></i>
-                      Preencher com rascunho
-                    </span>
-                  </a>
-                </li>
-                <li role="menuitem">
-                  <a href="javascript:void(0)" data-ng-click="ctrl.removeDraft()">
-                    <span class="text-danger">
-                      <i class="fa fa-battery-empty" aria-hidden="true"></i>
-                      Apagar rascunho
-                    </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="panel panel-default" data-ng-show="ctrl.hasDraft()">
-            <div class="panel-heading">
-              <h5>Rascunho</h5>
-            </div>
-            <div class="panel-body">
-              <dl>
-                <dt>Nome:</dt>
-                <dd data-ng-bind="ctrl.draft.name"></dd>
-                <dt>Endereço da campanha:</dt>
-                <dd data-ng-bind="ctrl.draft.uri"></dd>
-                <dt>Causa:</dt>
-                <dd data-ng-bind="ctrl.draft.cause"></dd>
-                <dt>Categoria:</dt>
-                <dd data-ng-bind="ctrl.draft.category"></dd>
-                <dt>Meta:</dt>
-                <dd data-ng-bind="ctrl.draft.goal"></dd>
-                <dt>Término:</dt>
-                <dd data-ng-bind="ctrl.draft.end_date"></dd>
-                <dt>Descrição:</dt>
-                <dd data-ng-bind="ctrl.draft.description"></dd>
-                <dt>Vídeo:</dt>
-                <dd data-ng-bind="ctrl.draft.video"></dd>
-              </dl>
-            </div>
+  </div>
+  <div class="col-md-5">
+    <aside>
+      <h3>
+        Utilidades na hora de criar um evento
+      </h3>
+      <div>
+        <div class="form-buttons form-buttons-left">
+          <div class="btn-group" uib-dropdown>
+            <button id="split-button" type="button" class="btn btn-default" data-ng-disabled="!ctrl.hasDraft()" uib-dropdown-toggle>
+              Rascunho
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+              <li role="menuitem">
+                <a href="javascript:void(0)" data-ng-click="ctrl.loadDraft()">
+                  <span class="text-primary">
+                    <i class="fa fa-battery-half" aria-hidden="true"></i>
+                    Preencher com rascunho
+                  </span>
+                </a>
+              </li>
+              <li role="menuitem">
+                <a href="javascript:void(0)" data-ng-click="ctrl.removeDraft()">
+                  <span class="text-danger">
+                    <i class="fa fa-battery-empty" aria-hidden="true"></i>
+                    Apagar rascunho
+                  </span>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-      </aside>
-    </div>
+        <div class="panel panel-default" data-ng-show="ctrl.hasDraft()">
+          <div class="panel-heading">
+            <h5>Rascunho</h5>
+          </div>
+          <div class="panel-body">
+            <dl>
+              <dt>Nome:</dt>
+              <dd data-ng-bind="ctrl.draft.name"></dd>
+              <dt>Endereço da campanha:</dt>
+              <dd data-ng-bind="ctrl.draft.uri"></dd>
+              <dt>Causa:</dt>
+              <dd data-ng-bind="ctrl.draft.cause"></dd>
+              <dt>Categoria:</dt>
+              <dd data-ng-bind="ctrl.draft.category"></dd>
+              <dt>Meta:</dt>
+              <dd data-ng-bind="ctrl.draft.goal"></dd>
+              <dt>Término:</dt>
+              <dd data-ng-bind="ctrl.draft.end_date"></dd>
+              <dt>Descrição:</dt>
+              <dd data-ng-bind="ctrl.draft.description"></dd>
+              <dt>Vídeo:</dt>
+              <dd data-ng-bind="ctrl.draft.video"></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </aside>
   </div>
 </div>

@@ -7,6 +7,7 @@ export default class UserRegister {
     this.masterUser = {
       gender: 'Feminino',
     }
+    if ($stateParams.tab === 'ong') this.activeForm = 1
     this.step = 0
     this.showPassword = false
     this.typeInputPassword = 'password'

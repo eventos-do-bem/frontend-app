@@ -29,7 +29,7 @@ export default function UserConfig($stateProvider) {
       }
     })
     .state('user.register', {
-      url: '/cadastro',
+      url: '/cadastro/:tab',
       templateUrl: './src/user/view/register.html',
       controller: 'UserRegister',
       controllerAs: 'ctrl'

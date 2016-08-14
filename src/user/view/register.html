@@ -16,8 +16,8 @@
   </div>
 </script>
 <div class="form-signin">
-  <uib-tabset active="activeForm" justified="true">
-    <uib-tab index="0" heading="Usuário" select="ctrl.changeTab(activeForm)">
+  <uib-tabset active="ctrl.activeForm" justified="true">
+    <uib-tab index="0" heading="Usuário" select="ctrl.changeTab(ctrl.activeForm)">
       <form name="registerUser" novalidate data-ng-submit="ctrl.registerUser(ctrl.user)">
         <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.registerFacebook()">
           <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -53,7 +53,7 @@
         <button class="btn btn-lg btn-success btn-block" type="submit" data-ng-disabled="registerUser.$invalid">Cadastrar</button>
       </form>
     </uib-tab>
-    <uib-tab index="1" heading="Ong" select="ctrl.changeTab(activeForm)">
+    <uib-tab index="1" heading="Ong" select="ctrl.changeTab(ctrl.activeForm)">
       <form name="registerOng" novalidate data-ng-submit="ctrl.registerOng(ctrl.user)">
         <div data-ng-switch="ctrl.step">
           <div data-ng-switch-when="0">

@@ -612,7 +612,7 @@ var CreditCardFactory = function () {
     this.options = {
       amex: [34, 37],
       visa: [4],
-      master: [51, 52, 53, 54, 55],
+      mastercard: [51, 52, 53, 54, 55],
       diners: [300, 301, 302, 303, 304, 305, 2014, 2149, 36],
       hipercard: [38],
       aura: [50],
@@ -1176,8 +1176,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = EventConfig;
 function EventConfig($stateProvider) {
-  $stateProvider.state('start', {
-    url: '/evento/comecar',
+  $stateProvider.state('event', {
+    url: '/evento',
+    templateUrl: './src/event/view/event.html'
+  }).state('event.start', {
+    url: '/comecar',
     authenticate: true,
     templateUrl: './src/event/view/start.html',
     controller: 'EventStart',
@@ -1673,6 +1676,9 @@ function PagesConfig($stateProvider) {
   $stateProvider.state('pages', {
     url: '/paginas',
     templateUrl: './src/pages/view/pages.html'
+  }).state('pages.about', {
+    url: '/quem-somos',
+    templateUrl: './src/pages/view/about.html'
   }).state('pages.terms', {
     url: '/termos-de-uso',
     templateUrl: './src/pages/view/terms.html'
@@ -1805,7 +1811,7 @@ var Donate = function () {
       var _this = this;
 
       var modalInstance = this.modal.open({
-        templateUrl: './../src/pages/view/modalContent.html',
+        templateUrl: './../src/pages/view/billet.html',
         controller: 'DonateBillet',
         controllerAs: 'ctrl',
         resolve: {
@@ -1924,7 +1930,7 @@ function UserConfig($stateProvider) {
       }
     }
   }).state('user.register', {
-    url: '/cadastro',
+    url: '/cadastro/:tab',
     templateUrl: './src/user/view/register.html',
     controller: 'UserRegister',
     controllerAs: 'ctrl'
@@ -2161,6 +2167,7 @@ var UserRegister = function () {
     this.masterUser = {
       gender: 'Feminino'
     };
+    if ($stateParams.tab === 'ong') this.activeForm = 1;
     this.step = 0;
     this.showPassword = false;
     this.typeInputPassword = 'password';

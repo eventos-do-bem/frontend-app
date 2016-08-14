@@ -35,7 +35,7 @@ export default class Donate {
   }
   openBillet() {
     let modalInstance = this.modal.open({
-      templateUrl: './../src/pages/view/modalContent.html',
+      templateUrl: './../src/pages/view/billet.html',
       controller: 'DonateBillet',
       controllerAs: 'ctrl',
       resolve: {

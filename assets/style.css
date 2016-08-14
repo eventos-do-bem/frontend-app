@@ -56,6 +56,12 @@ p a {
 
 /* /fonts */
 
+/* btn */
+.btn.btn-horizontal-large {
+  padding-left: 60px;
+  padding-right: 60px;
+}
+/* /btn */
 dl dt,
 dl dd {
   font-size: 1.6rem;
@@ -75,6 +81,7 @@ dl dd:last-child {
   border-bottom-width: 0px;
 }
 
+/* form-buttons */
 .form-buttons {
   padding: 24px 0px;
 }
@@ -85,10 +92,13 @@ dl dd:last-child {
   text-align: center;
   margin-right: 5px;
 }
+/* /form-buttons */
 
+/* modal */
 .modal-content {
   border-radius: 0px;
 }
+/* /modal */
 
 .input-group.transparent .form-control {
   border-right-width: 0px;
@@ -688,7 +698,19 @@ header .navbar .navbar-brand {
   font-size: 1.6rem;
   color: #fff;
 }
-/* /.creditcard */
+/* /creditcard */
+
+/* donate */
+.donate .flags {
+  margin-bottom: 20px;
+}
+.donate .flags i {
+  font-size: 3.2rem;
+}
+.donate .flags i.fa-barcode {
+  margin-left: 25px;
+}
+/* /donate */
 
 footer {
   margin-top: 20px;
