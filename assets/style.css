@@ -151,6 +151,7 @@ header .navbar .navbar-brand {
 }
 /* /navbar */
 
+/* banner */
 .banner {
   background-image: url('../assets/images/banner-home.jpg');
   background-repeat: no-repeat;
@@ -174,7 +175,25 @@ header .navbar .navbar-brand {
   color: #000;
   font-weight: 500;
 }
+/* /banner */
 
+/* form */
+.input-countdown {
+  position: relative;
+}
+.input-countdown .form-control {
+  z-index: 2;
+}
+.input-countdown .input-countdown-chars {
+  position: absolute;
+  padding: 6px 12px;
+  right: 0px;
+  bottom: 0px;
+  font-size: 1.4rem;
+  color: #999;
+  z-index: 3;
+}
+/* /form */
 .event .media {
   background-color: #eee;
 }

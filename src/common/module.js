@@ -3,6 +3,7 @@ import FacebookFactory    from './factory/facebook.js'
 import FacebookService    from './service/facebook.js'
 import CreditCardFactory  from './factory/creditcard.js'
 import FixedOnScroll      from './directive/fixedOnScroll.js'
+import CountDownElement from './component/countDownElement.js'
 import Header             from './controller/header.js'
 import Storage            from './service/storage.js'
 import Hydrator           from './service/hydrator.js'
@@ -17,3 +18,4 @@ export default angular
   .service('Hydrator', Hydrator)
   .controller('Header', Header)
   .directive('fixedOnScroll', FixedOnScroll.directiveFactory)
+  .component('countDownElement', CountDownElement)
