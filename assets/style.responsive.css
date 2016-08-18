@@ -16,7 +16,7 @@
     width: 160px;
     height: 85px;
   }
-  
+
   /* timeline */
   ul.timeline:before {
     left: 40px;
@@ -47,6 +47,12 @@
     border-left-width: 0;
   }
   /* /timeline */
+  
+  /* faq */
+  .faq .search {
+    padding: 20px;
+  }
+  /* /faq */
 }
 
 /* Small devices */
@@ -62,6 +68,11 @@
     width: 360px;
     height: 215px;
   }
+  /* faq */
+  .faq .search {
+    padding: 40px 100px;
+  }
+  /* /faq */
 }
 
 /* Medium devices */
@@ -77,6 +88,12 @@
     width: 560px;
     height: 315px;
   }
+
+  /* faq */
+  .faq .search {
+    padding: 80px 200px;
+  }
+  /* /faq */
 }
 
 /* Large devices */
@@ -92,6 +109,11 @@
     width: 560px;
     height: 315px;
   }
+  /* faq */
+  .faq .search {
+    padding: 80px 200px;
+  }
+  /* /faq */
 }
 
 /* Extra large devices */
@@ -107,4 +129,9 @@
     width: 760px;
     height: 515px;
   }
+  /* faq */
+  .faq .search {
+    padding: 80px 200px;
+  }
+  /* /faq */
 }

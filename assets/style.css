@@ -1,12 +1,12 @@
 
 html {
-  position: relative;
+  /*position: relative;*/
   min-height: 100%;
   font-size: 62.5%;
 }
 body {
   margin-top: 60px;
-  margin-bottom: 200px;
+  /*margin-bottom: 200px;*/
   font-family: 'Lato', sans-serif;
   font-size: 62.5%;
 }
@@ -343,7 +343,6 @@ header .navbar .navbar-brand {
   padding-bottom: 60px;
 }
 .faq .search {
-  padding: 80px 200px;
   text-align: center;
 }
 .faq .search h1 {
@@ -864,10 +863,10 @@ header .navbar .navbar-brand {
 
 footer {
   margin-top: 20px;
-  position: absolute;
+  /*position: absolute;*/
   bottom: 0px;
   width: 100%;
-  height: 180px;
+  /*height: 180px;*/
   background-color: #111;
 }
 
