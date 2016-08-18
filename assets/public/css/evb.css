@@ -56,6 +56,12 @@ a:hover {
 .has-error .input-group-addon {
   border-color: #ff1e00;
 }
+.timeline-badge.purple {
+  background-color: #9060c2;
+}
+.timeline:before {
+  border-color: #9060c2;
+}
 .faq article hr {
   background-color: #ff1e00;
 }

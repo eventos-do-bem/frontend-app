@@ -1701,6 +1701,9 @@ function PagesConfig($stateProvider) {
   }).state('pages.about', {
     url: '/quem-somos',
     templateUrl: './src/pages/view/about.html'
+  }).state('pages.how-it-works', {
+    url: '/como-funciona',
+    templateUrl: './src/pages/view/how-it-works.html'
   }).state('pages.terms', {
     url: '/termos-de-uso',
     templateUrl: './src/pages/view/terms.html'

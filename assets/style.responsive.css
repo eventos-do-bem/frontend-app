@@ -16,6 +16,37 @@
     width: 160px;
     height: 85px;
   }
+  
+  /* timeline */
+  ul.timeline:before {
+    left: 40px;
+  }
+  ul.timeline > li > .timeline-panel {
+   width: calc(100% - 90px);
+   width: -moz-calc(100% - 90px);
+   width: -webkit-calc(100% - 90px);
+  }
+  ul.timeline > li > .timeline-badge {
+    top: 16px;
+    left: 15px;
+    margin-left: 0;
+  }
+  ul.timeline > li > .timeline-panel {
+    float: right;
+  }
+  ul.timeline > li > .timeline-panel:before {
+    right: auto;
+    left: -15px;
+    border-right-width: 15px;
+    border-left-width: 0;
+  }
+  ul.timeline > li > .timeline-panel:after {
+    right: auto;
+    left: -14px;
+    border-right-width: 14px;
+    border-left-width: 0;
+  }
+  /* /timeline */
 }
 
 /* Small devices */
