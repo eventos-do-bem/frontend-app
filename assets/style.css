@@ -117,6 +117,9 @@ p a {
   padding-left: 60px;
   padding-right: 60px;
 }
+.btn.btn-warning {
+  color: #000;
+}
 /* /btn */
 dl dt,
 dl dd {
