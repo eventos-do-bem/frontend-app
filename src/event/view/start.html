@@ -36,14 +36,20 @@
           </div>
         </count-down-element>
       </div>
-      <div class="form-group" data-ng-class="{'has-error':start.cause.$invalid}">
-        <label for="cause" class="control-label">Escolha a causa que irá ajudar</label>
-        <input type="text" name="cause" data-ng-model="ctrl.event.cause" placeholder="Encontre uma causa" uib-typeahead="item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
+      <div class="form-group" data-ng-class="{'has-error':start.institution_uuid.$invalid}">
+        <label for="institution_uuid" class="control-label">Escolha a causa que irá ajudar</label>
+        <input type="text" name="institution_uuid" data-ng-model="ctrl.event.institution_uuid" placeholder="Encontre uma causa" uib-typeahead="item as item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
       </div>
       <p>Não tem causa? <a href="#">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a ui-sref="pages.contact">Entre em contato</a></p>
-      <div class="form-group" data-ng-class="{'has-error':start.category.$invalid}">
-        <label for="category" class="control-label">Categoria do Evento do Bem</label>
-        <select ng-options="item as item.label for item in ctrl.categories track by item.id" name="category" class="form-control" data-ng-model="ctrl.event.category" required>
+      <div class="form-group" data-ng-class="{'has-error':start.categorie_uuid.$invalid}">
+        <label for="categorie_uuid" class="control-label">Categoria do Evento do Bem</label>
+        <select ng-options="item.uuid as item.name for item in ctrl.categories track by item.uuid" name="categorie_uuid" id="categorie_uuid" class="form-control" data-ng-model="ctrl.event.categorie_uuid" required>
+          <option value="">Selecione</option>
+        </select>
+      </div>
+      <div class="form-group" data-ng-class="{'has-error':start.citie.$invalid}">
+        <label for="citie" class="control-label">Cidade</label>
+        <select ng-options="item.name as item.name for item in ctrl.cities" name="citie" id="citie" class="form-control" data-ng-model="ctrl.event.citie" required>
           <option value="">Selecione</option>
         </select>
       </div>
@@ -70,11 +76,11 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group" data-ng-class="{'has-error':start.goal.$invalid}">
-            <label for="goal" class="control-label">Meta</label>
+          <div class="form-group" data-ng-class="{'has-error':start.goal_amount.$invalid}">
+            <label for="goal_amount" class="control-label">Meta</label>
             <div class="input-group">
               <span class="input-group-addon">R$</span>
-              <input type="text" name="goal" id="goal" class="form-control" data-ng-model="ctrl.event.goal" placeholder="Digite o valor">
+              <input type="text" name="goal_amount" id="goal_amount" class="form-control" data-ng-model="ctrl.event.goal_amount" placeholder="Digite o valor">
             </div>
             <div class="checkbox">
               <label>
@@ -107,9 +113,10 @@
           Quero usar o vídeo padrão da causa que irei ajudar.
         </label>
       </div>
+      <p>{{start.$error | json}}</p>
       <div class="form-buttons form-buttons-left">
         <button class="btn btn-default" type="button" data-ng-click="ctrl.saveDraft(ctrl.event)">Salvar rascunho</button>
-        <button class="btn btn-primary" type="submit">
+        <button class="btn btn-primary" type="submit" data-ng-disabled="start.$invalid">
           <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
           Publicar Evento do Bem
         </button>

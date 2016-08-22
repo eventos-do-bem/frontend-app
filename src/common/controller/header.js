@@ -2,6 +2,7 @@ export default class Header {
   constructor($scope, $state, $window, StorageService) {
     this.brand = 'Eventos do Bem'
     this.user = StorageService.getItem('user')
+    this.navbarCollapsed = true
     $scope.$on('user.change', () => {
       this.user = StorageService.getItem('user')
     })

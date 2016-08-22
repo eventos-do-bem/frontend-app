@@ -1,5 +1,5 @@
 export default class EventStart {
-  constructor($state, $window, $stateParams, EventService, InstitutionService) {
+  constructor($state, $window, $stateParams, CityService, EventService, CategoryService, InstitutionService) {
     this.$state = $state
     this.window = $window
     this.service = EventService
@@ -7,15 +7,29 @@ export default class EventStart {
       this.draft = this.getDraft()
     }
     this.event = {}
-    this.categories = [
-      { id: 'Aniversários', label: 'Aniversários' },
-      { id: 'Casamentos', label: 'Casamentos' },
-      { id: 'Corridas', label: 'Corridas' },
-      { id: 'Jantares', label: 'Jantares' },
-      { id: 'Voluntariado', label: 'Voluntariado' }
-    ]
+    // this.categories = [
+    //   { id: 'Aniversários', label: 'Aniversários' },
+    //   { id: 'Casamentos', label: 'Casamentos' },
+    //   { id: 'Corridas', label: 'Corridas' },
+    //   { id: 'Jantares', label: 'Jantares' },
+    //   { id: 'Voluntariado', label: 'Voluntariado' }
+    // ]
+    CityService.findAll()
+      .then(response => this.cities = response.data.values)    
     InstitutionService.findAll()
       .then(response => this.institutions = response.data.values)
+    CategoryService.findAll()
+      .then(response => this.categories = response.data.values)
+  }
+  save(event) {
+    event = angular.copy(event)
+    event.institution_uuid = event.institution_uuid.uuid
+    console.log(event)
+    this.service.save(event)
+      .then(
+        response => console.log(response),
+        error => console.error(error)
+      )
   }
   getAttr(name,attr) {
     let e = document.querySelector(`[name='${name}']`)
@@ -40,4 +54,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$state','$window','$stateParams', 'EventService', 'InstitutionService']
+EventStart.$inject = ['$state','$window','$stateParams', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']
