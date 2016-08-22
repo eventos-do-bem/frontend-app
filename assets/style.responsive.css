@@ -53,6 +53,11 @@
     padding: 20px;
   }
   /* /faq */
+  /* explore */
+  .explore .search h1 {
+    padding: 20px;
+  }
+  /* /explore */
 }
 
 /* Small devices */
@@ -73,6 +78,11 @@
     padding: 40px 100px;
   }
   /* /faq */
+  /* explore */
+  .explore .search h1 {
+    padding: 40px 100px;
+  }
+  /* /explore */
 }
 
 /* Medium devices */
@@ -94,6 +104,11 @@
     padding: 80px 200px;
   }
   /* /faq */
+  /* explore */
+  .explore .search h1 {
+    padding: 80px 200px;
+  }
+  /* /explore */
 }
 
 /* Large devices */
@@ -114,6 +129,11 @@
     padding: 80px 200px;
   }
   /* /faq */
+  /* explore */
+  .explore .search h1 {
+    padding: 80px 200px;
+  }
+  /* /explore */
 }
 
 /* Extra large devices */
@@ -134,4 +154,9 @@
     padding: 80px 200px;
   }
   /* /faq */
+  /* explore */
+  .explore .search h1 {
+    padding: 80px 200px;
+  }
+  /* /explore */
 }

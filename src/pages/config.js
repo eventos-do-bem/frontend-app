@@ -12,6 +12,10 @@ export default function PagesConfig($stateProvider) {
       url: '/como-funciona',
       templateUrl: './src/pages/view/how-it-works.html'
     })
+    .state('pages.explore', {
+      url: '/explore-novas-causas',
+      templateUrl: './src/pages/view/explore.html'
+    })
     .state('pages.terms', {
       url: '/termos-de-uso',
       templateUrl: './src/pages/view/terms.html'

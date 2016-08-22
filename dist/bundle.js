@@ -94,7 +94,7 @@ function config(API, $q, $window, $rootScope, $injector) {
       config.headers = config.headers || {};
       config['headers']['Accept'] = API.accept;
       config['headers']['Content-Type'] = API.contenttype;
-      console.log($window.localStorage.getItem('token'));
+      // console.log($window.localStorage.getItem('token'))
       if ($window.localStorage.getItem('token')) {
         config['headers']['Authorization'] = 'Bearer ' + $window.localStorage.getItem('token');
       }
@@ -1708,16 +1708,39 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Home = function Home($scope, $stateParams, $state) {
-  _classCallCheck(this, Home);
-};
+var Home = function () {
+  function Home() {
+    _classCallCheck(this, Home);
+
+    this.impacts = [{
+      icon: 'education',
+      label: 'Educação',
+      title: 'João aprendeu a ler',
+      text: 'Mussum Ipsum, cacilds vidis litro abertis. Viva Forevis aptent taciti sociosqu ad litora torquent Quem manda na minha terra sou Euzis! Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose.'
+    }, {
+      icon: 'health',
+      label: 'Saúde',
+      title: 'João se curou do cancer',
+      text: ''
+    }];
+  }
+
+  _createClass(Home, [{
+    key: 'changeImpact',
+    value: function changeImpact(impact) {}
+  }]);
+
+  return Home;
+}();
 
 exports.default = Home;
 
 
-Home.$inject = ['$scope', '$stateParams', '$state'];
+Home.$inject = [];
 
 },{}],35:[function(require,module,exports){
 'use strict';
@@ -1836,6 +1859,9 @@ function PagesConfig($stateProvider) {
   }).state('pages.how-it-works', {
     url: '/como-funciona',
     templateUrl: './src/pages/view/how-it-works.html'
+  }).state('pages.explore', {
+    url: '/explore-novas-causas',
+    templateUrl: './src/pages/view/explore.html'
   }).state('pages.terms', {
     url: '/termos-de-uso',
     templateUrl: './src/pages/view/terms.html'
