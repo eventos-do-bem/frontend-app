@@ -1,4 +1,4 @@
-let countDownElement = {
+let Component = {
   restrict: 'E',
   transclude: true,
   bindings: {
@@ -13,4 +13,4 @@ let countDownElement = {
   `
 }
 
-export default countDownElement
+export default Component

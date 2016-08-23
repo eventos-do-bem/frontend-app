@@ -14,7 +14,9 @@ export default function PagesConfig($stateProvider) {
     })
     .state('pages.explore', {
       url: '/explore-novas-causas',
-      templateUrl: './src/pages/view/explore.html'
+      templateUrl: './src/pages/view/explore.html',
+      controller: 'Explore',
+      controllerAs: 'ctrl'
     })
     .state('pages.terms', {
       url: '/termos-de-uso',

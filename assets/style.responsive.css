@@ -58,6 +58,21 @@
     padding: 20px;
   }
   /* /explore */
+
+  /* mascot */
+  .mascot {
+    width: 50%;
+    float: right;
+    margin-bottom: -100px;
+  }
+  /* /mascot */
+
+  /* talk-ballon */
+  .talk-ballon {
+    right: 50%;
+    width: 50%;
+  }
+  /* /talk-ballon */
 }
 
 /* Small devices */
@@ -83,6 +98,20 @@
     padding: 40px 100px;
   }
   /* /explore */
+  /* mascot */
+  .mascot {
+    width: 50%;
+    float: right;
+    margin-bottom: -100px;
+  }
+  /* /mascot */
+
+  /* talk-ballon */
+  .talk-ballon {
+    right: 50%;
+    width: 50%;
+  }
+  /* /talk-ballon */
 }
 
 /* Medium devices */

@@ -75,10 +75,16 @@ a {
 .has-error .control-label {
   color: @red;
 }
+.form-control {
+  &:focus {
+    box-shadow: none;
+  }
+}
 .has-error .form-control {
   border-color: @red-strong;
   &:focus {
     border-color: @red-strong;
+    box-shadow: none;
   }
 }
 .has-error .input-group-addon {
@@ -90,6 +96,14 @@ a {
 }
 .timeline:before {
   border-color: @purple;
+}
+
+.typeahead-popup > .dropdown-menu > li > a {
+  color: #777;
+}
+.typeahead-popup > .dropdown-menu > .active > a {
+  color: #fff;
+  background-color: @blue-strong;
 }
 
 .faq article hr {

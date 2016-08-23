@@ -5,6 +5,10 @@ export default class InstitutionService extends CommonService {
     super(API, $http)
     this.setRoute('institutions')
   }
+  findAll() {
+    this.setPublicToken()
+    return super.findAll()
+  }
 }
 
 InstitutionService.$inject = ['API','$http']

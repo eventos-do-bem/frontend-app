@@ -5,6 +5,10 @@ export default class CityService extends CommonService {
     super(API, $http)
     this.setRoute('cities')
   }
+  findAll() {
+    this.setPublicToken()
+    return super.findAll()
+  }
 }
 
 CityService.$inject = ['API','$http']

@@ -5,6 +5,10 @@ export default class CategoryService extends CommonService {
     super(API, $http)
     this.setRoute('categories')
   }
+  findAll() {
+    this.setPublicToken()
+    return super.findAll()
+  }
 }
 
 CategoryService.$inject = ['API','$http']

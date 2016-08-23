@@ -18,10 +18,10 @@
       </ul>
     </div>
   </uib-tabset>
-  <div data-ng-class="{'has-error':login.email.$invalid}">
+  <div data-ng-class="{'has-error':login.email.$invalid && login.email.$dirty}">
     <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Qual email você se cadastrou?" required autofocus>
   </div>
-  <div data-ng-class="{'has-error':login.password.$invalid}">
+  <div data-ng-class="{'has-error':login.password.$invalid && login.password.$dirty}">
     <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="E a senha?" minlength="6" maxlength="10" required>
   </div>
   <label class="show-password" data-ng-disabled="!ctrl.user.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">

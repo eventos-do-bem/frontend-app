@@ -1,3 +1,20 @@
+<script type="text/ng-template" id="typeaheadPopupTemplate.html">
+  <div class="typeahead-popup"
+     ng-style="{top: position().top+'px', left: position().left+'px'}"
+     style="display: block;width: 100%;"
+     ng-show="isOpen() && !moveInProgress"
+     aria-hidden="{{!isOpen()}}">
+    <ul class="dropdown-menu" role="listbox">
+      <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+        ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+        <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+      </li>
+      <li>
+        <a>Digite para encontrar mais...</a>
+      </li>
+    </ul>
+  </div>
+</script>
 <div class="explore">
   <section class="container">
     <div class="row search">
@@ -5,62 +22,37 @@
         <h1 class="text-center">Inspire-se e descubra causas fantásticas para apoiar criando um evento do bem</h1>
         <form class="row" name="search" novalidate>
           <div class="col-md-6">
-            <div class="input-group input-group-lg transparent">
+            <div class="input-group transparent">
               <span class="input-group-addon">
                 <i class="fa fa-search" aria-hidden="true"></i>
               </span>
-              <input type="text" class="form-control" data-ng-model="query">
+              <input type="text" class="form-control" data-ng-model="ctrl.query.ong" data-ng-change="ctrl.search.ong()" data-ng-model-options="ctrl.modelOptions">
             </div>
           </div>
           <div class="col-md-6">
-            <div class="input-group input-group-lg transparent">
+            <div class="input-group transparent">
               <span class="input-group-addon">
                 <i class="fa fa-caret-down" aria-hidden="true"></i>
               </span>
-              <input type="text" class="form-control" data-ng-model="query">
+              <input type="text" name="area_activity" data-ng-model="ctrl.query.area_activity" placeholder="Qual sua área de atuação?" uib-typeahead="item.label for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
+              <!--<input type="text" class="form-control" data-ng-model="ctrl.query.institution" data-ng-change="ctrl.search.institution()" data-ng-model-options="ctrl.modelOptions">-->
             </div>
           </div>
         </form>
       </div>
     </div>
+    <div class="row" data-ng-show="ctrl.loading">
+      <div class="col-md-12">
+        <p>Loading</p>
+      </div>
+    </div>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4" data-ng-repeat="item in ctrl.institutions">
         <div class="thumbnail">
-          <img src="assets/images/avatar.jpg" alt="Avatar">
+          <img data-ng-src="assets/images/avatar.jpg" alt="Avatar">
           <div class="caption">
-            <img class="avatar" src="assets/images/avatar.jpg" alt="Avatar">
-            <p>1 evento do bem = aulas de matemática, português e histórias para as crianças do Projeto Aprender</p>
-            <p>1 evento do bem = aulas de matemática, português e histórias para as crianças do Projeto Aprender</p>
-            <a href="#" class="btn btn-primary btn-block" role="button">Saiba mais sobre o projeto</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="thumbnail">
-          <img src="assets/images/avatar.jpg" alt="Avatar">
-          <div class="caption">
-            <img class="avatar" src="assets/images/avatar.jpg" alt="Avatar">
-            <p>1 evento do bem = aulas de matemática, português e histórias para as crianças do Projeto Aprender</p>
-            <a href="#" class="btn btn-primary btn-block" role="button">Saiba mais sobre o projeto</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="thumbnail">
-          <img src="assets/images/avatar.jpg" alt="Avatar">
-          <div class="caption">
-            <img class="avatar" src="assets/images/avatar.jpg" alt="Avatar">
-            <p>1 evento do bem = aulas de matemática, português e histórias para as crianças do Projeto Aprender</p>
-            <a href="#" class="btn btn-primary btn-block" role="button">Saiba mais sobre o projeto</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="thumbnail">
-          <img src="assets/images/avatar.jpg" alt="Avatar">
-          <div class="caption">
-            <img class="avatar" src="assets/images/avatar.jpg" alt="Avatar">
-            <p>1 evento do bem = aulas de matemática, português e histórias para as crianças do Projeto Aprender</p>
+            <img class="avatar" data-ng-src="assets/images/avatar.jpg" alt="Avatar">
+            <p data-ng-bind-html="item.description"></p>
             <a href="#" class="btn btn-primary btn-block" role="button">Saiba mais sobre o projeto</a>
           </div>
         </div>

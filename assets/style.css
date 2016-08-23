@@ -45,6 +45,25 @@ p a {
   font-size: inherit;
 }
 
+.loading {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+  opacity: 0.8;
+  z-index: 99999;
+  cursor: progress;
+}
+.loading svg {
+  position: absolute;
+  top: 50%;
+  margin-top: -60px;
+  left: 50%;
+  margin-left: -60px;
+
+}
 /* jumbotron */
 .jumbotron {
   border-radius: 0 !important;
@@ -68,23 +87,23 @@ p a {
 /* talk-ballon */
 .talk-ballon {
   position: absolute;
-  left: -100%;
+  right: 100%;
   width: 100%;
   padding: 20px;
   background-color: #fff;
-  border: 1px solid #d4d4d4;
+  border: 3px solid #d4d4d4;
   border-radius: 15px;
 }
 .talk-ballon:before {
   content: " ";
   display: inline-block;
   position: absolute;
-  bottom: -23px;
-  right: 25px;
-  border-top: 15px solid transparent;
-  border-right: 0 solid #ccc;
-  border-bottom: 15px solid transparent;
-  border-left: 15px solid #ccc;
+  bottom: -27px;
+  right: 23px;
+  border-top: 18px solid transparent;
+  border-right: 0 solid #d4d4d4;
+  border-bottom: 18px solid transparent;
+  border-left: 18px solid #d4d4d4;
   transform: rotate(90deg);
 }
 .talk-ballon:after {
@@ -157,8 +176,16 @@ dl dd:last-child {
 .explore .search {
   margin-bottom: 80px;
 }
+.explore .thumbnail {
+  margin-bottom: 40px;
+}
 .explore .thumbnail .caption {
   position: relative;
+}
+.explore .thumbnail .caption p {
+  height: 3.2rem;
+  /*overflow-x: hidden;*/
+  text-overflow: ellipsis;
 }
 .explore .thumbnail .caption .avatar {
   position: absolute;
@@ -188,6 +215,10 @@ dl dd:last-child {
 }
 /* /modal */
 
+/* input-group transparent */
+.input-group.transparent .form-control:not(:first-child):not(:last-child) {
+  border-radius: 0 4px 4px 0;
+}
 .input-group.transparent > .input-group-addon {
   color: #777;
   background-color: transparent !important;
@@ -198,6 +229,7 @@ dl dd:last-child {
 .input-group.transparent > .input-group-addon + .form-control {
   border-left-width: 0px;
 }
+/* /input-group transparent */
 
 /* navbar */
 .navbar-default {
@@ -239,6 +271,9 @@ header .navbar .navbar-brand {
   background-repeat: no-repeat;
   background-position: center;
   padding: 15px 150px;
+}
+.navbar-nav {
+  margin: 0;
 }
 .navbar-nav .navbar-btn {
   margin: 7px 15px 7px;
@@ -419,6 +454,7 @@ header .navbar .navbar-brand {
 }
 .timeline-title {
   margin-top: 0;
+  margin-bottom: 0;
   color: inherit;
 }
 .timeline-body > p,
@@ -797,13 +833,18 @@ header .navbar .navbar-brand {
   left: 0;
   z-index: 1000;
   display: none;
-  background-color: #f9f9f9;
+  background-color: #fff;
+  border-width: 0 1px 1px;
+  border-style: solid;
+  border-color: #ccc;
 }
 
 .typeahead-popup > .dropdown-menu {
   position: static;
   float: none;
   display: block;
+  margin: 0;
+  padding: 0;
   min-width: 160px;
   background-color: transparent;
   border: none;

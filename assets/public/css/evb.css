@@ -47,11 +47,15 @@ a:hover {
 .has-error .control-label {
   color: #f25e5e;
 }
+.form-control:focus {
+  box-shadow: none;
+}
 .has-error .form-control {
   border-color: #ff1e00;
 }
 .has-error .form-control:focus {
   border-color: #ff1e00;
+  box-shadow: none;
 }
 .has-error .input-group-addon {
   border-color: #ff1e00;
@@ -61,6 +65,13 @@ a:hover {
 }
 .timeline:before {
   border-color: #9060c2;
+}
+.typeahead-popup > .dropdown-menu > li > a {
+  color: #777;
+}
+.typeahead-popup > .dropdown-menu > .active > a {
+  color: #fff;
+  background-color: #3a93d0;
 }
 .faq article hr {
   background-color: #ff1e00;
