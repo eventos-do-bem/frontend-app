@@ -27,7 +27,7 @@ export default class UserRegister {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
   }
   changeTab(active) {
-    this.error = null;
+    this.error = null
     this.resetUser()
     this.changeStep()
     switch(active) {
@@ -38,7 +38,7 @@ export default class UserRegister {
   validateStep(form) {
     let validated
     switch(this.step) {
-      case 0: validated = (form.name_organization.$invalid || form.mission.$invalid || form.area_activity.$invalid) ? true : false; break;
+      case 0: validated = (form.name_organization.$invalid || form.mission.$invalid || form.area_activity_uuid.$invalid) ? true : false; break;
       case 1: validated = (form.phone.$invalid || form.facebook.$invalid) ? true : false; break;
       case 2: validated = (form.name.$invalid || form.email.$invalid || form.password.$invalid) ? true : false; break;
     }
@@ -69,6 +69,7 @@ export default class UserRegister {
 
   }
   registerUser(user) {
+    this.error = null
     user = (user) ? angular.copy(user) : angular.copy(this.user)
     let birthdate
     if (user.facebook_token) {
@@ -95,6 +96,11 @@ export default class UserRegister {
     }
   }
   registerOng(user) {
+    this.error = null
+    user = angular.copy(user)
+    if (user.area_activity_uuid) {
+      user.area_activity_uuid = user.area_activity_uuid.uuid
+    }
     user = (user) ? angular.copy(user) : angular.copy(this.user)
     user.phone = user.phone.replace(/\s/g, '');
     this.service.register(user)

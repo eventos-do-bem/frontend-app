@@ -2069,13 +2069,13 @@ Object.defineProperty(exports, "__esModule", {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Contact = function Contact($timeout) {
-  var _this = this;
-
   _classCallCheck(this, Contact);
 
   $timeout(function () {
-    _this.fbBoxWidth = document.querySelector('.fbBox').offsetWidth;
-  });
+    // console.log(document.querySelector('.fb-page > span'))
+    // document.querySelector('.fb-page > span').style.width = '100%'
+    // this.fbBoxWidth = document.querySelector('.fbBox').offsetWidth
+  }, 2000);
 };
 
 exports.default = Contact;
@@ -2256,6 +2256,7 @@ var Explore = function () {
         'blur': 0
       }
     };
+    this.isOpen = false;
     this.getInstitutions();
     this.getActivityAreas();
     this.search = function () {
@@ -2655,7 +2656,7 @@ var UserRegister = function () {
       var validated = void 0;
       switch (this.step) {
         case 0:
-          validated = form.name_organization.$invalid || form.mission.$invalid || form.area_activity.$invalid ? true : false;break;
+          validated = form.name_organization.$invalid || form.mission.$invalid || form.area_activity_uuid.$invalid ? true : false;break;
         case 1:
           validated = form.phone.$invalid || form.facebook.$invalid ? true : false;break;
         case 2:
@@ -2711,6 +2712,7 @@ var UserRegister = function () {
     value: function registerUser(user) {
       var _this3 = this;
 
+      this.error = null;
       user = user ? angular.copy(user) : angular.copy(this.user);
       var birthdate = void 0;
       if (user.facebook_token) {
@@ -2741,6 +2743,11 @@ var UserRegister = function () {
     value: function registerOng(user) {
       var _this4 = this;
 
+      this.error = null;
+      user = angular.copy(user);
+      if (user.area_activity_uuid) {
+        user.area_activity_uuid = user.area_activity_uuid.uuid;
+      }
       user = user ? angular.copy(user) : angular.copy(this.user);
       user.phone = user.phone.replace(/\s/g, '');
       this.service.register(user).then(function (response) {

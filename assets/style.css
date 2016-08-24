@@ -216,8 +216,11 @@ dl dd:last-child {
 /* /modal */
 
 /* input-group transparent */
-.input-group.transparent .form-control:not(:first-child):not(:last-child) {
+.input-group.transparent .form-control:not(:first-child) {
   border-radius: 0 4px 4px 0;
+}
+.input-group.transparent .form-control:not(:last-child) {
+  border-radius: 4px 0 0 4px;
 }
 .input-group.transparent > .input-group-addon {
   color: #777;
@@ -228,6 +231,9 @@ dl dd:last-child {
 }
 .input-group.transparent > .input-group-addon + .form-control {
   border-left-width: 0px;
+}
+.input-group.transparent .input-group-addon:last-child i.fa {
+  cursor: pointer;
 }
 /* /input-group transparent */
 

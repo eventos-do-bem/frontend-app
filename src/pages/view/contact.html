@@ -4,13 +4,11 @@
       <h2>
         Entre em <br>
         <span>contato</span>
-      </h2>      
+      </h2>
     </div>
     <div class="col-md-6">
       <h3>
-        Tem alguma dúvida <br>
-        quer mudar o mundo conosco <br>
-        saber mais sobre nós
+        Tem alguma dúvida <br> quer mudar o mundo conosco <br> saber mais sobre nós
       </h3>
     </div>
     <div class="col-md-2">
@@ -21,35 +19,52 @@
     <div class="col-md-6">
       <h3>
         Você pode checar se sua pergunta está em nossa página de
-        <a ui-sref="faq">Perguntas frequentes</a>
-        ou entrar em contato por aqui:
+        <a ui-sref="faq">Perguntas frequentes</a> ou entrar em contato por aqui:
       </h3>
       <form name="contact" novalidate data-ng-submit="ctrl.save(ctrl.contact)">
         <div class="form-group" data-ng-class="{'has-error':contact.name.$invalid}">
-          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.contact.name" placeholder="Qual seu nome?" required autofocus>
+          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.contact.name" placeholder="Qual seu nome?"
+            required autofocus>
         </div>
         <div class="form-group" data-ng-class="{'has-error':contact.email.$invalid}">
-          <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.contact.email" placeholder="Qual seu email? para entrarmos em contato..." required>
+          <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.contact.email" placeholder="Qual seu email? para entrarmos em contato..."
+            required>
         </div>
         <h4>Nos fale o assunto para encaminharmos para a pessoa que melhor pode te atender</h4>
-        <p>
-          <label class="radio-inline">
+        <div class="row">
+          <div class="col-md-3">
+            <p>
+              <label class="radio-inline">
             <input type="radio" name="destination" value="how-it-work" checked>
             Dúvida sobre como funciona
           </label>
-          <label class="radio-inline">
+            </p>
+          </div>
+          <div class="col-md-3">
+            <p>
+              <label class="radio-inline">
             <input type="radio" name="destination" value="press">
             Imprensa
           </label>
-          <label class="radio-inline">
+            </p>
+          </div>
+          <div class="col-md-3">
+            <p>
+              <label class="radio-inline">
             <input type="radio" name="destination" value="failures">
             Falhas de funcionamento
           </label>
-          <label class="radio-inline">
+            </p>
+          </div>
+          <div class="col-md-3">
+            <p>
+              <label class="radio-inline">
             <input type="radio" name="destination" value="others">
             Outros
           </label>
-        </p>
+            </p>
+          </div>
+        </div>
         <div class="form-group" data-ng-class="{'has-error':contact.message.$invalid}">
           <textarea name="message" id="message" class="form-control" data-ng-model="ctrl.contact.message" required></textarea>
         </div>
@@ -62,14 +77,18 @@
       </form>
     </div>
     <div class="col-md-6">
-      <div class="fbBox">
+      <div class="fb-page" data-href="https://www.facebook.com/eventosdobem.com.br" data-tabs="timeline" data-small-header="false"
+        data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+        <blockquote cite="https://www.facebook.com/eventosdobem.com.br" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/eventosdobem.com.br">Eventos do Bem</a></blockquote>
+      </div>
+      <!--<div class="fbBox">
         <div class="fb-page"
           data-href="https://www.facebook.com/eventosdobem.com.br" 
           data-width="{{ctrl.fbBoxWidth}}"
           data-hide-cover="false"
           data-show-facepile="true">
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>

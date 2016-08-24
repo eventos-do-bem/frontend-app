@@ -9,6 +9,7 @@ class Explore {
         'blur': 0
       }
     }
+    this.isOpen = false
     this.getInstitutions()
     this.getActivityAreas()
     this.search = () => this.getSearch(this.query)
