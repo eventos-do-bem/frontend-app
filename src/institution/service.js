@@ -9,6 +9,11 @@ export default class InstitutionService extends CommonService {
     this.setPublicToken()
     return super.findAll()
   }
+  search(data) {
+    this.setPublicToken()
+    this.setParams(data)
+    return super.search()
+  }
 }
 
 InstitutionService.$inject = ['API','$http']

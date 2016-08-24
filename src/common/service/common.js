@@ -5,15 +5,22 @@ export default class CommonService {
     this.config = {}
     this.$http = $http
   }
+  setRoute(route) {
+    this.route = route
+  }
   setDataToken(data) {
     data['token'] = this.token
     return data
   }
   setPublicToken() {
-    this.config = { headers: { token: this.token } }
+    this.config['headers'] = {}
+    this.config.headers['token'] = this.token
   }
-  setRoute(route) {
-    this.route = route
+  setParams(data) {
+    this.config['params'] = {}
+    for (let key in data) {
+      this.config.params[key] = data[key]
+    }
   }
   findAll() {
     return this.$http.get(this.url + this.route, this.config)
@@ -29,5 +36,8 @@ export default class CommonService {
   }
   remove(id) {
     return this.$http.delete(this.url + this.route + '/' + id)
+  }
+  search() {
+    return this.$http.get(this.url + this.route + '/search', this.config)
   }
 }

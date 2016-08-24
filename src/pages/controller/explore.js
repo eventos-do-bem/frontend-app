@@ -1,7 +1,7 @@
 class Explore {
-  constructor(InstitutionService,$http) {
+  constructor(ActivityAreaService,InstitutionService) {
+    this.activityAreaService = ActivityAreaService
     this.institutionService = InstitutionService
-    this.http = $http
     this.modelOptions = {
       updateOn: 'default blur',
       debounce: {
@@ -9,21 +9,28 @@ class Explore {
         'blur': 0
       }
     }
-    this.getAreaActivities()
-    this.search = {
-      ong: () => this.getInstitutions()
-    }
+    this.getInstitutions()
+    this.getActivityAreas()
+    this.search = () => this.getSearch(this.query)
   }
   getInstitutions() {
     this.institutionService.findAll()
       .then(response => this.institutions = response.data.values)
   }
-  getAreaActivities() {
-    this.http.get('data/area_activities.json')
-      .then(response => this.area_activities = response.data)
+  getSearch(data) {
+    data = angular.copy(data)
+    if (data.area_activity_uuid) {
+      data.area_activity_uuid = data.area_activity_uuid.uuid
+    }
+    this.institutionService.search(data)
+      .then(response => this.institutions = response.data.values)
+  }
+  getActivityAreas() {
+    this.activityAreaService.findAll()
+      .then(response => this.area_activities = response.data.values)
   }
 }
 
-Explore.$inject = ['InstitutionService','$http']
+Explore.$inject = ['ActivityAreaService','InstitutionService']
 
 export default Explore

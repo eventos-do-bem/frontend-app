@@ -210,7 +210,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 angular.module('app', ['ui.bootstrap', 'ngMask', _angularUiRouter2.default, 'ngMessages', 'ngSanitize', 'common', 'loading', 'countdown', 'home', 'pages', 'faq', 'event', 'auth', 'user', 'institution']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', _interceptor2.default).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":11,"./../common/component/countdown/countdown.js":14,"./../common/component/loading/loading.js":16,"./../common/module.js":21,"./../event/module.js":30,"./../faq/module.js":34,"./../home/module.js":38,"./../institution/module.js":40,"./../pages/module.js":47,"./../user/module.js":54,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+},{"./../auth/module.js":11,"./../common/component/countdown/countdown.js":14,"./../common/component/loading/loading.js":16,"./../common/module.js":21,"./../event/module.js":31,"./../faq/module.js":35,"./../home/module.js":39,"./../institution/module.js":41,"./../pages/module.js":48,"./../user/module.js":55,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -500,7 +500,7 @@ exports.default = AuthService;
 
 AuthService.$inject = ['API', '$http', 'FacebookService'];
 
-},{"./../common/service/common.js":24}],13:[function(require,module,exports){
+},{"./../common/service/common.js":25}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -989,6 +989,10 @@ var _category = require('./service/category.js');
 
 var _category2 = _interopRequireDefault(_category);
 
+var _activityArea = require('./service/activityArea.js');
+
+var _activityArea2 = _interopRequireDefault(_activityArea);
+
 var _facebook = require('./factory/facebook.js');
 
 var _facebook2 = _interopRequireDefault(_facebook);
@@ -1019,9 +1023,60 @@ var _hydrator2 = _interopRequireDefault(_hydrator);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('common', []).service('CommonService', _common2.default).service('CityService', _city2.default).service('CategoryService', _category2.default).factory('FacebookFactory', _facebook2.default.facebookFactory).factory('CreditCardFactory', _creditcard2.default.creditCardFactory).service('FacebookService', _facebook4.default).service('StorageService', _storage2.default).service('Hydrator', _hydrator2.default).controller('Header', _header2.default).directive('fixedOnScroll', _fixedOnScroll2.default.directiveFactory);
+exports.default = angular.module('common', []).service('CommonService', _common2.default).service('CityService', _city2.default).service('CategoryService', _category2.default).service('ActivityAreaService', _activityArea2.default).factory('FacebookFactory', _facebook2.default.facebookFactory).factory('CreditCardFactory', _creditcard2.default.creditCardFactory).service('FacebookService', _facebook4.default).service('StorageService', _storage2.default).service('Hydrator', _hydrator2.default).controller('Header', _header2.default).directive('fixedOnScroll', _fixedOnScroll2.default.directiveFactory);
 
-},{"./controller/header.js":17,"./directive/fixedOnScroll.js":18,"./factory/creditcard.js":19,"./factory/facebook.js":20,"./service/category.js":22,"./service/city.js":23,"./service/common.js":24,"./service/facebook.js":25,"./service/hydrator.js":26,"./service/storage.js":27}],22:[function(require,module,exports){
+},{"./controller/header.js":17,"./directive/fixedOnScroll.js":18,"./factory/creditcard.js":19,"./factory/facebook.js":20,"./service/activityArea.js":22,"./service/category.js":23,"./service/city.js":24,"./service/common.js":25,"./service/facebook.js":26,"./service/hydrator.js":27,"./service/storage.js":28}],22:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _common = require('./common.js');
+
+var _common2 = _interopRequireDefault(_common);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ActivityAreaService = function (_CommonService) {
+  _inherits(ActivityAreaService, _CommonService);
+
+  function ActivityAreaService(API, $http) {
+    _classCallCheck(this, ActivityAreaService);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ActivityAreaService).call(this, API, $http));
+
+    _this.setRoute('activityAreas');
+    return _this;
+  }
+
+  _createClass(ActivityAreaService, [{
+    key: 'findAll',
+    value: function findAll() {
+      this.setPublicToken();
+      return _get(Object.getPrototypeOf(ActivityAreaService.prototype), 'findAll', this).call(this);
+    }
+  }]);
+
+  return ActivityAreaService;
+}(_common2.default);
+
+exports.default = ActivityAreaService;
+
+
+ActivityAreaService.$inject = ['API', '$http'];
+
+},{"./common.js":25}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1072,7 +1127,7 @@ exports.default = CategoryService;
 
 CategoryService.$inject = ['API', '$http'];
 
-},{"./common.js":24}],23:[function(require,module,exports){
+},{"./common.js":25}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1123,7 +1178,7 @@ exports.default = CityService;
 
 CityService.$inject = ['API', '$http'];
 
-},{"./common.js":24}],24:[function(require,module,exports){
+},{"./common.js":25}],25:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1145,6 +1200,11 @@ var CommonService = function () {
   }
 
   _createClass(CommonService, [{
+    key: 'setRoute',
+    value: function setRoute(route) {
+      this.route = route;
+    }
+  }, {
     key: 'setDataToken',
     value: function setDataToken(data) {
       data['token'] = this.token;
@@ -1153,12 +1213,16 @@ var CommonService = function () {
   }, {
     key: 'setPublicToken',
     value: function setPublicToken() {
-      this.config = { headers: { token: this.token } };
+      this.config['headers'] = {};
+      this.config.headers['token'] = this.token;
     }
   }, {
-    key: 'setRoute',
-    value: function setRoute(route) {
-      this.route = route;
+    key: 'setParams',
+    value: function setParams(data) {
+      this.config['params'] = {};
+      for (var key in data) {
+        this.config.params[key] = data[key];
+      }
     }
   }, {
     key: 'findAll',
@@ -1185,6 +1249,11 @@ var CommonService = function () {
     value: function remove(id) {
       return this.$http.delete(this.url + this.route + '/' + id);
     }
+  }, {
+    key: 'search',
+    value: function search() {
+      return this.$http.get(this.url + this.route + '/search', this.config);
+    }
   }]);
 
   return CommonService;
@@ -1192,7 +1261,7 @@ var CommonService = function () {
 
 exports.default = CommonService;
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1264,7 +1333,7 @@ exports.default = FacebookService;
 
 FacebookService.$inject = ['FacebookFactory'];
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1300,7 +1369,7 @@ var HydratorService = function () {
 
 exports.default = HydratorService;
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1366,7 +1435,7 @@ exports.default = StorageService;
 
 StorageService.$inject = ['$window'];
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1386,7 +1455,7 @@ function EventConfig($stateProvider) {
   });
 }
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1483,7 +1552,7 @@ exports.default = EventStart;
 
 EventStart.$inject = ['$state', '$window', '$stateParams', 'CityService', 'EventService', 'CategoryService', 'InstitutionService'];
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1506,7 +1575,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('event', []).config(_config2.default).controller('EventStart', _eventStart2.default).service('EventService', _service2.default);
 
-},{"./config.js":28,"./controller/event.start.js":29,"./service.js":31}],31:[function(require,module,exports){
+},{"./config.js":29,"./controller/event.start.js":30,"./service.js":32}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1552,7 +1621,7 @@ exports.default = EventService;
 
 EventService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":24}],32:[function(require,module,exports){
+},{"./../common/service/common.js":25}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1579,7 +1648,7 @@ function FaqConfig($stateProvider) {
   });
 }
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1616,7 +1685,7 @@ exports.default = Faq;
 
 Faq.$inject = ['$state', '$stateParams', 'FaqService'];
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1639,7 +1708,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('faq', []).config(_config2.default).controller('Faq', _faq2.default).service('FaqService', _service2.default);
 
-},{"./config.js":32,"./controller/faq.js":33,"./service.js":35}],35:[function(require,module,exports){
+},{"./config.js":33,"./controller/faq.js":34,"./service.js":36}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1773,7 +1842,7 @@ exports.default = FaqService;
 
 FaqService.$inject = ['API', '$http', '$q'];
 
-},{"./../common/service/common.js":24}],36:[function(require,module,exports){
+},{"./../common/service/common.js":25}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1789,7 +1858,7 @@ function HomeConfig($stateProvider) {
   });
 }
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1830,7 +1899,7 @@ exports.default = Home;
 
 Home.$inject = [];
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1855,7 +1924,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = angular.module('home', []).config(_config2.default).controller('Home', _home2.default);
 // .service('UserService', Service)
 
-},{"./config.js":36,"./controller/home.js":37}],39:[function(require,module,exports){
+},{"./config.js":37,"./controller/home.js":38}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1872,7 +1941,7 @@ function InstitutionConfig($stateProvider) {
   //   })
 }
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1891,7 +1960,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('institution', []).config(_config2.default).service('InstitutionService', _service2.default);
 
-},{"./config.js":39,"./service.js":41}],41:[function(require,module,exports){
+},{"./config.js":40,"./service.js":42}],42:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1932,6 +2001,13 @@ var InstitutionService = function (_CommonService) {
       this.setPublicToken();
       return _get(Object.getPrototypeOf(InstitutionService.prototype), 'findAll', this).call(this);
     }
+  }, {
+    key: 'search',
+    value: function search(data) {
+      this.setPublicToken();
+      this.setParams(data);
+      return _get(Object.getPrototypeOf(InstitutionService.prototype), 'search', this).call(this);
+    }
   }]);
 
   return InstitutionService;
@@ -1942,7 +2018,7 @@ exports.default = InstitutionService;
 
 InstitutionService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":24}],42:[function(require,module,exports){
+},{"./../common/service/common.js":25}],43:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1983,7 +2059,7 @@ function PagesConfig($stateProvider) {
   });
 }
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2007,7 +2083,7 @@ exports.default = Contact;
 
 Contact.$inject = ['$timeout'];
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2046,7 +2122,7 @@ exports.default = DonateBillet;
 
 DonateBillet.$inject = ['$uibModalInstance', 'donate'];
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2154,7 +2230,7 @@ exports.default = Donate;
 
 Donate.$inject = ['$uibModal', 'CreditCardFactory'];
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2166,13 +2242,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Explore = function () {
-  function Explore(InstitutionService, $http) {
+  function Explore(ActivityAreaService, InstitutionService) {
     var _this = this;
 
     _classCallCheck(this, Explore);
 
+    this.activityAreaService = ActivityAreaService;
     this.institutionService = InstitutionService;
-    this.http = $http;
     this.modelOptions = {
       updateOn: 'default blur',
       debounce: {
@@ -2180,11 +2256,10 @@ var Explore = function () {
         'blur': 0
       }
     };
-    this.getAreaActivities();
-    this.search = {
-      ong: function ong() {
-        return _this.getInstitutions();
-      }
+    this.getInstitutions();
+    this.getActivityAreas();
+    this.search = function () {
+      return _this.getSearch(_this.query);
     };
   }
 
@@ -2198,12 +2273,25 @@ var Explore = function () {
       });
     }
   }, {
-    key: 'getAreaActivities',
-    value: function getAreaActivities() {
+    key: 'getSearch',
+    value: function getSearch(data) {
       var _this3 = this;
 
-      this.http.get('data/area_activities.json').then(function (response) {
-        return _this3.area_activities = response.data;
+      data = angular.copy(data);
+      if (data.area_activity_uuid) {
+        data.area_activity_uuid = data.area_activity_uuid.uuid;
+      }
+      this.institutionService.search(data).then(function (response) {
+        return _this3.institutions = response.data.values;
+      });
+    }
+  }, {
+    key: 'getActivityAreas',
+    value: function getActivityAreas() {
+      var _this4 = this;
+
+      this.activityAreaService.findAll().then(function (response) {
+        return _this4.area_activities = response.data.values;
       });
     }
   }]);
@@ -2211,11 +2299,11 @@ var Explore = function () {
   return Explore;
 }();
 
-Explore.$inject = ['InstitutionService', '$http'];
+Explore.$inject = ['ActivityAreaService', 'InstitutionService'];
 
 exports.default = Explore;
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2246,7 +2334,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('pages', []).config(_config2.default).controller('Contact', _contact2.default).controller('Explore', _explore2.default).controller('Donate', _donate2.default).controller('DonateBillet', _donateBillet2.default);
 
-},{"./config.js":42,"./controller/contact.js":43,"./controller/donate.billet.js":44,"./controller/donate.js":45,"./controller/explore.js":46}],48:[function(require,module,exports){
+},{"./config.js":43,"./controller/contact.js":44,"./controller/donate.billet.js":45,"./controller/donate.js":46,"./controller/explore.js":47}],49:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2297,7 +2385,7 @@ function UserConfig($stateProvider) {
   });
 }
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2347,7 +2435,7 @@ exports.default = UserChange;
 
 UserChange.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService'];
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2407,7 +2495,7 @@ exports.default = UserConfirmation;
 
 UserConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'UserService', 'StorageService'];
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2468,7 +2556,7 @@ exports.default = UserMeConfigurations;
 
 UserMeConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'UserService', 'user'];
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2493,7 +2581,7 @@ exports.default = UserMe;
 
 UserMe.$inject = ['$scope', '$window', '$state', 'StorageService', 'UserService', 'me'];
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2505,11 +2593,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserRegister = function () {
-  function UserRegister($scope, $stateParams, $state, $filter, $timeout, $http, UserService) {
-    var _this = this;
-
+  function UserRegister($scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, UserService) {
     _classCallCheck(this, UserRegister);
 
+    this.activityAreaService = ActivityAreaService;
     this.service = UserService;
     this.timeout = $timeout;
     this.state = $state;
@@ -2521,12 +2608,21 @@ var UserRegister = function () {
     this.step = 0;
     this.showPassword = false;
     this.typeInputPassword = 'password';
-    $http.get('data/area_activities.json').then(function (response) {
-      return _this.area_activities = response.data;
-    });
+    this.getActivityAreas();
+    // $http.get('data/area_activities.json')
+    //   .then(response => this.area_activities = response.data)
   }
 
   _createClass(UserRegister, [{
+    key: 'getActivityAreas',
+    value: function getActivityAreas() {
+      var _this = this;
+
+      this.activityAreaService.findAll().then(function (response) {
+        return _this.area_activities = response.data.values;
+      });
+    }
+  }, {
     key: 'resetUser',
     value: function resetUser() {
       this.user = angular.copy(this.masterUser);
@@ -2672,9 +2768,9 @@ var UserRegister = function () {
 exports.default = UserRegister;
 
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', '$http', 'UserService'];
+UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'UserService'];
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2713,7 +2809,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('user', []).config(_config2.default).controller('UserMe', _me2.default).controller('UserMeConfigurations', _meConfigurations2.default).controller('UserChange', _change2.default).controller('UserConfirmation', _confirmation2.default).controller('UserRegister', _register2.default).service('UserService', _service2.default);
 
-},{"./config.js":48,"./controller/change.js":49,"./controller/confirmation.js":50,"./controller/me.configurations.js":51,"./controller/me.js":52,"./controller/register.js":53,"./service.js":55}],55:[function(require,module,exports){
+},{"./config.js":49,"./controller/change.js":50,"./controller/confirmation.js":51,"./controller/me.configurations.js":52,"./controller/me.js":53,"./controller/register.js":54,"./service.js":56}],56:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2791,4 +2887,4 @@ exports.default = UserService;
 
 UserService.$inject = ['API', '$http', 'FacebookService'];
 
-},{"./../common/service/common.js":24}]},{},[1]);
+},{"./../common/service/common.js":25}]},{},[1]);

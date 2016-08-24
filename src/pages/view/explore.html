@@ -1,16 +1,13 @@
 <script type="text/ng-template" id="typeaheadPopupTemplate.html">
   <div class="typeahead-popup"
      ng-style="{top: position().top+'px', left: position().left+'px'}"
-     style="display: block;width: 100%;"
+     style="display: block;width: 100%;max-height: 200px;overflow:auto"
      ng-show="isOpen() && !moveInProgress"
      aria-hidden="{{!isOpen()}}">
     <ul class="dropdown-menu" role="listbox">
       <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
         ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
         <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
-      </li>
-      <li>
-        <a>Digite para encontrar mais...</a>
       </li>
     </ul>
   </div>
@@ -26,27 +23,27 @@
               <span class="input-group-addon">
                 <i class="fa fa-search" aria-hidden="true"></i>
               </span>
-              <input type="text" class="form-control" data-ng-model="ctrl.query.ong" data-ng-change="ctrl.search.ong()" data-ng-model-options="ctrl.modelOptions">
+              <input type="text" class="form-control" data-ng-model="ctrl.query.search" data-ng-change="ctrl.search()" data-ng-model-options="ctrl.modelOptions">
             </div>
           </div>
           <div class="col-md-6">
             <div class="input-group transparent">
-              <span class="input-group-addon">
+              <span class="input-group-addon" data-ng-click="ctrl.isOpen = !ctrl.isOpen">
                 <i class="fa fa-caret-down" aria-hidden="true"></i>
               </span>
-              <input type="text" name="area_activity" data-ng-model="ctrl.query.area_activity" placeholder="Qual sua área de atuação?" uib-typeahead="item.label for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
-              <!--<input type="text" class="form-control" data-ng-model="ctrl.query.institution" data-ng-change="ctrl.search.institution()" data-ng-model-options="ctrl.modelOptions">-->
+              <input type="text" name="area_activity_uuid" data-ng-model="ctrl.query.area_activity_uuid" typeahead-on-select="ctrl.search()" placeholder="Qual sua área de atuação?" uib-typeahead="item as item.name for item in ctrl.area_activities | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
             </div>
           </div>
         </form>
       </div>
     </div>
-    <div class="row" data-ng-show="ctrl.loading">
-      <div class="col-md-12">
-        <p>Loading</p>
-      </div>
-    </div>
     <div class="row">
+      <div class="col-md-12" data-ng-show="ctrl.institutions.length === 0">
+        <h2 class="text-warning text-center">
+          <i class="fa fa-frown-o" aria-hidden="true"></i>
+          Não encontramos nenhuma ong para a pesquisa, tente novamente...
+        </h2>
+      </div>
       <div class="col-md-4" data-ng-repeat="item in ctrl.institutions">
         <div class="thumbnail">
           <img data-ng-src="assets/images/avatar.jpg" alt="Avatar">

@@ -1,5 +1,6 @@
 export default class UserRegister {
-  constructor($scope, $stateParams, $state, $filter, $timeout, $http, UserService) {
+  constructor($scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, UserService) {
+    this.activityAreaService = ActivityAreaService
     this.service = UserService
     this.timeout = $timeout
     this.state = $state
@@ -11,8 +12,13 @@ export default class UserRegister {
     this.step = 0
     this.showPassword = false
     this.typeInputPassword = 'password'
-    $http.get('data/area_activities.json')
-      .then(response => this.area_activities = response.data) 
+    this.getActivityAreas()
+    // $http.get('data/area_activities.json')
+    //   .then(response => this.area_activities = response.data) 
+  }
+  getActivityAreas() {
+    this.activityAreaService.findAll()
+      .then(response => this.area_activities = response.data.values)
   }
   resetUser() {
     this.user = angular.copy(this.masterUser)
@@ -106,4 +112,4 @@ export default class UserRegister {
   }
 }
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', '$http', 'UserService']
+UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'UserService']

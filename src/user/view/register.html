@@ -64,7 +64,7 @@
               <textarea name="mission" class="form-control" data-ng-model="ctrl.user.mission" cols="5" placeholder="Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor." minlength="20" maxlength="300" required></textarea>
             </div>
             <div data-ng-class="{'has-error':registerOng.area_activity.$invalid && registerOng.area_activity.$dirty}">
-              <input type="text" name="area_activity" data-ng-model="ctrl.user.area_activity" placeholder="Qual sua área de atuação?" uib-typeahead="item.label for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
+              <input type="text" name="area_activity" data-ng-model="ctrl.user.area_activity" placeholder="Qual sua área de atuação?" uib-typeahead="item.name for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
             </div>
           </div>
           <div data-ng-switch-when="1">
