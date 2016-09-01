@@ -44,6 +44,10 @@ h6 a,
 p a {
   font-size: inherit;
 }
+.satisfy {
+  font-family: 'Satisfy', cursive;
+}
+/* /fonts */
 
 .loading {
   position: fixed;
@@ -671,23 +675,26 @@ header .navbar .navbar-brand {
   margin-bottom: 50px;
 }
 .contact > section:first-child > div {
+  margin-top: 80px;
   text-align: center;
 }
 .contact > section:first-child > div:first-child {
-  border-right: 1px solid #000;
+  border-right: 1px solid #999;
 }
 .contact section > div > h2 {
   font-size: 6.4rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 .contact section > div > h2 > span {
-  font-weight: 100;
+  font-weight: 400;
 }
 .contact section > div > h3 {
   font-size: 4.2rem;
+  font-weight: 300;
 }
 .contact section > div > span {
   font-size: 20.4rem;
+  font-weight: 400;
   line-height: 16.4rem;
 }
 .contact h2,
