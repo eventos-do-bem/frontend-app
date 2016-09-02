@@ -19,10 +19,10 @@
   </section>
   <div class="row">
     <div class="col-md-6">
-      <p>
+      <h4>
         Você pode checar se sua pergunta está em nossa página de
         <a ui-sref="faq">Perguntas frequentes</a> ou entrar em contato por aqui:
-      </p>
+      </h4>
       <form name="contact" novalidate data-ng-submit="ctrl.save(ctrl.contact)">
         <div class="form-group" data-ng-class="{'has-error':contact.name.$invalid && contact.name.$dirty}">
           <input type="text" name="name" id="name" class="form-control input-lg" data-ng-model="ctrl.contact.name" placeholder="Qual seu nome?"
@@ -34,7 +34,7 @@
         </div>
         <h4>Nos fale o assunto para encaminharmos para a pessoa que melhor pode te atender</h4>
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-3 col-xs-6">
             <p>
               <label class="radio-inline">
             <input type="radio" name="destination" value="how-it-work" checked>
@@ -42,33 +42,33 @@
           </label>
             </p>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 col-xs-6">
             <p>
               <label class="radio-inline">
-            <input type="radio" name="destination" value="press">
+            <input type="radio" name="destination" value="work">
             Dúvidas de funcionamento
           </label>
             </p>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 col-xs-6">
             <p>
               <label class="radio-inline">
-            <input type="radio" name="destination" value="failures">
+            <input type="radio" name="destination" value="failure">
             Falhas de funcionamento
           </label>
             </p>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 col-xs-6">
             <p>
               <label class="radio-inline">
-            <input type="radio" name="destination" value="others">
+            <input type="radio" name="destination" value="problem">
             Problemas técnicos
           </label>
             </p>
           </div>
         </div>
         <div class="form-group" data-ng-class="{'has-error':contact.message.$invalid}">
-          <textarea name="message" id="message" class="form-control" data-ng-model="ctrl.contact.message" placeholder="Pode falar, somos todo ouvidos :)" required></textarea>
+          <textarea name="message" id="message" class="form-control input-lg" data-ng-model="ctrl.contact.message" placeholder="Pode falar, somos todo ouvidos :)" required></textarea>
         </div>
         <div class="form-buttons form-buttons-center">
           <button class="btn btn-lg btn-primary" type="submit" data-ng-click="ctrl.send(ctrl.contact)">
@@ -79,19 +79,7 @@
       </form>
     </div>
     <div class="col-md-6">
-      <div class="fb-page" data-href="https://www.facebook.com/eventosdobem.com.br" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/eventosdobem.com.br" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/eventosdobem.com.br">Facebook</a></blockquote></div>
-      <!--<div class="fb-page" data-href="https://www.facebook.com/eventosdobem.com.br" data-tabs="timeline" data-small-header="false"
-        data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
-        <blockquote cite="https://www.facebook.com/eventosdobem.com.br" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/eventosdobem.com.br">Eventos do Bem</a></blockquote>
-      </div>-->
-      <!--<div class="fbBox">
-        <div class="fb-page"
-          data-href="https://www.facebook.com/eventosdobem.com.br" 
-          data-width="{{ctrl.fbBoxWidth}}"
-          data-hide-cover="false"
-          data-show-facepile="true">
-        </div>
-      </div>-->
+      <div class="fb-page" data-href="https://www.facebook.com/eventosdobem.com.br" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/eventosdobem.com.br" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/eventosdobem.com.br">Eventos do Bem</a></blockquote></div>
     </div>
   </div>
 </div>

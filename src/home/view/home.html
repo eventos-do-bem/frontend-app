@@ -112,16 +112,16 @@
           <div class="col-md-12 icons">
             <div class="row">
               <div class="col-md-3">
-                <h3 class="health">Saúde</h3>
+                <h3 class="health" data-ng-click="ctrl.loadImpact(0)">Saúde</h3>
               </div>
               <div class="col-md-3">
-                <h3 class="education">Educação</h3>
+                <h3 class="education" data-ng-click="ctrl.loadImpact(1)">Educação</h3>
               </div>
               <div class="col-md-3">
-                <h3 class="habitation">Moradia</h3>
+                <h3 class="habitation" data-ng-click="ctrl.loadImpact(2)">Moradia</h3>
               </div>
               <div class="col-md-3">
-                <h3 class="animals">Animais</h3>
+                <h3 class="animals" data-ng-click="ctrl.loadImpact(3)">Animais</h3>
               </div>
             </div>
           </div>
@@ -133,11 +133,11 @@
             <div class="col-md-12">
               <div class="row">
                 <div class="col-md-6 text">
-                  <h2>João aprendeu a ler</h2>
-                  <p>Mussum Ipsum, cacilds vidis litro abertis. Viva Forevis aptent taciti sociosqu ad litora torquent Quem manda na minha terra sou Euzis! Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose.</p>
+                  <h2 data-ng-bind="ctrl.impact.title"></h2>
+                  <p data-ng-bind="ctrl.impact.text"></p>
                 </div>
                 <div class="col-md-6 image">
-                  <img src="assets/images/causas-impactadas.jpg" class="img-responsive" alt="">
+                  <img data-ng-src="{{ctrl.impact.image}}" class="img-responsive" alt="">
                 </div>
               </div>
             </div>

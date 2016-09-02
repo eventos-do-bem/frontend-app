@@ -153,7 +153,8 @@ a:hover {
   background-color: #fb5b5d;
   border-color: #f34754;
 }
-.navbar-nav .navbar-btn:hover {
+.navbar-nav .navbar-btn:hover,
+.navbar-nav .navbar-btn:focus {
   background-color: #fdc323 !important;
   border-color: #ffb852;
 }

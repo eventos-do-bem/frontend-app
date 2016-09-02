@@ -5,7 +5,7 @@ html {
   font-size: 62.5%;
 }
 body {
-  margin-top: 60px;
+  margin-top: 52px;
   /*margin-bottom: 200px;*/
   font-family: 'Lato', sans-serif;
   font-size: 62.5%;
@@ -188,7 +188,8 @@ dl dd:last-child {
 }
 .explore .thumbnail .caption p {
   height: 3.2rem;
-  /*overflow-x: hidden;*/
+  /*max-width: 100%;*/
+  overflow-x: hidden;
   text-overflow: ellipsis;
 }
 .explore .thumbnail .caption .avatar {
@@ -250,7 +251,7 @@ dl dd:last-child {
   box-shadow: 0px 0px 7px 0px rgba(50, 50, 56, 0.45);
 }
 header .navbar {
-  margin-bottom: 8px;
+  margin-bottom: 0px;
   border-radius: 0px;
 }
 header .navbar a {
@@ -634,6 +635,7 @@ header .navbar .navbar-brand {
   padding-left: 70px;
   line-height: 42px;
   font-weight: 300;
+  cursor: pointer;
 }
 .icons .health {
   /*background-image: url('../assets/icons/pngs/saude.png');*/
@@ -681,12 +683,15 @@ header .navbar .navbar-brand {
 .contact > section:first-child > div:first-child {
   border-right: 1px solid #999;
 }
+.contact > section:first-child > div:last-child {
+  text-align: left;
+}
 .contact section > div > h2 {
   font-size: 6.4rem;
-  font-weight: 700;
+  font-weight: 400;
 }
 .contact section > div > h2 > span {
-  font-weight: 400;
+  font-weight: 700;
 }
 .contact section > div > h3 {
   font-size: 4.2rem;
@@ -1012,7 +1017,7 @@ header .navbar .navbar-brand {
 /* /donate */
 
 footer {
-  margin-top: 20px;
+  margin-top: 120px;
   /*position: absolute;*/
   bottom: 0px;
   width: 100%;
