@@ -278,7 +278,7 @@ header .navbar-toggle {
 }
 header .navbar .navbar-brand {
   background-image: url('images/logo.png');
-  /*background-image: url('images/logo-evb.svg');*/
+  /*background-image: url('images/logo-alta-evb.svg');*/
   background-repeat: no-repeat;
   background-position: center;
   padding: 15px 150px;
@@ -527,6 +527,9 @@ header .navbar .navbar-brand {
 }
 /* /home */
 
+figure img {
+  width: 100%;
+}
 .panel.profile {
   margin-top: 80px;
 }
