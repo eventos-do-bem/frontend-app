@@ -18,6 +18,12 @@ export default function PagesConfig($stateProvider) {
       controller: 'Explore',
       controllerAs: 'ctrl'
     })
+    .state('pages.campaign', {
+      url: '/campanha',
+      templateUrl: './src/pages/view/campaign.html',
+      controller: 'Campaign',
+      controllerAs: 'ctrl'
+    })
     .state('pages.terms', {
       url: '/termos-de-uso',
       templateUrl: './src/pages/view/terms.html'

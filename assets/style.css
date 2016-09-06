@@ -200,6 +200,40 @@ dl dd:last-child {
 }
 /* /explore */
 
+/* campaign */
+.campaign .cover {
+  height: 300px;
+  overflow-y: hidden;
+}
+.campaign .cover + .container > .row {
+  margin-top: -100px;
+  margin-bottom: 30px;
+}
+.campaign .cover-content h2,
+.campaign .cover-content h3 {
+  color: #fff;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+.campaign .cover-content h2 {
+  margin-top: 30px;
+}
+.campaign .cover-content h3 {
+  margin-bottom: 20px;
+}
+.campaign .video {
+  width: inherit;
+}
+.campaign .content .description {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  color: #888;
+}
+.campaign .content .media-object {
+  width: 60px;
+}
+/* /campaign */
+
 /* thumbnail */
 .thumbnail {
   margin-bottom: 0px;
