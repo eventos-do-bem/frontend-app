@@ -209,6 +209,9 @@ dl dd:last-child {
   margin-top: -100px;
   margin-bottom: 30px;
 }
+.campaign .cover-content .avatar {
+  border: 2px solid #fff;
+}
 .campaign .cover-content h2,
 .campaign .cover-content h3 {
   color: #fff;
