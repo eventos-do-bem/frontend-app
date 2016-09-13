@@ -1,3 +1,100 @@
-<div class="">
-  <img src="assets/banners/banner-quem-somos.jpg" class="img-responsive" alt="">
+<div class="about">
+  <div class="row">
+    <img src="assets/banners/banner-quem-somos.jpg" class="img-responsive" alt="">
+  </div>
+  <div class="history row">
+    <div class="container">
+      <div class="row">
+        <div class="headers col-sm-2">
+          <span>Nossa</span>
+          <br>
+          <span>História</span>
+        </div>
+        <div class="col-sm-10">
+          <p>Mussum Ipsum, cacilds vidis litro abertis. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Delegadis gente finis, bibendum egestas augue arcu ut est. Quem manda na minha terra sou Euzis! Per aumento de cachacis, eu reclamis. Mussum Ipsum, cacilds vidis litro abertis. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Delegadis gente finis, bibendum egestas augue arcu ut est. Quem manda na minha terra sou Euzis! Per aumento de cachacis, eu reclamis. Mussum Ipsum, cacilds vidis litro abertis. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Delegadis gente finis, bibendum egestas augue arcu ut est. Quem manda na minha terra sou Euzis! Per aumento de cachacis, eu reclamis.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="content container">
+    <div class="row">
+      <div class="perfil col-md-3 col-sm-6 col-xs-12">
+        <figure>
+          <img class="img-circle img-responsive" src="assets/images/perfil/fernanda.jpg" alt="Fernanda Camargo">
+        </figure>
+        <h3>Fernanda Camargo</h3>
+        <h5>Designer</h5>
+        <p>Mussum Ipsum, cacilds vidis litro abertis. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet.</p>
+      </div>
+      <div class="perfil col-md-3 col-sm-6 col-xs-12">
+        <figure>
+          <img class="img-circle img-responsive" src="assets/images/avatar.jpg" alt="Guilherme Siquinelli">
+        </figure>
+        <h3>Guilherme Siquinelli</h3>
+        <h5>Dev Front-end</h5>
+        <p>Mussum Ipsum, cacilds vidis litro abertis. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet.</p>
+      </div>
+      <div class="perfil col-md-3 col-sm-6 col-xs-12">
+        <figure>
+          <img class="img-circle img-responsive" src="assets/images/perfil/carlos.jpg" alt="Carlos Eduardo">
+        </figure>
+        <h3>Carlos Eduardo</h3>
+        <h5>Dev Back-end</h5>
+        <p>Mussum Ipsum, cacilds vidis litro abertis. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet.</p>
+      </div>
+      <div class="perfil col-md-3 col-sm-6 col-xs-12">
+        <figure>
+          <img class="img-circle" src="assets/images/perfil/pedro.png" alt="Avatar">
+        </figure>
+        <h3>Pedro Paulo</h3>
+        <h5>Jurídico e Financeiro</h5>
+        <p>Mussum Ipsum, cacilds vidis litro abertis. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="quotes">
+          <div uib-carousel active="0" interval="95000" no-wrap="false">
+            <div uib-slide ng-repeat="slide in ctrl.slides track by slide.id" index="slide.id">
+              <!--<div class="carousel-caption">-->
+                <div class="row">
+                  <div class="col-md-6">
+                    <blockquote cite="{{slide.quotes[0].name}}">
+                      <p data-ng-bind="slide.quotes[0].text"></p>
+                      <p class="name">{{slide.quotes[0].name}}</p>
+                    </blockquote>
+                  </div>
+                  <div class="col-md-6">
+                    <blockquote cite="{{slide.quotes[1].name}}">
+                      <p data-ng-bind="slide.quotes[1].text"></p>
+                      <p class="name">{{slide.quotes[1].name}}</p>
+                    </blockquote>
+                  </div>
+                </div>
+              <!--</div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="text-center">Seleção e participação em programas de aceleração</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <img src="assets/logos/bota.png" class="img-responsive" alt="">
+      </div>
+      <div class="col-md-3">
+        <img src="assets/logos/miler.png" class="img-responsive" alt="">
+      </div>
+      <div class="col-md-3">
+        <img src="assets/logos/sgb.png" class="img-responsive" alt="">
+      </div>
+      <div class="col-md-3">
+        <img src="assets/logos/choice.png" class="img-responsive" alt="">
+      </div>
+    </div>
+  </section>
 </div>

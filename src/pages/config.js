@@ -6,7 +6,9 @@ export default function PagesConfig($stateProvider) {
     })
     .state('pages.about', {
       url: '/quem-somos',
-      templateUrl: './src/pages/view/about.html'
+      templateUrl: './src/pages/view/about.html',
+      controller: 'About',
+      controllerAs: 'ctrl'
     })
     .state('pages.how-it-works', {
       url: '/como-funciona',

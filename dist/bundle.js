@@ -210,7 +210,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 angular.module('app', ['ui.bootstrap', 'ngMask', _angularUiRouter2.default, 'ngMessages', 'ngSanitize', 'common', 'loading', 'countdown', 'home', 'pages', 'faq', 'event', 'auth', 'user', 'institution']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', _interceptor2.default).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":11,"./../common/component/countdown/countdown.js":14,"./../common/component/loading/loading.js":16,"./../common/module.js":21,"./../event/module.js":31,"./../faq/module.js":35,"./../home/module.js":39,"./../institution/module.js":41,"./../pages/module.js":49,"./../user/module.js":56,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+},{"./../auth/module.js":11,"./../common/component/countdown/countdown.js":14,"./../common/component/loading/loading.js":16,"./../common/module.js":21,"./../event/module.js":31,"./../faq/module.js":35,"./../home/module.js":39,"./../institution/module.js":41,"./../pages/module.js":50,"./../user/module.js":57,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2045,7 +2045,9 @@ function PagesConfig($stateProvider) {
     templateUrl: './src/pages/view/pages.html'
   }).state('pages.about', {
     url: '/quem-somos',
-    templateUrl: './src/pages/view/about.html'
+    templateUrl: './src/pages/view/about.html',
+    controller: 'About',
+    controllerAs: 'ctrl'
   }).state('pages.how-it-works', {
     url: '/como-funciona',
     templateUrl: './src/pages/view/how-it-works.html'
@@ -2079,6 +2081,44 @@ function PagesConfig($stateProvider) {
 }
 
 },{}],44:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var About = function About() {
+  _classCallCheck(this, About);
+
+  this.slides = [{
+    id: 0,
+    quotes: [{
+      text: 'Mussum Ipsum, cacilds vidis litro abertis. Delegadis gente finis, bibendum egestas augue arcu ut est. Manduma pindureta quium dia nois paga. Quem num gosta di mé, boa gente num é. Per aumento de cachacis, eu reclamis.',
+      name: 'Fulano de souza 1'
+    }, {
+      text: 'Mussum Ipsum, cacilds vidis litro abertis. Delegadis gente finis, bibendum egestas augue arcu ut est. Manduma pindureta quium dia nois paga. Quem num gosta di mé, boa gente num é. Per aumento de cachacis, eu reclamis.',
+      name: 'Fulano de souza 2'
+    }]
+  }, {
+    id: 1,
+    quotes: [{
+      text: 'Mussum Ipsum, cacilds vidis litro abertis. Delegadis gente finis, bibendum egestas augue arcu ut est. Manduma pindureta quium dia nois paga. Quem num gosta di mé, boa gente num é. Per aumento de cachacis, eu reclamis.',
+      name: 'Fulano de souza 3'
+    }, {
+      text: 'Mussum Ipsum, cacilds vidis litro abertis. Delegadis gente finis, bibendum egestas augue arcu ut est. Manduma pindureta quium dia nois paga. Quem num gosta di mé, boa gente num é. Per aumento de cachacis, eu reclamis.',
+      name: 'Fulano de souza 4'
+    }]
+  }];
+};
+
+exports.default = About;
+
+
+About.$inject = [];
+
+},{}],45:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2096,7 +2136,7 @@ exports.default = Campaign;
 
 Campaign.$inject = [];
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2120,7 +2160,7 @@ exports.default = Contact;
 
 Contact.$inject = ['$timeout'];
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2159,7 +2199,7 @@ exports.default = DonateBillet;
 
 DonateBillet.$inject = ['$uibModalInstance', 'donate'];
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2267,7 +2307,7 @@ exports.default = Donate;
 
 Donate.$inject = ['$uibModal', 'CreditCardFactory'];
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2341,7 +2381,7 @@ Explore.$inject = ['ActivityAreaService', 'InstitutionService'];
 
 exports.default = Explore;
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2355,6 +2395,10 @@ var _config2 = _interopRequireDefault(_config);
 var _contact = require('./controller/contact.js');
 
 var _contact2 = _interopRequireDefault(_contact);
+
+var _about = require('./controller/about.js');
+
+var _about2 = _interopRequireDefault(_about);
 
 var _explore = require('./controller/explore.js');
 
@@ -2374,9 +2418,9 @@ var _donateBillet2 = _interopRequireDefault(_donateBillet);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('pages', []).config(_config2.default).controller('Contact', _contact2.default).controller('Explore', _explore2.default).controller('Campaign', _campaign2.default).controller('Donate', _donate2.default).controller('DonateBillet', _donateBillet2.default);
+exports.default = angular.module('pages', []).config(_config2.default).controller('Contact', _contact2.default).controller('About', _about2.default).controller('Explore', _explore2.default).controller('Campaign', _campaign2.default).controller('Donate', _donate2.default).controller('DonateBillet', _donateBillet2.default);
 
-},{"./config.js":43,"./controller/campaign.js":44,"./controller/contact.js":45,"./controller/donate.billet.js":46,"./controller/donate.js":47,"./controller/explore.js":48}],50:[function(require,module,exports){
+},{"./config.js":43,"./controller/about.js":44,"./controller/campaign.js":45,"./controller/contact.js":46,"./controller/donate.billet.js":47,"./controller/donate.js":48,"./controller/explore.js":49}],51:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2427,7 +2471,7 @@ function UserConfig($stateProvider) {
   });
 }
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2477,7 +2521,7 @@ exports.default = UserChange;
 
 UserChange.$inject = ['$scope', '$stateParams', '$state', '$filter', 'UserService'];
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2537,7 +2581,7 @@ exports.default = UserConfirmation;
 
 UserConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'UserService', 'StorageService'];
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2598,7 +2642,7 @@ exports.default = UserMeConfigurations;
 
 UserMeConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'UserService', 'user'];
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2623,7 +2667,7 @@ exports.default = UserMe;
 
 UserMe.$inject = ['$scope', '$window', '$state', 'StorageService', 'UserService', 'me'];
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2818,7 +2862,7 @@ exports.default = UserRegister;
 
 UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'UserService'];
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2857,7 +2901,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('user', []).config(_config2.default).controller('UserMe', _me2.default).controller('UserMeConfigurations', _meConfigurations2.default).controller('UserChange', _change2.default).controller('UserConfirmation', _confirmation2.default).controller('UserRegister', _register2.default).service('UserService', _service2.default);
 
-},{"./config.js":50,"./controller/change.js":51,"./controller/confirmation.js":52,"./controller/me.configurations.js":53,"./controller/me.js":54,"./controller/register.js":55,"./service.js":57}],57:[function(require,module,exports){
+},{"./config.js":51,"./controller/change.js":52,"./controller/confirmation.js":53,"./controller/me.configurations.js":54,"./controller/me.js":55,"./controller/register.js":56,"./service.js":58}],58:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

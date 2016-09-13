@@ -49,6 +49,29 @@ p a {
 }
 /* /fonts */
 
+blockquote {
+  margin: 0;
+  padding-left: 40px;
+  color: #fff;
+  text-align: left;
+  border: none;
+}
+blockquote:before {
+  font: normal normal normal 4rem FontAwesome;
+  position: absolute;
+  left: 0;
+  content: "\f10d"
+}
+blockquote .name {
+  text-align: right;
+}
+
+.carousel {
+  position: unset !important;
+}
+.carousel .carousel-inner {
+  padding: 60px 120px;
+}
 .loading {
   position: fixed;
   top: 0;
@@ -1064,6 +1087,39 @@ footer {
   /*height: 180px;*/
   background-color: #111;
 }
+
+/* perfil */
+.about .history {
+  padding: 30px 0;
+  margin-bottom: 30px;
+  background-color: #f1f1f1;
+}
+.about .history .headers {
+  text-align: right;
+}
+.about .history span:first-child {
+  font-size: 5rem;
+  font-weight: 500;
+}
+.about .history span:last-child {
+  font-size: 4rem;
+  font-weight: 300;
+}
+.about .history p {
+  margin-top: 20px;
+  height: 100%;
+}
+.about .content .perfil {
+  text-align: center;
+}
+.about .content .perfil figure {
+  margin: 0 30px;
+}
+.carousel-control.left,
+.carousel-control.right {
+  background-image: none;
+}
+/* /perfil */
 
 footer nav {
   padding: 30px 0;
