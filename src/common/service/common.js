@@ -26,7 +26,7 @@ export default class CommonService {
     return this.$http.get(this.url + this.route, this.config)
   }
   findById(id) {
-    return this.$http.get(this.url + this.route + '/' + id)
+    return this.$http.get(this.url + this.route + '/' + id, this.config)
   }
   create(data) {
     return this.$http.post(this.url + this.route, data)

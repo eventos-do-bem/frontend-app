@@ -1,11 +1,11 @@
-export default class UserRegister {
-  constructor($scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, UserService) {
+export default class ProfileRegister {
+  constructor($scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, ProfileService) {
     this.activityAreaService = ActivityAreaService
-    this.service = UserService
+    this.service = ProfileService
     this.timeout = $timeout
     this.state = $state
     this.filter = $filter
-    this.masterUser = {
+    this.masterProfile = {
       gender: 'Feminino',
     }
     if ($stateParams.tab === 'ong') this.activeForm = 1
@@ -20,19 +20,19 @@ export default class UserRegister {
     this.activityAreaService.findAll()
       .then(response => this.area_activities = response.data.values)
   }
-  resetUser() {
-    this.user = angular.copy(this.masterUser)
+  resetProfile() {
+    this.profile = angular.copy(this.masterProfile)
   }
   toggleShowPassword() {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
   }
   changeTab(active) {
     this.error = null
-    this.resetUser()
+    this.resetProfile()
     this.changeStep()
     switch(active) {
       case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="name_organization"]').focus(), 300); break;
-      case 1: this.timeout(() => document.querySelector('form[name="registerUser"] input[name="name"]').focus(), 300); break;
+      case 1: this.timeout(() => document.querySelector('form[name="registerProfile"] input[name="name"]').focus(), 300); break;
     }
   }
   validateStep(form) {
@@ -58,7 +58,7 @@ export default class UserRegister {
   }
   registerFacebook() {
     this.service.registerFacebook(response => {
-      this.registerUser(response)
+      this.registerProfile(response)
     })
   }
   checkOfAge(age) {
@@ -68,42 +68,42 @@ export default class UserRegister {
     return (diffDays < 18) ? false : true
 
   }
-  registerUser(user) {
+  registerProfile(profile) {
     this.error = null
-    user = (user) ? angular.copy(user) : angular.copy(this.user)
+    profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
     let birthdate
-    if (user.facebook_token) {
-      user.gender = (user.gender == 'male') ? 'Masculino' : 'Feminino'
-      birthdate = user.birthday.split('/')
-      user.birthdate = new Date(`${birthdate[2]}-${birthdate[0]}-${birthdate[1]}`)
+    if (profile.facebook_token) {
+      profile.gender = (profile.gender == 'male') ? 'Masculino' : 'Feminino'
+      birthdate = profile.birthday.split('/')
+      profile.birthdate = new Date(`${birthdate[2]}-${birthdate[0]}-${birthdate[1]}`)
     } else {
-      birthdate = user.birthdate.split('/')
-      user.birthdate = new Date(`${birthdate[2]}-${birthdate[1]}-${birthdate[0]}`)
+      birthdate = profile.birthdate.split('/')
+      profile.birthdate = new Date(`${birthdate[2]}-${birthdate[1]}-${birthdate[0]}`)
     }
-    if (!this.checkOfAge(user.birthdate)) {
+    if (!this.checkOfAge(profile.birthdate)) {
       this.error = {
         errors: {
           birthdate: ['Desculpe, não podemos aceitar usuários menores de idade.']
         }
       }
     } else {
-      user.birthdate = this.filter('date')(user.birthdate.setDate(user.birthdate.getDate() + 1), 'yyyy-MM-dd')
-      this.service.register(user)
+      profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'yyyy-MM-dd')
+      this.service.register(profile)
         .then(
           response => this.registerSuccess(response),
           response => this.registerError(response)  
         )
     }
   }
-  registerOng(user) {
+  registerOng(profile) {
     this.error = null
-    user = angular.copy(user)
-    if (user.area_activity_uuid) {
-      user.area_activity_uuid = user.area_activity_uuid.uuid
+    profile = angular.copy(profile)
+    if (profile.area_activity_uuid) {
+      profile.area_activity_uuid = profile.area_activity_uuid.uuid
     }
-    user = (user) ? angular.copy(user) : angular.copy(this.user)
-    user.phone = user.phone.replace(/\s/g, '');
-    this.service.register(user)
+    profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
+    profile.phone = profile.phone.replace(/\s/g, '');
+    this.service.register(profile)
       .then(
         response => this.registerSuccess(response),
         response => this.registerError(response)  
@@ -118,4 +118,4 @@ export default class UserRegister {
   }
 }
 
-UserRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'UserService']
+ProfileRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'ProfileService']

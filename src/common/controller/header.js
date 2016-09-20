@@ -1,23 +1,21 @@
 export default class Header {
   constructor($scope, $state, $window, StorageService) {
     this.brand = 'Eventos do Bem'
-    this.user = StorageService.getItem('user')
+    this.profile = StorageService.getItem('profile')
     this.navbarCollapsed = true
-    $scope.$on('user.change', () => {
-      this.user = StorageService.getItem('user')
+    $scope.$on('profile.change', () => {
+      this.profile = StorageService.getItem('profile')
+      this.addMenuLogged()
     })
     $scope.$on('auth.logout', () => {
       StorageService.removeItem('rememberme')
       StorageService.removeItem('token')
-      StorageService.removeItem('user')
-      this.user = null
+      StorageService.removeItem('profile')
+      this.profile = null
     })
+
     this.dropDownMenu = {
       logged: [
-        {
-          label: 'Perfil',
-          url: 'user.me'
-        },
         {
           label: 'Logout',
           url: 'auth.logout'
@@ -30,15 +28,26 @@ export default class Header {
         },
         {
           label: 'Cadastrar',
-          url: 'user.register'
+          url: 'profile.register'
         }
       ]
     }
+    this.addMenuLogged()
     this.toggleDropdown = function ($event) {
       $event.preventDefault();
       $event.stopPropagation();
       this.status.isopen = !this.status.isopen;
     };
+  }
+  addMenuLogged() {
+    let item = {
+      label: 'Perfil'
+    }
+    switch(this.profile.type) {
+      case 'user': item.url = 'profile.user'; break;
+      case 'ong': item.url = 'profile.ong'; break;
+    }
+    this.dropDownMenu.logged.unshift(item)
   }
 }
 

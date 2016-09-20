@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "npm-run-all -p live-server frontend",
-    "live-server": "live-server --port=3000",
+    "live-server": "live-server --port=8000",
     "frontend": "npm-run-all -p app:sequential vendor:sequential app:style",
     "app:sequential": "npm-run-all -s -c app:concat app:minify",
     "app:minify": "uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",

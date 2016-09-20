@@ -1,0 +1,37 @@
+<h3 class="well">
+  Relatórios
+</h3>
+<h4>Você tem: <span class="text-danger"><span data-ng-bind="ctrl.pendings.length"></span> relatórios pendentes</span></h4>
+<ul class="media-list">
+  <li class="media" data-ng-repeat="item in ctrl.events">
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
+      </a>
+    </div>
+    <div class="media-body">
+      <div class="row">
+        <div class="col-md-8">
+          <h4 class="media-heading" data-ng-bind="item.description"></h4>
+          <p>Organizador por: <span data-ng-bind="item.user.name"></span></p>
+          <p>
+            <i class="fa fa-star-o"></i>
+            Projeto apoiado por: <span data-ng-bind="item.institution.name"></span>
+          </p>
+        </div>
+        <div class="col-md-4">
+          <button type="button" class="btn btn-success btn-block btn-waiting">
+            Submeter relatório
+          </button>
+          <br>
+          <p class="text-success text-center">
+            Prazo máximo: 
+            <span data-ng-bind="item.ends | date: 'dd/MM/yyyy'"></span>
+            <br>
+            <a ui-sref="event.slug({slug: item.slug})">Veja a página</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>

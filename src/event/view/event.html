@@ -1,7 +1,105 @@
-<section class="event container">
-  <div class="row">
-    <div class="col-md-12">
-      <ui-view></ui-view>
-    </div>
+<div class="campaign">
+  <div class="row cover">
+    <img src="assets/banners/banner-quem-somos.jpg" class="img-responsive" alt="">
   </div>
-</section>
+  <section class="cover-content container">
+    <div class="row">
+      <div class="col-md-2">
+        <img src="assets/images/avatar.jpg" class="avatar img-responsive img-circle" alt="">
+      </div>
+      <div class="col-md-10">
+        <h2 data-ng-bind="ctrl.event.name"></h2>
+        <h3 data-ng-bind="ctrl.event.short_description"></h3>
+        <p>Ajudando: <span data-ng-bind="ctrl.event.institution.name"></span></p>
+      </div>
+    </div>
+  </section>
+  <section class="content container">
+    <div class="row">
+      <div class="col-md-8">
+        <div data-ng-show="ctrl.event.videos.values[0]">
+          <iframe src="https://www.youtube.com/embed/V1U4mpk80_0" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class="description" data-ng-bind="ctrl.event.description"></p>
+        <div class="fb-share-button" 
+          data-href="/evento/{{ctrl.event.slud}}" 
+          data-layout="button_count">
+        </div>
+        <h4>Mensagens dos doadores da campanha de Luciana Pricoli Vilela</h4>
+        <ul class="media-list">
+          <li class="media">
+            <div class="media-left">
+              <a href="#">
+                <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">Fulano de Souza</h4>
+              <p>Mussum Ipsum, cacilds vidis litro abertis. Atirei o pau no gatis, per gatis num morreus. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Viva Forevis aptent taciti sociosqu ad litora torquent Cevadis im ampola pa arma uma pindureta.</p>
+            </div>
+          </li>
+          <li class="media">
+            <div class="media-left">
+              <a href="#">
+                <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">Fulano de Souza</h4>
+              <p>Mussum Ipsum, cacilds vidis litro abertis. Atirei o pau no gatis, per gatis num morreus. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Viva Forevis aptent taciti sociosqu ad litora torquent Cevadis im ampola pa arma uma pindureta.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <button type="button" class="btn btn-lg btn-block btn-success">
+              Doe agora
+              <br>
+              <small>e ajude a mudar o mundo</small>
+            </button>
+            <button type="button" class="btn btn-lg btn-block btn-default">
+              Veja o que acontecerá depois
+            </button>
+            <p>Você pode doar até: {{ctrl.event.ends | date: 'dd/MM/yyyy'}}</p>
+          </div>
+          <div class="panel-body">
+            <p>Como estamos até o momento</p>
+            <div class="progress">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%">
+                <span class="sr-only">{{ctrl.event.progress}}%</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <p>
+                  <span data-ng-bind="ctrl.event.total_receive | currency: 'R$' : 2"></span>
+                  <br>
+                  <small>levantados</small>
+                </p>
+              </div>
+              <div class="col-md-6 text-right">
+                <p>
+                  <span data-ng-bind="ctrl.event.goal | currency: 'R$' : 2"></span>
+                  <br>
+                  <small>objetivo</small>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <p>Para saber mais sobre a causa beneficiada, acesse:</p>
+            <p class="text-center">
+              <a href="{{ctrl.event.institution.website}}">{{ctrl.event.institution.website}}</a>
+            </p>
+            <p>
+              <i class="fa fa-question"></i>
+              Em caso de dúvida, entre em contato com o <a href="">organizador</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

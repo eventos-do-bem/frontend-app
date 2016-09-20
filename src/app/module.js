@@ -16,7 +16,7 @@ import pages            from './../pages/module.js'
 import faq              from './../faq/module.js'
 import event            from './../event/module.js'
 import auth             from './../auth/module.js'
-import user             from './../user/module.js'
+import profile          from './../profile/module.js'
 import institution      from './../institution/module.js'
 
 angular
@@ -34,7 +34,7 @@ angular
   ,'faq'
   ,'event'
   ,'auth'
-  ,'user'
+  ,'profile'
   ,'institution'
   ])
   .config(AppConfig)

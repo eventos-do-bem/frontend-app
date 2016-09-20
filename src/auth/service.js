@@ -5,9 +5,14 @@ export default class AuthService extends CommonService {
     super(API, $http)
     this.facebookService = FacebookService
   }
-  login(data) {
+  loginUser(data) {
     data = this.setDataToken(data)
     this.setRoute('auth/login')
+    return this.$http.post(this.url + this.route, data)
+  }
+  loginOng(data) {
+    data = this.setDataToken(data)
+    this.setRoute('institutions/auth/login')
     return this.$http.post(this.url + this.route, data)
   }
   loginFacebook(callback) {

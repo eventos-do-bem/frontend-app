@@ -1,6 +1,6 @@
 import CommonService  from './../common/service/common.js'
 
-export default class UserService extends CommonService {
+export default class ProfileService extends CommonService {
   constructor(API, $http, FacebookService) {
     super(API, $http)
     this.facebookService = FacebookService
@@ -18,6 +18,10 @@ export default class UserService extends CommonService {
     this.setRoute('users/me')
     return this.$http.get(this.url + this.route)
   }
+  getEvents() {
+    this.setRoute('users/me/events')
+    return this.$http.get(this.url + this.route)
+  }
   change(data) {
     this.setRoute('users/me')
     return this.$http.post(this.url + this.route, data)
@@ -30,4 +34,4 @@ export default class UserService extends CommonService {
   }
 }
 
-UserService.$inject = ['API','$http','FacebookService']
+ProfileService.$inject = ['API','$http','FacebookService']

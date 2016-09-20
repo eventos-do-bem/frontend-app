@@ -1,0 +1,33 @@
+<p class="alert alert-info alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  Veja nosso <a href="#">kit</a> para bombar suas campanhas!
+</p>
+<div class="container">
+  <div class="row">
+    <aside class="col-md-3">
+      <figure class="avatar">
+        <img src="assets/images/avatars/avatar.svg" class="img-responsive" alt="">
+      </figure>
+      <div class="text-center">
+        <h4>{{ctrl.profile.name}}</h4>
+        <a href="#">
+          <i class="glyphicon glyphicon-camera"></i> edite sua foto
+        </a>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <a ui-sref="profile.ong.events">Meus eventos do bem</a>
+          </li>
+          <li class="list-group-item">
+            <a href="#">Meu impacto</a>
+          </li>
+          <li class="list-group-item">
+            <a ui-sref="profile.ong.configurations">Configurações</a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <div class="col-md-9">
+      <ui-view></ui-view>
+    </div>
+  </div>
+</div>

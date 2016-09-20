@@ -18,35 +18,35 @@
 <div class="form-signin">
   <uib-tabset active="ctrl.activeForm" justified="true">
     <uib-tab index="0" heading="Usuário" select="ctrl.changeTab(ctrl.activeForm)">
-      <form name="registerUser" novalidate data-ng-submit="ctrl.registerUser(ctrl.user)">
+      <form name="registerUser" novalidate data-ng-submit="ctrl.registerUser(ctrl.profile)">
         <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.registerFacebook()">
           <i class="fa fa-facebook" aria-hidden="true"></i>
           Registrar-se com o Facebook
         </button>
         <div data-ng-class="{'has-error':registerUser.name.$invalid && registerUser.name.$dirty}">
-          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.user.name" placeholder="Nome completo" required
+          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Nome completo" required
             autofocus>
         </div>
         <div data-ng-class="{'has-error':registerUser.email.$invalid && registerUser.email.$dirty}">
-          <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail do usuário" required>
+          <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Endereço de e-mail do usuário" required>
         </div>
         <div data-ng-class="{'has-error':registerUser.password.$invalid && registerUser.password.$dirty}">
-          <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>
+          <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" minlength="6" maxlength="10" required>
         </div>
-        <label class="show-password" data-ng-disabled="!ctrl.user.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+        <label class="show-password" data-ng-disabled="!ctrl.profile.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
           <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
           Mostrar sua senha
         </label>
         <div data-ng-class="{'has-error':registerUser.birthdate.$invalid && registerUser.birthdate.$dirty}">
-          <input type="text" name="birthdate" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.user.birthdate" placeholder="Data de nascimento" required>
+          <input type="text" name="birthdate" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.profile.birthdate" placeholder="Data de nascimento" required>
         </div>
         <div class="btn-group-justified">
-          <label class="gender" ng-model="ctrl.user.gender" uib-btn-radio="'Masculino'">
-            <i data-ng-class="{'glyphicon glyphicon-check': ctrl.user.gender == 'Masculino','glyphicon glyphicon-unchecked': ctrl.user.gender != 'Masculino'}"></i>
+          <label class="gender" ng-model="ctrl.profile.gender" uib-btn-radio="'Masculino'">
+            <i data-ng-class="{'glyphicon glyphicon-check': ctrl.profile.gender == 'Masculino','glyphicon glyphicon-unchecked': ctrl.profile.gender != 'Masculino'}"></i>
             Masculino
           </label>
-          <label class="gender" ng-model="ctrl.user.gender" uib-btn-radio="'Feminino'">
-            <i data-ng-class="{'glyphicon glyphicon-check': ctrl.user.gender == 'Feminino','glyphicon glyphicon-unchecked': ctrl.user.gender != 'Feminino'}"></i>
+          <label class="gender" ng-model="ctrl.profile.gender" uib-btn-radio="'Feminino'">
+            <i data-ng-class="{'glyphicon glyphicon-check': ctrl.profile.gender == 'Feminino','glyphicon glyphicon-unchecked': ctrl.profile.gender != 'Feminino'}"></i>
             Feminino
           </label>
         </div>
@@ -54,41 +54,41 @@
       </form>
     </uib-tab>
     <uib-tab index="1" heading="Ong" select="ctrl.changeTab(ctrl.activeForm)">
-      <form name="registerOng" novalidate data-ng-submit="ctrl.registerOng(ctrl.user)">
+      <form name="registerOng" novalidate data-ng-submit="ctrl.registerOng(ctrl.profile)">
         <div data-ng-switch="ctrl.step">
           <div data-ng-switch-when="0">
             <div data-ng-class="{'has-error':registerOng.name_organization.$invalid && registerOng.name_organization.$dirty}">
-              <input type="text" name="name_organization" class="form-control" data-ng-model="ctrl.user.name_organization" placeholder="Qual o nome da sua organização?" minlength="5" required autofocus>
+              <input type="text" name="name_organization" class="form-control" data-ng-model="ctrl.profile.name_organization" placeholder="Qual o nome da sua organização?" minlength="5" required autofocus>
             </div>
             <div data-ng-class="{'has-error':registerOng.mission.$invalid && registerOng.mission.$dirty}">
-              <textarea name="mission" class="form-control" data-ng-model="ctrl.user.mission" cols="5" placeholder="Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor." minlength="20" maxlength="300" required></textarea>
+              <textarea name="mission" class="form-control" data-ng-model="ctrl.profile.mission" cols="5" placeholder="Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor." minlength="20" maxlength="300" required></textarea>
             </div>
             <div data-ng-class="{'has-error':registerOng.area_activity_uuid.$invalid && registerOng.area_activity_uuid.$dirty}">
-              <input type="text" name="area_activity_uuid" data-ng-model="ctrl.user.area_activity_uuid" placeholder="Qual sua área de atuação?" uib-typeahead="item as item.name for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
+              <input type="text" name="area_activity_uuid" data-ng-model="ctrl.profile.area_activity_uuid" placeholder="Qual sua área de atuação?" uib-typeahead="item as item.name for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
             </div>
           </div>
           <div data-ng-switch-when="1">
             <div data-ng-class="{'has-error':registerOng.phone.$invalid && registerOng.phone.$dirty}">
-              <input type="text" name="phone" class="form-control" mask="99 9999 9999" data-ng-model="ctrl.user.phone" placeholder="Qual o telefone da organização?" required>
+              <input type="text" name="phone" class="form-control" mask="99 9999 9999" data-ng-model="ctrl.profile.phone" placeholder="Qual o telefone da organização?" required>
             </div>
             <div data-ng-class="{'has-error':registerOng.facebook.$invalid && registerOng.facebook.$dirty}">
-              <input type="url" name="facebook" class="form-control" data-ng-model="ctrl.user.facebook" placeholder="Qual a página do facebook oficial?" required>
+              <input type="url" name="facebook" class="form-control" data-ng-model="ctrl.profile.facebook" placeholder="Qual a página do facebook oficial?" required>
             </div>
             <div data-ng-class="{'has-error':registerOng.website.$invalid && registerOng.website.$dirty}">
-              <input type="url" name="website" class="form-control" data-ng-model="ctrl.user.website" placeholder="Qual o website oficial?">
+              <input type="url" name="website" class="form-control" data-ng-model="ctrl.profile.website" placeholder="Qual o website oficial?">
             </div>
           </div>
           <div data-ng-switch-when="2">
             <div data-ng-class="{'has-error':registerOng.name.$invalid && registerOng.name.$dirty}">
-              <input type="text" name="name" class="form-control" data-ng-model="ctrl.user.name" placeholder="Qual o seu nome?" required>
+              <input type="text" name="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Qual o seu nome?" required>
             </div>
             <div data-ng-class="{'has-error':registerOng.email.$invalid && registerOng.email.$dirty}">
-              <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Qual seu e-mail profissional?" required>
+              <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Qual seu e-mail profissional?" required>
             </div>
             <div data-ng-class="{'has-error':registerOng.password.$invalid && registerOng.password.$dirty}">
-              <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10" required>
+              <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" minlength="6" maxlength="10" required>
             </div>
-            <label class="show-password" data-ng-disabled="!ctrl.user.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+            <label class="show-password" data-ng-disabled="!ctrl.profile.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
               <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
               Mostrar sua senha
             </label>

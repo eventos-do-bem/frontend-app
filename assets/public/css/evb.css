@@ -137,6 +137,15 @@ a:hover {
   background-color: #85cc7e;
   border-color: #85cc7e;
 }
+.btn-success.btn-waiting {
+  color: #50b476;
+  background-color: #fff;
+  border-color: #5fbc55;
+}
+.btn-success.btn-waiting:hover {
+  background-color: #fff;
+  border-color: #50b476;
+}
 .btn-warning {
   background-color: #fdc323;
   border-color: #fdc323;

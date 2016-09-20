@@ -1,5 +1,8 @@
 export default function run($rootScope, $window, $state, $anchorScroll) {
   $rootScope.$on("$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) => {
+    if (toState.type) {
+      console.log(toState)
+    }
     if (toState.authenticate && !$window.localStorage.getItem('token')) {
       $state.go('auth.login')
     }

@@ -5,11 +5,12 @@ export default class AuthLogin {
     this.$rootScope = $rootScope
     this.state = $state
     this.$window = $window
-    this.user = {
+    this.profile = {
       rememberme: true
     }
     this.showPassword = false
     this.typeInputPassword = 'password'
+    this.method = 'loginUser'
   }
   toggleShowPassword() {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
@@ -19,9 +20,12 @@ export default class AuthLogin {
       this.login(response)
     })
   }
-  login(user) {
-    user = (user) ? angular.copy(user) : angular.copy(this.user)
-    this.service.login(user)
+  changeMethod(method) {
+    this.method = method
+  }
+  login(profile) {
+    profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
+    this.service[this.method](profile)
       .then(
         response => this.loginSuccess(response),
         response => this.loginError(response)
@@ -29,10 +33,13 @@ export default class AuthLogin {
   }
   loginSuccess(response) {
     this.storage.setItem('token', response.data.token)
-    let {name, email} = response.data
-    this.storage.setItem('user', {name: name, email: email})
-    this.$rootScope.$broadcast('user.change')
-    this.state.go('user.me')
+    let {name, email, type} = response.data
+    this.storage.setItem('profile', {name: name, email: email, type: type})
+    this.$rootScope.$broadcast('profile.change')
+    switch(type) {
+      case 'user': this.state.go('profile.user'); break;
+      case 'ong': this.state.go('profile.ong'); break;
+    }
   }
   loginError(response) {
     this.error = {}

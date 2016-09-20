@@ -4,13 +4,13 @@
 <form name="configurations" novalidate data-ng-submit="ctrl.save(ctrl.user)">
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.name.$invalid}">
+      <div class="form-group" data-ng-class="{'has-error':configurations.name.$invalid && configurations.name.$dirty}">
         <label for="" class="control-label">Nome</label>
         <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.user.name" placeholder="Nome completo" required autofocus>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.email.$invalid}">
+      <div class="form-group" data-ng-class="{'has-error':configurations.email.$invalid && configurations.email.$dirty}">
         <label for="" class="control-label">E-mail</label>
         <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail do usuário" required>
       </div>
@@ -41,7 +41,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="form-group" data-ng-class="{'has-error':configurations.birthdate.$invalid}">
+      <div class="form-group" data-ng-class="{'has-error':configurations.birthdate.$invalid && configurations.birthdate.$dirty}">
         <label for="" class="control-label">Data de aniversário</label>
         <input type="text" name="birthdate" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.user.birthdate" placeholder="Data de nascimento" required>
       </div>

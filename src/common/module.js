@@ -9,6 +9,7 @@ import FixedOnScroll        from './directive/fixedOnScroll.js'
 import Header               from './controller/header.js'
 import Storage              from './service/storage.js'
 import Hydrator             from './service/hydrator.js'
+import Notification         from './service/notification.js'
 
 export default angular
   .module('common', [])
@@ -21,5 +22,6 @@ export default angular
   .service('FacebookService', FacebookService)
   .service('StorageService', Storage)
   .service('Hydrator', Hydrator)
+  .service('Notification', Notification)
   .controller('Header', Header)
   .directive('fixedOnScroll', FixedOnScroll.directiveFactory)

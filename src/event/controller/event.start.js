@@ -1,5 +1,6 @@
 export default class EventStart {
   constructor($state, $window, $stateParams, CityService, EventService, CategoryService, InstitutionService) {
+    console.log('start')
     this.$state = $state
     this.window = $window
     this.service = EventService

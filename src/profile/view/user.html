@@ -9,19 +9,19 @@
         <img src="assets/images/avatars/avatar.svg" class="img-responsive" alt="">
       </figure>
       <div class="text-center">
-        <h4>{{ctrl.me.name}}</h4>
+        <h4>{{ctrl.profile.name}}</h4>
         <a href="#">
           <i class="glyphicon glyphicon-camera"></i> edite sua foto
         </a>
         <ul class="list-group">
           <li class="list-group-item">
-            <a href="#">Minhas campanhas</a>
+            <a ui-sref="profile.user.events">Meus eventos do bem</a>
           </li>
           <li class="list-group-item">
             <a href="#">Meu impacto</a>
           </li>
           <li class="list-group-item">
-            <a ui-sref="user.me.configurations">Configurações</a>
+            <a ui-sref="profile.user.configurations">Configurações</a>
           </li>
         </ul>
       </div>

@@ -1,16 +1,16 @@
 <form name="login" class="form-signin" novalidate data-ng-submit="ctrl.login()">
   <uib-tabset active="activeForm" justified="true">
-    <uib-tab index="0" heading="Usuário">
+    <uib-tab index="0" heading="Usuário" select="ctrl.changeMethod('loginUser')">
       <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.loginFacebook()">
         <i class="fa fa-facebook" aria-hidden="true"></i>
         Login com o Facebook
       </button>
       <p>ou</p>
     </uib-tab>
-    <uib-tab index="1" heading="Ong">
+    <uib-tab index="1" heading="Ong" select="ctrl.changeMethod('loginOng')">
       <p>Entre na conta de uma organização cadastrada.</p>
     </uib-tab>
-    <p class="text-center">Faça login ou <a ui-sref="user.register">registre-se</a></p>
+    <p class="text-center">Faça login ou <a ui-sref="profile.register">registre-se</a></p>
     <div class="alert alert-danger" data-ng-show="ctrl.error">
       <strong>Ops...</strong>
       <ul>
@@ -19,18 +19,18 @@
     </div>
   </uib-tabset>
   <div data-ng-class="{'has-error':login.email.$invalid && login.email.$dirty}">
-    <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Qual email você se cadastrou?" required autofocus>
+    <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Qual email você se cadastrou?" required autofocus>
   </div>
   <div data-ng-class="{'has-error':login.password.$invalid && login.password.$dirty}">
-    <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="E a senha?" minlength="6" maxlength="10" required>
+    <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="E a senha?" minlength="6" maxlength="10" required>
   </div>
-  <label class="show-password" data-ng-disabled="!ctrl.user.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+  <label class="show-password" data-ng-disabled="!ctrl.profile.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
     <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
     Mostrar sua senha
   </label>
   <div>
-    <label class="rememberme" data-ng-model="ctrl.user.rememberme" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
-      <i data-ng-class="{'glyphicon glyphicon-check': ctrl.user.rememberme,'glyphicon glyphicon-unchecked': !ctrl.user.rememberme}"></i>
+    <label class="rememberme" data-ng-model="ctrl.profile.rememberme" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+      <i data-ng-class="{'glyphicon glyphicon-check': ctrl.profile.rememberme,'glyphicon glyphicon-unchecked': !ctrl.profile.rememberme}"></i>
       Lembrar da senha
     </label>
   </div>

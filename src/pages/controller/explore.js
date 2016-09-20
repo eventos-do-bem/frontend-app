@@ -1,7 +1,8 @@
 class Explore {
-  constructor(ActivityAreaService,InstitutionService) {
+  constructor(ActivityAreaService,InstitutionService,StorageService) {
     this.activityAreaService = ActivityAreaService
     this.institutionService = InstitutionService
+    this.user = StorageService.getItem('user')
     this.modelOptions = {
       updateOn: 'default blur',
       debounce: {
@@ -32,6 +33,6 @@ class Explore {
   }
 }
 
-Explore.$inject = ['ActivityAreaService','InstitutionService']
+Explore.$inject = ['ActivityAreaService','InstitutionService','StorageService']
 
 export default Explore

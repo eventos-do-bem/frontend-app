@@ -83,12 +83,13 @@ blockquote .name {
   z-index: 99999;
   cursor: progress;
 }
-.loading svg {
+.loading svg,
+.loading img {
   position: absolute;
   top: 50%;
-  margin-top: -60px;
+  margin-top: -128px;
   left: 50%;
-  margin-left: -60px;
+  margin-left: -128px;
 
 }
 /* jumbotron */
@@ -185,6 +186,26 @@ dl dd:last-child {
   padding-bottom: 0px;
   border-bottom-width: 0px;
 }
+
+/* profile */
+.profile .list-group {
+  margin-top: 20px;
+}
+.profile .list-group-item {
+  margin-bottom: 0;
+  border-width: 0 0 1px 0;
+}
+.profile .list-group-item:last-child {
+  border-bottom: 0;
+}
+.profile .media-object {
+  width: 80px;
+}
+.profile .media-list > .media {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+/* /profile */
 
 /* form-buttons */
 .form-buttons {
