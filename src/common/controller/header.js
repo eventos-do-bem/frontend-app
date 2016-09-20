@@ -43,11 +43,13 @@ export default class Header {
     let item = {
       label: 'Perfil'
     }
-    switch(this.profile.type) {
-      case 'user': item.url = 'profile.user'; break;
-      case 'ong': item.url = 'profile.ong'; break;
+    if (this.profile) {
+      switch(this.profile.type) {
+        case 'user': item.url = 'profile.user'; break;
+        case 'ong': item.url = 'profile.ong'; break;
+      }
+      this.dropDownMenu.logged.unshift(item)
     }
-    this.dropDownMenu.logged.unshift(item)
   }
 }
 

@@ -7,7 +7,7 @@ export default function run($rootScope, $window, $state, $anchorScroll) {
       $state.go('auth.login')
     }
     switch(toState.name) {
-      case 'user.register': $rootScope.background = 'auth-login'; break;
+      case 'profile.register': $rootScope.background = 'auth-login'; break;
       case 'auth.login': $rootScope.background = 'auth-login'; break;
       default: $rootScope.background = null;
     }

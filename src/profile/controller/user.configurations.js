@@ -11,6 +11,7 @@ export default class UserConfigurations {
     profile.birthdate = new Date(profile.birthdate)
     profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy')
     this.profile = profile
+    this.needpassword = profile.needpassword
   }
   save(profile) {
     profile = angular.copy(profile)
@@ -28,6 +29,10 @@ export default class UserConfigurations {
           this.profile.new_password = '';
         }
       )
+  }
+  setPassword() {
+    console.log(!this.profile.needpassword && this.needpassword)
+    this.needpassword = true
   }
 }
 

@@ -228,7 +228,7 @@ function run($rootScope, $window, $state, $anchorScroll) {
       $state.go('auth.login');
     }
     switch (toState.name) {
-      case 'user.register':
+      case 'profile.register':
         $rootScope.background = 'auth-login';break;
       case 'auth.login':
         $rootScope.background = 'auth-login';break;
@@ -646,13 +646,15 @@ var Header = function () {
       var item = {
         label: 'Perfil'
       };
-      switch (this.profile.type) {
-        case 'user':
-          item.url = 'profile.user';break;
-        case 'ong':
-          item.url = 'profile.ong';break;
+      if (this.profile) {
+        switch (this.profile.type) {
+          case 'user':
+            item.url = 'profile.user';break;
+          case 'ong':
+            item.url = 'profile.ong';break;
+        }
+        this.dropDownMenu.logged.unshift(item);
       }
-      this.dropDownMenu.logged.unshift(item);
     }
   }]);
 
@@ -2963,7 +2965,7 @@ var ProfileRegister = function () {
           }, 300);break;
         case 1:
           this.timeout(function () {
-            return document.querySelector('form[name="registerProfile"] input[name="name"]').focus();
+            return document.querySelector('form[name="registerUser"] input[name="name"]').focus();
           }, 300);break;
       }
     }
@@ -3013,7 +3015,7 @@ var ProfileRegister = function () {
       var _this2 = this;
 
       this.service.registerFacebook(function (response) {
-        _this2.registerProfile(response);
+        _this2.registerUser(response);
       });
     }
   }, {
@@ -3025,8 +3027,8 @@ var ProfileRegister = function () {
       return diffDays < 18 ? false : true;
     }
   }, {
-    key: 'registerProfile',
-    value: function registerProfile(profile) {
+    key: 'registerUser',
+    value: function registerUser(profile) {
       var _this3 = this;
 
       this.error = null;
@@ -3123,6 +3125,7 @@ var UserConfigurations = function () {
       profile.birthdate = new Date(profile.birthdate);
       profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy');
       this.profile = profile;
+      this.needpassword = profile.needpassword;
     }
   }, {
     key: 'save',
@@ -3144,6 +3147,12 @@ var UserConfigurations = function () {
         _this.profile.password = '';
         _this.profile.new_password = '';
       });
+    }
+  }, {
+    key: 'setPassword',
+    value: function setPassword() {
+      console.log(!this.profile.needpassword && this.needpassword);
+      this.needpassword = true;
     }
   }]);
 

@@ -1,41 +1,41 @@
 <h3 class="well">
   Configurações
 </h3>
-<form name="configurations" novalidate data-ng-submit="ctrl.save(ctrl.user)">
+<form name="configurations" novalidate data-ng-submit="ctrl.save(ctrl.profile)">
   <div class="row">
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.name.$invalid && configurations.name.$dirty}">
         <label for="" class="control-label">Nome</label>
-        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.user.name" placeholder="Nome completo" required autofocus>
+        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Nome completo" required autofocus>
       </div>
     </div>
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.email.$invalid && configurations.email.$dirty}">
         <label for="" class="control-label">E-mail</label>
-        <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="Endereço de e-mail do usuário" required>
+        <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Endereço de e-mail do usuário" required>
       </div>
     </div>
   </div>
-  <div class="row" data-ng-show="ctrl.user.needpassword">
+  <div class="row" data-ng-show="ctrl.profile.needpassword">
     <div class="col-md-12">
       <p class="alert alert-warning alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         Por ter usado o login social, você não tem uma senha cadastrada caso queira acessar sem login social.
-        <a href="#">Cadastre uma senha</a>.
+        <a data-ng-click="ctrl.setPassword()">Cadastre uma senha</a>.
       </p>
     </div>
   </div>
-  <div class="row" data-ng-show="!ctrl.user.needpassword">
+  <div class="row" data-ng-show="!ctrl.profile.needpassword && ctrl.needpassword">
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.password.$invalid}">
         <label for="password" class="control-label">Senha atual</label>
-        <input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.user.password" placeholder="Senha" minlength="6" maxlength="10">
+        <input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" minlength="6" maxlength="10">
       </div>
     </div>
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.new_password.$invalid}">
         <label for="new_password" class="control-label">Nova senha</label>
-        <input type="password" name="new_password" id="new_password" class="form-control" data-ng-model="ctrl.user.new_password" placeholder="Nova senha" minlength="6" maxlength="10">
+        <input type="password" name="new_password" id="new_password" class="form-control" data-ng-model="ctrl.profile.new_password" placeholder="Nova senha" minlength="6" maxlength="10">
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
     <div class="col-md-12">
       <div class="form-group" data-ng-class="{'has-error':configurations.birthdate.$invalid && configurations.birthdate.$dirty}">
         <label for="" class="control-label">Data de aniversário</label>
-        <input type="text" name="birthdate" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.user.birthdate" placeholder="Data de nascimento" required>
+        <input type="text" name="birthdate" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.profile.birthdate" placeholder="Data de nascimento" required>
       </div>
     </div>
   </div>

@@ -30,14 +30,14 @@ export default class ProfileRegister {
     this.error = null
     this.resetProfile()
     this.changeStep()
-    switch(active) {
+    switch (active) {
       case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="name_organization"]').focus(), 300); break;
-      case 1: this.timeout(() => document.querySelector('form[name="registerProfile"] input[name="name"]').focus(), 300); break;
+      case 1: this.timeout(() => document.querySelector('form[name="registerUser"] input[name="name"]').focus(), 300); break;
     }
   }
   validateStep(form) {
     let validated
-    switch(this.step) {
+    switch (this.step) {
       case 0: validated = (form.name_organization.$invalid || form.mission.$invalid || form.area_activity_uuid.$invalid) ? true : false; break;
       case 1: validated = (form.phone.$invalid || form.facebook.$invalid) ? true : false; break;
       case 2: validated = (form.name.$invalid || form.email.$invalid || form.password.$invalid) ? true : false; break;
@@ -45,12 +45,12 @@ export default class ProfileRegister {
     return validated
   }
   changeStep(direction) {
-    switch(direction) {
+    switch (direction) {
       case 'next': this.step++; break;
       case 'prev': this.step--; break;
       default: this.step = 0
     }
-    switch(this.step) {
+    switch (this.step) {
       case 0: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="name_organization"]').focus(), 300); break;
       case 1: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="phone"]').focus(), 300); break;
       case 2: this.timeout(() => document.querySelector('form[name="registerOng"] input[name="name"]').focus(), 300); break;
@@ -58,17 +58,17 @@ export default class ProfileRegister {
   }
   registerFacebook() {
     this.service.registerFacebook(response => {
-      this.registerProfile(response)
+      this.registerUser(response)
     })
   }
   checkOfAge(age) {
     let date = new Date(),
-        timeDiff = date - age,
-        diffDays = timeDiff / (1000 * 3600 * 24 * 365)
+      timeDiff = date - age,
+      diffDays = timeDiff / (1000 * 3600 * 24 * 365)
     return (diffDays < 18) ? false : true
 
   }
-  registerProfile(profile) {
+  registerUser(profile) {
     this.error = null
     profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
     let birthdate
@@ -90,8 +90,8 @@ export default class ProfileRegister {
       profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'yyyy-MM-dd')
       this.service.register(profile)
         .then(
-          response => this.registerSuccess(response),
-          response => this.registerError(response)  
+        response => this.registerSuccess(response),
+        response => this.registerError(response)
         )
     }
   }
@@ -105,8 +105,8 @@ export default class ProfileRegister {
     profile.phone = profile.phone.replace(/\s/g, '');
     this.service.register(profile)
       .then(
-        response => this.registerSuccess(response),
-        response => this.registerError(response)  
+      response => this.registerSuccess(response),
+      response => this.registerError(response)
       )
   }
   registerSuccess(response) {
