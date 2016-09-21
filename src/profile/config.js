@@ -40,6 +40,15 @@ export default function ProfileConfig($stateProvider) {
         // }
       }
     })
+    .state('profile.user.report', {
+      url: '/eventos/:uuid/relatorio',
+      authenticate: true,
+      templateUrl: './src/profile/view/user.report.html',
+      controller: 'UserReport',
+      controllerAs: 'ctrl',
+      resolve: {
+      }
+    })
     .state('profile.ong', {
       url: '/ong',
       authenticate: true,

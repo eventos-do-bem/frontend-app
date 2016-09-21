@@ -17,6 +17,13 @@ a:hover {
 .text-danger {
   color: #f25e5e;
 }
+.badge {
+  position: absolute;
+  margin-top: -8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background-color: #f25e5e;
+}
 .panel.profile .panel-body h4 {
   color: #0ea4f1;
 }

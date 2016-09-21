@@ -1,6 +1,10 @@
 <h3 class="well">
   Relatórios
 </h3>
+<p class="alert alert-warning">
+  <i class="fa fa-warning"></i>
+  Você tem <span data-ng-bind="ctrl.pendings.length"></span> relatórios pendentes
+</p>
 <h4>Você tem: <span class="text-danger"><span data-ng-bind="ctrl.pendings.length"></span> relatórios pendentes</span></h4>
 <ul class="media-list">
   <li class="media" data-ng-repeat="item in ctrl.events">
@@ -12,7 +16,7 @@
     <div class="media-body">
       <div class="row">
         <div class="col-md-8">
-          <h4 class="media-heading" data-ng-bind="item.description"></h4>
+          <h4 class="media-heading" data-ng-bind="item.name"></h4>
           <p>Organizador por: <span data-ng-bind="item.user.name"></span></p>
           <p>
             <i class="fa fa-star-o"></i>
@@ -20,9 +24,9 @@
           </p>
         </div>
         <div class="col-md-4">
-          <button type="button" class="btn btn-success btn-block btn-waiting">
+          <a ui-sref="profile.user.report({uuid: item.uuid})" class="btn btn-success btn-block btn-waiting">
             Submeter relatório
-          </button>
+          </a>
           <br>
           <p class="text-success text-center">
             Prazo máximo: 

@@ -7,6 +7,7 @@ import ProfileOng           from './controller/ong.js'
 import UserConfigurations   from './controller/user.configurations.js'
 import OngConfigurations    from './controller/ong.configurations.js'
 import UserEvents           from './controller/user.events.js'
+import UserReport           from './controller/user.report.js'
 import OngEvents            from './controller/ong.events.js'
 import ProfileChange        from './controller/change.js'
 
@@ -21,5 +22,6 @@ export default angular
   .controller('UserConfigurations', UserConfigurations)
   .controller('OngConfigurations', OngConfigurations)
   .controller('UserEvents', UserEvents)
+  .controller('UserReport', UserReport)
   .controller('OngEvents', OngEvents)
   .controller('ProfileChange', ProfileChange)
