@@ -45,7 +45,8 @@ var AppController = function AppController($location, $window, API, FacebookFact
   _classCallCheck(this, AppController);
 
   FacebookFactory.init({
-    appId: '922781867788493',
+    // appId: '922781867788493',
+    appId: '1151546794911998',
     xfbml: true
   });
   // console.log(FacebookFactory.ui)

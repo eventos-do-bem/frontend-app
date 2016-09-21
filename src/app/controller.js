@@ -1,7 +1,8 @@
 export default class AppController {
   constructor($location, $window, API, FacebookFactory) {
     FacebookFactory.init({
-      appId: '922781867788493',
+      // appId: '922781867788493',
+      appId: '1151546794911998',
       xfbml: true
     })
     // console.log(FacebookFactory.ui)
