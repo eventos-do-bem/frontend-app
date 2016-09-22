@@ -6,11 +6,12 @@
   "scripts": {
     "start": "npm-run-all -p live-server frontend",
     "live-server": "live-server --port=8000",
-    "frontend": "npm-run-all -p app:sequential vendor:sequential app:style",
+    "frontend": "npm-run-all -p app:sequential vendor:sequential app:style app:style:minify",
     "app:sequential": "npm-run-all -s -c app:concat app:minify",
     "app:minify": "uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
     "app:concat": "watchify ./bootstrap.js -o ./dist/bundle.js -t [ babelify ] -v -x=angular -x=angular-animate -x=angular-aria -x=angular-messages -x=angular-mocks -x=angular-ui-router -x=angular-sanitize -x=bootstrap -x=angular-ui-bootstrap -x=ng-mask",
     "app:style": "catw -c 'lessc -' 'assets/less/*.less' -o assets/public/css/evb.css -v",
+    "app:style:minify": "lessc --clean-css assets/public/css/evb.css assets/public/css/evb.min.css",
     "vendor:sequential": "npm-run-all -s -c vendor:minify vendor:concat",
     "vendor:minify": "uglifyjs ./dist/vendor.js -o ./dist/vendor.min.js",
     "vendor:concat": "watchify -o ./dist/vendor.js -v -r angular -r angular-animate -r angular-aria -r angular-messages -r angular-mocks -r angular-ui-router -r angular-sanitize -r bootstrap -r angular-ui-bootstrap -r ng-mask"
@@ -31,6 +32,7 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "catw": "^1.0.1",
+    "less-plugin-clean-css": "^1.5.1",
     "live-server": "^0.9.2",
     "uglify-js": "^2.6.2",
     "watchify": "^3.7.0"

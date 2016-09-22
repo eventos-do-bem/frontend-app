@@ -16,7 +16,7 @@
       </div>
     </div>
   </div>
-  <div class="row" data-ng-show="ctrl.profile.needpassword">
+  <div class="row" data-ng-show="ctrl.profile.needpassword" data-ng-hide="!ctrl.needpassword">
     <div class="col-md-12">
       <p class="alert alert-warning alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -25,8 +25,8 @@
       </p>
     </div>
   </div>
-  <div class="row" data-ng-show="!ctrl.profile.needpassword && ctrl.needpassword">
-    <div class="col-md-6">
+  <div class="row" data-ng-show="!ctrl.needpassword">
+    <div class="col-md-6" data-ng-hide="ctrl.needpassword">
       <div class="form-group" data-ng-class="{'has-error':configurations.password.$invalid}">
         <label for="password" class="control-label">Senha atual</label>
         <input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" minlength="6" maxlength="10">
@@ -40,10 +40,16 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.birthdate.$invalid && configurations.birthdate.$dirty}">
         <label for="" class="control-label">Data de aniversário</label>
         <input type="text" name="birthdate" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.profile.birthdate" placeholder="Data de nascimento" required>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group" data-ng-class="{'has-error':configurations.avatar.$invalid && configurations.avatar.$dirty}">
+        <label for="foto" class="control-label">Foto</label>
+        <input type="file" name="avatar" id="avatar" data-ng-model="ctrl.profile.avatar" placeholder="Data de nascimento" required>
       </div>
     </div>
   </div>

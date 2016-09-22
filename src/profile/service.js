@@ -24,7 +24,7 @@ export default class ProfileService extends CommonService {
   }
   change(data) {
     this.setRoute('users/me')
-    return this.$http.post(this.url + this.route, data)
+    return this.$http.put(this.url + this.route, data)
   }
   registerFacebook(callback) {
     return this.facebookService.auth(callback)

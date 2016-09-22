@@ -1,11 +1,15 @@
 export default class ProfileUser {
-  constructor($scope, $window, $state, StorageService, ProfileService, profile) {
+  constructor($scope, $rootScope, $window, $state, StorageService, ProfileService, profile) {
     this.service = ProfileService
     this.profile = profile.data
+    this.rootScope = $rootScope
     $scope.$on('profile.change', () => {
       this.profile = StorageService.getItem('profile')
     })
     this.getEvents()
+  }
+  alert() {
+    this.rootScope.$broadcast('alert', {type: 'alert-info', icon: 'fa-warning', message: 'mensagem'})
   }
   getEvents() {
     this.service.getEvents()
@@ -19,4 +23,4 @@ export default class ProfileUser {
   }
 }
 
-ProfileUser.$inject = ['$scope', '$window', '$state', 'StorageService', 'ProfileService', 'profile']
+ProfileUser.$inject = ['$scope', '$rootScope', '$window', '$state', 'StorageService', 'ProfileService', 'profile']

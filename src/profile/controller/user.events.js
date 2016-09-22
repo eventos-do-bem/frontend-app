@@ -1,7 +1,9 @@
 export default class UserEvents {
-  constructor(ProfileService) {
+  constructor($rootScope, ProfileService) {
+    this.rootScope = $rootScope
     this.service = ProfileService
     this.pendings = 0
+    this.rootScope.$broadcast('alert', {type: 'alert-info', icon: 'fa-warning', message: ` Veja nosso <a href="#">kit</a> para bombar suas campanhas!`})
     this.getEvents()
   }
   getEvents() {
@@ -11,6 +13,7 @@ export default class UserEvents {
           this.pendings = response.data.values.filter(event => {
             return (event.needReport == true)
           })
+          this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-warning', message: `Você tem ${this.pendings.length} relatórios pendentes.`})
           this.events = response.data.values.map(event => {
             event.ends = new Date(event.ends)
             return event
@@ -21,4 +24,4 @@ export default class UserEvents {
   }
 }
 
-UserEvents.$inject = ['ProfileService']
+UserEvents.$inject = ['$rootScope','ProfileService']

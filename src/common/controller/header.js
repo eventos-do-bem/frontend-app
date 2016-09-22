@@ -48,7 +48,11 @@ export default class Header {
         case 'user': item.url = 'profile.user'; break;
         case 'ong': item.url = 'profile.ong'; break;
       }
-      this.dropDownMenu.logged.unshift(item)
+      if (this.dropDownMenu.logged[0].label == 'Perfil') {
+        this.dropDownMenu.logged[0] = item
+      } else {
+        this.dropDownMenu.logged.unshift(item)
+      }
     }
   }
 }

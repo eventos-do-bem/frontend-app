@@ -4,6 +4,7 @@ export default class OngConfigurations {
     this.rootScope = $rootScope
     this.storage = StorageService
     this.service = ProfileService
+    console.log(profile)
     this.load(profile)
   }
   load(profile) {
