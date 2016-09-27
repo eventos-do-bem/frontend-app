@@ -764,9 +764,9 @@ figure img {
   margin-top: 80px;
   text-align: center;
 }
-.contact > section:first-child > div:first-child {
+/*.contact > section:first-child > div:first-child {
   border-right: 1px solid #999;
-}
+}*/
 .contact > section:first-child > div:last-child {
   text-align: left;
 }
@@ -872,7 +872,7 @@ figure img {
 }
 .form-signin .tab-pane p {
   padding-top: 0px;
-  font-size: 2rem;
+  font-size: 1.6rem;
   text-align: center;
 }
 .form-signin .show-password {
