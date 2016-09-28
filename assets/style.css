@@ -666,15 +666,9 @@ figure img {
   font-weight: 300;
 }
 .our-campaigns .panel {
+  position: relative;
   box-shadow: none;
   -webkit-box-shadow: none;
-}
-.our-campaigns .panel > .hover {
-  opacity: 0;
-  text-align: center;
-  -webkit-transition-duration: 0.5s;
-  -moz-transition-duration: 0.5s;
-  transition-duration: 0.5s;
 }
 .our-campaigns .panel > .hover {
   position: absolute;
@@ -684,8 +678,18 @@ figure img {
   left: 0;
   margin: 0px 15px 50px 15px;
   padding: 50% 60px;
+  z-index: 10;
+  opacity: 0;
+  text-align: center;
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  transition-duration: 0.5s;
 }
-.our-campaigns .panel-body {
+.our-campaigns .panel .panel-body {
+  position: absolute;
+  right: 15px;
+  bottom: 0;
+  left: 15px;
   text-align: center;
   color: #fff;
   height: 140px;
