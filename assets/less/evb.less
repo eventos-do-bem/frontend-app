@@ -210,22 +210,33 @@ a {
   }
 }
 
-.our-campaigns section .blue {
+.our-campaigns .panel:hover > .hover {
+  opacity: .9;
+}
+.our-campaigns .panel > .hover > a {
+  font-size: 2rem;
+  color: #fff;
+  text-decoration: none;
+}
+.our-campaigns .blue > .hover:hover,
+.our-campaigns .blue .panel-body {
   background-color: @blue;
 }
-.our-campaigns section .blue i {
+.our-campaigns .blue .panel-body i {
   color: @blue-strong;
 }
-.our-campaigns section .red {
+.our-campaigns .red > .hover:hover,
+.our-campaigns .red .panel-body {
   background-color: @red;
 }
-.our-campaigns section .red i {
+.our-campaigns .red .panel-body i {
   color: @red-strong;
 }
-.our-campaigns section .green {
+.our-campaigns .green > .hover:hover,
+.our-campaigns .green .panel-body {
   background-color: @green;
 }
-.our-campaigns section .green i {
+.our-campaigns .green .panel-body i {
   color: @green-strong;
 }
 
