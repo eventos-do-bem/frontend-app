@@ -699,6 +699,7 @@ figure img {
 }
 /* /out-campaigns */
 
+/* get-inspired */
 .get-inspired header {
   color: #fff;
 }
@@ -707,10 +708,43 @@ figure img {
   padding-bottom: 15px;
 }
 .get-inspired figure {
+  position: relative;
   display: block;
   max-height: 400px;
   overflow: hidden;
 }
+.get-inspired figure > .hover {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0px 15px 0px 15px;
+  padding: 50% 60px;
+  z-index: 10;
+  opacity: 0;
+  text-align: center;
+  background-color: #000;
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+.get-inspired figure:hover > .hover {
+  opacity: .8;
+}
+.get-inspired figure:hover > .hover p,
+.get-inspired figure:hover > .hover a {
+  z-index: 10;
+  opacity: 1;
+} 
+.get-inspired figure > .hover > p {
+  font-size: 2.2rem;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+/* /get-inspired */
+
 .proven-impact .impact {
   /*display: table;*/
 }
