@@ -30,7 +30,8 @@
           <li class="media" data-ng-repeat="item in ctrl.event.messages.values">
             <div class="media-left">
               <a href="#">
-                <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
+                <img data-ng-show="item.user" class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
+                <img data-ng-show="!item.user" class="media-object img-circle" src="assets/images/avatars/avatar.svg" alt="Avatar">
               </a>
             </div>
             <div class="media-body">
