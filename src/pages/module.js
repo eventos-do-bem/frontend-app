@@ -3,7 +3,6 @@ import Contact      from './controller/contact.js'
 import About        from './controller/about.js'
 import Explore      from './controller/explore.js'
 import Campaign     from './controller/campaign.js'
-import Donate       from './controller/donate.js'
 import DonateBillet from './controller/donate.billet.js'
 
 export default angular
@@ -13,5 +12,4 @@ export default angular
   .controller('About', About)
   .controller('Explore', Explore)
   .controller('Campaign', Campaign)
-  .controller('Donate', Donate)
   .controller('DonateBillet', DonateBillet)

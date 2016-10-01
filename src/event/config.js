@@ -17,4 +17,10 @@ export default function EventConfig($stateProvider) {
       controller: 'Event',
       controllerAs: 'ctrl'
     })
+    .state('event.donate', {
+      url: '/:slug/doacao',
+      templateUrl: './src/event/view/donate.html',
+      controller: 'EventDonate',
+      controllerAs: 'ctrl'
+    })
 }

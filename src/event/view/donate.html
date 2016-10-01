@@ -1,26 +1,26 @@
 <div class="donate container">
   <form name="donate" novalidate data-ng-submit="ctrl.save(ctrl.donate)">
     <div class="row">
-      <div class="col-md-9">
+      <div class="col-md-8">
         <h3>Você está doando para a campanha de Gui Seek</h3>
         <h4>Preencha e revise os dados para o pagamento</h4>
         <p>Esses dados serão informados ao realizador do projeto</p>
         <div class="row">
-          <div class="form-group col-md-8" data-ng-class="{'has-error':donate.name.$invalid}">
+          <div class="form-group col-md-8" data-ng-class="{'has-error':donate.name.$invalid && donate.name.$dirty}">
             <label for="name" class="control-label">Nome completo</label>
             <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.donate.name" required autofocus>
           </div>
-          <div class="form-group col-md-4" data-ng-class="{'has-error':donate.birthday.$invalid}">
-            <label for="birthday" class="control-label">Aniversário</label>
-            <input type="text" name="birthday" id="birthday" mask="99/99/9999" class="form-control" data-ng-model="ctrl.donate.birthday" required>
+          <div class="form-group col-md-4" data-ng-class="{'has-error':donate.birthdate.$invalid && donate.birthdate.$dirty}">
+            <label for="birthdate" class="control-label">Aniversário</label>
+            <input type="text" name="birthdate" id="birthdate" mask="99/99/9999" class="form-control" data-ng-model="ctrl.donate.birthdate" required>
           </div>
-          <div class="form-group col-md-6" data-ng-class="{'has-error':donate.email.$invalid}">
+          <div class="form-group col-md-6" data-ng-class="{'has-error':donate.email.$invalid && donate.email.$dirty}">
             <label for="email" class="control-label">E-mail</label>
             <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.donate.email" required>
           </div>
-          <div class="form-group col-md-6" data-ng-class="{'has-error':donate.cpf.$invalid}">
-            <label for="cpf" class="control-label">CPF</label>
-            <input type="text" name="cpf" id="cpf" mask="999.999.999-99" class="form-control" data-ng-model="ctrl.donate.cpf" required>
+          <div class="form-group col-md-6" data-ng-class="{'has-error':donate.document.$invalid && donate.document.$dirty}">
+            <label for="document" class="control-label">CPF</label>
+            <input type="text" name="document" id="document" mask="999.999.999-99" class="form-control" data-ng-model="ctrl.donate.document" required>
           </div>
         </div>
         <div class="row">
@@ -80,19 +80,19 @@
                     </div>
                     <div class="chip"></div>
                     <div class="number">
-                      {{ctrl.donate.card.number || ctrl.donateOff.number}}
+                      {{ctrl.donate.card_number || ctrl.donateOff.number}}
                     </div>
                     <div class="name">
-                      {{ctrl.donate.card.name || ctrl.donateOff.name}}
+                      {{ctrl.donate.card_name || ctrl.donateOff.name}}
                     </div>
                     <div class="expiry">
-                      {{ctrl.donate.card.expiry.month || ctrl.donateOff.expiry.month}}/{{ctrl.donate.card.expiry.year || ctrl.donateOff.expiry.year}}
+                      {{ctrl.donate.card.card_month || ctrl.donateOff.expiry.month}}/{{ctrl.donate.card_year || ctrl.donateOff.expiry.year}}
                     </div>
                   </div>
                   <div class="lower back">
                     <div class="bar"></div>
                     <div class="cvc">
-                      {{ctrl.donate.card.cvc || ctrl.donateOff.cvc}}
+                      {{ctrl.donate.card_cvc || ctrl.donateOff.cvc}}
                     </div>
                   </div>
                 </div>
@@ -100,33 +100,33 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group" data-ng-class="{'has-error':donate.cardValue.$invalid}">
-              <label for="cardValue" class="control-label">Valor que deseja doar</label>
-              <input type="text" name="cardValue" id="cardValue" class="form-control" data-ng-model="ctrl.donate.card.value" data-ng-focus="ctrl.onFocus('cardValue')" data-ng-blur="ctrl.onValidate(donate)" required>
+            <div class="form-group" data-ng-class="{'has-error':donate.amount.$invalid && donate.amount.$dirty}">
+              <label for="amount" class="control-label">Valor que deseja doar</label>
+              <input type="text" name="amount" id="amount" class="form-control" data-ng-model="ctrl.donate.amount" data-ng-focus="ctrl.onFocus('amount')" data-ng-blur="ctrl.onValidate(donate)" required>
             </div>
-            <div class="form-group" data-ng-class="{'has-error':donate.cardNumber.$invalid}">
-              <label for="cardNumber" class="control-label">Número do seu cartão</label>
-              <input type="text" name="cardNumber" id="cardNumber" class="form-control" data-ng-model="ctrl.donate.card.number" mask="9999-9999-9999-9999" data-ng-keyup="ctrl.getFlag(ctrl.donate.card.number)" data-ng-focus="ctrl.onFocus('cardNumber')" data-ng-blur="ctrl.onValidate(donate)" required>
+            <div class="form-group" data-ng-class="{'has-error':donate.card_number.$invalid && donate.card_number.$dirty}">
+              <label for="card_number" class="control-label">Número do seu cartão</label>
+              <input type="text" name="card_number" id="card_number" class="form-control" data-ng-model="ctrl.donate.card_number" mask="9999-9999-9999-9999" data-ng-keyup="ctrl.getFlag(ctrl.donate.card.number)" data-ng-focus="ctrl.onFocus('card_number')" data-ng-blur="ctrl.onValidate(donate)" required>
             </div>
-            <div class="form-group" data-ng-class="{'has-error':donate.cardName.$invalid}">
-              <label for="cardName" class="control-label">Nome como está escrito no seu cartão</label>
-              <input type="text" name="cardName" id="cardName" class="form-control" data-ng-model="ctrl.donate.card.name" data-ng-focus="ctrl.onFocus('cardName')" data-ng-blur="ctrl.onValidate(donate)" required>
+            <div class="form-group" data-ng-class="{'has-error':donate.card_name.$invalid && donate.card_name.$dirty}">
+              <label for="card_name" class="control-label">Nome como está escrito no seu cartão</label>
+              <input type="text" name="card_name" id="card_name" class="form-control" data-ng-model="ctrl.donate.card_name" data-ng-focus="ctrl.onFocus('card_name')" data-ng-blur="ctrl.onValidate(donate)" required>
             </div>
             <div class="row">
               <div class="col-md-9">
                 <div class="row">
                   <div class="col-md-6">
-                    <div class="form-group" data-ng-class="{'has-error':donate.cardMonth.$invalid || donate.year.$invalid}">
-                      <label for="cardMonth" class="control-label">Validade</label>
-                      <select ng-options="item for item in ctrl.months" name="cardMonth" id="cardMonth" class="form-control" data-ng-model="ctrl.donate.card.expiry.month" data-ng-focus="ctrl.onFocus('cardMonth')" data-ng-blur="ctrl.onValidate(donate)" required>
+                    <div class="form-group" data-ng-class="{'has-error':donate.card_month.$invalid && donate.card_month.$dirty || donate.year.$invalid && donate.card_year.$dirty}">
+                      <label for="card_month" class="control-label">Validade</label>
+                      <select ng-options="item for item in ctrl.months" name="card_month" id="card_month" class="form-control" data-ng-model="ctrl.donate.card_month" data-ng-focus="ctrl.onFocus('card_month')" data-ng-blur="ctrl.onValidate(donate)" required>
                         <option value="">Mês</option>
                       </select>
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="form-group" data-ng-class="{'has-error':donate.cardYear.$invalid || donate.year.$invalid}">
-                      <label for="cardYear" class="control-label">Validade</label>
-                      <select ng-options="item for item in ctrl.years" name="cardYear" id="cardYear" class="form-control" data-ng-model="ctrl.donate.card.expiry.year" data-ng-focus="ctrl.onFocus('cardYear')" data-ng-blur="ctrl.onValidate(donate)" required>
+                    <div class="form-group" data-ng-class="{'has-error':donate.card_year.$ && donate.card_year.$dirty || donate.year.$invalid && donate.year.$dirty}">
+                      <label for="card_year" class="control-label">Validade</label>
+                      <select ng-options="item for item in ctrl.years" name="card_year" id="card_year" class="form-control" data-ng-model="ctrl.donate.card_year" data-ng-focus="ctrl.onFocus('card_year')" data-ng-blur="ctrl.onValidate(donate)" required>
                         <option value="">Ano</option>
                       </select>
                     </div>
@@ -134,15 +134,18 @@
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="form-group" data-ng-class="{'has-error':donate.cardCvc.$invalid}">
-                  <label for="cardCvc" class="control-label">Código</label>
-                  <input type="number" name="cardCvc" id="cardCvc" class="form-control" data-ng-model="ctrl.donate.card.cvc" data-ng-blur="ctrl.onValidate(donate)" required>
+                <div class="form-group" data-ng-class="{'has-error':donate.card_cvc.$invalid && donate.card_cvc.$dirty}">
+                  <label for="card_cvc" class="control-label">Código</label>
+                  <input type="number" name="card_cvc" id="card_cvc" class="form-control" data-ng-model="ctrl.donate.card_cvc" data-ng-blur="ctrl.onValidate(donate)" required>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12">
-                <button type="button" class="btn btn-lg btn-block btn-success" data-ng-disabled="donate.$invalid">
+                <pre>
+                {{donate.$invalid | json}}
+                </pre>
+                <button type="button" class="btn btn-lg btn-block btn-success" data-ng-click="ctrl.openCard()" data-ng-disabled="donate.$invalid">
                   <i class="fa fa-lock"></i>
                   Doe com segurança
                 </button>
@@ -151,7 +154,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3" fixed-on-scroll offset="0" top="80">
+      <div class="col-md-4" fixed-on-scroll offset="0" top="80">
         <div class="panel profile panel-default">
           <img src="assets/images/avatar.jpg" class="avatar img-responsive img-circle" alt="">
           <div class="panel-body">

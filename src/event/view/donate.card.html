@@ -1,0 +1,28 @@
+<div class="modal-body">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-ng-click="ctrl.cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="panel profile">
+    <div style="margin: 0 auto; width: 250px;">
+      <img src="assets/images/avatar.jpg" class="avatar img-responsive img-circle" alt="">
+    </div>
+    <div style="margin: 0 auto; width: 400px;">
+      <h4 class="text-center">
+        Obrigado! Seu apoio a campanha do <span data-ng-bind="ctrl.donate.name"></span> está sendo computado, aguarde o email confirmando a aprovação de pagamento do seu cartão. Escreva uma mensagem de apoio para o <span data-ng-bind="ctrl.donate.name"></span> que aparecerá em sua página de campanha!
+      </h4>
+      <form name="donate" novalidate>
+        <div class="form-group" data-ng-class="{'has-error':donate.message.$invalid}">
+          <textarea name="message" class="form-control" data-ng-model="ctrl.donate.message"></textarea>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" data-ng-model="ctrl.donate.is_anonymous"> Prefiro me manter anônimo
+          </label>
+        </div>
+        <div class="form-buttons form-buttons-center">
+          <button type="submit" data-ng-click="ctrl.buildCard()" class="btn btn-lg btn-horizontal-large btn-success">Imprimir seu boleto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

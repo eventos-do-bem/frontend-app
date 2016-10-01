@@ -51,16 +51,19 @@ p a {
 
 blockquote {
   margin: 0;
-  padding-left: 40px;
+  padding-left: 70px;
   color: #fff;
   text-align: left;
   border: none;
 }
 blockquote:before {
-  font: normal normal normal 4rem FontAwesome;
   position: absolute;
-  left: 0;
-  content: "\f10d"
+  top: -20px;
+  left: -25px;
+  width: 102px;
+  height: 68px;
+  background-image: url('../assets/images/quot.png');
+  content: " "
 }
 blockquote .name {
   text-align: right;
@@ -720,7 +723,7 @@ figure img {
   bottom: 0;
   left: 0;
   margin: 0px 15px 0px 15px;
-  padding: 50% 60px;
+  padding: 60px;
   z-index: 10;
   opacity: 0;
   text-align: center;

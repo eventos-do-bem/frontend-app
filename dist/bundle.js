@@ -217,7 +217,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 angular.module('app', ['ui.bootstrap', 'ngMask', _angularUiRouter2.default, 'ngMessages', 'ngSanitize', 'common', 'loading', 'alert', 'countdown', 'home', 'pages', 'faq', 'event', 'auth', 'profile', 'institution']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', _interceptor2.default).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":11,"./../common/component/alert/alert.js":13,"./../common/component/countdown/countdown.js":16,"./../common/component/loading/loading.js":18,"./../common/module.js":23,"./../event/module.js":35,"./../faq/module.js":39,"./../home/module.js":43,"./../institution/module.js":45,"./../pages/module.js":54,"./../profile/module.js":66,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+},{"./../auth/module.js":11,"./../common/component/alert/alert.js":13,"./../common/component/countdown/countdown.js":16,"./../common/component/loading/loading.js":18,"./../common/module.js":23,"./../event/module.js":37,"./../faq/module.js":41,"./../home/module.js":45,"./../institution/module.js":47,"./../pages/module.js":55,"./../profile/module.js":67,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1129,7 +1129,7 @@ var _notification2 = _interopRequireDefault(_notification);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('common', []).service('CommonService', _common2.default).service('CityService', _city2.default).service('CategoryService', _category2.default).service('ActivityAreaService', _activityArea2.default).factory('FacebookFactory', _facebook2.default.facebookFactory).factory('CreditCardFactory', _creditcard2.default.creditCardFactory).service('FacebookService', _facebook4.default).service('StorageService', _storage2.default).service('Hydrator', _hydrator2.default).service('Notification', _notification2.default).controller('Header', _header2.default).directive('fixedOnScroll', _fixedOnScroll2.default.directiveFactory);
+exports.default = angular.module('common', []).service('CommonService', _common2.default).service('CityService', _city2.default).service('CategoryService', _category2.default).service('ActivityAreaService', _activityArea2.default).factory('FacebookFactory', _facebook2.default.facebookFactory).factory('CreditCardFactory', _creditcard2.default.creditCardFactory).service('FacebookService', _facebook4.default).service('StorageService', _storage2.default).service('Hydrator', _hydrator2.default).service('NotificationService', _notification2.default).controller('Header', _header2.default).directive('fixedOnScroll', _fixedOnScroll2.default.directiveFactory);
 
 },{"./controller/header.js":19,"./directive/fixedOnScroll.js":20,"./factory/creditcard.js":21,"./factory/facebook.js":22,"./service/activityArea.js":24,"./service/category.js":25,"./service/city.js":26,"./service/common.js":27,"./service/facebook.js":28,"./service/hydrator.js":29,"./service/notification.js":30,"./service/storage.js":31}],24:[function(require,module,exports){
 'use strict';
@@ -1602,10 +1602,242 @@ function EventConfig($stateProvider) {
     templateUrl: './src/event/view/event.html',
     controller: 'Event',
     controllerAs: 'ctrl'
+  }).state('event.donate', {
+    url: '/:slug/doacao',
+    templateUrl: './src/event/view/donate.html',
+    controller: 'EventDonate',
+    controllerAs: 'ctrl'
   });
 }
 
 },{}],33:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EventDonateCard = function () {
+  function EventDonateCard($uibModalInstance, donate, EventService) {
+    _classCallCheck(this, EventDonateCard);
+
+    this.instance = $uibModalInstance;
+    this.eventService = EventService;
+    this.donate = donate;
+    this.donate.data['is_anonymous'] = false;
+  }
+
+  _createClass(EventDonateCard, [{
+    key: 'buildCard',
+    value: function buildCard() {
+      var _this = this;
+
+      this.donate.data['message'] = this.donate.message;
+      delete this.donate.message;
+      console.log(this.donate);
+      this.eventService.pay(this.donate.uuid, this.donate.data).then(function (response) {
+        _this.instance.close(response.data);
+      });
+    }
+  }, {
+    key: 'cancel',
+    value: function cancel() {
+      this.instance.dismiss('cancel');
+    }
+  }]);
+
+  return EventDonateCard;
+}();
+
+exports.default = EventDonateCard;
+
+
+EventDonateCard.$inject = ['$uibModalInstance', 'donate', 'EventService'];
+
+},{}],34:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EventDonate = function () {
+  function EventDonate($rootScope, $state, $stateParams, $window, ProfileService, EventService, NotificationService, $uibModal, CreditCardFactory) {
+    var _this = this;
+
+    _classCallCheck(this, EventDonate);
+
+    this.rootScope = $rootScope;
+    this.state = $state;
+    this.stateParams = $stateParams;
+    this.window = $window;
+    this.profileService = ProfileService;
+    this.eventService = EventService;
+    this.notificationService = NotificationService;
+    this.modal = $uibModal;
+    this.creditCard = CreditCardFactory;
+    this.logged = this.window.localStorage.getItem('token');
+
+    if (!this.stateParams.slug) {
+      this.state.go('pages.explore');
+    }
+    console.log(this.notificationService);
+
+    this.eventService.findById(this.stateParams.slug).then(function (response) {
+      return _this.uuid = response.data.uuid;
+    });
+
+    if (this.logged) {
+      this.profileService.me().then(function (response) {
+        console.log(response);
+        var _response$data = response.data;
+        var name = _response$data.name;
+        var birthdate = _response$data.birthdate;
+        var email = _response$data.email;
+
+        birthdate = birthdate.split('-');
+        birthdate = birthdate[2] + '/' + birthdate[1] + '/' + birthdate[0];
+        _this.donate = {
+          name: name,
+          birthdate: birthdate,
+          email: email
+        };
+      });
+    }
+
+    this.donateOff = {
+      number: '0000-0000-0000-0000',
+      name: 'nome completo',
+      expiry: {
+        month: '00',
+        year: '0000'
+      },
+      cvc: '•••'
+    };
+    this.card = document.querySelector('.card');
+    this.frontInputs = ['amount', 'card_number', 'card_name', 'card_month', 'card_year'];
+    this.months = [];
+    for (var m = 1; m <= 12; m++) {
+      if (m <= 9) {
+        this.months.push('0' + m);
+      } else {
+        this.months.push(m);
+      }
+    }
+    this.years = [];
+    var today = new Date();
+    var curYear = today.getFullYear();
+    for (var y = curYear; y <= curYear + 10; y++) {
+      this.years.push(y);
+    }this.questions = [{ question: 'Como eu apoio este projeto?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Como eu apoio este projeto?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }];
+  }
+
+  _createClass(EventDonate, [{
+    key: 'openCard',
+    value: function openCard() {
+      var _this2 = this;
+
+      var _donate = angular.copy(this.donate);
+      if (this.window.localStorage.getItem('token')) {
+        delete _donate.name;
+        delete _donate.email;
+        delete _donate.birthdate;
+      }
+      _donate.card_validate = _donate.card_month + '/' + _donate.card_year;
+      _donate.card_number = _donate.card_number.replace(/\-/g, '');
+      _donate.document = parseInt(_donate.document.replace(/\./g, ''));
+      var modalInstance = this.modal.open({
+        templateUrl: './../src/event/view/donate.card.html',
+        controller: 'EventDonateCard',
+        controllerAs: 'ctrl',
+        resolve: {
+          donate: function donate() {
+            return {
+              uuid: _this2.uuid,
+              data: _donate
+            };
+          }
+        }
+      });
+      modalInstance.result.then(function (response) {
+        _this2.donate = {};
+        _this2.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: response.status });
+      });
+    }
+  }, {
+    key: 'openBillet',
+    value: function openBillet() {
+      var _this3 = this;
+
+      var modalInstance = this.modal.open({
+        templateUrl: './../src/event/view/billet.html',
+        controller: 'DonateBillet',
+        controllerAs: 'ctrl',
+        resolve: {
+          donate: function donate() {
+            return _this3.donate;
+          }
+        }
+      });
+      modalInstance.result.then(function (response) {
+        _this3.donate = {};
+        _this3.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: response.status });
+      });
+    }
+  }, {
+    key: 'open',
+    value: function open(item) {
+      if (item.active) return item.active = false;
+      this.questions.map(function (q) {
+        return q.active = false;
+      });
+      item.active = true;
+    }
+  }, {
+    key: 'onFocus',
+    value: function onFocus(input) {
+      var card = document.querySelector('.card');
+      if (this.frontInputs.indexOf(input) !== -1) {
+        card.classList.remove('validated');
+      }
+    }
+  }, {
+    key: 'onValidate',
+    value: function onValidate(form) {
+      var card = document.querySelector('.card');
+      this.frontInputs.map(function (name) {
+        if (!form[name].$valid) {
+          card.classList.remove('validated');
+          return;
+        }
+      });
+      card.classList.add('validated');
+      //5165-3011-0835-3140
+    }
+  }, {
+    key: 'getFlag',
+    value: function getFlag(number) {
+      this.flag = this.creditCard.getFlag(number);
+    }
+  }]);
+
+  return EventDonate;
+}();
+
+exports.default = EventDonate;
+
+
+EventDonate.$inject = ['$rootScope', '$state', '$stateParams', '$window', 'ProfileService', 'EventService', 'NotificationService', '$uibModal', 'CreditCardFactory'];
+
+},{}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1629,7 +1861,7 @@ var Event = function Event($state, $stateParams, EventService) {
       console.log(response);
       event = response.data;
       event.ends = new Date(event.ends);
-      // event.total_receive = event.total_receive * 100
+      event.progress = Math.floor(event.total_receive / event.goal * 100);
       _this.event = event;
     });
   }
@@ -1640,7 +1872,7 @@ exports.default = Event;
 
 Event.$inject = ['$state', '$stateParams', 'EventService'];
 
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1740,7 +1972,7 @@ exports.default = EventStart;
 
 EventStart.$inject = ['$state', '$window', '$stateParams', 'CityService', 'EventService', 'CategoryService', 'InstitutionService'];
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1763,11 +1995,19 @@ var _eventStart = require('./controller/event.start.js');
 
 var _eventStart2 = _interopRequireDefault(_eventStart);
 
+var _eventDonate = require('./controller/event.donate.js');
+
+var _eventDonate2 = _interopRequireDefault(_eventDonate);
+
+var _eventDonateCard = require('./controller/event.donate.card.js');
+
+var _eventDonateCard2 = _interopRequireDefault(_eventDonateCard);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('event', []).config(_config2.default).controller('Event', _event2.default).controller('EventStart', _eventStart2.default).service('EventService', _service2.default);
+exports.default = angular.module('event', []).config(_config2.default).controller('Event', _event2.default).controller('EventStart', _eventStart2.default).controller('EventDonate', _eventDonate2.default).controller('EventDonateCard', _eventDonateCard2.default).service('EventService', _service2.default);
 
-},{"./config.js":32,"./controller/event.js":33,"./controller/event.start.js":34,"./service.js":36}],36:[function(require,module,exports){
+},{"./config.js":32,"./controller/event.donate.card.js":33,"./controller/event.donate.js":34,"./controller/event.js":35,"./controller/event.start.js":36,"./service.js":38}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1803,15 +2043,34 @@ var EventService = function (_CommonService) {
   }
 
   _createClass(EventService, [{
+    key: 'findAll',
+    value: function findAll() {
+      this.setPublicToken();
+      return _get(Object.getPrototypeOf(EventService.prototype), 'findAll', this).call(this);
+    }
+  }, {
     key: 'findById',
     value: function findById(id) {
       this.setPublicToken();
       return _get(Object.getPrototypeOf(EventService.prototype), 'findById', this).call(this, id);
     }
   }, {
+    key: 'search',
+    value: function search(data) {
+      this.setPublicToken();
+      this.setParams(data);
+      return _get(Object.getPrototypeOf(EventService.prototype), 'search', this).call(this);
+    }
+  }, {
     key: 'save',
     value: function save(data) {
       this.setRoute('events/create');
+      return this.create(data);
+    }
+  }, {
+    key: 'pay',
+    value: function pay(uuid, data) {
+      this.setRoute('payments/event/' + uuid + '/credit_card');
       return this.create(data);
     }
   }]);
@@ -1824,7 +2083,7 @@ exports.default = EventService;
 
 EventService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":27}],37:[function(require,module,exports){
+},{"./../common/service/common.js":27}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1851,7 +2110,7 @@ function FaqConfig($stateProvider) {
   });
 }
 
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1888,7 +2147,7 @@ exports.default = Faq;
 
 Faq.$inject = ['$state', '$stateParams', 'FaqService'];
 
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1911,7 +2170,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('faq', []).config(_config2.default).controller('Faq', _faq2.default).service('FaqService', _service2.default);
 
-},{"./config.js":37,"./controller/faq.js":38,"./service.js":40}],40:[function(require,module,exports){
+},{"./config.js":39,"./controller/faq.js":40,"./service.js":42}],42:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2045,7 +2304,7 @@ exports.default = FaqService;
 
 FaqService.$inject = ['API', '$http', '$q'];
 
-},{"./../common/service/common.js":27}],41:[function(require,module,exports){
+},{"./../common/service/common.js":27}],43:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2061,7 +2320,7 @@ function HomeConfig($stateProvider) {
   });
 }
 
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2116,7 +2375,7 @@ exports.default = Home;
 
 Home.$inject = ['$scope', '$timeout'];
 
-},{}],43:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2141,7 +2400,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = angular.module('home', []).config(_config2.default).controller('Home', _home2.default);
 // .service('UserService', Service)
 
-},{"./config.js":41,"./controller/home.js":42}],44:[function(require,module,exports){
+},{"./config.js":43,"./controller/home.js":44}],46:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2158,7 +2417,7 @@ function InstitutionConfig($stateProvider) {
   //   })
 }
 
-},{}],45:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2177,7 +2436,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('institution', []).config(_config2.default).service('InstitutionService', _service2.default);
 
-},{"./config.js":44,"./service.js":46}],46:[function(require,module,exports){
+},{"./config.js":46,"./service.js":48}],48:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2235,7 +2494,7 @@ exports.default = InstitutionService;
 
 InstitutionService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":27}],47:[function(require,module,exports){
+},{"./../common/service/common.js":27}],49:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2270,11 +2529,6 @@ function PagesConfig($stateProvider) {
   }).state('pages.policies', {
     url: '/politica-de-privacidade',
     templateUrl: './src/pages/view/policies.html'
-  }).state('pages.donate', {
-    url: '/doacao',
-    templateUrl: './src/pages/view/donate.html',
-    controller: 'Donate',
-    controllerAs: 'ctrl'
   }).state('pages.contact', {
     url: '/contato',
     templateUrl: './src/pages/view/contact.html',
@@ -2283,7 +2537,7 @@ function PagesConfig($stateProvider) {
   });
 }
 
-},{}],48:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2321,7 +2575,7 @@ exports.default = About;
 
 About.$inject = [];
 
-},{}],49:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2339,7 +2593,7 @@ exports.default = Campaign;
 
 Campaign.$inject = [];
 
-},{}],50:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2363,7 +2617,7 @@ exports.default = Contact;
 
 Contact.$inject = ['$timeout'];
 
-},{}],51:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2402,115 +2656,7 @@ exports.default = DonateBillet;
 
 DonateBillet.$inject = ['$uibModalInstance', 'donate'];
 
-},{}],52:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Donate = function () {
-  function Donate($uibModal, CreditCardFactory) {
-    _classCallCheck(this, Donate);
-
-    this.modal = $uibModal;
-    this.creditCard = CreditCardFactory;
-    this.donateOff = {
-      number: '0000-0000-0000-0000',
-      name: 'nome completo',
-      expiry: {
-        month: '00',
-        year: '0000'
-      },
-      cvc: '•••'
-    };
-    this.card = document.querySelector('.card');
-    this.frontInputs = ['cardValue', 'cardNumber', 'cardName', 'cardMonth', 'cardYear'];
-    this.months = [];
-    for (var m = 1; m <= 12; m++) {
-      if (m <= 9) {
-        this.months.push('0' + m);
-      } else {
-        this.months.push(m);
-      }
-    }
-    this.years = [];
-    var today = new Date();
-    var curYear = today.getFullYear();
-    for (var y = curYear; y <= curYear + 10; y++) {
-      this.years.push(y);
-    }this.questions = [{ question: 'Como eu apoio este projeto?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Como eu apoio este projeto?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }];
-  }
-
-  _createClass(Donate, [{
-    key: 'openBillet',
-    value: function openBillet() {
-      var _this = this;
-
-      var modalInstance = this.modal.open({
-        templateUrl: './../src/pages/view/billet.html',
-        controller: 'DonateBillet',
-        controllerAs: 'ctrl',
-        resolve: {
-          donate: function donate() {
-            return _this.donate;
-          }
-        }
-      });
-      modalInstance.result.then(function (donate) {
-        return console.log(donate);
-      });
-    }
-  }, {
-    key: 'open',
-    value: function open(item) {
-      if (item.active) return item.active = false;
-      this.questions.map(function (q) {
-        return q.active = false;
-      });
-      item.active = true;
-    }
-  }, {
-    key: 'onFocus',
-    value: function onFocus(input) {
-      var card = document.querySelector('.card');
-      if (this.frontInputs.indexOf(input) !== -1) {
-        card.classList.remove('validated');
-      }
-    }
-  }, {
-    key: 'onValidate',
-    value: function onValidate(form) {
-      var card = document.querySelector('.card');
-      this.frontInputs.map(function (name) {
-        if (!form[name].$valid) {
-          card.classList.remove('validated');
-          return;
-        }
-      });
-      card.classList.add('validated');
-      //5165-3011-0835-3140
-    }
-  }, {
-    key: 'getFlag',
-    value: function getFlag(number) {
-      this.flag = this.creditCard.getFlag(number);
-    }
-  }]);
-
-  return Donate;
-}();
-
-exports.default = Donate;
-
-
-Donate.$inject = ['$uibModal', 'CreditCardFactory'];
-
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2522,13 +2668,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Explore = function () {
-  function Explore(ActivityAreaService, InstitutionService, StorageService) {
+  function Explore(ActivityAreaService, EventService, StorageService) {
     var _this = this;
 
     _classCallCheck(this, Explore);
 
     this.activityAreaService = ActivityAreaService;
-    this.institutionService = InstitutionService;
+    this.eventService = EventService;
     this.user = StorageService.getItem('user');
     this.modelOptions = {
       updateOn: 'default blur',
@@ -2538,7 +2684,7 @@ var Explore = function () {
       }
     };
     this.isOpen = false;
-    this.getInstitutions();
+    this.getEvents();
     this.getActivityAreas();
     this.search = function () {
       return _this.getSearch(_this.query);
@@ -2546,12 +2692,12 @@ var Explore = function () {
   }
 
   _createClass(Explore, [{
-    key: 'getInstitutions',
-    value: function getInstitutions() {
+    key: 'getEvents',
+    value: function getEvents() {
       var _this2 = this;
 
-      this.institutionService.findAll().then(function (response) {
-        return _this2.institutions = response.data.values;
+      this.eventService.findAll().then(function (response) {
+        return _this2.events = response.data.values;
       });
     }
   }, {
@@ -2563,8 +2709,8 @@ var Explore = function () {
       if (data.area_activity_uuid) {
         data.area_activity_uuid = data.area_activity_uuid.uuid;
       }
-      this.institutionService.search(data).then(function (response) {
-        return _this3.institutions = response.data.values;
+      this.eventService.search(data).then(function (response) {
+        return _this3.events = response.data.values;
       });
     }
   }, {
@@ -2581,11 +2727,11 @@ var Explore = function () {
   return Explore;
 }();
 
-Explore.$inject = ['ActivityAreaService', 'InstitutionService', 'StorageService'];
+Explore.$inject = ['ActivityAreaService', 'EventService', 'StorageService'];
 
 exports.default = Explore;
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2612,19 +2758,15 @@ var _campaign = require('./controller/campaign.js');
 
 var _campaign2 = _interopRequireDefault(_campaign);
 
-var _donate = require('./controller/donate.js');
-
-var _donate2 = _interopRequireDefault(_donate);
-
 var _donateBillet = require('./controller/donate.billet.js');
 
 var _donateBillet2 = _interopRequireDefault(_donateBillet);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('pages', []).config(_config2.default).controller('Contact', _contact2.default).controller('About', _about2.default).controller('Explore', _explore2.default).controller('Campaign', _campaign2.default).controller('Donate', _donate2.default).controller('DonateBillet', _donateBillet2.default);
+exports.default = angular.module('pages', []).config(_config2.default).controller('Contact', _contact2.default).controller('About', _about2.default).controller('Explore', _explore2.default).controller('Campaign', _campaign2.default).controller('DonateBillet', _donateBillet2.default);
 
-},{"./config.js":47,"./controller/about.js":48,"./controller/campaign.js":49,"./controller/contact.js":50,"./controller/donate.billet.js":51,"./controller/donate.js":52,"./controller/explore.js":53}],55:[function(require,module,exports){
+},{"./config.js":49,"./controller/about.js":50,"./controller/campaign.js":51,"./controller/contact.js":52,"./controller/donate.billet.js":53,"./controller/explore.js":54}],56:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2726,7 +2868,7 @@ function ProfileConfig($stateProvider) {
   });
 }
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2776,7 +2918,7 @@ exports.default = ProfileChange;
 
 ProfileChange.$inject = ['$scope', '$stateParams', '$state', '$filter', 'ProfileService'];
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2842,7 +2984,7 @@ exports.default = ProfileConfirmation;
 
 ProfileConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'ProfileService', 'StorageService'];
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2904,7 +3046,7 @@ exports.default = OngConfigurations;
 
 OngConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'ProfileService', 'profile'];
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2940,7 +3082,7 @@ exports.default = OngEvents;
 
 OngEvents.$inject = ['ProfileService'];
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2965,7 +3107,7 @@ exports.default = ProfileOng;
 
 ProfileOng.$inject = ['$scope', '$window', '$state', 'StorageService', 'ProfileService', 'profile'];
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3160,7 +3302,7 @@ exports.default = ProfileRegister;
 
 ProfileRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'ProfileService'];
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3237,7 +3379,7 @@ exports.default = UserConfigurations;
 
 UserConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'ProfileService', 'profile'];
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3286,7 +3428,7 @@ exports.default = UserEvents;
 
 UserEvents.$inject = ['$rootScope', 'ProfileService'];
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3338,7 +3480,7 @@ exports.default = ProfileUser;
 
 ProfileUser.$inject = ['$scope', '$rootScope', '$window', '$state', 'StorageService', 'ProfileService', 'profile'];
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3378,7 +3520,7 @@ exports.default = UserReport;
 
 UserReport.$inject = ['EventService', '$stateParams'];
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3437,7 +3579,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('profile', []).config(_config2.default).service('ProfileService', _service2.default).controller('ProfileRegister', _register2.default).controller('ProfileConfirmation', _confirmation2.default).controller('ProfileUser', _user2.default).controller('ProfileOng', _ong2.default).controller('UserConfigurations', _userConfigurations2.default).controller('OngConfigurations', _ongConfigurations2.default).controller('UserEvents', _userEvents2.default).controller('UserReport', _userReport2.default).controller('OngEvents', _ongEvents2.default).controller('ProfileChange', _change2.default);
 
-},{"./config.js":55,"./controller/change.js":56,"./controller/confirmation.js":57,"./controller/ong.configurations.js":58,"./controller/ong.events.js":59,"./controller/ong.js":60,"./controller/register.js":61,"./controller/user.configurations.js":62,"./controller/user.events.js":63,"./controller/user.js":64,"./controller/user.report.js":65,"./service.js":67}],67:[function(require,module,exports){
+},{"./config.js":56,"./controller/change.js":57,"./controller/confirmation.js":58,"./controller/ong.configurations.js":59,"./controller/ong.events.js":60,"./controller/ong.js":61,"./controller/register.js":62,"./controller/user.configurations.js":63,"./controller/user.events.js":64,"./controller/user.js":65,"./controller/user.report.js":66,"./service.js":68}],68:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

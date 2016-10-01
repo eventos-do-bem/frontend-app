@@ -1,7 +1,7 @@
 class Explore {
-  constructor(ActivityAreaService,InstitutionService,StorageService) {
+  constructor(ActivityAreaService,EventService,StorageService) {
     this.activityAreaService = ActivityAreaService
-    this.institutionService = InstitutionService
+    this.eventService = EventService
     this.user = StorageService.getItem('user')
     this.modelOptions = {
       updateOn: 'default blur',
@@ -11,21 +11,21 @@ class Explore {
       }
     }
     this.isOpen = false
-    this.getInstitutions()
+    this.getEvents()
     this.getActivityAreas()
     this.search = () => this.getSearch(this.query)
   }
-  getInstitutions() {
-    this.institutionService.findAll()
-      .then(response => this.institutions = response.data.values)
+  getEvents() {
+    this.eventService.findAll()
+      .then(response => this.events = response.data.values)
   }
   getSearch(data) {
     data = angular.copy(data)
     if (data.area_activity_uuid) {
       data.area_activity_uuid = data.area_activity_uuid.uuid
     }
-    this.institutionService.search(data)
-      .then(response => this.institutions = response.data.values)
+    this.eventService.search(data)
+      .then(response => this.events = response.data.values)
   }
   getActivityAreas() {
     this.activityAreaService.findAll()
@@ -33,6 +33,6 @@ class Explore {
   }
 }
 
-Explore.$inject = ['ActivityAreaService','InstitutionService','StorageService']
+Explore.$inject = ['ActivityAreaService','EventService','StorageService']
 
 export default Explore

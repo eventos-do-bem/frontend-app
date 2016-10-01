@@ -27,26 +27,18 @@
         </div>
         <h4>Mensagens dos doadores da campanha de Luciana Pricoli Vilela</h4>
         <ul class="media-list">
-          <li class="media">
+          <li class="media" data-ng-repeat="item in ctrl.event.messages.values">
             <div class="media-left">
               <a href="#">
                 <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
               </a>
             </div>
             <div class="media-body">
-              <h4 class="media-heading">Fulano de Souza</h4>
-              <p>Mussum Ipsum, cacilds vidis litro abertis. Atirei o pau no gatis, per gatis num morreus. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Viva Forevis aptent taciti sociosqu ad litora torquent Cevadis im ampola pa arma uma pindureta.</p>
-            </div>
-          </li>
-          <li class="media">
-            <div class="media-left">
-              <a href="#">
-                <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
-              </a>
-            </div>
-            <div class="media-body">
-              <h4 class="media-heading">Fulano de Souza</h4>
-              <p>Mussum Ipsum, cacilds vidis litro abertis. Atirei o pau no gatis, per gatis num morreus. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Viva Forevis aptent taciti sociosqu ad litora torquent Cevadis im ampola pa arma uma pindureta.</p>
+              <h4 class="media-heading">
+                <span data-ng-show="item.user" data-ng-bind="item.user.name"></span>
+                <span data-ng-show="!item.user">Anônimo</span>
+              </h4>
+              <p data-ng-bind="item.message"></p>
             </div>
           </li>
         </ul>
@@ -54,11 +46,11 @@
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <button type="button" class="btn btn-lg btn-block btn-success">
+            <a ui-sref="event.donate({slug: ctrl.event.slug})" class="btn btn-lg btn-block btn-success">
               Doe agora
               <br>
               <small>e ajude a mudar o mundo</small>
-            </button>
+            </a>
             <button type="button" class="btn btn-lg btn-block btn-default">
               Veja o que acontecerá depois
             </button>
@@ -67,7 +59,7 @@
           <div class="panel-body">
             <p>Como estamos até o momento</p>
             <div class="progress">
-              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ctrl.event.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ctrl.event.progress}}%">
                 <span class="sr-only">{{ctrl.event.progress}}%</span>
               </div>
             </div>
