@@ -1,0 +1,38 @@
+<div class="well">
+  <h3>Página oficial da <span data-ng-bind="ctrl.profile.institutions.name"></span></h3>
+  <button type="button" class="btn btn-success">Ver página oficial</button>
+</div>
+<div class="well">
+  <h3>Editar</h3>
+  <form>
+    <button type="button" class="btn btn-default">
+      <i class="fa fa-upload"></i>
+      Fotografia da foto de capa
+    </button>
+    <h4>Proposta:</h4>
+    <p class="text-muted">Coloque a proposta de seus apoiadores fazerem eventos do bem e transformarem seu apoio em impacto social para a causa da sua organização.</p>
+    <div class="form-group">
+      <textarea rows="4" class="form-control" data-ng-model="ctrl.profile.mission"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="control-label">
+        Link de seu vídeo institucional
+      </label>
+      <div class="input-group">
+        <div class="input-group-addon">Vídeo do Youtube ou Vimeo</div>
+        <input type="text" class="form-control" name="video" data-ng-model="ctrl.profile.video" placeholder="Essa parte é opcional">
+      </div>
+    </div>
+    <h4>Demonstre o impacto das doações:</h4>
+    <p class="text-muted">Explique rapidamente a importância da sua causa e coloque de forma bem concreta o que certos montantes de doações podem fazer de impacto, se as pessoa doarem para a sua organização.</p>
+    <div class="form-group">
+      <textarea rows="6" class="form-control" data-ng-model="ctrl.profile.impact"></textarea>
+    </div>
+    <div class="margin-top-10">
+      <p>Veja nosso <a href="#">artigo</a> com mais dicas de como elaborar uma boa página de sua organização!</p>
+    </div>
+    <div class="form-buttons form-buttons-center">
+      <button type="button" class="btn btn-lg btn-large btn-success">Salvar</button>
+    </div>
+  </form>
+</div>

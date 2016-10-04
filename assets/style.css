@@ -31,7 +31,7 @@ h3 { font-size: 2.1rem; }
 h4 { font-size: 1.7rem; }
 h5 { font-size: 1.5rem; }
 h6 { font-size: 1.3rem; }
-p, a {
+p, a, label {
   font-size: 1.4rem;
   line-height: 1.6rem;
 }
@@ -44,10 +44,26 @@ h6 a,
 p a {
   font-size: inherit;
 }
+form label {
+  font-weight: normal;
+}
 .satisfy {
   font-family: 'Satisfy', cursive;
 }
 /* /fonts */
+
+.margin-top-10 {
+  margin-top: 10px
+}
+.margin-top-20 {
+  margin-top: 20px
+}
+
+.well h1,
+.well h2,
+.well h3 {
+  margin-top: 0px;
+}
 
 blockquote {
   margin: 0;
@@ -220,6 +236,10 @@ dl dd:last-child {
 .form-buttons.form-buttons-center {
   text-align: center;
   margin-right: 5px;
+}
+.form-buttons.form-buttons-right {
+  text-align: right;
+  margin-left: 5px;
 }
 /* /form-buttons */
 

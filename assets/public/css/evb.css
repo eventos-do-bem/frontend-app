@@ -101,6 +101,9 @@ a:hover {
   padding: 6px 24px;
   border-width: 2px;
 }
+.btn.btn-large {
+  padding: 6px 96px;
+}
 .btn > .fa {
   margin-right: 6px;
 }

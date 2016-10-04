@@ -1,5 +1,6 @@
 export default function run($rootScope, $window, $state, $anchorScroll) {
   $rootScope.$on("$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) => {
+    $rootScope.$broadcast('alert-clear')
     if (toState.authenticate && !$window.localStorage.getItem('token')) {
       $state.go('auth.login')
     }

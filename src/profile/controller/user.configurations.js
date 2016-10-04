@@ -30,8 +30,8 @@ export default class UserConfigurations {
         response => {
           console.log(response.data)
           this.storage.setItem('token', response.data.token)
-          let {name, email} = response.data
-          this.storage.setItem('profile', {name: name, email: email})
+          let {name, email, type} = response.data
+          this.storage.setItem('profile', {name: name, email: email, type: type})
           this.rootScope.$broadcast('profile.change')
           this.profile.password = '';
           this.profile.new_password = '';

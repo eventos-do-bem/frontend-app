@@ -18,9 +18,13 @@ export default class ProfileService extends CommonService {
     this.setRoute('users/me')
     return this.$http.get(this.url + this.route)
   }
-  getEvents() {
-    this.setRoute('users/me/events')
-    return this.$http.get(this.url + this.route)
+  getEvents(params) {
+    super.setRoute('users/me/events')
+    if (params != undefined) {
+      super.setParams(params)
+    }
+    return super.findAll()
+    // return this.$http.get(this.url + this.route)
   }
   change(data) {
     this.setRoute('users/me')

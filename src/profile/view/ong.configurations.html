@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.phone.$invalid && configurations.account.$dirty}">
+      <div class="form-group" data-ng-class="{'has-error':configurations.account.$invalid && configurations.account.$dirty}">
         <label for="" class="control-label">Conta para depósito bancário</label>
         <input type="text" name="account" id="account" class="form-control" data-ng-model="ctrl.profile.account" uib-popover="As alterações deste campo serão submetidas à análise da plataforma." popover-placement="bottom" required>
       </div>
@@ -48,7 +48,7 @@
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.facebook.$invalid && configurations.facebook.$dirty}">
         <label for="" class="control-label">Facebook da organização</label>
-        <input type="url" name="facebook" id="facebook" class="form-control" data-ng-model="ctrl.profile.facebook" required>
+        <input type="url" name="facebook" id="facebook" class="form-control" data-ng-model="ctrl.profile.facebook">
       </div>
     </div>
   </div>

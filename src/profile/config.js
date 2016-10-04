@@ -80,9 +80,39 @@ export default function ProfileConfig($stateProvider) {
       controller: 'OngEvents',
       controllerAs: 'ctrl',
       resolve: {
+      }
+    })
+    .state('profile.ong.page', {
+      url: '/:uuid/pagina',
+      authenticate: true,
+      templateUrl: './src/profile/view/ong.page.html',
+      controller: 'OngPage',
+      controllerAs: 'ctrl',
+      resolve: {
+        profile: (ProfileService) => {
+          return ProfileService.me()
+        }
+      }
+    })
+    .state('profile.ong.history', {
+      url: '/eventos/historico',
+      authenticate: true,
+      templateUrl: './src/profile/view/ong.history.html',
+      controller: 'OngHistory',
+      controllerAs: 'ctrl',
+      resolve: {
         // profile: (ProfileService) => {
         //   return ProfileService.me()
         // }
+      }
+    })
+    .state('profile.ong.report', {
+      url: '/eventos/:uuid/relatorio',
+      authenticate: true,
+      templateUrl: './src/profile/view/ong.report.html',
+      controller: 'OngReport',
+      controllerAs: 'ctrl',
+      resolve: {
       }
     })
     .state('profile.register', {

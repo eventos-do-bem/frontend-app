@@ -22,6 +22,9 @@ let Component = {
       // ctrl.message = args.message
       ctrl.show = true
     })
+    $scope.$on('alert-clear', (event) => {
+      ctrl.alerts = []
+    })
     ctrl.$onInit = () => {
       ctrl.alerts = []
       ctrl.show = false

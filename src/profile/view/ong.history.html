@@ -1,5 +1,5 @@
 <h3 class="well">
-  Relatórios
+  Campanhas encerradas
 </h3>
 <ul class="media-list">
   <li class="media" data-ng-repeat="item in ctrl.events">
@@ -12,22 +12,20 @@
       <div class="row">
         <div class="col-md-8">
           <h4 class="media-heading" data-ng-bind="item.name"></h4>
-          <p>Organizador por: <span data-ng-bind="item.user.name"></span></p>
+          <p>Organizado por: <span data-ng-bind="item.user.name"></span></p>
           <p>
             <i class="fa fa-star-o"></i>
             Projeto apoiado por: <span data-ng-bind="item.institution.name"></span>
           </p>
         </div>
         <div class="col-md-4">
-          <a ui-sref="profile.ong.report({uuid: item.uuid})" class="btn btn-success btn-block btn-waiting">
-            Submeter relatório
+          <a ui-sref="profile.ong.report({uuid: item.uuid})" class="btn btn-primary btn-block">
+            Ver relatório social
           </a>
           <br>
-          <p class="text-success text-center">
-            Prazo máximo: 
+          <p class="text-primary text-center">
+            Finalizado em:
             <span data-ng-bind="item.ends | date: 'dd/MM/yyyy'"></span>
-            <br>
-            <a ui-sref="event.slug({slug: item.slug})">Veja a página</a>
           </p>
         </div>
       </div>
