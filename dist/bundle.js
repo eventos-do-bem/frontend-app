@@ -96,7 +96,7 @@ function config(API, $q, $window, $rootScope, $injector) {
       config.headers = config.headers || {};
       config['headers']['Accept'] = API.accept;
       config['headers']['Content-Type'] = API.contenttype;
-      // console.log($window.localStorage.getItem('token'))
+      console.log($window.localStorage.getItem('token'));
       if (!config.headers.token) {
         if ($window.localStorage.getItem('token')) {
           config['headers']['Authorization'] = 'Bearer ' + $window.localStorage.getItem('token');
@@ -1862,7 +1862,6 @@ var Event = function Event($state, $stateParams, EventService) {
   var event = void 0;
   if ($stateParams.slug) {
     EventService.findById($stateParams.slug).then(function (response) {
-      console.log(response);
       event = response.data;
       event.ends = new Date(event.ends);
       event.progress = Math.floor(event.total_receive / event.goal * 100);
@@ -1926,7 +1925,7 @@ var EventStart = function () {
       event.institution_uuid = event.institution_uuid.uuid;
       // let end_date = event.end_date.split('/')
       // event.end_date = `${end_date[2]}-${end_date[1]}-${end_date[0]}`
-      console.log(event);
+      console.log(JSON.stringify(event));
       this.service.save(event).then(function (response) {
         return console.log(response);
       }, function (error) {
@@ -3560,14 +3559,16 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserEvents = function () {
-  function UserEvents($rootScope, ProfileService) {
+  function UserEvents($scope, $rootScope, ProfileService) {
     _classCallCheck(this, UserEvents);
 
     this.rootScope = $rootScope;
     this.service = ProfileService;
-    this.pendings = 0;
     this.rootScope.$broadcast('alert', { type: 'alert-info', icon: 'fa-warning', message: ' Veja nosso <a href="#">kit</a> para bombar suas campanhas!' });
     this.getEvents();
+    $scope.setPage = function (page) {
+      this.current_page = page;
+    };
   }
 
   _createClass(UserEvents, [{
@@ -3575,17 +3576,25 @@ var UserEvents = function () {
     value: function getEvents() {
       var _this = this;
 
-      this.service.getEvents().then(function (response) {
-        _this.pendings = response.data.values.filter(function (event) {
-          return event.needReport == true;
-        });
-        _this.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-warning', message: 'Você tem ' + _this.pendings.length + ' relatórios pendentes.' });
+      this.service.getEvents({ open: true }).then(function (response) {
+        _this.pagination = response.data.meta.pagination;
+        console.log(_this.pagination);
         _this.events = response.data.values.map(function (event) {
           event.ends = new Date(event.ends);
           return event;
         });
-        // console.log(this.events)
       });
+      this.service.getEvents({ closed: true }).then(function (response) {
+        _this.events_closed = response.data.values.map(function (event) {
+          event.ends = new Date(event.ends);
+          return event;
+        });
+      });
+    }
+  }, {
+    key: 'pageChanged',
+    value: function pageChanged() {
+      console.log(this.current_page);
     }
   }]);
 
@@ -3595,7 +3604,7 @@ var UserEvents = function () {
 exports.default = UserEvents;
 
 
-UserEvents.$inject = ['$rootScope', 'ProfileService'];
+UserEvents.$inject = ['$scope', '$rootScope', 'ProfileService'];
 
 },{}],68:[function(require,module,exports){
 'use strict';
@@ -3661,10 +3670,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserReport = function () {
-  function UserReport(EventService, $stateParams) {
+  function UserReport(EventService, ProfileService, $stateParams) {
     _classCallCheck(this, UserReport);
 
     this.service = EventService;
+    this.profileService = ProfileService;
     if ($stateParams.uuid) {
       this.getEvent($stateParams.uuid);
     }
@@ -3675,8 +3685,17 @@ var UserReport = function () {
     value: function getEvent(id) {
       var _this = this;
 
+      var event = void 0;
       this.service.findById(id).then(function (response) {
-        return _this.event = response.data;
+        event = response.data;
+        event.progress = event.total_receive / event.goal * 100;
+        _this.event = event;
+        _this.profileService.getEventPayments(id).then(function (response) {
+          _this.donors = response.data.values.map(function (donor) {
+            donor.updated_at = new Date(donor.updated_at);
+            return donor;
+          });
+        });
       });
     }
   }]);
@@ -3687,7 +3706,7 @@ var UserReport = function () {
 exports.default = UserReport;
 
 
-UserReport.$inject = ['EventService', '$stateParams'];
+UserReport.$inject = ['EventService', 'ProfileService', '$stateParams'];
 
 },{}],70:[function(require,module,exports){
 'use strict';
@@ -3823,6 +3842,12 @@ var ProfileService = function (_CommonService) {
       }
       return _get(Object.getPrototypeOf(ProfileService.prototype), 'findAll', this).call(this);
       // return this.$http.get(this.url + this.route)
+    }
+  }, {
+    key: 'getEventPayments',
+    value: function getEventPayments(uuid) {
+      _get(Object.getPrototypeOf(ProfileService.prototype), 'setRoute', this).call(this, 'users/me/events/' + uuid + '/payments');
+      return _get(Object.getPrototypeOf(ProfileService.prototype), 'findAll', this).call(this);
     }
   }, {
     key: 'change',

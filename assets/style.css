@@ -31,7 +31,7 @@ h3 { font-size: 2.1rem; }
 h4 { font-size: 1.7rem; }
 h5 { font-size: 1.5rem; }
 h6 { font-size: 1.3rem; }
-p, a, label {
+p, a, label, table th, table td {
   font-size: 1.4rem;
   line-height: 1.6rem;
 }
@@ -65,6 +65,19 @@ form label {
   margin-top: 0px;
 }
 
+.icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+.icon.check {
+  background: url(../assets/icons/svgs/pagamento-efetuado.svg) no-repeat top left;
+  background-size: contain;
+}
+.icon.cancel {
+  background: url(../assets/icons/svgs/pagamento-cancelado.svg) no-repeat top left;
+  background-size: contain;
+}
 blockquote {
   margin: 0;
   padding-left: 70px;

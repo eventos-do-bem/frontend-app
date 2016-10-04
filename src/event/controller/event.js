@@ -9,7 +9,6 @@ export default class Event {
       EventService.findById($stateParams.slug)
         .then(
           response => {
-            console.log(response)
             event = response.data
             event.ends = new Date(event.ends)
             event.progress = Math.floor((event.total_receive / event.goal) * 100)

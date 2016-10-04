@@ -26,6 +26,10 @@ export default class ProfileService extends CommonService {
     return super.findAll()
     // return this.$http.get(this.url + this.route)
   }
+  getEventPayments(uuid) {
+    super.setRoute(`users/me/events/${uuid}/payments`)
+    return super.findAll()
+  }
   change(data) {
     this.setRoute('users/me')
     return this.$http.put(this.url + this.route, data)

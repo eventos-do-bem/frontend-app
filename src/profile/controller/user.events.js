@@ -1,27 +1,38 @@
 export default class UserEvents {
-  constructor($rootScope, ProfileService) {
+  constructor($scope, $rootScope, ProfileService) {
     this.rootScope = $rootScope
     this.service = ProfileService
-    this.pendings = 0
     this.rootScope.$broadcast('alert', {type: 'alert-info', icon: 'fa-warning', message: ` Veja nosso <a href="#">kit</a> para bombar suas campanhas!`})
     this.getEvents()
+    $scope.setPage = function(page) {
+      this.current_page = page
+    }
   }
   getEvents() {
-    this.service.getEvents()
+    this.service.getEvents({open: true})
       .then(
         response => {
-          this.pendings = response.data.values.filter(event => {
-            return (event.needReport == true)
-          })
-          this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-warning', message: `Você tem ${this.pendings.length} relatórios pendentes.`})
+          this.pagination = response.data.meta.pagination
+          console.log(this.pagination)
           this.events = response.data.values.map(event => {
             event.ends = new Date(event.ends)
             return event
           })
-          // console.log(this.events)
+        }
+      )
+    this.service.getEvents({closed: true})
+      .then(
+        response => {
+          this.events_closed = response.data.values.map(event => {
+            event.ends = new Date(event.ends)
+            return event
+          })
         }
       )
   }
+  pageChanged() {
+    console.log(this.current_page)
+  }
 }
 
-UserEvents.$inject = ['$rootScope','ProfileService']
+UserEvents.$inject = ['$scope','$rootScope','ProfileService']

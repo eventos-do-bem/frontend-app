@@ -1,5 +1,5 @@
 <h3 class="well">
-  Relatórios
+  Campanhas ativas
 </h3>
 <ul class="media-list">
   <li class="media" data-ng-repeat="item in ctrl.events">
@@ -12,23 +12,44 @@
       <div class="row">
         <div class="col-md-8">
           <h4 class="media-heading" data-ng-bind="item.name"></h4>
-          <p>Organizador por: <span data-ng-bind="item.user.name"></span></p>
-          <p>
-            <i class="fa fa-star-o"></i>
-            Projeto apoiado por: <span data-ng-bind="item.institution.name"></span>
-          </p>
         </div>
         <div class="col-md-4">
-          <a ui-sref="profile.user.report({uuid: item.uuid})" class="btn btn-success btn-block btn-waiting">
-            Submeter relatório
+          <a ui-sref="profile.user.report({uuid: item.uuid})" class="btn btn-primary btn-block">
+            Relatórios de doações
           </a>
           <br>
-          <p class="text-success text-center">
-            Prazo máximo: 
-            <span data-ng-bind="item.ends | date: 'dd/MM/yyyy'"></span>
-            <br>
-            <a ui-sref="event.slug({slug: item.slug})">Veja a página</a>
-          </p>
+          <a class="btn btn-success btn-block" disabled="disabled">
+            Veja seu impacto
+          </a>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>
+<ul uib-pagination total-items="ctrl.pagination.total" ng-model="ctrl.pagination.current_page" max-size="ctrl.pagination.per_page" boundary-links="true" num-pages="ctrl.pagination.total_pages" ng-change="ctrl.pageChanged()"></ul>
+<h3 class="well">
+  Campanhas encerradas
+</h3>
+<ul class="media-list">
+  <li class="media" data-ng-repeat="item in ctrl.events_closed">
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
+      </a>
+    </div>
+    <div class="media-body">
+      <div class="row">
+        <div class="col-md-8">
+          <h4 class="media-heading" data-ng-bind="item.name"></h4>
+        </div>
+        <div class="col-md-4">
+          <a ui-sref="profile.user.report({uuid: item.uuid})" class="btn btn-primary btn-block">
+            Relatórios de doações
+          </a>
+          <br>
+          <a class="btn btn-success btn-block" disabled="disabled">
+            Veja seu impacto
+          </a>
         </div>
       </div>
     </div>

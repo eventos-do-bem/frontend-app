@@ -27,7 +27,7 @@ export default class EventStart {
     event.institution_uuid = event.institution_uuid.uuid
     // let end_date = event.end_date.split('/')
     // event.end_date = `${end_date[2]}-${end_date[1]}-${end_date[0]}`
-    console.log(event)
+    console.log(JSON.stringify(event))
     this.service.save(event)
       .then(
         response => console.log(response),
