@@ -6,6 +6,7 @@ export default class CommonService {
     this.$http = $http
   }
   setRoute(route) {
+    this.config = {}
     this.route = route
   }
   setDataToken(data) {

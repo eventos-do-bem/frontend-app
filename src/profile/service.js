@@ -24,7 +24,6 @@ export default class ProfileService extends CommonService {
       super.setParams(params)
     }
     return super.findAll()
-    // return this.$http.get(this.url + this.route)
   }
   getEventPayments(uuid) {
     super.setRoute(`users/me/events/${uuid}/payments`)

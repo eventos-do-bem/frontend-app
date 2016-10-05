@@ -12,7 +12,9 @@
       </h4>
       <form name="donate" novalidate>
         <div class="form-group" data-ng-class="{'has-error':donate.message.$invalid}">
-          <textarea name="message" class="form-control" data-ng-model="ctrl.donate.message"></textarea>
+          <count-down-element model="ctrl.donate.message" max="250">
+            <textarea name="message" id="message" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="250"></textarea>
+          </count-down-element>
         </div>
         <div class="checkbox">
           <label>
@@ -20,7 +22,10 @@
           </label>
         </div>
         <div class="form-buttons form-buttons-center">
-          <button type="submit" data-ng-click="ctrl.buildCard()" class="btn btn-lg btn-horizontal-large btn-success">Imprimir seu boleto</button>
+          <button type="button" data-ng-click="ctrl.buildCard()" class="btn btn-lg btn-horizontal-large btn-success">
+            <i class="fa fa-envelope"></i>
+            Mandar mensagem de apoio
+          </button>
         </div>
       </form>
     </div>

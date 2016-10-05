@@ -23,13 +23,14 @@ export default class EventDonate {
       this.profileService.me()
         .then(response => {
           console.log(response)
-          let {name, birthdate, email} = response.data
+          let {name, birthdate, email, document} = response.data
           birthdate = birthdate.split('-')
           birthdate = `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`
           this.donate = {
             name: name,
             birthdate: birthdate,
-            email: email
+            email: email,
+            document: document
           }
         })
     }
@@ -67,14 +68,14 @@ export default class EventDonate {
   }
   openCard() {
     let donate = angular.copy(this.donate)
-    if (this.window.localStorage.getItem('token')) {
+    if (this.logged) {
       delete donate.name
       delete donate.email
       delete donate.birthdate
+      delete donate.document
     }
     donate.card_validate = `${donate.card_month}/${donate.card_year}`
     donate.card_number = donate.card_number.replace(/\-/g, '')
-    donate.document = parseInt(donate.document.replace(/\./g, ''))
     let modalInstance = this.modal.open({
       templateUrl: './../src/event/view/donate.card.html',
       controller: 'EventDonateCard',
@@ -88,24 +89,36 @@ export default class EventDonate {
         }
       }
     })
-    modalInstance.result.then(response => {
-      this.donate = {}
-      this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.status})      
-    })
+    modalInstance.result.then(
+      response => {
+        this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.status})      
+      }
+    )
   }
   openBillet() {
+    let donate = angular.copy(this.donate)
+    if (this.logged) {
+      delete donate.name
+      delete donate.email
+      delete donate.birthdate
+    }
+    console.log(donate)
     let modalInstance = this.modal.open({
-      templateUrl: './../src/event/view/billet.html',
-      controller: 'DonateBillet',
+      templateUrl: './../src/event/view/donate.billet.html',
+      controller: 'EventDonateBillet',
       controllerAs: 'ctrl',
       resolve: {
         donate: () => {
-          return this.donate
+          return {
+            uuid: this.uuid,
+            data: donate
+          }
         }
       }
     })
     modalInstance.result.then(response => {
-      this.donate = {}
+      console.log(response)
+      // this.donate = {}
       this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.status})      
     })
   }

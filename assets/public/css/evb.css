@@ -53,6 +53,9 @@ a:hover {
   color: #fff;
   opacity: .8;
 }
+.alert-success {
+  background-color: #53c83d;
+}
 .alert-info {
   background-color: #9060c2;
 }
