@@ -45,6 +45,16 @@ a {
   color: @red;
 }
 
+.list-group-item a {
+  color: #000;
+  &:focus, &:hover {
+    color: @blue-strong;
+  }
+}
+.list-group-item a.active {
+  color: @blue;
+}
+
 .badge {
   position: absolute;
   margin-top: -8px;

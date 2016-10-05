@@ -96,7 +96,7 @@ function config(API, $q, $window, $rootScope, $injector) {
       config.headers = config.headers || {};
       config['headers']['Accept'] = API.accept;
       config['headers']['Content-Type'] = API.contenttype;
-      console.log($window.localStorage.getItem('token'));
+      // console.log($window.localStorage.getItem('token'))
       if (!config.headers.token) {
         if ($window.localStorage.getItem('token')) {
           config['headers']['Authorization'] = 'Bearer ' + $window.localStorage.getItem('token');
@@ -3094,6 +3094,7 @@ var OngEvents = function () {
     this.rootScope = $rootScope;
     this.service = ProfileService;
     this.pendings = 0;
+    this.pagination = { current_page: 1 };
     this.getEvents();
   }
 
@@ -3102,17 +3103,29 @@ var OngEvents = function () {
     value: function getEvents() {
       var _this = this;
 
-      this.service.getEvents({}).then(function (response) {
-        _this.pendings = response.data.values.filter(function (event) {
-          return event.needReport == true;
-        });
-        _this.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-warning', message: 'Você tem ' + _this.pendings.length + ' relatórios pendentes.' });
+      this.service.getEvents({
+        open: true,
+        page: this.pagination.current_page
+      }).then(function (response) {
+        _this.pagination = response.data.meta.pagination;
         _this.events = response.data.values.map(function (event) {
           event.ends = new Date(event.ends);
           return event;
         });
-        // console.log(this.events)
+        _this.pendings = response.data.values.filter(function (event) {
+          return event.needReport == true;
+        });
+        _this.rootScope.$broadcast('alert', {
+          type: 'alert-warning',
+          icon: 'fa-warning',
+          message: 'Você tem ' + _this.pendings.length + ' relatórios pendentes.'
+        });
       });
+    }
+  }, {
+    key: 'changePage',
+    value: function changePage() {
+      this.getEvents();
     }
   }]);
 
@@ -3141,6 +3154,7 @@ var OngHistory = function () {
 
     this.rootScope = $rootScope;
     this.service = ProfileService;
+    this.pagination = { current_page: 1 };
     this.getEvents();
   }
 
@@ -3149,14 +3163,29 @@ var OngHistory = function () {
     value: function getEvents() {
       var _this = this;
 
-      this.service.getEvents({ closed: true }).then(function (response) {
-        _this.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-warning', message: 'Você tem ' + response.data.values.length + ' campanhas encerradas.' });
+      this.service.getEvents({
+        closed: true,
+        page: this.pagination.current_page
+      }).then(function (response) {
+        _this.pagination = response.data.meta.pagination;
         _this.events = response.data.values.map(function (event) {
           event.ends = new Date(event.ends);
           return event;
         });
-        // console.log(this.events)
+        _this.pendings = response.data.values.filter(function (event) {
+          return event.needReport == true;
+        });
+        _this.rootScope.$broadcast('alert', {
+          type: 'alert-warning',
+          icon: 'fa-warning',
+          message: 'Você tem ' + _this.pendings.length + ' relatórios pendentes.'
+        });
       });
+    }
+  }, {
+    key: 'changePage',
+    value: function changePage() {
+      this.getEvents();
     }
   }]);
 

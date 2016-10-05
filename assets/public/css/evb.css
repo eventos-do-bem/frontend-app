@@ -17,6 +17,16 @@ a:hover {
 .text-danger {
   color: #f25e5e;
 }
+.list-group-item a {
+  color: #000;
+}
+.list-group-item a:focus,
+.list-group-item a:hover {
+  color: #3a93d0;
+}
+.list-group-item a.active {
+  color: #0ea4f1;
+}
 .badge {
   position: absolute;
   margin-top: -8px;
