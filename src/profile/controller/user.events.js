@@ -3,35 +3,40 @@ export default class UserEvents {
     this.rootScope = $rootScope
     this.service = ProfileService
     this.rootScope.$broadcast('alert', {type: 'alert-info', icon: 'fa-warning', message: ` Veja nosso <a href="#">kit</a> para bombar suas campanhas!`})
-    this.getEvents()
-    $scope.setPage = function(page) {
-      this.current_page = page
-    }
+    this.pagination_open = { current_page: 1 }
+    this.pagination_closed = { current_page: 1 }
+    this.getEventsOpen()
+    this.getEventsClosed()
   }
-  getEvents() {
-    this.service.getEvents({open: true})
-      .then(
-        response => {
-          this.pagination = response.data.meta.pagination
-          console.log(this.pagination)
-          this.events = response.data.values.map(event => {
-            event.ends = new Date(event.ends)
-            return event
-          })
-        }
-      )
-    this.service.getEvents({closed: true})
-      .then(
-        response => {
-          this.events_closed = response.data.values.map(event => {
-            event.ends = new Date(event.ends)
-            return event
-          })
-        }
-      )
+  getEventsOpen() {
+    this.service.getEvents({
+      open: true,
+      page: this.pagination_open.current_page
+    }).then(response => {
+      this.pagination_open = response.data.meta.pagination
+      this.events_open = response.data.values.map(event => {
+        event.ends = new Date(event.ends)
+        return event
+      })
+    })
   }
-  pageChanged() {
-    console.log(this.current_page)
+  changePageOpen() {
+    this.getEventsOpen()
+  }
+  getEventsClosed() {
+    this.service.getEvents({
+      closed: true,
+      page: this.pagination_closed.current_page
+    }).then(response => {
+      this.pagination_closed = response.data.meta.pagination
+      this.events_closed = response.data.values.map(event => {
+        event.ends = new Date(event.ends)
+        return event
+      })
+    })
+  }
+  changePageClosed() {
+    this.getEventsClosed()
   }
 }
 

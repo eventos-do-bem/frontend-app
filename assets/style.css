@@ -59,6 +59,9 @@ form label {
   margin-top: 20px
 }
 
+.well {
+  margin-top: 15px;
+}
 .well h1,
 .well h2,
 .well h3 {

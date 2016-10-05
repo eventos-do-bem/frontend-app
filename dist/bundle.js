@@ -3565,36 +3565,53 @@ var UserEvents = function () {
     this.rootScope = $rootScope;
     this.service = ProfileService;
     this.rootScope.$broadcast('alert', { type: 'alert-info', icon: 'fa-warning', message: ' Veja nosso <a href="#">kit</a> para bombar suas campanhas!' });
-    this.getEvents();
-    $scope.setPage = function (page) {
-      this.current_page = page;
-    };
+    this.pagination_open = { current_page: 1 };
+    this.pagination_closed = { current_page: 1 };
+    this.getEventsOpen();
+    this.getEventsClosed();
   }
 
   _createClass(UserEvents, [{
-    key: 'getEvents',
-    value: function getEvents() {
+    key: 'getEventsOpen',
+    value: function getEventsOpen() {
       var _this = this;
 
-      this.service.getEvents({ open: true }).then(function (response) {
-        _this.pagination = response.data.meta.pagination;
-        console.log(_this.pagination);
-        _this.events = response.data.values.map(function (event) {
-          event.ends = new Date(event.ends);
-          return event;
-        });
-      });
-      this.service.getEvents({ closed: true }).then(function (response) {
-        _this.events_closed = response.data.values.map(function (event) {
+      this.service.getEvents({
+        open: true,
+        page: this.pagination_open.current_page
+      }).then(function (response) {
+        _this.pagination_open = response.data.meta.pagination;
+        _this.events_open = response.data.values.map(function (event) {
           event.ends = new Date(event.ends);
           return event;
         });
       });
     }
   }, {
-    key: 'pageChanged',
-    value: function pageChanged() {
-      console.log(this.current_page);
+    key: 'changePageOpen',
+    value: function changePageOpen() {
+      this.getEventsOpen();
+    }
+  }, {
+    key: 'getEventsClosed',
+    value: function getEventsClosed() {
+      var _this2 = this;
+
+      this.service.getEvents({
+        closed: true,
+        page: this.pagination_closed.current_page
+      }).then(function (response) {
+        _this2.pagination_closed = response.data.meta.pagination;
+        _this2.events_closed = response.data.values.map(function (event) {
+          event.ends = new Date(event.ends);
+          return event;
+        });
+      });
+    }
+  }, {
+    key: 'changePageClosed',
+    value: function changePageClosed() {
+      this.getEventsClosed();
     }
   }]);
 

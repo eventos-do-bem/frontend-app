@@ -2,7 +2,7 @@
   Campanhas ativas
 </h3>
 <ul class="media-list">
-  <li class="media" data-ng-repeat="item in ctrl.events">
+  <li class="media" data-ng-repeat="item in ctrl.events_open">
     <div class="media-left">
       <a href="#">
         <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-4">
           <a ui-sref="profile.user.report({uuid: item.uuid})" class="btn btn-primary btn-block">
-            Relatórios de doações
+            Relatório de doações
           </a>
           <br>
           <a class="btn btn-success btn-block" disabled="disabled">
@@ -26,7 +26,21 @@
     </div>
   </li>
 </ul>
-<ul uib-pagination total-items="ctrl.pagination.total" ng-model="ctrl.pagination.current_page" max-size="ctrl.pagination.per_page" boundary-links="true" num-pages="ctrl.pagination.total_pages" ng-change="ctrl.pageChanged()"></ul>
+<div class="text-center">
+  <ul uib-pagination
+      total-items="ctrl.pagination_open.total"
+      ng-model="ctrl.pagination_open.current_page"
+      max-size="ctrl.pagination_open.per_page"
+      class="pagination-sm"
+      previous-text="Anterior"
+      next-text="Próxima"
+      first-text="Primeira"
+      last-text="Última"
+      boundary-links="true"
+      num-pages="ctrl.pagination_open.total_pages"
+      data-ng-change="ctrl.changePageOpen()">
+  </ul>
+</div>
 <h3 class="well">
   Campanhas encerradas
 </h3>
@@ -44,7 +58,7 @@
         </div>
         <div class="col-md-4">
           <a ui-sref="profile.user.report({uuid: item.uuid})" class="btn btn-primary btn-block">
-            Relatórios de doações
+            Relatório de doações
           </a>
           <br>
           <a class="btn btn-success btn-block" disabled="disabled">
@@ -55,3 +69,18 @@
     </div>
   </li>
 </ul>
+<div class="text-center">
+  <ul uib-pagination
+      total-items="ctrl.pagination_closed.total"
+      ng-model="ctrl.pagination_closed.current_page"
+      max-size="ctrl.pagination_closed.per_page"
+      class="pagination-sm"
+      previous-text="Anterior"
+      next-text="Próxima"
+      first-text="Primeira"
+      last-text="Última"
+      boundary-links="true"
+      num-pages="ctrl.pagination_closed.total_pages"
+      data-ng-change="ctrl.changePageClosed()">
+  </ul>
+</div>
