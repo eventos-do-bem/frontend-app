@@ -1,9 +1,11 @@
-export default class EventDonate {
-  constructor($rootScope, $state, $stateParams, $window, ProfileService, EventService, NotificationService, $uibModal, CreditCardFactory) {
+export default class DonateEvent {
+  constructor($rootScope, $state, $stateParams, $window, $timeout, $anchorScroll, ProfileService, EventService, NotificationService, $uibModal, CreditCardFactory) {
     this.rootScope = $rootScope
     this.state = $state
     this.stateParams = $stateParams
     this.window = $window
+    this.timeout = $timeout
+    this.anchorScroll = $anchorScroll
     this.profileService = ProfileService
     this.eventService = EventService
     this.notificationService = NotificationService
@@ -14,7 +16,6 @@ export default class EventDonate {
     if (!this.stateParams.slug) {
       this.state.go('pages.explore')
     }
-    console.log(this.notificationService)
 
     this.eventService.findById(this.stateParams.slug)
       .then(response => this.uuid = response.data.uuid)
@@ -22,7 +23,7 @@ export default class EventDonate {
     if (this.logged) {
       this.profileService.me()
         .then(response => {
-          console.log(response)
+          // console.log(response)
           let {name, birthdate, email, document} = response.data
           birthdate = birthdate.split('-')
           birthdate = `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`
@@ -77,49 +78,56 @@ export default class EventDonate {
     donate.card_validate = `${donate.card_month}/${donate.card_year}`
     donate.card_number = donate.card_number.replace(/\-/g, '')
     let modalInstance = this.modal.open({
-      templateUrl: './../src/event/view/donate.card.html',
-      controller: 'EventDonateCard',
+      templateUrl: './../src/donate/view/donate.card.html',
+      controller: 'DonateCard',
       controllerAs: 'ctrl',
       resolve: {
-        donate: () => {
+        data: () => {
           return {
             uuid: this.uuid,
-            data: donate
-          }
-        }
-      }
-    })
-    modalInstance.result.then(
-      response => {
-        this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.status})      
-      }
-    )
-  }
-  openBillet() {
-    let donate = angular.copy(this.donate)
-    if (this.logged) {
-      delete donate.name
-      delete donate.email
-      delete donate.birthdate
-    }
-    console.log(donate)
-    let modalInstance = this.modal.open({
-      templateUrl: './../src/event/view/donate.billet.html',
-      controller: 'EventDonateBillet',
-      controllerAs: 'ctrl',
-      resolve: {
-        donate: () => {
-          return {
-            uuid: this.uuid,
-            data: donate
+            donate: donate
           }
         }
       }
     })
     modalInstance.result.then(response => {
-      console.log(response)
-      // this.donate = {}
-      this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.status})      
+      this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
+      this.anchorScroll('scrollArea')
+      this.timeout(() => {
+        this.state.go('event.slug', {slug: response.uuid})
+      }, 3000)
+    }, error => {
+      this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
+    }
+    )
+  }
+  openBillet() {
+    let donate = angular.copy(this.donate)
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/donate/view/donate.billet.html',
+      controller: 'DonateBillet',
+      controllerAs: 'ctrl',
+      resolve: {
+        data: () => {
+          return {
+            uuid: this.uuid,
+            donate: donate
+          }
+        }
+      }
+    })
+    modalInstance.result.then(response => {
+      this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
+      this.anchorScroll('scrollArea')
+      this.timeout(() => {
+        this.state.go('event.slug', {slug: response.uuid})
+      }, 3000)
+      let billet = response.data.iugu_url.replace('?bs=true','.pdf')
+      let printBillet = this.window.open(billet, 'Imprimir boleto','left=0,top=0,width=800,height=600,toolbar=0,scrollbars=0,status=0')
+      printBillet.focus()
+      // printBillet.print()
+    }, error => {
+      this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
     })
   }
   open(item) {
@@ -149,4 +157,4 @@ export default class EventDonate {
   }
 }
 
-EventDonate.$inject = ['$rootScope', '$state', '$stateParams', '$window', 'ProfileService', 'EventService', 'NotificationService', '$uibModal', 'CreditCardFactory']
+DonateEvent.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$timeout', '$anchorScroll', 'ProfileService', 'EventService', 'NotificationService', '$uibModal', 'CreditCardFactory']

@@ -1,9 +1,9 @@
 export default class Event {
-  constructor($state, $stateParams, EventService) {
+  constructor($rootScope, $state, $stateParams, EventService) {
+    this.rootScope = $rootScope
     this.$state = $state
     this.service = EventService
     this.event = {}
-
     let event
     if ($stateParams.slug) {
       EventService.findById($stateParams.slug)
@@ -19,4 +19,4 @@ export default class Event {
   }
 }
 
-Event.$inject = ['$state','$stateParams','EventService']
+Event.$inject = ['$rootScope','$state','$stateParams','EventService']

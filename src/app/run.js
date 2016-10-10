@@ -9,7 +9,7 @@ export default function run($rootScope, $window, $state, $anchorScroll) {
       case 'auth.login': $rootScope.background = 'auth-login'; break;
       default: $rootScope.background = null;
     }
-    $anchorScroll()
+    $anchorScroll('scrollArea')
   })
 }
 
