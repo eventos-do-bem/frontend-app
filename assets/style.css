@@ -127,6 +127,11 @@ blockquote .name {
   margin-left: -128px;
 
 }
+
+.popover.right {
+  width: 100%;
+}
+
 /* jumbotron */
 .jumbotron {
   border-radius: 0 !important;
