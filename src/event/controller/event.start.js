@@ -1,7 +1,8 @@
 export default class EventStart {
-  constructor($state, $window, $stateParams, CityService, EventService, CategoryService, InstitutionService) {
+  constructor($state, $window, $stateParams, $filter, CityService, EventService, CategoryService, InstitutionService) {
     this.$state = $state
     this.window = $window
+    this.filter = $filter
     this.service = EventService
     if (this.hasDraft()) {
       this.draft = this.getDraft()
@@ -66,4 +67,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$state','$window','$stateParams', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']
+EventStart.$inject = ['$state','$window','$stateParams','$filter', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']

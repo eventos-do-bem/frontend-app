@@ -30,8 +30,11 @@ export default class ProfileService extends CommonService {
     return super.findAll()
   }
   change(data) {
+    console.log(data.avatar)
     this.setRoute('users/me')
-    return this.$http.put(this.url + this.route, data)
+    return this.$http.post(this.url + this.route, data, {
+      headers: {'Content-Type': undefined}
+    })
   }
   registerFacebook(callback) {
     return this.facebookService.auth(callback)

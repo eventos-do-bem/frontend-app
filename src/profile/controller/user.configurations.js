@@ -4,8 +4,16 @@ export default class UserConfigurations {
     this.rootScope = $rootScope
     this.storage = StorageService
     this.service = ProfileService
+    this.reader = new FileReader()
     this.needpassword = true
     this.load(profile)
+    // let avatar = document.querySelector('#avatar')
+    // avatar.addEventListener('change', event => {
+    //   this.reader.onload = file => {
+    //     console.log(file)
+    //   }
+    //   this.reader.readAsDataURL(avatar.files[0])
+    // }, false)
   }
   load(profile) {
     profile = angular.copy(profile.data)
@@ -14,14 +22,22 @@ export default class UserConfigurations {
     this.profile = profile
     this.needpassword = profile.needpassword
   }
+  changeAvatar(file) {
+    file = new Blob()
+  }
   save(profile) {
     profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
-    console.log(profile)
+    // console.log(profile)
     if (profile.avatar) {
-      console.log(document.querySelector('#avatar').files[0])
-      profile.avatar = document.querySelector('#avatar').files[0]
+      // console.log(document.querySelector('#avatar').files[0])      
+      // profile.avatar = document.querySelector('#avatar').files[0]
+      
+      // console.log(avatar)
+      // let fd = new FormData()
+      // fd.append('file', avatar)
+      // console.log(JSON.stringify(fd))
     }
-    console.log(profile)
+    console.log('profile', profile)
     // birthdate = profile.birthdate.split('/')
     // profile.birthdate = new Date(`${birthdate[2]}-${birthdate[1]}-${birthdate[0]}`)
     // profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'yyyy-MM-dd')

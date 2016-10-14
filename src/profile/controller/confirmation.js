@@ -14,12 +14,12 @@ export default class ProfileConfirmation {
         .then(
           response => {
             this.confirmation = true
-            console.log(response)
+            // console.log(response)
             this.profile = response.data
           },
           error => {
             this.error = error.data
-            console.log('error', error)
+            // console.log('error', error)
           }
         )
     }

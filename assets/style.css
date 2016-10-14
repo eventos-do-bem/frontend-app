@@ -16,11 +16,12 @@ body {
 
 /* backgrounds */
 .auth-login {
-  background-image: url('images/auth-login.jpg');
+  background-color: #f7f5f2;
+  /*background-image: url('images/auth-login.jpg');
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
+  background-size: cover;*/
 }
 /* /backgrounds */
 
@@ -122,9 +123,9 @@ blockquote .name {
 .loading img {
   position: absolute;
   top: 50%;
-  margin-top: -128px;
+  margin-top: -114px;
   left: 50%;
-  margin-left: -128px;
+  margin-left: -120px;
 
 }
 
@@ -958,6 +959,7 @@ figure img {
 .form-signin ul,
 .form-signin p,
 .form-signin p.agree,
+.form-signin h2,
 .form-signin h4,
 .form-signin button {
   opacity: 1;
@@ -970,6 +972,9 @@ figure img {
   padding: 10px;
   font-size: 1.6rem;
 }
+.form-signin h2 {
+  font-size: 2.5rem;
+}
 .form-signin textarea.form-control {
   height: 100px;
 }
@@ -978,9 +983,23 @@ figure img {
   font-size: 1.6rem;
   text-align: center;
 }
+.form-signin .tab-pane p.or {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #ccc;
+}
+.form-signin .tab-pane p.or:after {
+  content: 'ou';
+  position: relative;
+  margin: 0;
+  padding: 0 10px;
+  display: inline-block;
+  top: -10px;
+  background-color: #fff;
+}
 .form-signin .show-password {
   padding-top: 0px;
-  padding-bottom: 10px;
+  padding-bottom: 0px;
   font-size: 1.4rem;
 }
 .form-signin .show-password[disabled] {

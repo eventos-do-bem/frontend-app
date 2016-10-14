@@ -19,10 +19,13 @@
   <uib-tabset active="ctrl.activeForm" justified="true">
     <uib-tab index="0" heading="Usuário" select="ctrl.changeTab(ctrl.activeForm)">
       <form name="registerUser" novalidate data-ng-submit="ctrl.registerUser(ctrl.profile)">
+        <h2 class="text-center">Registre-se</h2>
+        <p>Já tem conta? <a ui-sref="auth.login">faça seu login</a></p>
         <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.registerFacebook()">
           <i class="fa fa-facebook" aria-hidden="true"></i>
           Registrar-se com o Facebook
         </button>
+        <p class="or"></p>
         <div data-ng-class="{'has-error':registerUser.name.$invalid && registerUser.name.$dirty}">
           <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Nome completo" required
             autofocus>
@@ -51,15 +54,16 @@
           </label>
         </div>
         <button class="btn btn-lg btn-success btn-block" type="submit" data-ng-disabled="registerUser.$invalid">Cadastrar</button>
+        <p class="agree">Ao efetuar cadastro, você está aceitando nossos <a ui-sref="pages.terms">termos de uso</a> e <a ui-sref="pages.policies">política de privacidade</a>.</p>
       </form>
     </uib-tab>
-    <uib-tab index="1" heading="Ong" select="ctrl.changeTab(ctrl.activeForm)">
-      <p class="text-center">
-        Registre a Organização Social
-        <br>
-        <small>* cadastro permitido somente para profissionais oficiais da Organização, caso contrário, indique está página para a Organização que quer  se cadastrar  para  que ela se cadastre por aqui.</small>
-      </p>
+    <uib-tab index="1" heading="Sou uma Ong" select="ctrl.changeTab(ctrl.activeForm)">
       <form name="registerOng" novalidate data-ng-submit="ctrl.registerOng(ctrl.profile)">
+        <h2 class="text-center">Registre sua Organização</h2>
+        <p>Já tem conta? <a ui-sref="auth.login">faça seu login</a></p>
+        <p>
+          <small>* O registro deve ser feito por um representante oficial da Organização. Somente será realizado após a aprovação da Organização Social e de nossa equipe.</small>
+        </p>
         <div data-ng-switch="ctrl.step">
           <div data-ng-switch-when="0">
             <div data-ng-class="{'has-error':registerOng.name_organization.$invalid && registerOng.name_organization.$dirty}">
@@ -123,7 +127,7 @@
           </button>
           </div>
         </div>
-        <p data-ng-show="ctrl.step == 2" class="agree">* Ao se cadastrar você está concordando com nossos <a href="#">termos de uso</a> e <a href="#">política de privacidade</a>.</p>
+        <p class="agree">Ao efetuar cadastro, você está aceitando nossos <a ui-sref="pages.terms">termos de uso</a> e <a ui-sref="pages.policies">política de privacidade</a>.</p>
       </form>
     </uib-tab>
     <div class="alert alert-danger" data-ng-show="ctrl.error">
