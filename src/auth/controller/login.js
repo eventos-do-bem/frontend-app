@@ -37,8 +37,8 @@ export default class AuthLogin {
     this.storage.setItem('profile', {name: name, email: email, type: type})
     this.$rootScope.$broadcast('profile.change')
     switch(type) {
-      case 'user': this.state.go('profile.user'); break;
-      case 'ong': this.state.go('profile.ong'); break;
+      case 'user': this.state.go('profile.user.events'); break;
+      case 'ong': this.state.go('profile.ong.events'); break;
     }
   }
   loginError(response) {

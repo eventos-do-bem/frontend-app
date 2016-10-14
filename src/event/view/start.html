@@ -15,6 +15,10 @@
     </ul>
   </div>
 </script>
+<script type="text/ng-template" id="myPopoverTemplate.html">
+  <h4>{{ctrl.popoverContent.title}}</h4>
+  <p>{{ctrl.popoverContent.text}}</p>
+</script>
 <div class="container">
   <div class="row">
     <div class="col-md-7">
@@ -25,7 +29,7 @@
         <div class="form-group" data-ng-class="{'has-error':start.name.$invalid && start.name.$dirty}">
           <label for="" class="control-label">Nome</label>
           <count-down-element model="ctrl.event.name" max="60">
-            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" placeholder="Digite o nome do evento aqui" maxlength="60" uib-popover="{{ctrl.popovers.name}}" popover-placement="right" popover-trigger="focus" required autofocus>
+            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" placeholder="Digite o nome do evento aqui" maxlength="60" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('name')" popover-placement="right" popover-trigger="focus" required autofocus>
           </count-down-element>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.uri.$invalid && start.uri.$dirty}">
@@ -39,18 +43,18 @@
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.institution_uuid.$invalid && institution_uuid.name.$dirty}">
           <label for="institution_uuid" class="control-label">Escolha a causa que irá ajudar</label>
-          <input type="text" name="institution_uuid" data-ng-model="ctrl.event.institution_uuid" placeholder="Encontre uma causa" uib-typeahead="item as item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover="{{ctrl.popovers.institution}}" popover-placement="right" popover-trigger="focus" required>
+          <input type="text" name="institution_uuid" data-ng-model="ctrl.event.institution_uuid" placeholder="Encontre uma causa" uib-typeahead="item as item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('institution')" popover-placement="right" popover-trigger="focus" required>
         </div>
         <p>Não tem causa? <a href="#">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a ui-sref="pages.contact">Entre em contato</a></p>
         <div class="form-group" data-ng-class="{'has-error':start.categorie_uuid.$invalid && start.categorie_uuid.$dirty}">
           <label for="categorie_uuid" class="control-label">Categoria do Evento do Bem</label>
-          <select ng-options="item.uuid as item.name for item in ctrl.categories track by item.uuid" name="categorie_uuid" id="categorie_uuid" class="form-control" data-ng-model="ctrl.event.categorie_uuid" uib-popover="{{ctrl.popovers.category}}" popover-placement="right" popover-trigger="focus" required>
+          <select ng-options="item.uuid as item.name for item in ctrl.categories track by item.uuid" name="categorie_uuid" id="categorie_uuid" class="form-control" data-ng-model="ctrl.event.categorie_uuid" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('category')" popover-placement="right" popover-trigger="focus" required>
             <option value="">Selecione</option>
           </select>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.citie.$invalid && start.citie.$dirty}">
           <label for="citie" class="control-label">Cidade</label>
-          <select ng-options="item.name as item.name for item in ctrl.cities" name="citie" id="citie" class="form-control" data-ng-model="ctrl.event.citie" uib-popover="{{ctrl.popovers.city}}" popover-placement="right" popover-trigger="focus" required>
+          <select ng-options="item.name as item.name for item in ctrl.cities" name="citie" id="citie" class="form-control" data-ng-model="ctrl.event.citie" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('city')" popover-placement="right" popover-trigger="focus" required>
             <option value="">Selecione</option>
           </select>
         </div>
@@ -81,7 +85,7 @@
               <label for="goal_amount" class="control-label">Meta</label>
               <div class="input-group">
                 <span class="input-group-addon">R$</span>
-                <input type="text" name="goal_amount" id="goal_amount" class="form-control" data-ng-model="ctrl.event.goal_amount" placeholder="Digite o valor" uib-popover="{{ctrl.popovers.goal}}" popover-placement="right" popover-trigger="focus">
+                <input type="text" name="goal_amount" id="goal_amount" class="form-control" data-ng-model="ctrl.event.goal_amount" placeholder="Digite o valor" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
               </div>
               <div class="checkbox">
                 <label>
@@ -94,19 +98,19 @@
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.end_date.$invalid && start.end_date.$dirty}">
               <label for="end_date" class="control-label">Término</label>
-              <input type="text" name="end_date" id="end_date" mask="99/99/9999" class="form-control" data-ng-model="ctrl.event.end_date" uib-popover="{{ctrl.popovers.goal}}" popover-placement="right" popover-trigger="focus">
+              <input type="text" name="end_date" id="end_date" mask="99/99/9999" class="form-control" data-ng-model="ctrl.event.end_date" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
             </div>
           </div>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.description.$invalid && start.description.$dirty}">
           <label for="description" class="control-label">Texto explicativo</label>
           <count-down-element model="ctrl.event.description" max="300">
-            <textarea name="description" id="description" class="form-control" data-ng-model="ctrl.event.description" maxlength="300" uib-popover="{{ctrl.popovers.description}}" popover-placement="right" popover-trigger="focus"></textarea>
+            <textarea name="description" id="description" class="form-control" data-ng-model="ctrl.event.description" maxlength="300" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('description')" popover-placement="right" popover-trigger="focus"></textarea>
           </count-down-element>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.video.$invalid && start.video.$dirty}">
           <label for="video" class="control-label">Vídeo (Youtube ou Vimeo)</label>
-          <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" uib-popover="{{ctrl.popovers.video}}" popover-placement="right" popover-trigger="focus">
+          <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right">
         </div>
         <div class="checkbox">
           <label>
@@ -115,7 +119,7 @@
           </label>
         </div>
         <div class="form-buttons form-buttons-left">
-          <button class="btn btn-default" type="button" data-ng-click="ctrl.saveDraft(ctrl.event)">Salvar rascunho</button>
+          <!--<button class="btn btn-default" type="button" data-ng-click="ctrl.saveDraft(ctrl.event)">Salvar rascunho</button>-->
           <button class="btn btn-primary" type="submit" data-ng-disabled="start.$invalid">
             <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
             Publicar Evento do Bem

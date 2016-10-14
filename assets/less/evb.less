@@ -9,6 +9,8 @@
 @red: #f25e5e;
 @red-strong: #ff1e00;
 
+@btn-default-off: #cccccc;
+@btn-default-on: #cbccc8;
 @btn-primary-off: #249ff6;
 @btn-primary-on: #0f8ee7;
 @btn-primary-dis: #75c2f9;
@@ -155,6 +157,14 @@ a {
 }
 .btn > .fa {
   margin-right: @btn-spacing-icon;
+}
+.btn-default {
+  background-color: @btn-default-on;
+  border-color: @btn-default-off;
+  &:hover {
+    background-color: @btn-default-off;
+    border-color: @btn-default-on;
+  }
 }
 .btn-primary {
   background-color: @btn-primary-off;

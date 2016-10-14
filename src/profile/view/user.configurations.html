@@ -52,12 +52,6 @@
         <!--<input type="file" ngf-select data-ng-model="ctrl.profile.avatar" name="avatar" ngf-accept="'image/*'" required>-->
         <input type="file" name="avatar" id="avatar" data-ng-model="ctrl.profile.avatar" file-upload="ctrl.profile.avatar" required>
       </div>
-      <div>
-        <pre>
-        {{ctrl.profile.avatar | json}}
-        </pre>
-        <img src="" alt="" id="image">
-      </div>
     </div>
   </div>
   <div class="checkbox">
@@ -73,6 +67,6 @@
     </label>
   </div>
   <div class="navbar text-center">
-    <button class="btn btn-success" type="submit" data-ng-disabled="configurations.$invalid">Salvar</button>
+    <button class="btn btn-success btn-horizontal-large" type="submit" data-ng-disabled="configurations.$invalid">Salvar</button>
   </div>
 </form>

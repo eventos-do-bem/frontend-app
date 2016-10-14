@@ -344,9 +344,9 @@ var AuthLogin = function () {
       this.$rootScope.$broadcast('profile.change');
       switch (type) {
         case 'user':
-          this.state.go('profile.user');break;
+          this.state.go('profile.user.events');break;
         case 'ong':
-          this.state.go('profile.ong');break;
+          this.state.go('profile.ong.events');break;
       }
     }
   }, {
@@ -391,6 +391,7 @@ var AuthLogout = function () {
     this.authService = AuthService;
     this.storageService = StorageService;
     this.$rootScope = $rootScope;
+    this.state = $state;
     this.$window = $window;
     this.logout();
   }
@@ -405,6 +406,7 @@ var AuthLogout = function () {
       // this.storageService.clearStorage()
       this.authService.logout().then(function (response) {
         _this.$rootScope.$broadcast('auth.logout');
+        _this.state.go('home');
       }, function (error) {
         console.error('error', error);
         _this.$window.localStorage.removeItem('rememberme');
@@ -1821,6 +1823,7 @@ var DonateEvent = function () {
           email: email,
           document: document
         };
+        _this.missingDoc = _this.donate.document ? false : true;
       });
     }
 
@@ -2173,17 +2176,43 @@ var EventStart = function () {
     });
 
     this.popovers = {
-      name: 'Você deve começar sua campanha pela escolha de um título. Por exemplo: "ajudando a causa X", "correndo pela causa Y" ou “fazendo um aniversário para a causa W". Uma dica: coloque nomes que chamem a atenção de seus parentes e amigos para quando o evento do bem  for compartihado em  suas mídias sociais.',
-      institution: 'Para garantir a legitimidade das causas financiadas, o projeto beneficiado deve ser cadastrado na nossa plataforma. Você também pode procurar projetos e instituições já cadastrados em nosso portfolio de inspiração. Caso queira sugerir uma causa de interesse, entre em contato por aqui.',
-      category: 'Qual categoria seu evento se adequa? Caso tenha um evento que se adeque a uma categoria não sugerida, não tem problema, classifique-a como "criativos".',
-      city: 'É a cidade na qual você está localizado. Uma campanha pode acontecer de duas maneiras: ou somente aqui pela internet, ou tanto pela internet quanto em uma festa, presencialmente.',
-      goal: 'Aqui você pode definir uma meta financeira, que é definida por duas informações: um valor e uma data-limite para a duração da campanha. Todas as nossas campanhas tem no mínimo 22 dias, pois é o tempo adequado para mobilizar seus amigos, mesmo que seu evento do bem tenha uma data específica, a maioria dos eventos batem a meta depois da data específica. Logo as datas de aniversários, casamentos entre outros não são limitantes mas motivadoras e impulsionadoras da captação de ajuda para a causa que você acredita.',
-      description: 'Este é o texto em que você explica a seus amigos e familiares o porquê de ter criado sua campanha, apresentando-lhes o destino das doações e destacando-lhes a importância do impacto socioambiental que poderão causar. Por ser uma mensagem pessoal, é importante que você seja natural para que ela tenha a sua cara :D Deixe bem clara sua proposta. Por exemplo, no caso de um aniversário, você pode justificar sua campanha pedindo, ao invés de presentes, doações para o projeto/instituição em que acredita. Quanto mais pessoal, do coração e verdadeiro seu texto for...melhor! Finalize-o com uma frase de efeito para dar início à sua campanha!',
-      video: 'Você pode gravar um vídeo explicando sua campanha. Caso prefira, pode ser um vídeo institucional da causa beneficiada. Se você deixar em branco o endereço do vídeo, sua página automaticamente utilizará o vídeo-padrão ou uma imagem do projeto salvo em nosso banco de dados.'
+      name: {
+        title: 'O nome da sua campanha',
+        text: 'Você deve começar sua campanha pela escolha de um título. Por exemplo: "ajudando a causa X", "correndo pela causa Y" ou “fazendo um aniversário para a causa W". Uma dica: coloque nomes que chamem a atenção de seus parentes e amigos para quando o evento do bem  for compartihado em  suas mídias sociais.'
+      },
+      institution: {
+        title: 'A instituição que quer ajudar',
+        text: 'Para garantir a legitimidade das causas financiadas, o projeto beneficiado deve ser cadastrado na nossa plataforma. Você também pode procurar projetos e instituições já cadastrados em nosso portfolio de inspiração. Caso queira sugerir uma causa de interesse, entre em contato por aqui.'
+      },
+      category: {
+        title: 'Categoria da campanha',
+        text: 'Qual categoria seu evento se adequa? Caso tenha um evento que se adeque a uma categoria não sugerida, não tem problema, classifique-a como "criativos".'
+      },
+      city: {
+        title: 'Cidade da campanha',
+        text: 'É a cidade na qual você está localizado. Uma campanha pode acontecer de duas maneiras: ou somente aqui pela internet, ou tanto pela internet quanto em uma festa, presencialmente.'
+      },
+      goal: {
+        title: 'Meta e data limite',
+        text: 'Aqui você pode definir uma meta financeira, que é definida por duas informações: um valor e uma data-limite para a duração da campanha. Todas as nossas campanhas tem no mínimo 22 dias, pois é o tempo adequado para mobilizar seus amigos, mesmo que seu evento do bem tenha uma data específica, a maioria dos eventos batem a meta depois da data específica. Logo as datas de aniversários, casamentos entre outros não são limitantes mas motivadoras e impulsionadoras da captação de ajuda para a causa que você acredita.'
+      },
+      description: {
+        title: 'Descrição da campanha',
+        text: 'Este é o texto em que você explica a seus amigos e familiares o porquê de ter criado sua campanha, apresentando-lhes o destino das doações e destacando-lhes a importância do impacto socioambiental que poderão causar. Por ser uma mensagem pessoal, é importante que você seja natural para que ela tenha a sua cara :D Deixe bem clara sua proposta. Por exemplo, no caso de um aniversário, você pode justificar sua campanha pedindo, ao invés de presentes, doações para o projeto/instituição em que acredita. Quanto mais pessoal, do coração e verdadeiro seu texto for...melhor! Finalize-o com uma frase de efeito para dar início à sua campanha!'
+      },
+      video: {
+        title: 'Vídeo da campanha',
+        text: 'Você pode gravar um vídeo explicando sua campanha. Caso prefira, pode ser um vídeo institucional da causa beneficiada. Se você deixar em branco o endereço do vídeo, sua página automaticamente utilizará o vídeo-padrão ou uma imagem do projeto salvo em nosso banco de dados.'
+      }
     };
   }
 
   _createClass(EventStart, [{
+    key: 'setPopoverContent',
+    value: function setPopoverContent(field) {
+      this.popoverContent = this.popovers[field];
+    }
+  }, {
     key: 'save',
     value: function save(event) {
       event = angular.copy(event);

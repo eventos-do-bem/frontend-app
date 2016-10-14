@@ -121,6 +121,14 @@ a:hover {
 .btn > .fa {
   margin-right: 6px;
 }
+.btn-default {
+  background-color: #cbccc8;
+  border-color: #cccccc;
+}
+.btn-default:hover {
+  background-color: #cccccc;
+  border-color: #cbccc8;
+}
 .btn-primary {
   background-color: #249ff6;
   border-color: #249ff6;

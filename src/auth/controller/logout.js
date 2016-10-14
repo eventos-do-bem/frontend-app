@@ -3,6 +3,7 @@ export default class AuthLogout {
     this.authService = AuthService
     this.storageService = StorageService
     this.$rootScope = $rootScope
+    this.state = $state
     this.$window = $window
     this.logout()
   }
@@ -14,6 +15,7 @@ export default class AuthLogout {
       .then(
         response => {
           this.$rootScope.$broadcast('auth.logout')
+          this.state.go('home')
         },
         error => {
           console.error('error', error)

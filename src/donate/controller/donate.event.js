@@ -33,6 +33,7 @@ export default class DonateEvent {
             email: email,
             document: document
           }
+          this.missingDoc = (this.donate.document) ? false : true
         })
     }
 

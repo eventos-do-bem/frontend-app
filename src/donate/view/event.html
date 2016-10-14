@@ -20,7 +20,7 @@
           </div>
           <div class="form-group col-md-6" data-ng-class="{'has-error':donate.document.$invalid && donate.document.$dirty}">
             <label for="document" class="control-label">CPF</label>
-            <input type="text" name="document" id="document" mask="999.999.999-99" clean="true" class="form-control" data-ng-model="ctrl.donate.document" data-ng-disabled="ctrl.logged" data-ng-required="!ctrl.logged">
+            <input type="text" name="document" id="document" mask="999.999.999-99" clean="true" class="form-control" data-ng-model="ctrl.donate.document" data-ng-disabled="ctrl.logged && !ctrl.missingDoc" data-ng-required="!ctrl.logged">
           </div>
         </div>
         <div class="row">

@@ -129,8 +129,16 @@ blockquote .name {
 
 }
 
+.popover {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
 .popover.right {
   width: 100%;
+}
+.popover.right > .arrow:after {
+  border-right-color: #eee;
 }
 
 /* jumbotron */
@@ -696,6 +704,7 @@ figure img {
   color: #444;
 }
 .home .how-it-works .icon {
+  width: 100%;
   height: 64px;
   text-align: center;
 }
