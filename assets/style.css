@@ -664,6 +664,12 @@ header .navbar .navbar-brand {
 figure img {
   width: 100%;
 }
+figure.avatar {
+  text-align: center;
+}
+figure.avatar img {
+  width: 60%;
+}
 .panel.profile {
   margin-top: 80px;
 }

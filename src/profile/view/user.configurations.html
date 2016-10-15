@@ -1,7 +1,7 @@
 <h3 class="well">
   Configurações
 </h3>
-<form name="configurations" novalidate data-ng-submit="ctrl.save(ctrl.profile)">
+<form name="configurations" enctype="multipart/form-data" novalidate data-ng-submit="ctrl.save(ctrl.profile)">
   <div class="row">
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.name.$invalid && configurations.name.$dirty}">
@@ -49,7 +49,6 @@
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.avatar.$invalid && configurations.avatar.$dirty}">
         <label for="foto" class="control-label">Foto</label>
-        <!--<input type="file" ngf-select data-ng-model="ctrl.profile.avatar" name="avatar" ngf-accept="'image/*'" required>-->
         <input type="file" name="avatar" id="avatar" data-ng-model="ctrl.profile.avatar" file-upload="ctrl.profile.avatar" required>
       </div>
     </div>

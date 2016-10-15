@@ -95,7 +95,7 @@ function config(API, $q, $window, $rootScope, $injector) {
       if (config.url.indexOf('.html') === -1) $rootScope.loading = true;
       config.headers = config.headers || {};
       config['headers']['Accept'] = API.accept;
-      config['headers']['Content-Type'] = API.contenttype;
+      // config['headers']['Content-Type'] = API.contenttype
       // console.log($window.localStorage.getItem('token'))
       if (!config.headers.token) {
         if ($window.localStorage.getItem('token')) {
@@ -739,28 +739,20 @@ var FileUpload = function () {
     this.restrict = 'A';
     this.parse = $parse;
     this.timeout = $timeout;
-    this.reader = new FileReader();
   }
 
   _createClass(FileUpload, [{
     key: 'link',
     value: function link(scope, element, attrs) {
-      var _this = this;
-
       var model = this.parse(attrs.fileUpload);
       var modelSetter = model.assign;
-
-      // this.timeout(() => {
-      element.bind('change', function () {
-        _this.reader.onload = function () {
+      this.timeout(function () {
+        element.bind('change', function () {
           scope.$apply(function () {
             modelSetter(scope, element[0].files[0]);
-            console.log(scope);
           });
-        };
-        _this.reader.readAsDataURL(element[0].files[0]);
+        });
       });
-      // })
     }
   }], [{
     key: 'factory',
@@ -3800,13 +3792,6 @@ var UserConfigurations = function () {
     this.reader = new FileReader();
     this.needpassword = true;
     this.load(profile);
-    // let avatar = document.querySelector('#avatar')
-    // avatar.addEventListener('change', event => {
-    //   this.reader.onload = file => {
-    //     console.log(file)
-    //   }
-    //   this.reader.readAsDataURL(avatar.files[0])
-    // }, false)
   }
 
   _createClass(UserConfigurations, [{
@@ -3819,30 +3804,10 @@ var UserConfigurations = function () {
       this.needpassword = profile.needpassword;
     }
   }, {
-    key: 'changeAvatar',
-    value: function changeAvatar(file) {
-      file = new Blob();
-    }
-  }, {
     key: 'save',
     value: function save(profile) {
       var _this = this;
 
-      profile = profile ? angular.copy(profile) : angular.copy(this.profile);
-      // console.log(profile)
-      if (profile.avatar) {
-        // console.log(document.querySelector('#avatar').files[0])     
-        // profile.avatar = document.querySelector('#avatar').files[0]
-
-        // console.log(avatar)
-        // let fd = new FormData()
-        // fd.append('file', avatar)
-        // console.log(JSON.stringify(fd))
-      }
-      console.log('profile', profile);
-      // birthdate = profile.birthdate.split('/')
-      // profile.birthdate = new Date(`${birthdate[2]}-${birthdate[1]}-${birthdate[0]}`)
-      // profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'yyyy-MM-dd')
       this.service.change(profile).then(function (response) {
         console.log(response.data);
         _this.storage.setItem('token', response.data.token);
@@ -3850,12 +3815,13 @@ var UserConfigurations = function () {
         var name = _response$data.name;
         var email = _response$data.email;
         var type = _response$data.type;
+        var avatar = _response$data.avatar;
 
-        _this.storage.setItem('profile', { name: name, email: email, type: type });
+        _this.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar });
         _this.rootScope.$broadcast('profile.change');
         _this.profile.password = '';
         _this.profile.new_password = '';
-        _this.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: 'mensagem' });
+        _this.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: 'Dados alterados com sucesso!' });
       });
     }
   }, {
@@ -4155,6 +4121,7 @@ var ProfileService = function (_CommonService) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ProfileService).call(this, API, $http));
 
+    _this.http = $http;
     _this.facebookService = FacebookService;
     return _this;
   }
@@ -4196,9 +4163,12 @@ var ProfileService = function (_CommonService) {
   }, {
     key: 'change',
     value: function change(data) {
-      console.log(data.avatar);
+      var fd = new FormData();
+      angular.forEach(data, function (value, key) {
+        fd.append(key, value);
+      });
       this.setRoute('users/me');
-      return this.$http.post(this.url + this.route, data, {
+      return this.http.post(this.url + this.route, fd, {
         headers: { 'Content-Type': undefined }
       });
     }

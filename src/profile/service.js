@@ -3,6 +3,7 @@ import CommonService  from './../common/service/common.js'
 export default class ProfileService extends CommonService {
   constructor(API, $http, FacebookService) {
     super(API, $http)
+    this.http = $http
     this.facebookService = FacebookService
   }
   register(data) {
@@ -30,9 +31,12 @@ export default class ProfileService extends CommonService {
     return super.findAll()
   }
   change(data) {
-    console.log(data.avatar)
+    let fd = new FormData()
+    angular.forEach(data, (value, key) => {
+      fd.append(key, value)
+    })
     this.setRoute('users/me')
-    return this.$http.post(this.url + this.route, data, {
+    return this.http.post(this.url + this.route, fd, {
       headers: {'Content-Type': undefined}
     })
   }

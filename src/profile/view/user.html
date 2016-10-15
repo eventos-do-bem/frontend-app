@@ -2,10 +2,10 @@
   <div class="row">
     <aside class="col-md-3">
       <figure class="avatar">
-        <img src="assets/images/avatars/avatar.svg" class="img-responsive" alt="">
+        <img data-ng-src="{{ctrl.profile.avatar.thumb}}" class="img-circle" alt="">
       </figure>
       <div class="text-center">
-        <h4>{{ctrl.profile.name}}</h4>
+        <h4 data-ng-bind="ctrl.profile.name"></h4>
         <a href="#">
           <i class="glyphicon glyphicon-camera"></i> edite sua foto
         </a>
