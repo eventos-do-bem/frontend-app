@@ -2834,21 +2834,27 @@ var InstitutionService = function (_CommonService) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(InstitutionService).call(this, API, $http));
 
-    _this.setRoute('institutions');
+    _get(Object.getPrototypeOf(InstitutionService.prototype), 'setRoute', _this).call(_this, 'institutions');
     return _this;
   }
 
   _createClass(InstitutionService, [{
+    key: 'findById',
+    value: function findById(slug) {
+      _get(Object.getPrototypeOf(InstitutionService.prototype), 'setPublicToken', this).call(this);
+      return _get(Object.getPrototypeOf(InstitutionService.prototype), 'findById', this).call(this, slug);
+    }
+  }, {
     key: 'findAll',
     value: function findAll() {
-      this.setPublicToken();
+      _get(Object.getPrototypeOf(InstitutionService.prototype), 'setPublicToken', this).call(this);
       return _get(Object.getPrototypeOf(InstitutionService.prototype), 'findAll', this).call(this);
     }
   }, {
     key: 'search',
     value: function search(data) {
-      this.setPublicToken();
-      this.setParams(data);
+      _get(Object.getPrototypeOf(InstitutionService.prototype), 'setPublicToken', this).call(this);
+      _get(Object.getPrototypeOf(InstitutionService.prototype), 'setParams', this).call(this, data);
       return _get(Object.getPrototypeOf(InstitutionService.prototype), 'search', this).call(this);
     }
   }]);

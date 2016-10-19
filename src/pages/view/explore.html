@@ -23,7 +23,7 @@
               <span class="input-group-addon">
                 <i class="fa fa-search" aria-hidden="true"></i>
               </span>
-              <input type="text" class="form-control" data-ng-model="ctrl.query.search" data-ng-change="ctrl.search()" data-ng-model-options="ctrl.modelOptions" placeholder="Digite para encontrar uma causa...">
+              <input type="text" class="form-control" data-ng-model="ctrl.query.search" data-ng-change="ctrl.search()" data-ng-model-options="ctrl.modelOptions" placeholder="Busque uma organização cadastrada">
             </div>
           </div>
           <div class="col-md-6">
@@ -49,8 +49,8 @@
           <img data-ng-src="assets/images/avatar.jpg" alt="Avatar">
           <div class="caption">
             <img class="avatar" data-ng-src="assets/images/avatar.jpg" alt="Avatar">
-            <p data-ng-bind-html="item.name"></p>
-            <a href="#" class="btn btn-primary btn-block" ui-sref="instituition({slug: item.slug})" role="button">Saiba mais sobre o projeto</a>
+            <p class="text-center" data-ng-bind-html="item.name"></p>
+            <a class="btn btn-primary btn-block" ui-sref="instituition({slug: item.slug})" role="button">Saiba mais sobre o projeto</a>
           </div>
         </div>
       </div>

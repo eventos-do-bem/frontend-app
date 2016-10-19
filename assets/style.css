@@ -284,9 +284,8 @@ dl dd:last-child {
   position: relative;
 }
 .explore .thumbnail .caption p {
+  overflow: hidden;
   height: 3.2rem;
-  /*max-width: 100%;*/
-  overflow-x: hidden;
   text-overflow: ellipsis;
 }
 .explore .thumbnail .caption .avatar {
