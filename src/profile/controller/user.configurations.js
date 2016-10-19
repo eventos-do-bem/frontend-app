@@ -19,7 +19,6 @@ export default class UserConfigurations {
     this.service.change(profile)
       .then(
         response => {
-          console.log(response.data)
           this.storage.setItem('token', response.data.token)
           let {name, email, type, avatar} = response.data
           this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar})

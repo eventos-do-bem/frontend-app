@@ -6,9 +6,13 @@
       </figure>
       <div class="text-center">
         <h4 data-ng-bind="ctrl.profile.name"></h4>
-        <a href="#">
-          <i class="glyphicon glyphicon-camera"></i> edite sua foto
-        </a>
+<!--
+        <form name="avatar">
+                <i class="glyphicon glyphicon-camera"></i> edite sua foto
+            <file model="ctrl.profile.avatar">
+              <i class="glyphicon glyphicon-camera"></i> edite sua foto
+            </file>
+        </form>-->
         <ul class="list-group">
           <li class="list-group-item">
             <a ui-sref="profile.user.events" ui-sref-active="active">

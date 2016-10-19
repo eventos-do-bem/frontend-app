@@ -1,8 +1,9 @@
 export default class ProfileUser {
-  constructor($scope, $rootScope, $window, $state, StorageService, ProfileService, profile) {
+  constructor($scope, $rootScope, $window, $state, $timeout, StorageService, ProfileService, profile) {
     this.service = ProfileService
     this.profile = profile.data
     this.rootScope = $rootScope
+    this.timeout = $timeout
     $scope.$on('profile.change', () => {
       this.profile = StorageService.getItem('profile')
     })
@@ -23,4 +24,4 @@ export default class ProfileUser {
   }
 }
 
-ProfileUser.$inject = ['$scope', '$rootScope', '$window', '$state', 'StorageService', 'ProfileService', 'profile']
+ProfileUser.$inject = ['$scope', '$rootScope', '$window', '$state', '$timeout', 'StorageService', 'ProfileService', 'profile']

@@ -44,13 +44,13 @@
           Não encontramos nenhuma ong para a pesquisa, tente novamente...
         </h2>
       </div>
-      <div class="col-md-4" data-ng-repeat="item in ctrl.institutions">
+      <div class="col-md-4" data-ng-repeat="item in ctrl.events">
         <div class="thumbnail">
           <img data-ng-src="assets/images/avatar.jpg" alt="Avatar">
           <div class="caption">
             <img class="avatar" data-ng-src="assets/images/avatar.jpg" alt="Avatar">
             <p data-ng-bind-html="item.name"></p>
-            <a href="#" class="btn btn-primary btn-block" ui-sref="instituition({slug: item.slug})" role="button">Saiba mais sobre o projeto</a>
+            <a href="#" class="btn btn-primary btn-block" ui-sref="event.slug({slug: item.slug})" role="button">Saiba mais sobre o projeto</a>
           </div>
         </div>
       </div>

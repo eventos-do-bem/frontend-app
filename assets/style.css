@@ -297,17 +297,30 @@ dl dd:last-child {
 }
 /* /explore */
 
-/* campaign */
-.campaign .cover {
+/* campaign/institution */
+.campaign .cover,
+.institution .cover {
   height: 300px;
   overflow-y: hidden;
 }
-.campaign .cover + .container > .row {
+.campaign .cover + .container > .row,
+.institution .cover + .container > .row {
   margin-top: -100px;
   margin-bottom: 30px;
 }
 .campaign .cover-content .avatar {
   border: 2px solid #fff;
+}
+.institution .content figure.avatar {
+  position: absolute;
+  display: block;
+  margin-top: -250px;
+  padding: 0 15px 0 0;
+}
+
+.institution .cover-content h1 {
+  color: #fff;
+  font-size: 4rem;
 }
 .campaign .cover-content h2,
 .campaign .cover-content h3 {
@@ -315,19 +328,36 @@ dl dd:last-child {
   margin-top: 5px;
   margin-bottom: 10px;
 }
-.campaign .cover-content h2 {
+.campaign .cover-content h2,
+.institution .cover-content h2 {
   margin-top: 30px;
 }
-.campaign .cover-content h3 {
+.campaign .cover-content h3,
+.institution .cover-content h3 {
   margin-bottom: 20px;
 }
-.campaign .video {
+.campaign .video,
+.institution .video {
   width: inherit;
+}
+.institution .content {
+  margin-top: 80px;
 }
 .campaign .content .description {
   margin-top: 20px;
   margin-bottom: 40px;
   color: #888;
+}
+.institution .content .description {
+  font-size: 2rem;
+}
+.institution .content .birthday > header {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.institution .content .birthday .fa {
+  font-size: 3rem;
 }
 .campaign .content .media-object {
   width: 60px;
