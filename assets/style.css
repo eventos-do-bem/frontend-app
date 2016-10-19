@@ -946,14 +946,15 @@ figure.avatar img {
 /* .form-signin */
 
 .form-signin {
-  max-width: 330px;
+  max-width: 430px;
   padding: 25px;
   margin: 20px auto 20px;
-  position: relative;
-}
-.form-signin::after {
   background-color: #fff;
-  width:330px;
+  /*position: relative;*/
+}
+/*.form-signin::after {
+  background-color: #fff;
+  width:430px;
   height:100%;
   padding: 15px;
   position:absolute;
@@ -961,9 +962,9 @@ figure.avatar img {
   left:0;
   content: '';
   opacity: 0.7;
-}
+}*/
 .form-signin .nav, .form-signin p {
-  margin: 5px 0px !important;
+  margin: 15px 0 5px !important;
 }
 .form-signin .alert li::first-letter {
   text-transform: uppercase;
@@ -1007,15 +1008,21 @@ figure.avatar img {
 .form-signin h2,
 .form-signin h4,
 .form-signin button {
-  opacity: 1;
+  /*opacity: 1;
   z-index: 1;
-  position: relative;
+  position: relative;*/
   height: auto;
-  -webkit-box-sizing: border-box;
+  /*-webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
-          box-sizing: border-box;
+          box-sizing: border-box;*/
   padding: 10px;
   font-size: 1.6rem;
+}
+.form-signin > h2,
+.form-signin > p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0px;
 }
 .form-signin h2 {
   font-size: 2.5rem;

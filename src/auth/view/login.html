@@ -1,8 +1,8 @@
 <form name="login" class="form-signin" novalidate data-ng-submit="ctrl.login()">
+  <h2 class="text-center">Faça seu Login</h2>
+  <p class="text-center">Não tem conta? <a ui-sref="profile.register">faça seu registro!</a></p>
   <uib-tabset active="activeForm" justified="true">
     <uib-tab index="0" heading="Usuário" select="ctrl.changeMethod('loginUser')">
-      <h2 class="text-center">Faça seu Login</h2>
-      <p class="text-center">Não tem conta? <a ui-sref="profile.register">faça seu registro!</a></p>
       <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.loginFacebook()">
         <i class="fa fa-facebook" aria-hidden="true"></i>
         Login com o Facebook
@@ -10,8 +10,6 @@
       <p class="or"></p>
     </uib-tab>
     <uib-tab index="1" heading="Sou uma Ong" select="ctrl.changeMethod('loginOng')">
-      <h2 class="text-center">Faça Login de sua Organização</h2>
-      <p class="text-center">Não tem conta? <a ui-sref="profile.register">faça seu registro!</a></p>
     </uib-tab>
     <div class="alert alert-danger" data-ng-show="ctrl.error">
       <strong>Ops...</strong>

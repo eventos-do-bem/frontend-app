@@ -16,11 +16,12 @@
   </div>
 </script>
 <div class="form-signin">
+  <h2 class="text-center">Registre-se</h2>
+  <p class="text-center">Já tem conta? <a ui-sref="auth.login">faça seu login</a></p>
   <uib-tabset active="ctrl.activeForm" justified="true">
     <uib-tab index="0" heading="Usuário" select="ctrl.changeTab(ctrl.activeForm)">
       <form name="registerUser" novalidate data-ng-submit="ctrl.registerUser(ctrl.profile)">
-        <h2 class="text-center">Registre-se</h2>
-        <p>Já tem conta? <a ui-sref="auth.login">faça seu login</a></p>
+        <!--<p>Já tem conta? <a ui-sref="auth.login">faça seu login</a></p>-->
         <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.registerFacebook()">
           <i class="fa fa-facebook" aria-hidden="true"></i>
           Registrar-se com o Facebook
@@ -59,8 +60,6 @@
     </uib-tab>
     <uib-tab index="1" heading="Sou uma Ong" select="ctrl.changeTab(ctrl.activeForm)">
       <form name="registerOng" novalidate data-ng-submit="ctrl.registerOng(ctrl.profile)">
-        <h2 class="text-center">Registre sua Organização</h2>
-        <p>Já tem conta? <a ui-sref="auth.login">faça seu login</a></p>
         <p>
           <small>* O registro deve ser feito por um representante oficial da Organização. Somente será realizado após a aprovação da Organização Social e de nossa equipe.</small>
         </p>
