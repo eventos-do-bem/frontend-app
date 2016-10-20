@@ -2,7 +2,7 @@ class Explore {
   constructor(ActivityAreaService,InstitutionService,StorageService) {
     this.activityAreaService = ActivityAreaService
     this.institutionService = InstitutionService
-    this.user = StorageService.getItem('user')
+    this.profile = StorageService.getItem('profile')
     this.modelOptions = {
       updateOn: 'default blur',
       debounce: {

@@ -1,7 +1,9 @@
 export default class Page {
-  constructor($state, $stateParams, InstitutionService) {
+  constructor($state, $stateParams, InstitutionService, StorageService) {
     this.$state = $state
     this.service = InstitutionService
+    this.storage = StorageService
+    this.profile = this.storage.getItem('profile')
     if ($stateParams.slug) {
       InstitutionService.findById($stateParams.slug)
         .then(response => {
@@ -12,4 +14,4 @@ export default class Page {
   }
 }
 
-Page.$inject = ['$state','$stateParams','InstitutionService']
+Page.$inject = ['$state','$stateParams','InstitutionService','StorageService']
