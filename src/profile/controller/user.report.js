@@ -17,7 +17,6 @@ export default class UserReport {
           this.profileService.getEventPayments(id)
             .then(
               response => {
-                console.log(response.data.values)
                 this.donors = response.data.values.map(donor => {
                   donor.updated_at = new Date(donor.updated_at)
                   return donor

@@ -1,17 +1,14 @@
-<div class="well">
-  <h3>Relatórios</h3>
-</div>
+<h3 class="well">Relatórios</h3>
 <h3>Campanha: <span data-ng-bind="ctrl.event.name"></span></h3>
-<h3>Organizador: <span data-ng-bind="ctrl.event.institution.name"></span></h3>
+<h4>Organizador: <span data-ng-bind="ctrl.event.institution.name"></span></h4>
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th>#</th>
+      <th style="width: 40px">#</th>
       <th style="width: 50px">Status</th>
       <th>Nome</th>
       <th>Valor</th>
       <th>Data</th>
-      <th>E-mail</th>
     </tr>
   </thead>
   <tbody>
@@ -23,7 +20,6 @@
       <td data-ng-bind="item.user.name"></td>
       <td data-ng-bind="item.amount_human"></td>
       <td data-ng-bind="item.updated_at | date: 'dd/MM/yyyy'"></td>
-      <td data-ng-bind="item.user.email"></td>
     </tr>
   </tbody>
 </table>

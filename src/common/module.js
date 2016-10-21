@@ -6,14 +6,14 @@ import FacebookFactory      from './factory/facebook.js'
 import FacebookService      from './service/facebook.js'
 import CreditCardFactory    from './factory/creditcard.js'
 import FixedOnScroll        from './directive/fixedOnScroll.js'
-import FileUpload           from './directive/fileUpload.js'
+import File                 from './component/file/file.js'
 import Header               from './controller/header.js'
 import Storage              from './service/storage.js'
 import Hydrator             from './service/hydrator.js'
 import NotificationService  from './service/notification.js'
 
 export default angular
-  .module('common', [])
+  .module('common', ['file'])
   .service('CommonService', CommonService)
   .service('CityService', CityService)
   .service('CategoryService', CategoryService)
@@ -26,4 +26,3 @@ export default angular
   .service('NotificationService', NotificationService)
   .controller('Header', Header)
   .directive('fixedOnScroll', FixedOnScroll.directiveFactory)
-  .directive('fileUpload', FileUpload.factory)

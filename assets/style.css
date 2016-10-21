@@ -48,6 +48,9 @@ p a {
 form label {
   font-weight: normal;
 }
+form input[type="file"] {
+  font-size: 1.4rem;
+}
 .satisfy {
   font-family: 'Satisfy', cursive;
 }

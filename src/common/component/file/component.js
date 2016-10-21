@@ -1,39 +1,35 @@
 let Component = {
   restrict: 'E',
   transclude: true,
+  require: ['ngModel'],
   bindings: {
-    model: '='
+    ngModel: '='
   },
   template: `
-    <a>
-      <div ng-transclude></div>
-      <pre>{{$ctrl.model | json}}</pre>
-      <input class="file" type="file" data-ng-model="$ctrl.model" >
-    </a>
+    <input type="file" ng-model="file" data-ng-hide="true">
+    <button type="button" class="btn btn-default" data-ng-click="click()">
+      <i class="fa fa-upload"></i>
+      <span ng-transclude></span>
+    </button>
   `,
-  controller: function($scope,$element,$timeout) {
+  controller: function($scope,$element,$attrs,$timeout,$parse) {
     let ctrl = this,
-        file = $element.find('input')
+        file,
+        model = $parse($attrs.ngModel),
+        modelSetter = model.assign
 
-    $element.bind('click', (e) => {
-      console.log(file[0])
+    $scope.click = () => {
       file[0].click()
+    }
+    $timeout(() => {
+      file = $element.find('input')
+      $element.bind('change', () => {
+        $scope.$apply(() => {
+          modelSetter($scope, file[0].files[0])
+          ctrl.ngModel = file[0].files[0]
+        })
+      })
     })
-    // $element.bind('click', e => {
-    //   console.log($element[0].querySelector('[type="file"]'))
-    //   let file = $element[0].querySelector('[type="file"]')
-    //   angular.element(file)[0].click()
-    //   console.log()
-    //   // e.target.querySelector('[type="file"]').click()
-    //   // $element[0].querySelector('[type="file"]').click()
-    //   // let el = $element[0].querySelector('.file')
-    //   // el.click()
-    // })
-    // ctrl.change = () => {
-    //   console.log('e')
-    //   // $timeout(() => {
-    //   // }, 1000)
-    // }
   }
 }
 
