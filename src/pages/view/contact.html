@@ -1,9 +1,9 @@
 <div class="contact container">
-  <section class="row hidden-xs hidden-sm">
-    <div class="col-md-12">
-      <img src="assets/images/contato.png" class="img-responsive" alt="">
-    </div>
-    <!--<div class="col-md-4">
+	<section class="row hidden-xs hidden-sm">
+		<div class="col-md-12">
+			<img src="assets/images/contato.png" class="img-responsive" alt="">
+		</div>
+		<!--<div class="col-md-4">
       <h2>
         Entre em <br>
         <span>contato</span>
@@ -19,72 +19,73 @@
     <div class="col-md-2">
       <span>?</span>
     </div>-->
-  </section>
-  <div class="row">
-    <div class="col-md-7">
-      <h4>
-        Você pode checar se sua pergunta está em nossa página de
-        <a ui-sref="faq">Perguntas frequentes</a> ou entrar em contato por aqui:
-      </h4>
-      <form name="contact" novalidate data-ng-submit="ctrl.save(ctrl.contact)">
-        <div class="form-group" data-ng-class="{'has-error':contact.name.$invalid && contact.name.$dirty}">
-          <input type="text" name="name" id="name" class="form-control input-lg" data-ng-model="ctrl.contact.name" placeholder="Qual seu nome?"
-            required autofocus>
-        </div>
-        <div class="form-group" data-ng-class="{'has-error':contact.email.$invalid && contact.email.$dirty}">
-          <input type="email" name="email" id="email" class="form-control input-lg" data-ng-model="ctrl.contact.email" placeholder="Qual seu email para entrarmos em contato"
-            required>
-        </div>
-        <h4>Nos fale o assunto para encaminharmos para a pessoa que melhor pode te atender</h4>
-        <div class="row">
-          <div class="col-md-3 col-xs-6">
-            <p>
-              <label class="radio-inline">
-            <input type="radio" name="destination" value="how-it-work" checked>
-            Dúvida sobre como funciona
-          </label>
-            </p>
-          </div>
-          <div class="col-md-3 col-xs-6">
-            <p>
-              <label class="radio-inline">
-            <input type="radio" name="destination" value="work">
-            Dúvidas de funcionamento
-          </label>
-            </p>
-          </div>
-          <div class="col-md-3 col-xs-6">
-            <p>
-              <label class="radio-inline">
-            <input type="radio" name="destination" value="failure">
-            Falhas de funcionamento
-          </label>
-            </p>
-          </div>
-          <div class="col-md-3 col-xs-6">
-            <p>
-              <label class="radio-inline">
-            <input type="radio" name="destination" value="problem">
-            Problemas técnicos
-          </label>
-            </p>
-          </div>
-        </div>
-        <div class="form-group" data-ng-class="{'has-error':contact.message.$invalid && contact.message.$dirty}">
-          <textarea name="message" id="message" class="form-control input-lg" data-ng-model="ctrl.contact.message" placeholder="Pode falar, somos todo ouvidos :)" required></textarea>
-        </div>
-        <div class="form-buttons form-buttons-center">
-          <button class="btn btn-lg btn-primary" type="submit" data-ng-click="ctrl.send(ctrl.contact)">
+	</section>
+	<div class="row">
+		<div class="col-md-8">
+			<h4>
+				Você pode checar se sua pergunta está em nossa página de
+				<a ui-sref="faq">Perguntas frequentes</a> ou entrar em contato por aqui:
+			</h4>
+			<form name="contact" novalidate data-ng-submit="ctrl.save(ctrl.contact)">
+				<div class="form-group" data-ng-class="{'has-error':contact.name.$invalid && contact.name.$dirty}">
+					<input type="text" name="name" id="name" class="form-control input-lg" data-ng-model="ctrl.contact.name" placeholder="Qual seu nome?"
+						required autofocus>
+				</div>
+				<div class="form-group" data-ng-class="{'has-error':contact.email.$invalid && contact.email.$dirty}">
+					<input type="email" name="email" id="email" class="form-control input-lg" data-ng-model="ctrl.contact.email" placeholder="Qual seu email para entrarmos em contato"
+						required>
+				</div>
+				<h4>Nos fale o assunto para encaminharmos para a pessoa que melhor pode te atender</h4>
+				<div class="row">
+					<div class="col-md-3 col-xs-6">
+						<p>
+							<label class="radio-inline">
+                <input type="radio" name="destination" value="how-it-work" checked>
+                Dúvida sobre como funciona
+              </label>
+						</p>
+					</div>
+					<div class="col-md-3 col-xs-6">
+						<p>
+							<label class="radio-inline">
+                <input type="radio" name="destination" value="work">
+                Dúvidas de funcionamento
+              </label>
+						</p>
+					</div>
+					<div class="col-md-3 col-xs-6">
+						<p>
+							<label class="radio-inline">
+                <input type="radio" name="destination" value="failure">
+                Falhas de funcionamento
+              </label>
+						</p>
+					</div>
+					<div class="col-md-3 col-xs-6">
+						<p>
+							<label class="radio-inline">
+                <input type="radio" name="destination" value="problem">
+                Problemas técnicos
+              </label>
+						</p>
+					</div>
+				</div>
+				<div class="form-group" data-ng-class="{'has-error':contact.message.$invalid && contact.message.$dirty}">
+					<textarea name="message" id="message" class="form-control input-lg" data-ng-model="ctrl.contact.message" placeholder="Pode falar, somos todo ouvidos :)"
+						required></textarea>
+				</div>
+				<div class="form-buttons form-buttons-center">
+					<button class="btn btn-lg btn-primary" type="submit" data-ng-click="ctrl.send(ctrl.contact)">
             <i class="fa fa-envelope-o" aria-hidden="true"></i>
             Enviar mensagem
           </button>
-        </div>
-      </form>
-    </div>
-    <div class="col-md-5">
-      <div style="text-align: right">
-        <fb-page href="https://www.facebook.com/eventosdobem.com.br"></fb-page>
-      </div>
-    </div>
-  </div>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-4">
+			<div style="text-align: right">
+				<fb-page href="https://www.facebook.com/eventosdobem.com.br"></fb-page>
+			</div>
+		</div>
+	</div>
 </div>

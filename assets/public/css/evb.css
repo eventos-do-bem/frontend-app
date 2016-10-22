@@ -30,6 +30,7 @@ a:hover {
 .badge {
   position: absolute;
   margin-top: -8px;
+  padding: 4px 6px;
   font-size: 1.1rem;
   font-weight: 500;
   background-color: #f25e5e;
@@ -112,7 +113,7 @@ a:hover {
   border-bottom: 1px solid #ff1e00;
 }
 .btn {
-  padding: 6px 24px;
+  padding: 10px 24px;
   border-width: 2px;
 }
 .btn.btn-large {
