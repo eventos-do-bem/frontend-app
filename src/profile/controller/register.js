@@ -87,7 +87,7 @@ export default class ProfileRegister {
         }
       }
     } else {
-      profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'yyyy-MM-dd')
+      profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy')
       this.service.register(profile)
         .then(
         response => this.registerSuccess(response),

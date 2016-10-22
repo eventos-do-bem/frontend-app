@@ -3808,7 +3808,7 @@ var ProfileRegister = function () {
           }
         };
       } else {
-        profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'yyyy-MM-dd');
+        profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy');
         this.service.register(profile).then(function (response) {
           return _this3.registerSuccess(response);
         }, function (response) {
