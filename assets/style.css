@@ -262,6 +262,7 @@ dl dd:last-child {
 }
 .profile .media-object {
   width: 120px;
+  margin: 10px;
 }
 .profile .media-list > .media {
   padding-bottom: 20px;
@@ -270,7 +271,7 @@ dl dd:last-child {
 .profile .media-body, .media-left {
   display: table-cell;
   vertical-align: top;
-  padding: 10px 0px;
+  /*padding: 10px 0px;*/
 }
 .profile .media-list > .media .media-body {
   padding-left: 30px;
@@ -384,7 +385,7 @@ dl dd:last-child {
   width: 100%;
   text-align: center;
 }
-.institution .content .birthday .fa {
+.institution .content .birthday > header .fa {
   font-size: 3rem;
 }
 .campaign .content .media-object {
@@ -723,10 +724,11 @@ figure img {
   width: 100%;
 }
 figure.avatar {
+  margin: 30px;
   text-align: center;
 }
 figure.avatar img {
-  width: 60%;
+  width: 80%;
 }
 .panel.profile {
   margin-top: 80px;

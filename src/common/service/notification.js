@@ -1,5 +1,16 @@
 export default class NotificationService {
-  constructor() {
+  constructor(API, $http) {
+    this.API = API
+    this.http = $http
+    this.config = {}
+    this.route = 'notifications'
+  }
+  subscribe(data) {
+    if (!data.type) {
+      this.config['headers'] = {}
+      this.config.headers['token'] = this.API.token
+    }
+    return this.http.post(this.API.url + this.route + '/subscribe', data, this.config)
   }
   setRoute(route) {
     this.source = new EventSource(route)
@@ -12,3 +23,5 @@ export default class NotificationService {
     console.error(response)
   }
 }
+
+NotificationService.$inject = ['API','$http']

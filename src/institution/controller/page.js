@@ -1,17 +1,57 @@
 export default class Page {
-  constructor($state, $stateParams, InstitutionService, StorageService) {
-    this.$state = $state
+  constructor($filter, $stateParams, InstitutionService, ProfileService, NotificationService, StorageService) {
+    this.filter = $filter
     this.service = InstitutionService
+    this.profileService = ProfileService
+    this.notification = NotificationService
     this.storage = StorageService
     this.profile = this.storage.getItem('profile')
-    if ($stateParams.slug) {
-      InstitutionService.findById($stateParams.slug)
-        .then(response => {
-          console.log(response)
-          this.institution = response.data
-        })
+    if (this.profile && this.profile.type == 'user') {
+      this.getProfile()
     }
+    if ($stateParams.slug) {
+      this.findInstitution($stateParams.slug)
+    }
+  }
+  getProfile() {
+    this.profileService.me()
+      .then(
+        response => {
+          let {name, birthdate, email, type} = response.data
+          this.birthday = {
+            name: name,
+            birthdate: this.filter('date')(birthdate, 'dd/MM/yyyy'),
+            email: email,
+            type: type
+          }
+        }
+      )
+  }
+  findInstitution(slug) {
+    this.service.findById(slug)
+      .then(response => this.institution = response.data)
+  }
+  subscribe(data) {
+    data.institution_uuid = this.institution.uuid
+    this.notification.subscribe(data)
+      .then(
+        response => {
+          this.response = {
+            status: true,
+            icon: 'fa-check',
+            message: 'Seu aniversário foi cadastrado! Aguarde nossas notificações :)'
+          }
+          this.birthday = {}
+        },
+        error => {
+          this.response = {
+            status: false,
+            icon: 'fa-exclamation',
+            message: 'Ops, algo errado aconteceu, infelizmente seu aniversário não foi cadastrado, entre em contato conosco :('
+          }
+        }
+      )
   }
 }
 
-Page.$inject = ['$state','$stateParams','InstitutionService','StorageService']
+Page.$inject = ['$filter','$stateParams','InstitutionService','ProfileService','NotificationService','StorageService']

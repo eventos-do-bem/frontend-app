@@ -11,6 +11,12 @@ export default function EventConfig($stateProvider) {
       controller: 'EventStart',
       controllerAs: 'ctrl'
     })
+    .state('event.explore', {
+      url: '/explore',
+      templateUrl: './src/event/view/event.explore.html',
+      controller: 'EventExplore',
+      controllerAs: 'ctrl'
+    })
     .state('event.slug', {
       url: '/:slug',
       templateUrl: './src/event/view/event.html',

@@ -4,6 +4,13 @@ export default class OngReport {
     if ($stateParams.uuid) {
       this.getEvent($stateParams.uuid)
     }
+    this.benefit = [
+      'Crianças',
+      'Jovens',
+      'Pessoas',
+      'Animais',
+      'Árvores'
+    ]
   }
   getEvent(id) {
     this.service.findById(id)

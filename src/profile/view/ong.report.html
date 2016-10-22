@@ -5,18 +5,27 @@
 </div>
 <div class="well">
   <h3>Fase 1</h3>
-  <form class="form-horizontal">
-    <div class="row">
-      
+  <form>
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label for="" class="col-sm-5 control-label text-muted" style="padding-top: 0">
+          Qual é o valor que você gasta para atender um beneficiário do projeto apoiado?
+        </label>
+        <div class="col-sm-7">
+          <div class="input-group">
+            <div class="input-group-addon">R$</div>
+            <input type="text" class="form-control" style="width: 120px" id="" uib-popover="Texto do popover e etc." popover-placement="right">
+          </div>
+        </div>
+      </div>
     </div>
     <div class="form-group">
-      <label for="" class="col-sm-5 control-label text-muted" style="padding-top: 0">
-        Qual é o valor que você gasta para atender um beneficiário do projeto apoiado?
-      </label>
-      <div class="col-sm-7">
-        <div class="input-group">
-          <div class="input-group-addon">R$</div>
-          <input type="text" class="form-control" style="width: 120px" id="" uib-popover="Texto do popover e etc." popover-placement="right">
+      <div class="row">
+        <div class="col-sm-5">
+          <label for="" class="text-muted">
+            Qual é o tipo de beneficiário que você ajuda?
+          </label>
+          <select class="form-control" data-ng-options="item for item in ctrl.benefit" data-ng-model="ctrl.report.benefit"></select>
         </div>
       </div>
     </div>
@@ -48,7 +57,21 @@
           Usar estas informações como padrão para outros relatórios
         </label>
       </div>
+    </div>
+    <div class="row margin-top-10">
       <div class="col-sm-6">
+        <div class="form-group">
+          <label for="" class="text-muted">
+            Escreva uma mensagem agradecendo o organizador que está fazendo o evento do bem para a sua organização
+          </label>
+          <textarea rows="6" class="form-control" data-ng-model="ctrl.report.fase1.description"></textarea>
+        </div>
+      </div>
+      <div class="col-sm-6">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-6">
         <div class="form-buttons form-buttons-right">
           <button type="button" class="btn btn-lg btn-success">Salvar</button>
         </div>

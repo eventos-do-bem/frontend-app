@@ -40,12 +40,12 @@
             <p data-ng-bind="ctrl.institution.contact"></p>
           </div>
         </div>
-        <div class="well birthday">
+        <div class="well birthday" data-ng-show="ctrl.profile.type == 'user'">
           <header>
             <i class="fa fa-birthday-cake"></i>
             <h4>Gostei! Me lembre quando for meu aniversário!</h4>
           </header>
-          <form name="birthday" data-ng-submit="ctrl.saveBirthday(ctrl.birthday)" novalidate>
+          <form name="birthday" data-ng-submit="ctrl.subscribe(ctrl.birthday)" novalidate>
             <div class="form-group">
               <label for="name">Nome completo</label>
               <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.birthday.name" placeholder="Digite seu nome aqui" required>
@@ -69,6 +69,10 @@
                 Enviar
               </button>
             </div>
+            <p class="alert" data-ng-show="ctrl.response" data-ng-class="{'alert-success': ctrl.response.status, 'alert-danger': !ctrl.response.status}">
+              <i class="fa" data-ng-class="[ctrl.response.icon]"></i>
+              <span data-ng-bind="ctrl.response.message"></span>
+            </p>
           </form>
         </div>
       </div>
