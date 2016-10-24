@@ -1,0 +1,69 @@
+<script type="text/ng-template" id="typeaheadPopupTemplate.html">
+  <div class="typeahead-popup"
+     ng-style="{top: position().top+'px', left: position().left+'px'}"
+     style="display: block;width: 100%;max-height: 200px;overflow:auto"
+     ng-show="isOpen() && !moveInProgress"
+     aria-hidden="{{!isOpen()}}">
+    <ul class="dropdown-menu" role="listbox">
+      <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+        ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+        <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+      </li>
+    </ul>
+  </div>
+</script>
+<div class="explore">
+  <section class="container">
+    <div class="row search">
+      <div class="col-md-12">
+        <h1 class="text-center">Inspire-se e descubra eventos fantásticos para apoiar criando um evento do bem</h1>
+        <form class="row" name="search" novalidate>
+          <div class="col-md-6">
+            <div class="input-group transparent">
+              <span class="input-group-addon">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+              <input type="text" class="form-control" data-ng-model="ctrl.query.search" data-ng-change="ctrl.search()" data-ng-model-options="ctrl.modelOptions" placeholder="Digite para encontrar um evento...">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div data-ng-class="{'input-group transparent': ctrl.query.area_activity_uuid}">
+              <input type="text" name="area_activity_uuid" data-ng-model="ctrl.query.area_activity_uuid" typeahead-on-select="ctrl.search()" placeholder="Selecione uma área de atuação" uib-typeahead="item as item.name for item in ctrl.area_activities | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control">
+              <span data-ng-show="ctrl.query.area_activity_uuid" data-ng-class="{'input-group-addon': ctrl.query.area_activity_uuid}" data-ng-click="ctrl.query.area_activity_uuid = undefined">
+                <i class="fa fa-close" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12" data-ng-show="ctrl.events.length === 0">
+        <h2 class="text-warning text-center">
+          <i class="fa fa-frown-o" aria-hidden="true"></i>
+          Não encontramos nenhuma ong para a pesquisa, tente novamente...
+        </h2>
+      </div>
+      <div class="col-md-4" data-ng-repeat="item in ctrl.events">
+        <div class="thumbnail">
+          <img data-ng-src="assets/images/avatar.jpg" alt="Avatar">
+          <div class="caption">
+            <img class="avatar" data-ng-src="assets/images/avatar.jpg" alt="Avatar">
+            <p data-ng-bind-html="item.name"></p>
+            <a href="#" class="btn btn-primary btn-block" ui-sref="event.slug({slug: item.slug})" role="button">Saiba mais sobre o projeto</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="text-center">Se inspirou? <br> Entre em ação e faça parte de tudo isso ;)</h2>
+        <div class="form-buttons form-buttons-center">
+          <a ui-sref="event.start" class="btn btn-lg btn-warning" data-ng-disabled="!ctrl.user">
+            Comece seu evento do bem
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
