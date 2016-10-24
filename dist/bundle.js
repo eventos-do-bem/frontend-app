@@ -3119,22 +3119,51 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Contact = function Contact($timeout) {
-  _classCallCheck(this, Contact);
+var Contact = function () {
+  function Contact($rootScope, API, $http) {
+    _classCallCheck(this, Contact);
 
-  $timeout(function () {
-    // console.log(document.querySelector('.fb-page > span'))
-    // document.querySelector('.fb-page > span').style.width = '100%'
-    // this.fbBoxWidth = document.querySelector('.fbBox').offsetWidth
-  }, 2000);
-};
+    this.rootScope = $rootScope;
+    this.API = API;
+    this.http = $http;
+    this.master = {
+      destination: 'how-it-work'
+    };
+    this.contact = angular.copy(this.master);
+  }
+
+  _createClass(Contact, [{
+    key: 'send',
+    value: function send(contact, data) {
+      var _this = this;
+
+      this.http.post(this.API.url + 'contact', data, {
+        headers: {
+          token: this.API.token
+        }
+      }).then(function (response) {
+        _this.rootScope.$broadcast('alert', {
+          type: 'alert-success',
+          icon: 'fa-check',
+          message: 'Legal ter entrado em contato :) aguarde nosso retorno.'
+        });
+        _this.contact = angular.copy(_this.master);
+        contact.$setPristine();
+      });
+    }
+  }]);
+
+  return Contact;
+}();
 
 exports.default = Contact;
 
 
-Contact.$inject = ['$timeout'];
+Contact.$inject = ['$rootScope', 'API', '$http'];
 
 },{}],63:[function(require,module,exports){
 'use strict';
