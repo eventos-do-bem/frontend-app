@@ -38,8 +38,8 @@ export default class Page {
         response => {
           this.response = {
             status: true,
-            icon: 'fa-check',
-            message: 'Seu aniversário foi cadastrado! Aguarde nossas notificações :)'
+            icon: 'fa-hourglass-half',
+            message: 'Seu aniversário está quase cadastrado, verifique sua caixa de e-mail para confirmar e concluir sua assinatura.'
           }
           this.birthday = {}
         },

@@ -12,6 +12,11 @@ export default class NotificationService {
     }
     return this.http.post(this.API.url + this.route + '/subscribe', data, this.config)
   }
+  subscribeConfirm(uuid) {
+    this.config['headers'] = {}
+    this.config.headers['token'] = this.API.token
+    return this.http.get(this.API.url + this.route + '/subscribe/confirm/' + uuid, this.config)
+  }
   setRoute(route) {
     this.source = new EventSource(route)
     this.source.addEventListener('message', this.handleCallback, false)

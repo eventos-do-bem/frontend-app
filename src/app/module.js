@@ -21,6 +21,7 @@ import donate           from './../donate/module.js'
 import auth             from './../auth/module.js'
 import profile          from './../profile/module.js'
 import institution      from './../institution/module.js'
+import confirmation     from './../confirmation/module.js'
 
 angular
   .module('app', [
@@ -42,6 +43,7 @@ angular
   ,'auth'
   ,'profile'
   ,'institution'
+  ,'confirmation'
   ])
   .config(AppConfig)
   .constant('API', APIConfig)
