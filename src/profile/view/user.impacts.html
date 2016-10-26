@@ -1,0 +1,40 @@
+<h3 class="well">
+	Meu impacto
+</h3>
+<ul class="media-list">
+	<li class="media" data-ng-repeat="item in ctrl.events">
+		<div class="media-left">
+			<img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
+		</div>
+		<div class="media-body">
+			<div class="row">
+				<div class="col-md-8">
+					<h4 class="media-heading" data-ng-bind="item.name"></h4>
+				</div>
+				<div class="col-md-4">
+					<a class="btn btn-success btn-block add-icon add-icon-hero-white">
+						<span>Ver meu impacto</span>
+					</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<p class="add-icon add-icon-handhearth-black">
+						Causa apoiada: <span data-ng-bind="item.institution.name"></span>
+					</p>
+				</div>
+				<div class="col-md-6">
+					<p class="add-icon add-icon-star-black">
+						Categoria: <span data-ng-bind="item.categories.values[0].name"></span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</li>
+</ul>
+<div class="text-center">
+	<ul uib-pagination total-items="ctrl.pagination.total" ng-model="ctrl.pagination.current_page" max-size="ctrl.pagination.per_page"
+		class="pagination-sm" previous-text="Anterior" next-text="Próxima" first-text="Primeira" last-text="Última" boundary-links="true"
+		num-pages="ctrl.pagination.total_pages" data-ng-change="ctrl.changePage()">
+	</ul>
+</div>

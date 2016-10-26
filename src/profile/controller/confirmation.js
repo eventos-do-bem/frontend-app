@@ -1,9 +1,9 @@
 export default class ProfileConfirmation {
-  constructor($rootScope, $stateParams, $state, $window, ProfileService, StorageService) {
+  constructor($rootScope, $stateParams, $state, $timeout, ProfileService, StorageService) {
     this.storage = StorageService
     this.rootScope = $rootScope
     this.state = $state
-    this.window = $window
+    this.timeout = $timeout
     this.confirmation = false
     if ($stateParams.uuid && $stateParams.confirmation_code) {
       let profile = {
@@ -16,6 +16,7 @@ export default class ProfileConfirmation {
             this.confirmation = true
             // console.log(response)
             this.profile = response.data
+            this.timeout(() => this.login(), 2000)
           },
           error => {
             this.error = error.data
@@ -27,7 +28,7 @@ export default class ProfileConfirmation {
   login() {
     this.storage.setItem('token', this.profile.token)
     let {name, email, type} = this.profile
-    this.storage.setItem('profile', {name: name, email: email})
+    this.storage.setItem('profile', {name: name, email: email, type: type})
     this.rootScope.$broadcast('profile.change')
     switch(type) {
       case 'user': this.state.go('profile.user'); break;
@@ -36,4 +37,4 @@ export default class ProfileConfirmation {
   }
 }
 
-ProfileConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'ProfileService', 'StorageService']
+ProfileConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$timeout', 'ProfileService', 'StorageService']

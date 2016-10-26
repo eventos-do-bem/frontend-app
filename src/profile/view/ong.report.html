@@ -36,7 +36,17 @@
     </div>
     <div class="row">
       <div class="col-sm-6">
-        <button type="button" class="btn btn-default">
+        <file ng-model="ctrl.report.fase1.photo1">
+          <span data-ng-bind="ctrl.report.fase1.photo1.name || 'Foto 1'"></span>
+        </file>
+        <file ng-model="ctrl.report.fase1.photo2">
+          <span data-ng-bind="ctrl.report.fase1.photo2.name || 'Foto 2'"></span>
+        </file>
+        <file ng-model="ctrl.report.fase1.photo3">
+          <span data-ng-bind="ctrl.report.fase1.photo3.name || 'Foto 3'"></span>
+        </file>
+
+        <!--<button type="button" class="btn btn-default">
           <i class="fa fa-upload"></i>
           Foto 1
         </button>
@@ -47,7 +57,7 @@
         <button type="button" class="btn btn-default">
           <i class="fa fa-upload"></i>
           Foto 3
-        </button>
+        </button>-->
       </div>
     </div>
     <div class="row margin-top-10">
@@ -64,7 +74,9 @@
           <label for="" class="text-muted">
             Escreva uma mensagem agradecendo o organizador que está fazendo o evento do bem para a sua organização
           </label>
-          <textarea rows="6" class="form-control" data-ng-model="ctrl.report.fase1.description"></textarea>
+          <count-down-element model="ctrl.report.fase1.description" max="900">
+            <textarea rows="6" class="form-control" data-ng-model="ctrl.report.fase1.description" maxlength="900"></textarea>
+          </count-down-element>
         </div>
       </div>
       <div class="col-sm-6">
@@ -73,7 +85,7 @@
     <div class="row">
       <div class="col-sm-6 col-sm-offset-6">
         <div class="form-buttons form-buttons-right">
-          <button type="button" class="btn btn-success">Salvar</button>
+          <button type="button" class="btn btn-horizontal-large btn-success">Salvar</button>
         </div>
       </div>
     </div>
@@ -87,13 +99,24 @@
     Escreva uma história de um beneficiário ajudado pelo seu projeto e coloque uma foto dele.
   </p>
   <form>
-    <textarea rows="6" class="form-control" data-ng-model="ctrl.report.fase2.description"></textarea>
+    <div class="form-group">
+      <label for="" class="control-label">
+        Título
+      </label>
+      <input type="text" name="title" class="form-control" data-ng-model="ctrl.report.fase2.title">
+    </div>
+    <count-down-element model="ctrl.report.fase2.description" max="700">
+      <textarea rows="6" class="form-control" data-ng-model="ctrl.report.fase2.description" maxlength="700"></textarea>
+    </count-down-element>
     <div class="row margin-top-20">
       <div class="col-sm-4">
-        <button type="button" class="btn btn-default">
+        <file style="display: block" ng-model="ctrl.report.fase2.photo">
+          <span data-ng-bind="ctrl.report.fase2.photo.name || 'Fotografia do beneficiário'"></span>
+        </file>
+        <!--<button type="button" class="btn btn-default">
           <i class="fa fa-upload"></i>
           Fotografia do beneficiário
-        </button>
+        </button>-->
       </div>
       <div class="col-sm-8">
         <div class="input-group">
@@ -110,7 +133,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="form-buttons form-buttons-right">
-          <button type="button" class="btn btn-success">Salvar</button>
+          <button type="button" class="btn btn-horizontal-large btn-success">Salvar</button>
         </div>
       </div>
     </div>

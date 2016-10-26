@@ -76,7 +76,7 @@
               </count-down-element>
             </div>
             <div data-ng-class="{'has-error':registerOng.area_activity_uuid.$invalid && registerOng.area_activity_uuid.$dirty}">
-              <input type="text" name="area_activity_uuid" data-ng-model="ctrl.profile.area_activity_uuid" placeholder="Qual sua área de atuação?" uib-typeahead="item as item.name for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
+              <input type="text" name="area_activity_uuid" data-ng-model="ctrl.profile.area_activity_uuid" placeholder="Qual sua área de atuação?" uib-typeahead="item as item.name for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
             </div>
           </div>
           <div data-ng-switch-when="1">

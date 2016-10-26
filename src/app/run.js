@@ -1,4 +1,4 @@
-export default function run($rootScope, $window, $state, $anchorScroll) {
+export default function run($rootScope, $window, $location, $state, $anchorScroll) {
   $rootScope.$on("$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) => {
     $rootScope.$broadcast('alert-clear')
     if (toState.authenticate && !$window.localStorage.getItem('token')) {
@@ -9,8 +9,9 @@ export default function run($rootScope, $window, $state, $anchorScroll) {
       case 'auth.login': $rootScope.background = 'auth-login'; break;
       default: $rootScope.background = null;
     }
-    $anchorScroll('scrollArea')
+    // $location.hash('scrollArea')
+    // $anchorScroll('scrollArea')
   })
 }
 
-run.$inject = ['$rootScope', '$window', '$state', '$anchorScroll']
+run.$inject = ['$rootScope', '$window', '$location', '$state', '$anchorScroll']

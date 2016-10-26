@@ -5,10 +5,9 @@
 <div class="well">
   <h3>Editar</h3>
   <form>
-    <button type="button" class="btn btn-default">
-      <i class="fa fa-upload"></i>
-      Fotografia da foto de capa
-    </button>
+    <file style="display: block" ng-model="ctrl.profile.cover">
+      <span data-ng-bind="ctrl.profile.cover.name || 'Imagem da capa da página'"></span>
+    </file>
     <h4>Proposta:</h4>
     <p class="text-muted">Coloque a proposta de seus apoiadores fazerem eventos do bem e transformarem seu apoio em impacto social para a causa da sua organização.</p>
     <div class="form-group">

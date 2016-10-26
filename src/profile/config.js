@@ -28,6 +28,18 @@ export default function ProfileConfig($stateProvider) {
         }
       }
     })
+    .state('profile.user.impacts', {
+      url: '/impactos',
+      authenticate: true,
+      templateUrl: './src/profile/view/user.impacts.html',
+      controller: 'UserImpacts',
+      controllerAs: 'ctrl',
+      resolve: {
+        // profile: (ProfileService) => {
+        //   return ProfileService.me()
+        // }
+      }
+    })
     .state('profile.user.events', {
       url: '/eventos',
       authenticate: true,

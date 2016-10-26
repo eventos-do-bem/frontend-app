@@ -50,7 +50,7 @@
       <div class="form-group" data-ng-class="{'has-error':configurations.avatar.$invalid && configurations.avatar.$dirty}">
         <label for="foto" class="control-label">Foto</label>
         <file style="display: block" ng-model="ctrl.profile.avatar">
-          <span data-ng-bind="ctrl.profile.avatar.name"></span>
+          <span data-ng-bind="ctrl.profile.avatar.name || 'Faça upload de sua foto de perfil'"></span>
         </file>
       </div>
     </div>

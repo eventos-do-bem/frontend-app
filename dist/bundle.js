@@ -229,14 +229,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 angular.module('app', ['ui.bootstrap', 'ngMask', _angularUiRouter2.default, 'ngMessages', 'ngSanitize', 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).constant('API', _api2.default).factory('HttpInterceptor', _interceptor2.default).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":11,"./../common/component/alert/alert.js":13,"./../common/component/countdown/countdown.js":16,"./../common/component/facebook/facebook.js":18,"./../common/component/loading/loading.js":22,"./../common/module.js":27,"./../confirmation/module.js":39,"./../donate/module.js":44,"./../event/module.js":50,"./../faq/module.js":54,"./../home/module.js":58,"./../institution/module.js":61,"./../pages/module.js":69,"./../profile/module.js":84,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
+},{"./../auth/module.js":11,"./../common/component/alert/alert.js":13,"./../common/component/countdown/countdown.js":16,"./../common/component/facebook/facebook.js":18,"./../common/component/loading/loading.js":22,"./../common/module.js":27,"./../confirmation/module.js":39,"./../donate/module.js":44,"./../event/module.js":50,"./../faq/module.js":54,"./../home/module.js":58,"./../institution/module.js":61,"./../pages/module.js":69,"./../profile/module.js":85,"./api.json":2,"./config.js":3,"./controller.js":4,"./interceptor.js":5,"./run.js":7,"angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = run;
-function run($rootScope, $window, $state, $anchorScroll) {
+function run($rootScope, $window, $location, $state, $anchorScroll) {
   $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
     $rootScope.$broadcast('alert-clear');
     if (toState.authenticate && !$window.localStorage.getItem('token')) {
@@ -250,11 +250,12 @@ function run($rootScope, $window, $state, $anchorScroll) {
       default:
         $rootScope.background = null;
     }
-    $anchorScroll('scrollArea');
+    // $location.hash('scrollArea')
+    // $anchorScroll('scrollArea')
   });
 }
 
-run.$inject = ['$rootScope', '$window', '$state', '$anchorScroll'];
+run.$inject = ['$rootScope', '$window', '$location', '$state', '$anchorScroll'];
 
 },{}],8:[function(require,module,exports){
 'use strict';
@@ -1744,7 +1745,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ConfirmationProfile = function () {
-  function ConfirmationProfile($rootScope, $stateParams, $state, $window, ProfileService, StorageService) {
+  function ConfirmationProfile($rootScope, $stateParams, $state, $timeout, ProfileService, StorageService) {
     var _this = this;
 
     _classCallCheck(this, ConfirmationProfile);
@@ -1752,7 +1753,7 @@ var ConfirmationProfile = function () {
     this.storage = StorageService;
     this.rootScope = $rootScope;
     this.state = $state;
-    this.window = $window;
+    this.timeout = $timeout;
     this.confirmation = false;
     if ($stateParams.uuid && $stateParams.confirmation_code) {
       var profile = {
@@ -1763,6 +1764,9 @@ var ConfirmationProfile = function () {
         _this.confirmation = true;
         // console.log(response)
         _this.profile = response.data;
+        _this.timeout(function () {
+          return _this.login();
+        }, 2000);
       }, function (error) {
         _this.error = error.data;
         // console.log('error', error)
@@ -1779,13 +1783,13 @@ var ConfirmationProfile = function () {
       var email = _profile.email;
       var type = _profile.type;
 
-      this.storage.setItem('profile', { name: name, email: email });
+      this.storage.setItem('profile', { name: name, email: email, type: type });
       this.rootScope.$broadcast('profile.change');
       switch (type) {
         case 'user':
-          this.state.go('profile.user');break;
+          this.state.go('profile.user.configurations');break;
         case 'ong':
-          this.state.go('profile.ong');break;
+          this.state.go('profile.ong.configurations');break;
       }
     }
   }]);
@@ -1796,7 +1800,7 @@ var ConfirmationProfile = function () {
 exports.default = ConfirmationProfile;
 
 
-ConfirmationProfile.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'ProfileService', 'StorageService'];
+ConfirmationProfile.$inject = ['$rootScope', '$stateParams', '$state', '$timeout', 'ProfileService', 'StorageService'];
 
 },{}],38:[function(require,module,exports){
 'use strict';
@@ -2631,34 +2635,34 @@ var EventService = function (_CommonService) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EventService).call(this, API, $http));
 
-    _this.setRoute('events');
+    _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', _this).call(_this, 'events');
     return _this;
   }
 
   _createClass(EventService, [{
     key: 'findAll',
     value: function findAll() {
-      this.setPublicToken();
+      _get(Object.getPrototypeOf(EventService.prototype), 'setPublicToken', this).call(this);
       return _get(Object.getPrototypeOf(EventService.prototype), 'findAll', this).call(this);
     }
   }, {
     key: 'findById',
     value: function findById(id) {
-      this.setPublicToken();
+      _get(Object.getPrototypeOf(EventService.prototype), 'setPublicToken', this).call(this);
       return _get(Object.getPrototypeOf(EventService.prototype), 'findById', this).call(this, id);
     }
   }, {
     key: 'search',
     value: function search(data) {
-      this.setPublicToken();
-      this.setParams(data);
+      _get(Object.getPrototypeOf(EventService.prototype), 'setPublicToken', this).call(this);
+      _get(Object.getPrototypeOf(EventService.prototype), 'setParams', this).call(this, data);
       return _get(Object.getPrototypeOf(EventService.prototype), 'search', this).call(this);
     }
   }, {
     key: 'save',
     value: function save(data) {
-      this.setRoute('events/create');
-      return this.create(data);
+      _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events/create');
+      return _get(Object.getPrototypeOf(EventService.prototype), 'create', this).call(this, data);
     }
   }]);
 
@@ -3513,6 +3517,17 @@ function ProfileConfig($stateProvider) {
         return ProfileService.me();
       }
     }
+  }).state('profile.user.impacts', {
+    url: '/impactos',
+    authenticate: true,
+    templateUrl: './src/profile/view/user.impacts.html',
+    controller: 'UserImpacts',
+    controllerAs: 'ctrl',
+    resolve: {
+      // profile: (ProfileService) => {
+      //   return ProfileService.me()
+      // }
+    }
   }).state('profile.user.events', {
     url: '/eventos',
     authenticate: true,
@@ -3669,7 +3684,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProfileConfirmation = function () {
-  function ProfileConfirmation($rootScope, $stateParams, $state, $window, ProfileService, StorageService) {
+  function ProfileConfirmation($rootScope, $stateParams, $state, $timeout, ProfileService, StorageService) {
     var _this = this;
 
     _classCallCheck(this, ProfileConfirmation);
@@ -3677,7 +3692,7 @@ var ProfileConfirmation = function () {
     this.storage = StorageService;
     this.rootScope = $rootScope;
     this.state = $state;
-    this.window = $window;
+    this.timeout = $timeout;
     this.confirmation = false;
     if ($stateParams.uuid && $stateParams.confirmation_code) {
       var profile = {
@@ -3688,6 +3703,9 @@ var ProfileConfirmation = function () {
         _this.confirmation = true;
         // console.log(response)
         _this.profile = response.data;
+        _this.timeout(function () {
+          return _this.login();
+        }, 2000);
       }, function (error) {
         _this.error = error.data;
         // console.log('error', error)
@@ -3704,7 +3722,7 @@ var ProfileConfirmation = function () {
       var email = _profile.email;
       var type = _profile.type;
 
-      this.storage.setItem('profile', { name: name, email: email });
+      this.storage.setItem('profile', { name: name, email: email, type: type });
       this.rootScope.$broadcast('profile.change');
       switch (type) {
         case 'user':
@@ -3721,7 +3739,7 @@ var ProfileConfirmation = function () {
 exports.default = ProfileConfirmation;
 
 
-ProfileConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'ProfileService', 'StorageService'];
+ProfileConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$timeout', 'ProfileService', 'StorageService'];
 
 },{}],73:[function(require,module,exports){
 'use strict';
@@ -4366,6 +4384,58 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var UserImpacts = function () {
+  function UserImpacts($scope, ProfileService) {
+    _classCallCheck(this, UserImpacts);
+
+    this.service = ProfileService;
+    this.pagination = { current_page: 1 };
+    this.getEvents();
+  }
+
+  _createClass(UserImpacts, [{
+    key: 'getEvents',
+    value: function getEvents() {
+      var _this = this;
+
+      this.service.getEvents({
+        open: true,
+        page: this.pagination.current_page
+      }).then(function (response) {
+        console.log(response);
+        _this.pagination = response.data.meta.pagination;
+        _this.events = response.data.values.map(function (event) {
+          event.ends = new Date(event.ends);
+          return event;
+        });
+      });
+    }
+  }, {
+    key: 'changePage',
+    value: function changePage() {
+      this.getEventsOpen();
+    }
+  }]);
+
+  return UserImpacts;
+}();
+
+exports.default = UserImpacts;
+
+
+UserImpacts.$inject = ['$scope', 'ProfileService'];
+
+},{}],83:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var ProfileUser = function () {
   function ProfileUser($scope, $rootScope, $window, $state, $timeout, StorageService, ProfileService, profile) {
     var _this = this;
@@ -4408,7 +4478,7 @@ exports.default = ProfileUser;
 
 ProfileUser.$inject = ['$scope', '$rootScope', '$window', '$state', '$timeout', 'StorageService', 'ProfileService', 'profile'];
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4458,7 +4528,7 @@ exports.default = UserReport;
 
 UserReport.$inject = ['EventService', 'ProfileService', '$stateParams'];
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4501,6 +4571,10 @@ var _userEvents = require('./controller/user.events.js');
 
 var _userEvents2 = _interopRequireDefault(_userEvents);
 
+var _userImpacts = require('./controller/user.impacts.js');
+
+var _userImpacts2 = _interopRequireDefault(_userImpacts);
+
 var _ongEvents = require('./controller/ong.events.js');
 
 var _ongEvents2 = _interopRequireDefault(_ongEvents);
@@ -4527,9 +4601,9 @@ var _change2 = _interopRequireDefault(_change);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('profile', []).config(_config2.default).service('ProfileService', _service2.default).controller('ProfileRegister', _register2.default).controller('ProfileConfirmation', _confirmation2.default).controller('ProfileUser', _user2.default).controller('ProfileOng', _ong2.default).controller('UserConfigurations', _userConfigurations2.default).controller('OngConfigurations', _ongConfigurations2.default).controller('UserEvents', _userEvents2.default).controller('OngEvents', _ongEvents2.default).controller('UserReport', _userReport2.default).controller('OngPage', _ongPage2.default).controller('OngReport', _ongReport2.default).controller('OngHistory', _ongHistory2.default).controller('ProfileChange', _change2.default);
+exports.default = angular.module('profile', []).config(_config2.default).service('ProfileService', _service2.default).controller('ProfileRegister', _register2.default).controller('ProfileConfirmation', _confirmation2.default).controller('ProfileUser', _user2.default).controller('ProfileOng', _ong2.default).controller('UserConfigurations', _userConfigurations2.default).controller('OngConfigurations', _ongConfigurations2.default).controller('UserEvents', _userEvents2.default).controller('UserImpacts', _userImpacts2.default).controller('OngEvents', _ongEvents2.default).controller('UserReport', _userReport2.default).controller('OngPage', _ongPage2.default).controller('OngReport', _ongReport2.default).controller('OngHistory', _ongHistory2.default).controller('ProfileChange', _change2.default);
 
-},{"./config.js":70,"./controller/change.js":71,"./controller/confirmation.js":72,"./controller/ong.configurations.js":73,"./controller/ong.events.js":74,"./controller/ong.history.js":75,"./controller/ong.js":76,"./controller/ong.page.js":77,"./controller/ong.report.js":78,"./controller/register.js":79,"./controller/user.configurations.js":80,"./controller/user.events.js":81,"./controller/user.js":82,"./controller/user.report.js":83,"./service.js":85}],85:[function(require,module,exports){
+},{"./config.js":70,"./controller/change.js":71,"./controller/confirmation.js":72,"./controller/ong.configurations.js":73,"./controller/ong.events.js":74,"./controller/ong.history.js":75,"./controller/ong.js":76,"./controller/ong.page.js":77,"./controller/ong.report.js":78,"./controller/register.js":79,"./controller/user.configurations.js":80,"./controller/user.events.js":81,"./controller/user.impacts.js":82,"./controller/user.js":83,"./controller/user.report.js":84,"./service.js":86}],86:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

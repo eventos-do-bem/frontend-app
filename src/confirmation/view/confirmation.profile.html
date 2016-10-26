@@ -1,17 +1,16 @@
-<section>
-  <p class="alert alert-info" data-ng-show="!ctrl.confirmation">
+<section style="padding-top: 80px">
+  <p class="alert alert-danger" data-ng-show="ctrl.error">
+    <i class="fa fa-exclamation" aria-hidden="true"></i>
+    <span data-ng-bind="ctrl.error.message"></span>
+  </p>
+  <p class="alert alert-info" data-ng-show="!ctrl.error && !ctrl.confirmation">
     <i class="fa fa-hourglass-half" aria-hidden="true"></i>
     Aguarde, estamos confirmando sua conta
   </p>
-  <div data-ng-show="ctrl.confirmation">
-    <p class="alert alert-info">
+  <div data-ng-show="!ctrl.error && ctrl.confirmation">
+    <p class="alert alert-success">
       <i class="fa fa-check" aria-hidden="true"></i>
-      Sua conta foi confirmada!
+      Sua conta foi confirmada! Aguarde o redirecionamento para suas configurações de perfil...
     </p>
-    <div class="navbar text-center">
-      <button type="button" class="btn btn-lg btn-success" data-ng-click="ctrl.login()">
-        Clique aqui para logar
-      </button>
-    </div>
   </div>
 </section>
