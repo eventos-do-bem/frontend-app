@@ -1,72 +1,89 @@
 <h3 class="well">
   Configurações
 </h3>
-<form name="configurations" novalidate data-ng-submit="ctrl.save(ctrl.profile)">
+<form name="ongConfigurations" novalidate data-ng-submit="ctrl.saveOng(ctrl.institution)">
   <div class="row">
     <div class="col-md-12">
-      <div class="form-group" data-ng-class="{'has-error':configurations.name.$invalid && configurations.name.$dirty}">
+      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.name.$invalid && ongConfigurations.name.$dirty}">
         <label for="" class="control-label">Nome da organização</label>
-        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" required autofocus>
+        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.institution.name" required autofocus>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.cnpj.$invalid && configurations.cnpj.$dirty}">
+      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.cnpj.$invalid && ongConfigurations.cnpj.$dirty}">
         <label for="" class="control-label">CNPJ da organização</label>
-        <input type="text" name="cnpj" id="cnpj" class="form-control" mask="99.999.999/9999-99" data-ng-model="ctrl.profile.cnpj" required>
+        <input type="text" name="cnpj" id="cnpj" class="form-control" mask="99.999.999/9999-99" clean="true" data-ng-model="ctrl.institution.cnpj" required>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.account.$invalid && configurations.account.$dirty}">
+      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.bank_account.$invalid && ongConfigurations.bank_account.$dirty}">
         <label for="" class="control-label">Conta para depósito bancário</label>
-        <input type="text" name="account" id="account" class="form-control" data-ng-model="ctrl.profile.account" uib-popover="As alterações deste campo serão submetidas à análise da plataforma." popover-placement="bottom" required>
+        <input type="text" name="bank_account" id="bank_account" class="form-control" data-ng-model="ctrl.institution.bank_account" uib-popover="As alterações deste campo serão submetidas à análise da plataforma." popover-placement="bottom" required>
       </div>
     </div>
-    <div class="col-md-12">
-      <div class="form-group" data-ng-class="{'has-error':configurations.address.$invalid && configurations.address.$dirty}">
+    <div class="col-md-6">
+      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.address.$invalid && ongConfigurations.address.$dirty}">
         <label for="" class="control-label">Endereço da organização</label>
-        <input type="text" name="address" id="address" class="form-control" data-ng-model="ctrl.profile.address" required>
+        <input type="text" name="address" id="address" class="form-control" data-ng-model="ctrl.institution.address" required>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.responsible.$invalid && configurations.responsible.$dirty}">
-        <label for="" class="control-label">Nome do responsável</label>
-        <input type="text" name="responsible" id="responsible" class="form-control" data-ng-model="ctrl.profile.responsible" required>
+      <div class="form-group">
+        <label for="" class="control-label">Busque seu endereço a partir da sua posição atual</label>
+        <button type="button" class="btn btn-primary btn-block" data-ng-click="ctrl.findAddressByPosition()">
+          <i class="fa fa-map-marker"></i>
+          <span data-ng-bind="ctrl.institution.coords || 'Buscar localização atual'"></span>
+        </button>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.phone.$invalid && configurations.phone.$dirty}">
+      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.phone.$invalid && ongConfigurations.phone.$dirty}">
         <label for="" class="control-label">Telefone</label>
-        <input type="text" name="phone" id="phone" class="form-control" mask="99 9999 9999" data-ng-model="ctrl.profile.phone" required>
+        <input type="text" name="phone" id="phone" class="form-control" mask="99 9999 9999" data-ng-model="ctrl.institution.phone" required>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.email.$invalid && configurations.email.$dirty}">
-        <label for="" class="control-label">E-mail</label>
-        <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" required>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.facebook.$invalid && configurations.facebook.$dirty}">
+      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.facebook.$invalid && ongConfigurations.facebook.$dirty}">
         <label for="" class="control-label">Facebook da organização</label>
-        <input type="url" name="facebook" id="facebook" class="form-control" data-ng-model="ctrl.profile.facebook">
+        <input type="url" name="facebook" id="facebook" class="form-control" data-ng-model="ctrl.institution.facebook">
+      </div>
+    </div>
+  </div>
+  <div class="navbar text-center">
+    <button class="btn btn-success btn-horizontal-large" type="submit" data-ng-disabled="ongConfigurations.$invalid">Salvar</button>
+  </div>
+</form>
+<hr>
+<form name="userConfigurations" novalidate data-ng-submit="ctrl.saveUser(ctrl.profile)">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group" data-ng-class="{'has-error':userConfigurations.name.$invalid && userConfigurations.name.$dirty}">
+        <label for="" class="control-label">Nome do responsável</label>
+        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" required>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group" data-ng-class="{'has-error':userConfigurations.email.$invalid && userConfigurations.email.$dirty}">
+        <label for="" class="control-label">E-mail do responsável</label>
+        <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" required>
       </div>
     </div>
   </div>
   <div class="row" data-ng-show="!ctrl.profile.needpassword">
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.password.$invalid}">
+      <div class="form-group" data-ng-class="{'has-error':userConfigurations.password.$invalid}">
         <label for="password" class="control-label">Senha atual</label>
         <input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" minlength="6" maxlength="10">
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.new_password.$invalid}">
+      <div class="form-group" data-ng-class="{'has-error':userConfigurations.new_password.$invalid}">
         <label for="new_password" class="control-label">Nova senha</label>
         <input type="password" name="new_password" id="new_password" class="form-control" data-ng-model="ctrl.profile.new_password" placeholder="Nova senha" minlength="6" maxlength="10">
       </div>
     </div>
   </div>
   <div class="navbar text-center">
-    <button class="btn btn-success btn-horizontal-large" type="submit" data-ng-disabled="configurations.$invalid">Salvar</button>
+    <button class="btn btn-success btn-horizontal-large" type="submit" data-ng-disabled="userConfigurations.$invalid">Salvar</button>
   </div>
 </form>

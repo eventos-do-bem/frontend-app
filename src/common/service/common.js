@@ -33,7 +33,7 @@ export default class CommonService {
     return this.$http.post(this.url + this.route, data)
   }
   update(data) {
-    return this.$http.put(this.url + this.route + '/' + data._id, data)
+    return this.$http.put(this.url + this.route + '/' + data.uuid, data)
   }
   remove(id) {
     return this.$http.delete(this.url + this.route + '/' + id)

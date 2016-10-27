@@ -6,10 +6,13 @@ export default function config(API, $q, $window, $rootScope, $injector) {
       config['headers']['Accept'] = API.accept
       // config['headers']['Content-Type'] = API.contenttype
       // console.log($window.localStorage.getItem('token'))
-      if (!config.headers.token) {
+      if (!config.headers.token && config.url.indexOf('googleapis') === -1) {
         if ($window.localStorage.getItem('token')) {
           config['headers']['Authorization'] = 'Bearer ' + $window.localStorage.getItem('token')
         }
+      }
+      if (config.headers.token && config.url.indexOf('googleapis') > -1) {
+        delete config['headers']['Authorization']
       }
       return config || $q.when(config)
     },

@@ -5,6 +5,7 @@ import ActivityAreaService  from './service/activityArea.js'
 import FacebookFactory      from './factory/facebook.js'
 import FacebookService      from './service/facebook.js'
 import CreditCardFactory    from './factory/creditcard.js'
+import GeoLocationFactory   from './factory/geolocation.js'
 import FixedOnScroll        from './directive/fixedOnScroll.js'
 import File                 from './component/file/file.js'
 import Header               from './controller/header.js'
@@ -20,6 +21,7 @@ export default angular
   .service('ActivityAreaService', ActivityAreaService)
   .factory('FacebookFactory', FacebookFactory.facebookFactory)
   .factory('CreditCardFactory', CreditCardFactory.creditCardFactory)
+  .factory('GeoLocationFactory', GeoLocationFactory.geoLocationFactory)
   .service('FacebookService', FacebookService)
   .service('StorageService', Storage)
   .service('Hydrator', Hydrator)

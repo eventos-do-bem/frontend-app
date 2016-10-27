@@ -18,6 +18,7 @@ export default class Page {
       .then(
         response => {
           let {name, birthdate, email, type} = response.data
+          this.profile.birthdate = this.filter('date')(birthdate, 'dd/MM/yyyy'),
           this.birthday = {
             name: name,
             birthdate: this.filter('date')(birthdate, 'dd/MM/yyyy'),
