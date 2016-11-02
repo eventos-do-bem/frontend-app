@@ -11,7 +11,9 @@
     <h4>Proposta:</h4>
     <p class="text-muted">Coloque a proposta de seus apoiadores fazerem eventos do bem e transformarem seu apoio em impacto social para a causa da sua organização.</p>
     <div class="form-group">
-      <textarea rows="4" class="form-control" data-ng-model="ctrl.profile.mission"></textarea>
+      <count-down-element model="ctrl.profile.mission" max="415">
+        <textarea rows="4" class="form-control" data-ng-model="ctrl.profile.mission" maxlength="415" required></textarea>
+      </count-down-element>
     </div>
     <div class="form-group">
       <label class="control-label">
@@ -25,7 +27,9 @@
     <h4>Demonstre o impacto das doações:</h4>
     <p class="text-muted">Explique rapidamente a importância da sua causa e coloque de forma bem concreta o que certos montantes de doações podem fazer de impacto, se as pessoa doarem para a sua organização.</p>
     <div class="form-group">
-      <textarea rows="6" class="form-control" data-ng-model="ctrl.profile.impact"></textarea>
+      <count-down-element model="ctrl.profile.impact" max="900">
+        <textarea rows="6" class="form-control" data-ng-model="ctrl.profile.impact" maxlength="900" required></textarea>
+      </count-down-element>
     </div>
     <div class="margin-top-10">
       <p>Veja nosso <a href="#">artigo</a> com mais dicas de como elaborar uma boa página de sua organização!</p>

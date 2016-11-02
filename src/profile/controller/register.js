@@ -13,6 +13,7 @@ export default class ProfileRegister {
     this.showPassword = false
     this.typeInputPassword = 'password'
     this.getActivityAreas()
+    this.fbRegister = false;
     // $http.get('data/area_activities.json')
     //   .then(response => this.area_activities = response.data) 
   }
@@ -73,6 +74,7 @@ export default class ProfileRegister {
     profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
     let birthdate
     if (profile.facebook_token) {
+      this.fbRegister = true
       profile.gender = (profile.gender == 'male') ? 'Masculino' : 'Feminino'
       birthdate = profile.birthday.split('/')
       profile.birthdate = new Date(`${birthdate[2]}-${birthdate[0]}-${birthdate[1]}`)
@@ -110,7 +112,11 @@ export default class ProfileRegister {
       )
   }
   registerSuccess(response) {
-    console.log(response)
+    if (this.fbRegister) {
+      this.state.go('auth.login')
+    } else {
+      this.state.go('profile.check')
+    }
   }
   registerError(response) {
     this.error = response.data

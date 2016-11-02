@@ -139,6 +139,10 @@ export default function ProfileConfig($stateProvider) {
       controller: 'ProfileConfirmation',
       controllerAs: 'ctrl'
     })
+    .state('profile.check', {
+      url: '/verifique',
+      templateUrl: './src/profile/view/profile.check.html'
+    })
     .state('profile.change', {
       url: '/alterar',
       templateUrl: './src/profile/view/change.html',

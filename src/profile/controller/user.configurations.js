@@ -16,8 +16,9 @@ export default class UserConfigurations {
     this.needpassword = profile.needpassword
   }
   save(profile) {
-    this.service.change(profile)
-      .then(
+    this.service.change(profile, progress => {
+      this.progress = progress
+    }).then(
         response => {
           this.storage.setItem('token', response.data.token)
           let {name, email, type, avatar} = response.data

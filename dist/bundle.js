@@ -669,9 +669,10 @@ var Component = {
   transclude: true,
   require: ['ngModel'],
   bindings: {
-    ngModel: '='
+    ngModel: '=',
+    progress: '<?'
   },
-  template: '\n    <input type="file" ng-model="file" data-ng-hide="true">\n    <button type="button" class="btn btn-default" data-ng-click="click()">\n      <i class="fa fa-upload"></i>\n      <span ng-transclude></span>\n    </button>\n  ',
+  template: '\n    <input type="file" ng-model="file" data-ng-hide="true">\n    <button type="button" class="btn btn-default" data-ng-click="click()">\n      <i class="fa fa-upload"></i>\n      <span ng-transclude></span>\n      <span data-ng-show="$ctrl.percent">\n        <span data-ng-bind="$ctrl.percent"></span>%\n      </span>\n    </button>\n  ',
   controller: function controller($scope, $element, $attrs, $timeout, $parse) {
     var ctrl = this,
         file = void 0,
@@ -690,6 +691,9 @@ var Component = {
         });
       });
     });
+    ctrl.$onChanges = function (obj) {
+      if (obj.progress.currentValue) ctrl.percent = Math.round(obj.progress.currentValue.loaded / obj.progress.currentValue.total * 100);
+    };
   }
 };
 
@@ -3686,6 +3690,9 @@ function ProfileConfig($stateProvider) {
     templateUrl: './src/profile/view/confirmation.html',
     controller: 'ProfileConfirmation',
     controllerAs: 'ctrl'
+  }).state('profile.check', {
+    url: '/verifique',
+    templateUrl: './src/profile/view/profile.check.html'
   }).state('profile.change', {
     url: '/alterar',
     templateUrl: './src/profile/view/change.html',
@@ -4064,19 +4071,35 @@ var ProfileOng = function () {
 
     this.service = ProfileService;
     this.profile = profile.data;
-    this.getEvents();
+    this.getOpenNeedReport();
+    this.getClosedNeedReport();
     $scope.$on('profile.change', function () {
       _this.profile = StorageService.getItem('profile');
     });
   }
 
   _createClass(ProfileOng, [{
-    key: 'getEvents',
-    value: function getEvents() {
+    key: 'getOpenNeedReport',
+    value: function getOpenNeedReport() {
       var _this2 = this;
 
-      this.service.getEvents({}).then(function (response) {
-        _this2.needReport = response.data.values.filter(function (event) {
+      this.service.getEvents({
+        open: true
+      }).then(function (response) {
+        _this2.openNeedReport = response.data.values.filter(function (event) {
+          return event.needReport == true;
+        }).length;
+      });
+    }
+  }, {
+    key: 'getClosedNeedReport',
+    value: function getClosedNeedReport() {
+      var _this3 = this;
+
+      this.service.getEvents({
+        open: false
+      }).then(function (response) {
+        _this3.closedNeedReport = response.data.values.filter(function (event) {
           return event.needReport == true;
         }).length;
       });
@@ -4180,6 +4203,7 @@ var ProfileRegister = function () {
     this.showPassword = false;
     this.typeInputPassword = 'password';
     this.getActivityAreas();
+    this.fbRegister = false;
     // $http.get('data/area_activities.json')
     //   .then(response => this.area_activities = response.data)
   }
@@ -4286,6 +4310,7 @@ var ProfileRegister = function () {
       profile = profile ? angular.copy(profile) : angular.copy(this.profile);
       var birthdate = void 0;
       if (profile.facebook_token) {
+        this.fbRegister = true;
         profile.gender = profile.gender == 'male' ? 'Masculino' : 'Feminino';
         birthdate = profile.birthday.split('/');
         profile.birthdate = new Date(birthdate[2] + '-' + birthdate[0] + '-' + birthdate[1]);
@@ -4329,7 +4354,11 @@ var ProfileRegister = function () {
   }, {
     key: 'registerSuccess',
     value: function registerSuccess(response) {
-      console.log(response);
+      if (this.fbRegister) {
+        this.state.go('auth.login');
+      } else {
+        this.state.go('profile.check');
+      }
     }
   }, {
     key: 'registerError',
@@ -4385,7 +4414,9 @@ var UserConfigurations = function () {
     value: function save(profile) {
       var _this = this;
 
-      this.service.change(profile).then(function (response) {
+      this.service.change(profile, function (progress) {
+        _this.progress = progress;
+      }).then(function (response) {
         _this.storage.setItem('token', response.data.token);
         var _response$data = response.data;
         var name = _response$data.name;
@@ -4794,14 +4825,22 @@ var ProfileService = function (_CommonService) {
     }
   }, {
     key: 'change',
-    value: function change(data) {
+    value: function change(data, _progress) {
       var fd = new FormData();
       angular.forEach(data, function (value, key) {
         fd.append(key, value);
       });
       this.setRoute('users/me');
-      return this.http.post(this.url + this.route, fd, {
-        headers: { 'Content-Type': undefined }
+      return this.http({
+        method: 'POST',
+        url: this.url + this.route,
+        data: fd,
+        headers: { 'Content-Type': undefined },
+        uploadEventHandlers: {
+          progress: function progress(e) {
+            return _progress(e);
+          }
+        }
       });
     }
   }, {

@@ -30,14 +30,20 @@ export default class ProfileService extends CommonService {
     super.setRoute(`users/me/events/${uuid}/payments`)
     return super.findAll()
   }
-  change(data) {
+  change(data, progress) {
     let fd = new FormData()
     angular.forEach(data, (value, key) => {
       fd.append(key, value)
     })
     this.setRoute('users/me')
-    return this.http.post(this.url + this.route, fd, {
-      headers: {'Content-Type': undefined}
+    return this.http({
+      method: 'POST',
+      url: this.url + this.route,
+      data: fd,
+      headers: {'Content-Type': undefined},
+      uploadEventHandlers: {
+        progress: e => progress(e)
+      }
     })
   }
   registerFacebook(callback) {
