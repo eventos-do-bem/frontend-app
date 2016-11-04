@@ -35,7 +35,7 @@ let Component = {
       })
     })
     ctrl.$onChanges = obj => {
-      if (obj.progress.currentValue) ctrl.percent = Math.round(
+      if (obj.progress && obj.progress.currentValue) ctrl.percent = Math.round(
         (obj.progress.currentValue.loaded / obj.progress.currentValue.total) * 100
       )
     }

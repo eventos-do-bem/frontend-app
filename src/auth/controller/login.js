@@ -32,9 +32,10 @@ export default class AuthLogin {
       )
   }
   loginSuccess(response) {
+    console.log(response.data)
     this.storage.setItem('token', response.data.token)
-    let {name, email, type} = response.data
-    this.storage.setItem('profile', {name: name, email: email, type: type})
+    let {name, email, type, avatar} = response.data
+    this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar})
     this.$rootScope.$broadcast('profile.change')
     switch(type) {
       case 'user': this.state.go('profile.user.events'); break;

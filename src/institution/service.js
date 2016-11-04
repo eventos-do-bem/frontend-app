@@ -13,6 +13,10 @@ export default class InstitutionService extends CommonService {
     super.setPublicToken()
     return super.findAll()
   }
+  savePage(uuid,data) {
+    super.setRoute(`institutions/${uuid}/page`)
+    return super.create(data)
+  }
   search(data) {
     super.setPublicToken()
     super.setParams(data)

@@ -9,7 +9,9 @@
 		<div class="media-body">
 			<div class="row">
 				<div class="col-md-8">
-					<h4 class="media-heading" data-ng-bind="item.name"></h4>
+					<h4 class="media-heading">
+						<a ui-sref="event.slug({slug: item.slug})" data-ng-bind="item.name"></a>
+					</h4>
 				</div>
 				<div class="col-md-4">
 					<a class="btn btn-success btn-block add-icon add-icon-hero-white">

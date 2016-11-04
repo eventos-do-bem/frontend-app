@@ -246,26 +246,29 @@ a:hover {
   color: #fff;
   text-decoration: none;
 }
+.our-campaigns .panel-body > p {
+  height: 3.6rem;
+}
 .our-campaigns .blue > .hover:hover,
 .our-campaigns .blue .panel-body {
   background-color: #0ea4f1;
 }
 .our-campaigns .blue .panel-body i {
-  color: #3a93d0;
+  color: #0a6fb0;
 }
 .our-campaigns .red > .hover:hover,
 .our-campaigns .red .panel-body {
   background-color: #f25e5e;
 }
 .our-campaigns .red .panel-body i {
-  color: #ff1e00;
+  color: #af4241;
 }
 .our-campaigns .green > .hover:hover,
 .our-campaigns .green .panel-body {
   background-color: #53c83d;
 }
 .our-campaigns .green .panel-body i {
-  color: #169b48;
+  color: #3a8356;
 }
 .get-inspired {
   background-color: #ff9500;

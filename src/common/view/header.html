@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" uib-collapse="ctrl.navbarCollapsed" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li>
-          <a ui-sref="event.start" data-ng-disabled="!ctrl.profile" class="btn navbar-btn btn-warning">Comece seu evento</a>
+          <a ui-sref="event.start" class="btn navbar-btn btn-warning">Comece seu evento</a>
         </li>
         <li>
           <a ui-sref="pages.how-it-works">Como funciona</a>
@@ -27,12 +27,13 @@
         <li data-ng-show="!ctrl.profile" data-ng-repeat="item in ctrl.dropDownMenu.nologged">
           <a ui-sref="{{item.url}}">{{item.label}}</a>
         </li>
-        <li data-ng-show="ctrl.profile">
+        <li data-ng-show="ctrl.profile" class="navbar-profile">
           <ul class="nav navbar-nav navbar-right" uib-dropdown is-open="status.isopen">
             <li class="dropdown">
               <a uib-dropdown-toggle>
-              {{ctrl.profile.name}} <span class="caret"></span>
-            </a>
+                <img ng-src="{{ctrl.profile.avatar.small}}" class="avatar img-circle" alt="">
+                {{ctrl.profile.name}} <span class="caret"></span>
+              </a>
             </li>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
               <li role="menuitem" data-ng-repeat="item in ctrl.dropDownMenu.logged">

@@ -346,13 +346,15 @@ var AuthLogin = function () {
   }, {
     key: 'loginSuccess',
     value: function loginSuccess(response) {
+      console.log(response.data);
       this.storage.setItem('token', response.data.token);
       var _response$data = response.data;
       var name = _response$data.name;
       var email = _response$data.email;
       var type = _response$data.type;
+      var avatar = _response$data.avatar;
 
-      this.storage.setItem('profile', { name: name, email: email, type: type });
+      this.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar });
       this.$rootScope.$broadcast('profile.change');
       switch (type) {
         case 'user':
@@ -692,7 +694,7 @@ var Component = {
       });
     });
     ctrl.$onChanges = function (obj) {
-      if (obj.progress.currentValue) ctrl.percent = Math.round(obj.progress.currentValue.loaded / obj.progress.currentValue.total * 100);
+      if (obj.progress && obj.progress.currentValue) ctrl.percent = Math.round(obj.progress.currentValue.loaded / obj.progress.currentValue.total * 100);
     };
   }
 };
@@ -3243,6 +3245,12 @@ var InstitutionService = function (_CommonService) {
       return _get(Object.getPrototypeOf(InstitutionService.prototype), 'findAll', this).call(this);
     }
   }, {
+    key: 'savePage',
+    value: function savePage(uuid, data) {
+      _get(Object.getPrototypeOf(InstitutionService.prototype), 'setRoute', this).call(this, 'institutions/' + uuid + '/page');
+      return _get(Object.getPrototypeOf(InstitutionService.prototype), 'create', this).call(this, data);
+    }
+  }, {
     key: 'search',
     value: function search(data) {
       _get(Object.getPrototypeOf(InstitutionService.prototype), 'setPublicToken', this).call(this);
@@ -4121,18 +4129,51 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var OngPage = function OngPage(profile) {
-  _classCallCheck(this, OngPage);
+var OngPage = function () {
+  function OngPage(profile, InstitutionService, $rootScope) {
+    _classCallCheck(this, OngPage);
 
-  this.profile = profile.data;
-};
+    this.profile = profile.data;
+    this.service = InstitutionService;
+    this.rootScope = $rootScope;
+    console.log(profile.data);
+    delete profile.data.institutions.cover;
+    this.page = profile.data.institutions;
+    console.log(this.page);
+  }
+
+  _createClass(OngPage, [{
+    key: 'save',
+    value: function save(data) {
+      var _this = this;
+
+      this.service.savePage(this.profile.institutions.uuid, data).then(function (response) {
+        _this.rootScope.$broadcast('alert', {
+          type: 'alert-success',
+          icon: 'fa-check',
+          message: 'Página oficial salva com sucesso! :)'
+        });
+      }, function (error) {
+        _this.rootScope.$broadcast('alert', {
+          type: 'alert-danger',
+          icon: 'fa-exclamation',
+          message: 'Erro ao salvar página oficial! :('
+        });
+      });
+    }
+  }]);
+
+  return OngPage;
+}();
 
 exports.default = OngPage;
 
 
-OngPage.$inject = ['profile'];
+OngPage.$inject = ['profile', 'InstitutionService', '$rootScope'];
 
 },{}],79:[function(require,module,exports){
 'use strict';

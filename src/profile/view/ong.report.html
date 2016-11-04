@@ -1,146 +1,147 @@
 <div class="well">
-  <h3>Relatório pendente</h3>
-  <h5 class="text-muted">Campanha: <span data-ng-bind="ctrl.event.name"></span></h5>
-  <h5 class="text-muted">Organizador: <span data-ng-bind="ctrl.event.user.name"></span></h5>
+	<h3>Relatório pendente</h3>
+	<h5 class="text-muted">Campanha: <span data-ng-bind="ctrl.event.name"></span></h5>
+	<h5 class="text-muted">Organizador: <span data-ng-bind="ctrl.event.user.name"></span></h5>
 </div>
 <div class="well">
-  <h3>Fase 1</h3>
-  <form>
-    <div class="form-horizontal">
-      <div class="form-group">
-        <label for="" class="col-sm-5 control-label text-muted" style="padding-top: 0">
+	<h3>Fase 1</h3>
+	<form>
+		<div class="form-group">
+			<div class="row">
+				<label for="" class="col-sm-5 control-label text-muted">
           Qual é o valor que você gasta para atender um beneficiário do projeto apoiado?
         </label>
-        <div class="col-sm-7">
-          <div class="input-group">
-            <div class="input-group-addon">R$</div>
-            <input type="text" class="form-control" style="width: 120px" id="" uib-popover="Texto do popover e etc." popover-placement="right">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="row">
-        <div class="col-sm-5">
-          <label for="" class="text-muted">
+				<div class="col-md-3">
+					<div class="input-group">
+						<div class="input-group-addon">R$</div>
+						<input type="text" class="form-control" id="" uib-popover="Texto do popover e etc." popover-placement="right">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-8">
+					<label for="" class="control-label text-muted">
             Qual é o tipo de beneficiário que você ajuda?
           </label>
-          <select class="form-control" data-ng-options="item for item in ctrl.benefit" data-ng-model="ctrl.report.benefit"></select>
+					<select class="form-control" data-ng-options="item for item in ctrl.benefit" data-ng-model="ctrl.report.benefit"></select>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-8">
+				<p class="text-muted">Coloque 3 fotos de boa qualidade sobre o projeto que está sendo apoiado.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-8">
+        <div style="display: inline-block; margin-right: 40px">
+          <file ng-model="ctrl.report.fase1.photo1">
+            <span data-ng-bind="ctrl.report.fase1.photo1.name || 'Foto 1'"></span>
+          </file>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <p class="text-muted">Coloque 3 fotos de boa qualidade sobre o projeto que está sendo apoiado.</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <file ng-model="ctrl.report.fase1.photo1">
-          <span data-ng-bind="ctrl.report.fase1.photo1.name || 'Foto 1'"></span>
-        </file>
-        <file ng-model="ctrl.report.fase1.photo2">
-          <span data-ng-bind="ctrl.report.fase1.photo2.name || 'Foto 2'"></span>
-        </file>
-        <file ng-model="ctrl.report.fase1.photo3">
-          <span data-ng-bind="ctrl.report.fase1.photo3.name || 'Foto 3'"></span>
-        </file>
-
-        <!--<button type="button" class="btn btn-default">
-          <i class="fa fa-upload"></i>
-          Foto 1
-        </button>
-        <button type="button" class="btn btn-default">
-          <i class="fa fa-upload"></i>
-          Foto 2
-        </button>
-        <button type="button" class="btn btn-default">
-          <i class="fa fa-upload"></i>
-          Foto 3
-        </button>-->
-      </div>
-    </div>
-    <div class="row margin-top-10">
-      <div class="col-sm-6">
-        <label class="text-muted">
+        <div style="display: inline-block; margin-right: 40px">
+          <file ng-model="ctrl.report.fase1.photo2">
+            <span data-ng-bind="ctrl.report.fase1.photo2.name || 'Foto 2'"></span>
+          </file>
+        </div>
+        <div style="display: inline-block; margin-right: 40px">
+          <file ng-model="ctrl.report.fase1.photo3">
+            <span data-ng-bind="ctrl.report.fase1.photo3.name || 'Foto 3'"></span>
+          </file>
+        </div>
+				<!--<file ng-model="ctrl.report.fase1.photo2">
+					<span data-ng-bind="ctrl.report.fase1.photo2.name || 'Foto 2'"></span>
+				</file>
+				<file ng-model="ctrl.report.fase1.photo3">
+					<span data-ng-bind="ctrl.report.fase1.photo3.name || 'Foto 3'"></span>
+				</file>-->
+			</div>
+		</div>
+		<div class="row margin-top-10">
+			<div class="col-sm-6">
+				<label class="text-muted">
           <input type="checkbox" name="default" data-ng-model="ctrl.report.fase1.default">
           Usar estas informações como padrão para outros relatórios
         </label>
-      </div>
-    </div>
-    <div class="row margin-top-10">
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="" class="text-muted">
+			</div>
+		</div>
+		<div class="row margin-top-10">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="" class="text-muted">
             Escreva uma mensagem agradecendo o organizador que está fazendo o evento do bem para a sua organização
           </label>
-          <count-down-element model="ctrl.report.fase1.description" max="900">
-            <textarea rows="6" class="form-control" data-ng-model="ctrl.report.fase1.description" maxlength="900"></textarea>
-          </count-down-element>
-        </div>
-      </div>
-      <div class="col-sm-6">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-6">
-        <div class="form-buttons form-buttons-right">
-          <button type="button" class="btn btn-horizontal-large btn-success">Salvar</button>
-        </div>
-      </div>
-    </div>
-  </form>
+					<count-down-element model="ctrl.report.fase1.description" max="900">
+						<textarea rows="6" class="form-control" data-ng-model="ctrl.report.fase1.description" maxlength="900"></textarea>
+					</count-down-element>
+				</div>
+			</div>
+			<div class="col-sm-6">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-6">
+				<div class="form-buttons form-buttons-right">
+					<button type="button" class="btn btn-horizontal-large btn-success">Salvar</button>
+				</div>
+			</div>
+		</div>
+	</form>
 </div>
 <div class="well">
-  <h3>Fase 2</h3>
-  <p class="text-muted">
-    Histórias específicas são fundamentais para motivar os doadores dos eventos do bem a se aproximarem pelo seu impacto social e se transformarem em doadores recorrentes da sua causa.
-    <br>
-    Escreva uma história de um beneficiário ajudado pelo seu projeto e coloque uma foto dele.
-  </p>
-  <form>
-    <div class="form-group">
-      <label for="" class="control-label">
+	<h3>Fase 2</h3>
+	<p class="text-muted">
+		Histórias específicas são fundamentais para motivar os doadores dos eventos do bem a se aproximarem pelo seu impacto social
+		e se transformarem em doadores recorrentes da sua causa.
+		<br> Escreva uma história de um beneficiário ajudado pelo seu projeto e coloque uma foto dele.
+	</p>
+	<form>
+		<div class="form-group">
+			<label for="" class="control-label">
         Título
       </label>
-      <input type="text" name="title" class="form-control" data-ng-model="ctrl.report.fase2.title">
-    </div>
-    <count-down-element model="ctrl.report.fase2.description" max="700">
-      <textarea rows="6" class="form-control" data-ng-model="ctrl.report.fase2.description" maxlength="700"></textarea>
-    </count-down-element>
-    <div class="row margin-top-20">
-      <div class="col-sm-4">
-        <file style="display: block" ng-model="ctrl.report.fase2.photo">
-          <span data-ng-bind="ctrl.report.fase2.photo.name || 'Fotografia do beneficiário'"></span>
-        </file>
-        <!--<button type="button" class="btn btn-default">
+  		<count-down-element model="ctrl.report.fase2.title" max="100">
+	  		<input type="text" name="title" class="form-control" data-ng-model="ctrl.report.fase2.title" maxlength="100">
+  		</count-down-element>
+		</div>
+		<count-down-element model="ctrl.report.fase2.description" max="700">
+			<textarea rows="6" class="form-control" data-ng-model="ctrl.report.fase2.description" maxlength="700"></textarea>
+		</count-down-element>
+		<div class="row margin-top-20">
+			<div class="col-sm-4">
+				<file style="display: block" ng-model="ctrl.report.fase2.photo">
+					<span data-ng-bind="ctrl.report.fase2.photo.name || 'Fotografia do beneficiário'"></span>
+				</file>
+				<!--<button type="button" class="btn btn-default">
           <i class="fa fa-upload"></i>
           Fotografia do beneficiário
         </button>-->
-      </div>
-      <div class="col-sm-8">
-        <div class="input-group">
-          <span class="input-group-addon">Vídeo do Youtube</span>
-          <input type="text" name="video" id="video" class="form-control" data-ng-model="ctrl.report.fase2.video" placeholder="Essa parte é opcional">
-        </div>
-      </div>
-    </div>
-    <div class="row margin-top-10">
-      <div class="col-md-12">
-        <p class="text-muted">Veja nosso <a href="#">ebook</a> com mais dicas de como elaborar um relatório de sucesso!</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-buttons form-buttons-right">
-          <button type="button" class="btn btn-horizontal-large btn-success">Salvar</button>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <button type="button" class="btn btn-lg btn-success">Submeter relatório para avaliação</button>
-      </div>
-    </div>
-  </form>
+			</div>
+			<div class="col-sm-8">
+				<div class="input-group">
+					<span class="input-group-addon">Vídeo do Youtube</span>
+					<input type="text" name="video" id="video" class="form-control same-btn-large" data-ng-model="ctrl.report.fase2.video" placeholder="Essa parte é opcional">
+				</div>
+			</div>
+		</div>
+		<div class="row margin-top-10">
+			<div class="col-md-12">
+				<p class="text-muted">Veja nosso <a href="#">ebook</a> com mais dicas de como elaborar um relatório de sucesso!</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-buttons form-buttons-right">
+					<button type="button" class="btn btn-horizontal-large btn-success">Salvar</button>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<button type="button" class="btn btn-lg btn-success">Submeter relatório para avaliação</button>
+			</div>
+		</div>
+	</form>
 </div>

@@ -45,7 +45,7 @@
           <label for="institution_uuid" class="control-label">Escolha a causa que irá ajudar</label>
           <input type="text" name="institution_uuid" data-ng-model="ctrl.event.institution_uuid" placeholder="Encontre uma causa" uib-typeahead="item as item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('institution')" popover-placement="right" popover-trigger="focus" required>
         </div>
-        <p>Não tem causa? <a href="#">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a ui-sref="pages.contact">Entre em contato</a></p>
+        <p>Não tem causa? <a target="_blank" ui-sref="pages.explore">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a target="_blank" ui-sref="pages.contact">Entre em contato</a></p>
         <div class="form-group" data-ng-class="{'has-error':start.categorie_uuid.$invalid && start.categorie_uuid.$dirty}">
           <label for="categorie_uuid" class="control-label">Categoria do Evento do Bem</label>
           <select ng-options="item.uuid as item.name for item in ctrl.categories track by item.uuid" name="categorie_uuid" id="categorie_uuid" class="form-control" data-ng-model="ctrl.event.categorie_uuid" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('category')" popover-placement="right" popover-trigger="focus" required>
@@ -123,7 +123,7 @@
         </div>
         <div class="form-buttons form-buttons-left">
           <!--<button class="btn btn-default" type="button" data-ng-click="ctrl.saveDraft(ctrl.event)">Salvar rascunho</button>-->
-          <button class="btn btn-primary" type="submit" data-ng-disabled="start.$invalid">
+          <button class="btn btn-primary" type="submit">
             <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
             Publicar Evento do Bem
           </button>

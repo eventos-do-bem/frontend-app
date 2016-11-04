@@ -150,6 +150,10 @@ blockquote .name {
   border-right-color: #eee;
 }
 
+.form-control.same-btn-large {
+  height: 44px;
+}
+
 /* jumbotron */
 .jumbotron {
   border-radius: 0 !important;
@@ -275,10 +279,20 @@ dl dd:last-child {
 .profile .media-list > .media .media-body {
   padding-left: 30px;
 }
+.profile .media-list > .media .media-body .col-md-6 {
+  margin-top: 30px;
+}
 .profile .media-list > .media .media-body .col-md-8,
 .profile .media-list > .media .media-body .col-md-4 {
   margin-top: 25px;
 }
+.profile .media-list > .media .media-body .media-heading a {
+  color: #000;
+}
+.profile .media-list > .media .media-body .media-heading a:hover {
+  color: #0ea4f1;
+}
+
 .profile .media-list .media-heading {
   font-size: 2rem;
   font-weight: 600;
@@ -477,6 +491,9 @@ header .navbar .navbar-brand {
 }
 .navbar-nav {
   margin: 0;
+}
+header .navbar .navbar-profile .avatar {
+  width: 2rem;
 }
 .navbar-nav .navbar-btn {
   margin: 7px 15px 7px;
@@ -727,7 +744,7 @@ figure.avatar {
   text-align: center;
 }
 figure.avatar img {
-  width: 80%;
+  width: 100%;
 }
 .panel.profile {
   margin-top: 80px;
@@ -935,6 +952,9 @@ figure.avatar img {
 }
 
 /* contact */
+.contact > div.row {
+  margin-top: 80px;
+}
 .contact > section:first-child {
   margin-bottom: 50px;
   margin-bottom: 3%;

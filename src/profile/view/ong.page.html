@@ -4,15 +4,15 @@
 </div>
 <div class="well">
   <h3>Editar</h3>
-  <form>
-    <file style="display: block" ng-model="ctrl.profile.cover">
-      <span data-ng-bind="ctrl.profile.cover.name || 'Imagem da capa da página'"></span>
+  <form name="page" data-ng-submit="ctrl.save(ctrl.page)">
+    <file style="display: block" ng-model="ctrl.page.cover">
+      <span data-ng-bind="ctrl.page.cover.name || 'Imagem da capa da página'"></span>
     </file>
     <h4>Proposta:</h4>
     <p class="text-muted">Coloque a proposta de seus apoiadores fazerem eventos do bem e transformarem seu apoio em impacto social para a causa da sua organização.</p>
     <div class="form-group">
-      <count-down-element model="ctrl.profile.mission" max="415">
-        <textarea rows="4" class="form-control" data-ng-model="ctrl.profile.mission" maxlength="415" required></textarea>
+      <count-down-element model="ctrl.page.propose" max="415">
+        <textarea rows="4" class="form-control" data-ng-model="ctrl.page.propose" maxlength="415" required></textarea>
       </count-down-element>
     </div>
     <div class="form-group">
@@ -21,21 +21,21 @@
       </label>
       <div class="input-group">
         <div class="input-group-addon">Vídeo do Youtube ou Vimeo</div>
-        <input type="text" class="form-control" name="video" data-ng-model="ctrl.profile.video" placeholder="Essa parte é opcional">
+        <input type="text" class="form-control" name="video" data-ng-model="ctrl.page.video" placeholder="Essa parte é opcional">
       </div>
     </div>
     <h4>Demonstre o impacto das doações:</h4>
     <p class="text-muted">Explique rapidamente a importância da sua causa e coloque de forma bem concreta o que certos montantes de doações podem fazer de impacto, se as pessoa doarem para a sua organização.</p>
     <div class="form-group">
-      <count-down-element model="ctrl.profile.impact" max="900">
-        <textarea rows="6" class="form-control" data-ng-model="ctrl.profile.impact" maxlength="900" required></textarea>
+      <count-down-element model="ctrl.page.impact" max="900">
+        <textarea rows="6" class="form-control" data-ng-model="ctrl.page.impact" maxlength="900" required></textarea>
       </count-down-element>
     </div>
     <div class="margin-top-10">
       <p>Veja nosso <a href="#">artigo</a> com mais dicas de como elaborar uma boa página de sua organização!</p>
     </div>
     <div class="form-buttons form-buttons-center">
-      <button type="button" class="btn btn-lg btn-large btn-success">Salvar</button>
+      <button type="submit" class="btn btn-lg btn-large btn-success">Salvar</button>
     </div>
   </form>
 </div>
