@@ -674,12 +674,14 @@ var Component = {
     ngModel: '=',
     progress: '<?'
   },
-  template: '\n    <input type="file" ng-model="file" data-ng-hide="true">\n    <button type="button" class="btn btn-default" data-ng-click="click()">\n      <i class="fa fa-upload"></i>\n      <span ng-transclude></span>\n      <span data-ng-show="$ctrl.percent">\n        <span data-ng-bind="$ctrl.percent"></span>%\n      </span>\n    </button>\n  ',
+  template: '\n    <input type="file" ng-model="file" data-ng-hide="true">\n    <button type="button" class="btn btn-default" data-ng-class="$ctrl.style" data-ng-click="click()">\n      <i class="fa fa-upload"></i>\n      <span ng-transclude></span>\n      <span data-ng-show="$ctrl.percent">\n        <span data-ng-bind="$ctrl.percent"></span>%\n      </span>\n    </button>\n  ',
   controller: function controller($scope, $element, $attrs, $timeout, $parse) {
     var ctrl = this,
         file = void 0,
         model = $parse($attrs.ngModel),
         modelSetter = model.assign;
+
+    ctrl.style = $attrs.class;
 
     $scope.click = function () {
       file[0].click();
@@ -1522,6 +1524,25 @@ var CommonService = function () {
     key: 'findById',
     value: function findById(id) {
       return this.$http.get(this.url + this.route + '/' + id, this.config);
+    }
+  }, {
+    key: 'postWithFile',
+    value: function postWithFile(data, _progress) {
+      var fd = new FormData();
+      angular.forEach(data, function (value, key) {
+        fd.append(key, value);
+      });
+      return this.$http({
+        method: 'POST',
+        url: this.url + this.route,
+        data: fd,
+        headers: { 'Content-Type': undefined },
+        uploadEventHandlers: {
+          progress: function progress(e) {
+            return _progress(e);
+          }
+        }
+      });
     }
   }, {
     key: 'create',
@@ -3226,33 +3247,33 @@ var InstitutionService = function (_CommonService) {
   function InstitutionService(API, $http) {
     _classCallCheck(this, InstitutionService);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(InstitutionService).call(this, API, $http));
-
-    _get(Object.getPrototypeOf(InstitutionService.prototype), 'setRoute', _this).call(_this, 'institutions');
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(InstitutionService).call(this, API, $http));
   }
 
   _createClass(InstitutionService, [{
     key: 'findById',
     value: function findById(slug) {
+      _get(Object.getPrototypeOf(InstitutionService.prototype), 'setRoute', this).call(this, 'institutions');
       _get(Object.getPrototypeOf(InstitutionService.prototype), 'setPublicToken', this).call(this);
       return _get(Object.getPrototypeOf(InstitutionService.prototype), 'findById', this).call(this, slug);
     }
   }, {
     key: 'findAll',
     value: function findAll() {
+      _get(Object.getPrototypeOf(InstitutionService.prototype), 'setRoute', this).call(this, 'institutions');
       _get(Object.getPrototypeOf(InstitutionService.prototype), 'setPublicToken', this).call(this);
       return _get(Object.getPrototypeOf(InstitutionService.prototype), 'findAll', this).call(this);
     }
   }, {
     key: 'savePage',
-    value: function savePage(uuid, data) {
-      _get(Object.getPrototypeOf(InstitutionService.prototype), 'setRoute', this).call(this, 'institutions/' + uuid + '/page');
-      return _get(Object.getPrototypeOf(InstitutionService.prototype), 'create', this).call(this, data);
+    value: function savePage(data, progress) {
+      _get(Object.getPrototypeOf(InstitutionService.prototype), 'setRoute', this).call(this, 'institutions/' + data.uuid + '/page');
+      return _get(Object.getPrototypeOf(InstitutionService.prototype), 'postWithFile', this).call(this, data, progress);
     }
   }, {
     key: 'search',
     value: function search(data) {
+      _get(Object.getPrototypeOf(InstitutionService.prototype), 'setRoute', this).call(this, 'institutions');
       _get(Object.getPrototypeOf(InstitutionService.prototype), 'setPublicToken', this).call(this);
       _get(Object.getPrototypeOf(InstitutionService.prototype), 'setParams', this).call(this, data);
       return _get(Object.getPrototypeOf(InstitutionService.prototype), 'search', this).call(this);
@@ -3967,7 +3988,7 @@ var OngEvents = function () {
       var _this = this;
 
       this.service.getEvents({
-        open: true,
+        withoutReport: true,
         page: this.pagination.current_page
       }).then(function (response) {
         _this.pagination = response.data.meta.pagination;
@@ -4027,7 +4048,7 @@ var OngHistory = function () {
       var _this = this;
 
       this.service.getEvents({
-        closed: true,
+        withReport: true,
         page: this.pagination.current_page
       }).then(function (response) {
         _this.pagination = response.data.meta.pagination;
@@ -4035,14 +4056,14 @@ var OngHistory = function () {
           event.ends = new Date(event.ends);
           return event;
         });
-        _this.pendings = response.data.values.filter(function (event) {
-          return event.needReport == true;
-        });
-        _this.rootScope.$broadcast('alert', {
-          type: 'alert-warning',
-          icon: 'fa-warning',
-          message: 'Você tem ' + _this.pendings.length + ' relatórios pendentes.'
-        });
+        // this.pendings = response.data.values.filter(event => {
+        //   return (event.needReport == true)
+        // })
+        // this.rootScope.$broadcast('alert', {
+        //   type: 'alert-warning',
+        //   icon: 'fa-warning',
+        //   message: `Você tem ${this.pendings.length} relatórios pendentes.`
+        // })
       });
     }
   }, {
@@ -4079,37 +4100,19 @@ var ProfileOng = function () {
 
     this.service = ProfileService;
     this.profile = profile.data;
-    this.getOpenNeedReport();
-    this.getClosedNeedReport();
+    this.getEventsWithoutReport();
     $scope.$on('profile.change', function () {
       _this.profile = StorageService.getItem('profile');
     });
   }
 
   _createClass(ProfileOng, [{
-    key: 'getOpenNeedReport',
-    value: function getOpenNeedReport() {
+    key: 'getEventsWithoutReport',
+    value: function getEventsWithoutReport() {
       var _this2 = this;
 
-      this.service.getEvents({
-        open: true
-      }).then(function (response) {
-        _this2.openNeedReport = response.data.values.filter(function (event) {
-          return event.needReport == true;
-        }).length;
-      });
-    }
-  }, {
-    key: 'getClosedNeedReport',
-    value: function getClosedNeedReport() {
-      var _this3 = this;
-
-      this.service.getEvents({
-        open: false
-      }).then(function (response) {
-        _this3.closedNeedReport = response.data.values.filter(function (event) {
-          return event.needReport == true;
-        }).length;
+      this.service.getEvents({ withoutReport: true, total: true }).then(function (response) {
+        return _this2.withoutReport = response.data.total;
       });
     }
   }]);
@@ -4140,25 +4143,34 @@ var OngPage = function () {
     this.profile = profile.data;
     this.service = InstitutionService;
     this.rootScope = $rootScope;
-    console.log(profile.data);
-    delete profile.data.institutions.cover;
-    this.page = profile.data.institutions;
-    console.log(this.page);
+    this.getInstitution(profile.data.institutions.uuid);
   }
 
   _createClass(OngPage, [{
-    key: 'save',
-    value: function save(data) {
+    key: 'getInstitution',
+    value: function getInstitution(id) {
       var _this = this;
 
-      this.service.savePage(this.profile.institutions.uuid, data).then(function (response) {
-        _this.rootScope.$broadcast('alert', {
+      this.service.findById(id).then(function (response) {
+        delete response.data.cover;
+        _this.page = response.data;
+      });
+    }
+  }, {
+    key: 'save',
+    value: function save(data) {
+      var _this2 = this;
+
+      this.service.savePage(data, function (progress) {
+        _this2.progress = progress;
+      }).then(function (response) {
+        _this2.rootScope.$broadcast('alert', {
           type: 'alert-success',
           icon: 'fa-check',
           message: 'Página oficial salva com sucesso! :)'
         });
       }, function (error) {
-        _this.rootScope.$broadcast('alert', {
+        _this2.rootScope.$broadcast('alert', {
           type: 'alert-danger',
           icon: 'fa-exclamation',
           message: 'Erro ao salvar página oficial! :('
@@ -4194,7 +4206,7 @@ var OngReport = function () {
     if ($stateParams.uuid) {
       this.getEvent($stateParams.uuid);
     }
-    this.benefit = ['Crianças', 'Jovens', 'Pessoas', 'Animais', 'Árvores'];
+    this.benefit = ['Crianças', 'Jovens', 'Pessoas', 'Familias', 'Idosos', 'Animais', 'Cachorros', 'Gatos', 'Árvores'];
   }
 
   _createClass(OngReport, [{
@@ -4506,54 +4518,49 @@ var UserEvents = function () {
     this.rootScope = $rootScope;
     this.service = ProfileService;
     this.rootScope.$broadcast('alert', { type: 'alert-info', icon: 'fa-warning', message: ' Veja nosso <a href="#">kit</a> para bombar suas campanhas!' });
-    this.pagination_open = { current_page: 1 };
-    this.pagination_closed = { current_page: 1 };
-    this.getEventsOpen();
-    this.getEventsClosed();
+    this.pagination = { current_page: 1 };
+    // this.pagination_closed = { current_page: 1 }
+    this.getEvents();
+    // this.getEventsClosed()
   }
 
   _createClass(UserEvents, [{
-    key: 'getEventsOpen',
-    value: function getEventsOpen() {
+    key: 'getEvents',
+    value: function getEvents() {
       var _this = this;
 
       this.service.getEvents({
-        open: true,
-        page: this.pagination_open.current_page
+        withoutReport: true,
+        page: this.pagination.current_page
       }).then(function (response) {
-        _this.pagination_open = response.data.meta.pagination;
-        _this.events_open = response.data.values.map(function (event) {
+        _this.pagination = response.data.meta.pagination;
+        _this.events = response.data.values.map(function (event) {
           event.ends = new Date(event.ends);
           return event;
         });
       });
     }
   }, {
-    key: 'changePageOpen',
-    value: function changePageOpen() {
-      this.getEventsOpen();
+    key: 'changePage',
+    value: function changePage() {
+      this.getEvents();
     }
-  }, {
-    key: 'getEventsClosed',
-    value: function getEventsClosed() {
-      var _this2 = this;
+    // getEventsClosed() {
+    //   this.service.getEvents({
+    //     closed: true,
+    //     page: this.pagination_closed.current_page
+    //   }).then(response => {
+    //     this.pagination_closed = response.data.meta.pagination
+    //     this.events_closed = response.data.values.map(event => {
+    //       event.ends = new Date(event.ends)
+    //       return event
+    //     })
+    //   })
+    // }
+    // changePageClosed() {
+    //   this.getEventsClosed()
+    // }
 
-      this.service.getEvents({
-        closed: true,
-        page: this.pagination_closed.current_page
-      }).then(function (response) {
-        _this2.pagination_closed = response.data.meta.pagination;
-        _this2.events_closed = response.data.values.map(function (event) {
-          event.ends = new Date(event.ends);
-          return event;
-        });
-      });
-    }
-  }, {
-    key: 'changePageClosed',
-    value: function changePageClosed() {
-      this.getEventsClosed();
-    }
   }]);
 
   return UserEvents;
@@ -4590,10 +4597,9 @@ var UserImpacts = function () {
       var _this = this;
 
       this.service.getEvents({
-        open: true,
+        withReport: true,
         page: this.pagination.current_page
       }).then(function (response) {
-        console.log(response);
         _this.pagination = response.data.meta.pagination;
         _this.events = response.data.values.map(function (event) {
           event.ends = new Date(event.ends);
@@ -4640,7 +4646,7 @@ var ProfileUser = function () {
     $scope.$on('profile.change', function () {
       _this.profile = StorageService.getItem('profile');
     });
-    this.getEvents();
+    // this.getEvents()
   }
 
   _createClass(ProfileUser, [{
@@ -4648,17 +4654,17 @@ var ProfileUser = function () {
     value: function alert() {
       this.rootScope.$broadcast('alert', { type: 'alert-info', icon: 'fa-warning', message: 'mensagem' });
     }
-  }, {
-    key: 'getEvents',
-    value: function getEvents() {
-      var _this2 = this;
+    // getEvents() {
+    //   this.service.getEvents()
+    //     .then(
+    //       response => {
+    //         this.needReport = response.data.values.filter(event => {
+    //           return (event.needReport == true)
+    //         }).length
+    //       }
+    //     )
+    // }
 
-      this.service.getEvents().then(function (response) {
-        _this2.needReport = response.data.values.filter(function (event) {
-          return event.needReport == true;
-        }).length;
-      });
-    }
   }]);
 
   return ProfileUser;

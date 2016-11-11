@@ -8,7 +8,11 @@ export default class OngReport {
       'Crianças',
       'Jovens',
       'Pessoas',
+      'Familias',
+      'Idosos',
       'Animais',
+      'Cachorros',
+      'Gatos',
       'Árvores'
     ]
   }

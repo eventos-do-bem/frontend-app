@@ -8,7 +8,7 @@ export default class OngEvents {
   }
   getEvents() {
     this.service.getEvents({
-      open: true,
+      withoutReport: true,
       page: this.pagination.current_page
     }).then(response => {
       this.pagination = response.data.meta.pagination

@@ -6,10 +6,9 @@ export default class UserImpacts {
   }
   getEvents() {
     this.service.getEvents({
-      open: true,
+      withReport: true,
       page: this.pagination.current_page
     }).then(response => {
-      console.log(response)
       this.pagination = response.data.meta.pagination
       this.events = response.data.values.map(event => {
         event.ends = new Date(event.ends)

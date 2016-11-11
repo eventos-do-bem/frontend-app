@@ -7,7 +7,7 @@ export default class OngHistory {
   }
   getEvents() {
     this.service.getEvents({
-      closed: true,
+      withReport: true,
       page: this.pagination.current_page
     }).then(response => {
       this.pagination = response.data.meta.pagination
@@ -15,14 +15,14 @@ export default class OngHistory {
         event.ends = new Date(event.ends)
         return event
       })
-      this.pendings = response.data.values.filter(event => {
-        return (event.needReport == true)
-      })
-      this.rootScope.$broadcast('alert', {
-        type: 'alert-warning',
-        icon: 'fa-warning',
-        message: `Você tem ${this.pendings.length} relatórios pendentes.`
-      })
+      // this.pendings = response.data.values.filter(event => {
+      //   return (event.needReport == true)
+      // })
+      // this.rootScope.$broadcast('alert', {
+      //   type: 'alert-warning',
+      //   icon: 'fa-warning',
+      //   message: `Você tem ${this.pendings.length} relatórios pendentes.`
+      // })
     })
   }
   changePage() {

@@ -8,7 +8,7 @@ let Component = {
   },
   template: `
     <input type="file" ng-model="file" data-ng-hide="true">
-    <button type="button" class="btn btn-default" data-ng-click="click()">
+    <button type="button" class="btn btn-default" data-ng-class="$ctrl.style" data-ng-click="click()">
       <i class="fa fa-upload"></i>
       <span ng-transclude></span>
       <span data-ng-show="$ctrl.percent">
@@ -21,6 +21,8 @@ let Component = {
         file,
         model = $parse($attrs.ngModel),
         modelSetter = model.assign
+    
+    ctrl.style = $attrs.class
 
     $scope.click = () => {
       file[0].click()

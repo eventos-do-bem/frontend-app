@@ -1,11 +1,11 @@
 <div class="well">
-  <h3>Página oficial da <span data-ng-bind="ctrl.profile.institutions.name"></span></h3>
+  <h3>Página oficial da <span data-ng-bind="ctrl.page.name"></span></h3>
   <button type="button" class="btn btn-success">Ver página oficial</button>
 </div>
 <div class="well">
   <h3>Editar</h3>
   <form name="page" data-ng-submit="ctrl.save(ctrl.page)">
-    <file style="display: block" ng-model="ctrl.page.cover">
+    <file style="display: block" ng-model="ctrl.page.cover" progress="ctrl.progress">
       <span data-ng-bind="ctrl.page.cover.name || 'Imagem da capa da página'"></span>
     </file>
     <h4>Proposta:</h4>
