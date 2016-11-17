@@ -2611,6 +2611,13 @@ var EventStart = function () {
   }
 
   _createClass(EventStart, [{
+    key: 'getSlugByName',
+    value: function getSlugByName(name) {
+      this.service.getSlugByName(name).then(function (response) {
+        return console.log(response.data);
+      });
+    }
+  }, {
     key: 'setPopoverContent',
     value: function setPopoverContent(field) {
       this.popoverContent = this.popovers[field];
@@ -2734,6 +2741,7 @@ var EventService = function (_CommonService) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EventService).call(this, API, $http));
 
+    _this.$http = $http;
     _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', _this).call(_this, 'events');
     return _this;
   }
@@ -2742,12 +2750,14 @@ var EventService = function (_CommonService) {
     key: 'findAll',
     value: function findAll() {
       _get(Object.getPrototypeOf(EventService.prototype), 'setPublicToken', this).call(this);
+      _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events');
       return _get(Object.getPrototypeOf(EventService.prototype), 'findAll', this).call(this);
     }
   }, {
     key: 'findById',
     value: function findById(id) {
       _get(Object.getPrototypeOf(EventService.prototype), 'setPublicToken', this).call(this);
+      _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events');
       return _get(Object.getPrototypeOf(EventService.prototype), 'findById', this).call(this, id);
     }
   }, {
@@ -2755,13 +2765,32 @@ var EventService = function (_CommonService) {
     value: function search(data) {
       _get(Object.getPrototypeOf(EventService.prototype), 'setPublicToken', this).call(this);
       _get(Object.getPrototypeOf(EventService.prototype), 'setParams', this).call(this, data);
+      _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events');
       return _get(Object.getPrototypeOf(EventService.prototype), 'search', this).call(this);
+    }
+  }, {
+    key: 'getSlugByName',
+    value: function getSlugByName(name) {
+      _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events/create/previewSlug/' + name);
+      return this.$http.get(_get(Object.getPrototypeOf(EventService.prototype), 'route', this));
     }
   }, {
     key: 'save',
     value: function save(data) {
       _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events/create');
       return _get(Object.getPrototypeOf(EventService.prototype), 'create', this).call(this, data);
+    }
+  }, {
+    key: 'getReport',
+    value: function getReport(id) {
+      _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events/' + id + '/report');
+      return this.$http.get(this.url + this.route);
+    }
+  }, {
+    key: 'saveReport',
+    value: function saveReport(id, data, progress) {
+      _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events/' + id + '/report/submit');
+      return _get(Object.getPrototypeOf(EventService.prototype), 'postWithFile', this).call(this, data, progress);
     }
   }]);
 
@@ -4199,14 +4228,16 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var OngReport = function () {
-  function OngReport(EventService, $stateParams) {
+  function OngReport($rootScope, EventService, $stateParams) {
     _classCallCheck(this, OngReport);
 
+    this.rootScope = $rootScope;
     this.service = EventService;
     if ($stateParams.uuid) {
       this.getEvent($stateParams.uuid);
+      this.getReport($stateParams.uuid);
     }
-    this.benefit = ['Crianças', 'Jovens', 'Pessoas', 'Familias', 'Idosos', 'Animais', 'Cachorros', 'Gatos', 'Árvores'];
+    this.benefit = [{ label: 'Crianças', value: 'children' }, { label: 'Jovens', value: 'young' }, { label: 'Pessoas', value: 'people' }, { label: 'Familias', value: 'families' }, { label: 'Idosos', value: 'elderly' }, { label: 'Animais', value: 'animals' }, { label: 'Cachorros', value: 'dogs' }, { label: 'Gatos', value: 'cats' }, { label: 'Árvores', value: 'trees' }];
   }
 
   _createClass(OngReport, [{
@@ -4216,6 +4247,37 @@ var OngReport = function () {
 
       this.service.findById(id).then(function (response) {
         return _this.event = response.data;
+      }, function (error) {
+        return console.error(error);
+      });
+    }
+  }, {
+    key: 'getReport',
+    value: function getReport(id) {
+      var _this2 = this;
+
+      this.service.getReport(id).then(function (response) {
+        _this2.report = response.data;
+        console.log(response.data);
+        delete _this2.report.picture1;
+        delete _this2.report.picture2;
+        delete _this2.report.picture3;
+      }, function (error) {
+        return console.error(error);
+      });
+    }
+  }, {
+    key: 'save',
+    value: function save(id, data) {
+      var _this3 = this;
+
+      console.log(id, data);
+      this.service.saveReport(id, data, function (progress) {
+        _this3.progress = progress;
+      }).then(function (response) {
+        _this3.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: response.data.status });
+      }, function (error) {
+        console.error(error.data);
       });
     }
   }]);
@@ -4226,7 +4288,7 @@ var OngReport = function () {
 exports.default = OngReport;
 
 
-OngReport.$inject = ['EventService', '$stateParams'];
+OngReport.$inject = ['$rootScope', 'EventService', '$stateParams'];
 
 },{}],80:[function(require,module,exports){
 'use strict';

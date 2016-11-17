@@ -29,7 +29,7 @@
         <div class="form-group" data-ng-class="{'has-error':start.name.$invalid && start.name.$dirty}">
           <label for="" class="control-label">Nome</label>
           <count-down-element model="ctrl.event.name" max="60">
-            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" placeholder="Digite o nome do evento aqui" maxlength="60" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('name')" popover-placement="right" popover-trigger="focus" required autofocus>
+            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" data-ng-model-options="{debounce: 1000}" placeholder="Digite o nome do evento aqui" maxlength="60" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('name')" popover-placement="right" popover-trigger="focus" required autofocus>
           </count-down-element>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.uri.$invalid && start.uri.$dirty}">

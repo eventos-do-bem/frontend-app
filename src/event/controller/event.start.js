@@ -53,6 +53,10 @@ export default class EventStart {
       }
     }
   }
+  getSlugByName(name) {
+    this.service.getSlugByName(name)
+      .then(response => console.log(response.data))
+  }
   setPopoverContent(field) {
     this.popoverContent = this.popovers[field]
   }

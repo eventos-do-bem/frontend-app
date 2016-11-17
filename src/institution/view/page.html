@@ -12,8 +12,8 @@
   <section class="content container">
     <div class="row">
       <div class="col-md-8">
-        <p class="description" data-ng-bind="ctrl.institution.description"></p>
-        <pre>{{ctrl.institution | json}}</pre>
+        <p class="description" data-ng-bind="ctrl.institution.impact"></p>
+        <!--<pre>{{ctrl.institution | json}}</pre>-->
         <div class="text-center">
           <h2>Gostou?</h2>
           <a ui-sref="event.start" class="btn btn-lg btn-warning">
@@ -27,16 +27,20 @@
         </figure>
         <div class="panel panel-default">
           <div class="panel-heading text-center">
-            <a ui-sref="event.start" class="btn btn-success">
+            <a ui-sref="event.start" class="btn btn-block btn-success">
               Crie aqui seu evento do bem <br> e ajude essa causa
+            </a>
+            <br><br>
+            <a class="btn btn-block btn-default">
+              Contribuir mensamente
             </a>
           </div>
           <div class="panel-body">
             <h4>Nome:</h4>
             <p data-ng-bind="ctrl.institution.name"></p>
-            <h4>Missão:</h4>
-            <p data-ng-bind="ctrl.institution.mission"></p>
-            <h4>Contato:</h4>
+            <h4 data-ng-show="ctrl.institution.propose">Missão:</h4>
+            <p data-ng-bind="ctrl.institution.propose"></p>
+            <h4 data-ng-show="ctrl.institution.contact">Contato:</h4>
             <p data-ng-bind="ctrl.institution.contact"></p>
           </div>
         </div>
