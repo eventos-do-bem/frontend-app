@@ -29,21 +29,29 @@ export default class OngReport {
     this.service.getReport(id)
       .then(
         response => {
-          this.report = response.data
           console.log(response.data)
+          this.report = response.data
           delete this.report.picture1
           delete this.report.picture2
           delete this.report.picture3
+          delete this.report.picture4
         },
         error => console.error(error)
       )
   }
-  save(id, data) {
-    console.log(id, data)
+  save(id, data, submission) {
+    let feedbackMessage
+    if (submission) {
+      data.submission = true
+      feedbackMessage = 'Seu relatório foi enviado para aprovação, aguarde e se estiver tudo correto, será publicado.'
+    } else {
+      feedbackMessage = 'Seu relatório foi salvo, e permanece em progresso, assim que concluído, submeta para avaliação.'
+    }
     this.service.saveReport(id, data, progress => {
       this.progress = progress
     }).then(response => {
-      this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
+      console.log(response)
+      this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: feedbackMessage})
     }, error => {
       console.error(error.data)
     })

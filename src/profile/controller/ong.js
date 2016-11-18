@@ -8,8 +8,8 @@ export default class ProfileOng {
     })
   }
   getEventsWithoutReport() {
-    this.service.getEvents({ withoutReport: true, total: true })
-      .then(response => this.withoutReport = response.data.total)
+    this.service.getEvents({ onlyEnabledToReceiveReport: true, total: true })
+      .then(response => this.onlyEnabledToReceiveReport = response.data.total)
   }
 }
 

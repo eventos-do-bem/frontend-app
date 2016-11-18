@@ -406,6 +406,19 @@ dl dd:last-child {
 }
 /* /campaign */
 
+/* report */
+.report .row:first-child p {
+  font-size: 3rem;
+  font-weight: 300;
+}
+.report #map .path_estado {
+  stroke: #0074DB;
+}
+.report .amazonia {
+  /*fill: #000000;*/
+}
+/* /report*/
+
 /* thumbnail */
 .thumbnail {
   margin-bottom: 0px;

@@ -13,7 +13,7 @@ export default class OngEvents {
     }).then(response => {
       this.pagination = response.data.meta.pagination
       this.events = response.data.values.map(event => {
-        event.ends = new Date(event.ends)
+        event.dateStartSubmissionReport = new Date(event.dateStartSubmissionReport)
         return event
       })
       this.pendings = response.data.values.filter(event => {

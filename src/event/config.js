@@ -17,6 +17,12 @@ export default function EventConfig($stateProvider) {
       controller: 'EventExplore',
       controllerAs: 'ctrl'
     })
+    .state('event.report', {
+      url: '/:uuid/relatorio',
+      templateUrl: './src/event/view/event.report.html',
+      controller: 'EventReport',
+      controllerAs: 'ctrl'
+    })
     .state('event.slug', {
       url: '/:slug',
       templateUrl: './src/event/view/event.html',

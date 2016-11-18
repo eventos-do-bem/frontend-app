@@ -12,14 +12,14 @@ export default class EventService extends CommonService {
     return super.findAll()
   }
   findById(id) {
-    super.setPublicToken()
     super.setRoute('events')
+    super.setPublicToken()
     return super.findById(id)
   }
   search(data) {
+    super.setRoute('events')
     super.setPublicToken()
     super.setParams(data)
-    super.setRoute('events')
     return super.search()
   }
   getSlugByName(name) {
@@ -33,6 +33,11 @@ export default class EventService extends CommonService {
   getReport(id) {
     super.setRoute(`events/${id}/report`)
     return this.$http.get(this.url + this.route)
+  }
+  getReportPublic(id) {
+    super.setRoute(`events/${id}/report`)
+    super.setPublicToken()
+    return this.$http.get(this.url + this.route, this.config)
   }
   saveReport(id, data, progress) {
     super.setRoute(`events/${id}/report/submit`)

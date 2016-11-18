@@ -1,0 +1,23 @@
+<div class="report">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center" data-ng-bind="ctrl.report.institution.user.name"></h2>
+        <p class="text-center">
+          Ajudando: <span data-ng-bind="ctrl.report.institution.name"></span>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <map highlighted="parana"></map>
+      </div>
+      <div class="col-md-6">
+        <p class="text-center">Slides</p>
+      </div>
+      <div class="col-md-3">
+        <img data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+      </div>
+    </div>
+  </div>
+</div>

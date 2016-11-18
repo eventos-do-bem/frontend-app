@@ -17,13 +17,13 @@
           </p>
         </div>
         <div class="col-md-4">
-          <a ui-sref="profile.ong.report({uuid: item.uuid})" class="btn btn-success btn-block btn-waiting">
+          <a ui-sref="profile.ong.report({uuid: item.uuid})" data-ng-show="item.enabledToReceiveReport" class="btn btn-success btn-block btn-waiting">
             Submeter relatório
           </a>
           <br>
           <p class="text-success text-center">
             Prazo máximo: 
-            <span data-ng-bind="item.ends | date: 'dd/MM/yyyy'"></span>
+            <span data-ng-bind="item.dateStartSubmissionReport | date: 'dd/MM/yyyy'"></span>
             <br>
             <a ui-sref="event.slug({slug: item.slug})">Veja a página</a>
           </p>
