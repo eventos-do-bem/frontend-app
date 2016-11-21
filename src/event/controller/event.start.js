@@ -1,5 +1,6 @@
 export default class EventStart {
-  constructor($state, $window, $stateParams, $filter, CityService, EventService, CategoryService, InstitutionService) {
+  constructor($rootScope, $state, $window, $stateParams, $filter, CityService, EventService, CategoryService, InstitutionService) {
+    this.rootScope = $rootScope
     this.$state = $state
     this.window = $window
     this.filter = $filter
@@ -55,7 +56,7 @@ export default class EventStart {
   }
   getSlugByName(name) {
     this.service.getSlugByName(name)
-      .then(response => console.log(response.data))
+      .then(response => this.event.uri = response.data.slug)
   }
   setPopoverContent(field) {
     this.popoverContent = this.popovers[field]
@@ -68,8 +69,12 @@ export default class EventStart {
     console.log(JSON.stringify(event))
     this.service.save(event)
       .then(
-        response => console.log(response),
-        error => console.error(error)
+        response => {
+          this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: 'Obrigado por criar seu evento! em breve entraremos em contato pra lhe ajudar e criar seus Eventos do Bem! :)'})
+        },
+        error => {
+          this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data.message})
+        }
       )
   }
   getAttr(name,attr) {
@@ -95,4 +100,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$state','$window','$stateParams','$filter', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']
+EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$filter', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']

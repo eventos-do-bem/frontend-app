@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" data-ng-controller="Footer as ctrl">
   <nav class="row">
     <div class="col-md-3 col-xs-6">
       <h5>Sobre nós</h5>
@@ -60,6 +60,6 @@
   <p>
     Feito com
     <img src="assets/icons/pngs/only-logo-white.png" alt="Eventos do Bem">
-    &copy; 2016 | todos os direitos reservados
+    &copy; <span data-ng-bind="ctrl.year"></span> | todos os direitos reservados
   </p>
 </div>
