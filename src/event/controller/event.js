@@ -10,6 +10,7 @@ export default class Event {
         .then(
           response => {
             event = response.data
+            console.log(event)
             event.ends = new Date(event.ends)
             event.progress = Math.floor((event.total_receive / event.goal) * 100)
             this.event = event

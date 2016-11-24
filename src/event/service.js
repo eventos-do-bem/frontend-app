@@ -6,9 +6,12 @@ export default class EventService extends CommonService {
     this.$http = $http
     super.setRoute('events')
   }
-  findAll() {
+  findAll(params) {
     super.setPublicToken()
     super.setRoute('events')
+    if (params != undefined) {
+      super.setParams(params)
+    }
     return super.findAll()
   }
   findById(id) {

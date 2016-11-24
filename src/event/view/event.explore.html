@@ -57,6 +57,25 @@
     </div>
     <div class="row">
       <div class="col-md-12">
+        <div class="text-center">
+          <ul uib-pagination
+              total-items="ctrl.pagination.total"
+              ng-model="ctrl.pagination.current_page"
+              max-size="ctrl.pagination.per_page"
+              class="pagination-sm"
+              previous-text="Anterior"
+              next-text="Próxima"
+              first-text="Primeira"
+              last-text="Última"
+              boundary-links="true"
+              num-pages="ctrl.pagination.total_pages"
+              data-ng-change="ctrl.changePage()">
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
         <h2 class="text-center">Se inspirou? <br> Entre em ação e faça parte de tudo isso ;)</h2>
         <div class="form-buttons form-buttons-center">
           <a ui-sref="event.start" class="btn btn-lg btn-warning" data-ng-disabled="!ctrl.user">

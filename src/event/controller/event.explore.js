@@ -11,13 +11,22 @@ class EventExplore {
       }
     }
     this.isOpen = false
+    this.pendings = 0
+    this.pagination = { current_page: 1 }
     this.getEvents()
     this.getActivityAreas()
     this.search = () => this.getSearch(this.query)
   }
   getEvents() {
-    this.eventService.findAll()
-      .then(response => this.events = response.data.values)
+    this.eventService.findAll({
+      page: this.pagination.current_page
+    }).then(response => {
+        this.pagination = response.data.meta.pagination
+        this.events = response.data.values
+      })
+  }
+  changePage() {
+    this.getEvents()
   }
   getSearch(data) {
     data = angular.copy(data)

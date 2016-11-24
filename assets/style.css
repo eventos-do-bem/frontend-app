@@ -117,6 +117,10 @@ blockquote .name {
   padding: 85px 130px;
 }
 
+.report .carousel .carousel-inner {
+  padding: 40px 130px;
+}
+
 .loading {
   position: fixed;
   top: 0;

@@ -2520,6 +2520,8 @@ var EventExplore = function () {
       }
     };
     this.isOpen = false;
+    this.pendings = 0;
+    this.pagination = { current_page: 1 };
     this.getEvents();
     this.getActivityAreas();
     this.search = function () {
@@ -2532,9 +2534,17 @@ var EventExplore = function () {
     value: function getEvents() {
       var _this2 = this;
 
-      this.eventService.findAll().then(function (response) {
-        return _this2.events = response.data.values;
+      this.eventService.findAll({
+        page: this.pagination.current_page
+      }).then(function (response) {
+        _this2.pagination = response.data.meta.pagination;
+        _this2.events = response.data.values;
       });
+    }
+  }, {
+    key: 'changePage',
+    value: function changePage() {
+      this.getEvents();
     }
   }, {
     key: 'getSearch',
@@ -2589,6 +2599,7 @@ var Event = function Event($rootScope, $state, $stateParams, EventService) {
   if ($stateParams.slug) {
     EventService.findById($stateParams.slug).then(function (response) {
       event = response.data;
+      console.log(event);
       event.ends = new Date(event.ends);
       event.progress = Math.floor(event.total_receive / event.goal * 100);
       _this.event = event;
@@ -2621,9 +2632,17 @@ var EventReport = function () {
     if ($stateParams.uuid) {
       this.getReport($stateParams.uuid);
     }
+    this.myInterval = 5000;
+    this.noWrapSlides = false;
+    this.active = 0;
   }
 
   _createClass(EventReport, [{
+    key: 'getRepeat',
+    value: function getRepeat(num) {
+      return new Array(num);
+    }
+  }, {
     key: 'getReport',
     value: function getReport(id) {
       var _this = this;
@@ -2631,6 +2650,17 @@ var EventReport = function () {
       this.service.getReportPublic(id).then(function (response) {
         console.log(response.data);
         _this.report = response.data;
+        _this.slides = [{
+          id: 0,
+          image: 'assets/images/perfil/carlos.jpg'
+        }, {
+          id: 1,
+          image: 'assets/images/perfil/fernanda.jpg'
+        }, {
+          id: 2,
+          image: 'assets/images/perfil/pedro.png'
+        }];
+        console.log(_this.slides);
       }, function (error) {
         return console.error(error);
       });
@@ -2865,9 +2895,12 @@ var EventService = function (_CommonService) {
 
   _createClass(EventService, [{
     key: 'findAll',
-    value: function findAll() {
+    value: function findAll(params) {
       _get(Object.getPrototypeOf(EventService.prototype), 'setPublicToken', this).call(this);
       _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events');
+      if (params != undefined) {
+        _get(Object.getPrototypeOf(EventService.prototype), 'setParams', this).call(this, params);
+      }
       return _get(Object.getPrototypeOf(EventService.prototype), 'findAll', this).call(this);
     }
   }, {

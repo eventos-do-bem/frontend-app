@@ -9,14 +9,87 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-2">
+        <p class="text-center">Localização do Projeto</p>
         <map highlighted="parana"></map>
       </div>
-      <div class="col-md-6">
-        <p class="text-center">Slides</p>
+      <div class="col-md-8">
+        <div style="height: auto">
+          <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+            <div uib-slide ng-repeat="slide in ctrl.slides track by slide.id" index="slide.id">
+              <img ng-src="{{slide.image}}" style="margin:auto;">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h4>
+              Valor Angariado: <span class="text-primary" data-ng-bind="ctrl.report.occurrence.goal_human"></span> reais
+            </h4>
+            <h4>
+              Site do projeto: <a target="_blank" href="{{ctrl.report.institution.website}}" class="text-primary" data-ng-bind="ctrl.report.institution.website"></a>
+            </h4>
+            <h4>
+              Causa: <span class="text-primary" data-ng-bind="ctrl.report.institution.name"></span>
+            </h4>
+          </div>
+        </div>
       </div>
-      <div class="col-md-3">
-        <img data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+      <div class="col-md-2">
+        <p class="text-center">Causa beneficiada</p>
+        <div data-ng-switch="ctrl.report.benefitType" class="text-center">
+          <div data-ng-switch-when="children">
+            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          </div>
+        </div>
+        <!--<img data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">-->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="text-center">
+          Este projeto ajudou <span data-ng-bind="ctrl.report.institution.user.name"></span>.
+          <span></span>
+        </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h3 class="text-center">
+          Lista dos participantes do Evento do Bem
+          <span></span>
+        </h3>
+        <p class="text-center text-muted">
+          Parabéns! Se você foi um dos apoiados do Bem,
+          <br>
+          que doou para a campanha de <span></span>, encontre seu nome aqui :)
+        </p>
+        <form name="search" novalidate>
+          <div class="input-group input-group-lg">
+            <input type="text" class="form-control" data-ng-model="query" placeholder="Procure seu nome aqui">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </span>
+          </div>
+        </form>
+        <div class="margin-top-20">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Doador</th>
+                <th>Mensagens</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-ng-repeat="message in ctrl.report.messages.values">
+                <td data-ng-bind=""></td>
+                <td data-ng-bind=""></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
