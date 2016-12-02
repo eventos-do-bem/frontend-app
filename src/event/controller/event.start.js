@@ -1,14 +1,14 @@
 export default class EventStart {
-  constructor($rootScope, $state, $window, $stateParams, $filter, CityService, EventService, CategoryService, InstitutionService) {
+  constructor($rootScope, $state, $window, $stateParams, $filter, LocationService, CityService, EventService, CategoryService, InstitutionService) {
     this.rootScope = $rootScope
     this.$state = $state
     this.window = $window
     this.filter = $filter
     this.service = EventService
+    this.locationService = LocationService
     if (this.hasDraft()) {
       this.draft = this.getDraft()
     }
-    this.event = {}
     // this.categories = [
     //   { id: 'Aniversários', label: 'Aniversários' },
     //   { id: 'Casamentos', label: 'Casamentos' },
@@ -16,8 +16,10 @@ export default class EventStart {
     //   { id: 'Jantares', label: 'Jantares' },
     //   { id: 'Voluntariado', label: 'Voluntariado' }
     // ]
-    CityService.findAll()
-      .then(response => this.cities = response.data.values)    
+    this.locationService.getStates()
+      .then(response => this.states = response.data.values)
+    // CityService.findAll()
+    //   .then(response => this.cities = response.data.values)    
     InstitutionService.findAll()
       .then(response => this.institutions = response.data.values)
     CategoryService.findAll()
@@ -31,6 +33,10 @@ export default class EventStart {
       institution: {
         title: 'A instituição que quer ajudar',
         text: 'Para garantir a legitimidade das causas financiadas, o projeto beneficiado deve ser cadastrado na nossa plataforma. Você também pode procurar projetos e instituições já cadastrados em nosso portfolio de inspiração. Caso queira sugerir uma causa de interesse, entre em contato por aqui.'
+      },
+      state: {
+        title: 'Seu estado',
+        text: 'Selecione seu estado para que as cidades sejam carregadas.'
       },
       category: {
         title: 'Categoria da campanha',
@@ -53,6 +59,14 @@ export default class EventStart {
         text: 'Você pode gravar um vídeo explicando sua campanha. Caso prefira, pode ser um vídeo institucional da causa beneficiada. Se você deixar em branco o endereço do vídeo, sua página automaticamente utilizará o vídeo-padrão ou uma imagem do projeto salvo em nosso banco de dados.'
       }
     }
+  }
+  getCities(state, city) {
+    let citie = document.querySelector('input[name="citie"]')
+    this.locationService.getCities(state, city)
+      .then(response => {
+        this.cities = response.data.values
+        citie.focus()
+      })
   }
   getSlugByName(name) {
     this.service.getSlugByName(name)
@@ -100,4 +114,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$filter', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']
+EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$filter', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']

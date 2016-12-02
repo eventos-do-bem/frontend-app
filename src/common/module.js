@@ -1,4 +1,5 @@
 import CommonService        from './service/common.js'
+import LocationService      from './service/location.js'
 import CityService          from './service/city.js'
 import CategoryService      from './service/category.js'
 import ActivityAreaService  from './service/activityArea.js'
@@ -20,6 +21,7 @@ export default angular
   .service('CommonService', CommonService)
   .controller('Header', Header)
   .controller('Footer', Footer)
+  .service('LocationService', LocationService)
   .service('CityService', CityService)
   .service('CategoryService', CategoryService)
   .service('ActivityAreaService', ActivityAreaService)
