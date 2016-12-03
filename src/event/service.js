@@ -29,7 +29,7 @@ export default class EventService extends CommonService {
     super.setRoute(`events/create/previewSlug/${name}`)
     return this.$http.get(this.url + this.route, this.config)
   }
-  save(data) {
+  save(data, progress) {
     super.setRoute('events/create')
     return super.postWithFile(data, progress)
   }

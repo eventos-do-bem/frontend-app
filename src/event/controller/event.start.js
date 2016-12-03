@@ -77,17 +77,19 @@ export default class EventStart {
   }
   save(event) {
     event = angular.copy(event)
-    event.institution_uuid = event.institution_uuid.uuid
+    if (event.institution_uuid) {
+      event.institution_uuid = event.institution_uuid.uuid
+    }
     // let end_date = event.end_date.split('/')
     // event.end_date = `${end_date[2]}-${end_date[1]}-${end_date[0]}`
     console.log(JSON.stringify(event))
-    this.service.save(event)
+    this.service.save(event, progress => this.progress = progress)
       .then(
         response => {
           this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: 'Obrigado por criar seu evento! em breve entraremos em contato pra lhe ajudar e criar seus Eventos do Bem! :)'})
         },
         error => {
-          this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data.message})
+          this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
         }
       )
   }

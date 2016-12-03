@@ -571,12 +571,23 @@ Object.defineProperty(exports, "__esModule", {
 var Component = {
   restrict: 'E',
   bindings: {},
-  template: '\n    <p data-ng-repeat="alert in $ctrl.alerts" class="alert alert-dismissible" data-ng-class="[alert.type]" data-ng-show="alert.show" role="alert">\n      <button type="button" class="close" data-ng-click="alert.show = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n      <i class="fa" data-ng-class="[alert.icon]"></i>\n      <span data-ng-bind-html="alert.message"></span>\n    </p>\n  ',
+  template: '\n    <p data-ng-repeat="alert in $ctrl.alerts" class="alert alert-dismissible" data-ng-class="[alert.type]" data-ng-show="alert.show" role="alert">\n      <button type="button" class="close" data-ng-click="alert.show = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n      <i class="fa" data-ng-class="[alert.icon]"></i>\n      <span data-ng-repeat="error in alert.message" data-ng-bind-html="error"></span>\n    </p>\n  ',
   controller: function controller($scope) {
     var ctrl = this;
     $scope.$on('alert', function (event, args) {
       args.show = true;
-      ctrl.alerts.push(args);
+      var message = angular.copy(args.message);
+      args.message = [];
+      if (typeof message == 'string') {
+        args.message.push(message);
+      } else {
+        args.show = true;
+        for (var i in message.errors) {
+          args.message.push(message.errors[i]);
+        }
+        args.message.join('<br>');
+        ctrl.alerts.push(args);
+      }
     });
     $scope.$on('alert-clear', function (event) {
       ctrl.alerts = [];
@@ -2836,14 +2847,18 @@ var EventStart = function () {
       var _this4 = this;
 
       event = angular.copy(event);
-      event.institution_uuid = event.institution_uuid.uuid;
+      if (event.institution_uuid) {
+        event.institution_uuid = event.institution_uuid.uuid;
+      }
       // let end_date = event.end_date.split('/')
       // event.end_date = `${end_date[2]}-${end_date[1]}-${end_date[0]}`
       console.log(JSON.stringify(event));
-      this.service.save(event).then(function (response) {
+      this.service.save(event, function (progress) {
+        return _this4.progress = progress;
+      }).then(function (response) {
         _this4.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: 'Obrigado por criar seu evento! em breve entraremos em contato pra lhe ajudar e criar seus Eventos do Bem! :)' });
       }, function (error) {
-        _this4.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data.message });
+        _this4.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data });
       });
     }
   }, {
@@ -2993,7 +3008,7 @@ var EventService = function (_CommonService) {
     }
   }, {
     key: 'save',
-    value: function save(data) {
+    value: function save(data, progress) {
       _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events/create');
       return _get(Object.getPrototypeOf(EventService.prototype), 'postWithFile', this).call(this, data, progress);
     }
