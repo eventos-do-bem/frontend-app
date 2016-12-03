@@ -155,7 +155,7 @@
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.video.$invalid && start.video.$dirty}">
           <label for="video" class="control-label">Vídeo (Youtube ou Vimeo)</label>
-          <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right">
+          <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right" popover-trigger="focus">
         </div>
         <div class="checkbox">
           <label>
