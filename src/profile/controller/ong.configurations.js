@@ -43,18 +43,13 @@ export default class OngConfigurations {
       .then(response => console.log(response))
   }
   saveUser(profile) {
-    profile = angular.copy(profile)
-    delete profile.avatar
-    console.log(profile)
-    // birthdate = profile.birthdate.split('/')
-    // profile.birthdate = new Date(`${birthdate[2]}-${birthdate[1]}-${birthdate[0]}`)
-    // profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'yyyy-MM-dd')
-    this.service.change(profile)
-      .then(
+    this.service.change(profile, progress => {
+      this.progress = progress
+    }).then(
         response => {
           this.storage.setItem('token', response.data.token)
-          let {name, email, type} = response.data
-          this.storage.setItem('profile', {name: name, email: email, type: type})
+          let {name, email, type, avatar} = response.data
+          this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar})
           this.rootScope.$broadcast('profile.change')
           this.profile.password = '';
           this.profile.new_password = '';

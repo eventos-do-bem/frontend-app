@@ -11,6 +11,7 @@ export default class OngEvents {
       withoutReport: true,
       page: this.pagination.current_page
     }).then(response => {
+      console.log(response)
       this.pagination = response.data.meta.pagination
       this.events = response.data.values.map(event => {
         event.dateStartSubmissionReport = new Date(event.dateStartSubmissionReport)

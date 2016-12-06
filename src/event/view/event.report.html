@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h1 class="text-center" data-ng-bind="ctrl.report.institution.user.name"></h2>
+        <h1 class="text-center" data-ng-bind="ctrl.report.occurrence.user.name"></h2>
         <p class="text-center">
           Ajudando: <span data-ng-bind="ctrl.report.institution.name"></span>
         </p>
@@ -11,7 +11,10 @@
     <div class="row">
       <div class="col-md-2">
         <p class="text-center">Localização do Projeto</p>
-        <map highlighted="parana"></map>
+        <map highlighted="ctrl.report.occurrence.location.state"></map>
+        <p class="text-center">
+          <span class="text-primary">Cidade:</span> <span data-ng-bind="ctrl.report.occurrence.location.citie"></span>
+        </p>
       </div>
       <div class="col-md-8">
         <div style="height: auto">
@@ -41,6 +44,30 @@
           <div data-ng-switch-when="children">
             <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
           </div>
+          <div data-ng-switch-when="young">
+            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          </div>
+          <div data-ng-switch-when="people">
+            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          </div>
+          <div data-ng-switch-when="families">
+            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          </div>
+          <div data-ng-switch-when="elderly">
+            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          </div>
+          <div data-ng-switch-when="animals">
+            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          </div>
+          <div data-ng-switch-when="dogs">
+            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          </div>
+          <div data-ng-switch-when="cats">
+            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          </div>
+          <div data-ng-switch-when="trees">
+            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          </div>
         </div>
         <!--<img data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">-->
       </div>
@@ -62,7 +89,7 @@
         <p class="text-center text-muted">
           Parabéns! Se você foi um dos apoiados do Bem,
           <br>
-          que doou para a campanha de <span></span>, encontre seu nome aqui :)
+          que doou para a campanha de <span data-ng-bind="ctrl.report.occurrence.user.name"></span>, encontre seu nome aqui :)
         </p>
         <form name="search" novalidate>
           <div class="input-group input-group-lg">
@@ -83,9 +110,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr data-ng-repeat="message in ctrl.report.messages.values">
-                <td data-ng-bind=""></td>
-                <td data-ng-bind=""></td>
+              <tr data-ng-repeat="item in ctrl.report.messages.values">
+                <td>
+                  <span data-ng-show="item.user" data-ng-bind="item.user.name"></span>
+                  <span data-ng-show="!item.user">Anônimo</span>
+                </td>
+                <td>
+                  <p data-ng-bind="item.message"></p>
+                </td>
               </tr>
             </tbody>
           </table>

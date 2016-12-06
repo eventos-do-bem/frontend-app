@@ -5,7 +5,7 @@
   <section class="cover-content container">
     <div class="row">
       <div class="col-md-2">
-        <img src="assets/images/avatar.jpg" class="avatar img-responsive img-circle" alt="">
+        <img data-ng-src="{{ctrl.event.user.avatar.medium}}" class="avatar img-responsive img-circle" alt="">
       </div>
       <div class="col-md-10">
         <h2 data-ng-bind="ctrl.event.name"></h2>
@@ -17,21 +17,21 @@
   <section class="content container">
     <div class="row">
       <div class="col-md-8">
-        <div data-ng-show="ctrl.event.videos.values[0]">
-          <iframe src="https://www.youtube.com/embed/V1U4mpk80_0" frameborder="0" allowfullscreen></iframe>
+        <div data-ng-show="ctrl.event.videos.values[0]" class="video-container">
+          <iframe src="https://www.youtube.com/embed/V1U4mpk80_0" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
         <p class="description" data-ng-bind="ctrl.event.description"></p>
         <div class="fb-share-button" 
           data-href="/evento/{{ctrl.event.slud}}" 
           data-layout="button_count">
         </div>
-        <h4>Mensagens dos doadores da campanha de Luciana Pricoli Vilela</h4>
+        <h4>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h4>
         <ul class="media-list">
           <li class="media" data-ng-repeat="item in ctrl.event.messages.values">
             <div class="media-left">
               <a href="#">
-                <img data-ng-show="item.user" class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
-                <img data-ng-show="!item.user" class="media-object img-circle" src="assets/images/avatars/avatar.svg" alt="Avatar">
+                <img data-ng-show="item.user" class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
+                <img data-ng-show="!item.user" class="media-object img-circle" data-ng-src="/assets/images/avatars/small/avatar.svg" alt="Anônimo">
               </a>
             </div>
             <div class="media-body">

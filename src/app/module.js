@@ -25,9 +25,9 @@ import confirmation     from './../confirmation/module.js'
 
 angular
   .module('app', [
-    'ui.bootstrap'
-  , 'ngMask'
+   'ui.bootstrap'
   , uiRouter
+  ,'ngMask'
   ,'ngMessages'
   ,'ngSanitize'
   ,'common'

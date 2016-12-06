@@ -1,7 +1,7 @@
 class EventReport {
   constructor($stateParams,EventService,StorageService) {
     this.service = EventService
-    this.user = StorageService.getItem('user')
+    this.profile = StorageService.getItem('profile')
     if ($stateParams.uuid) {
       this.getReport($stateParams.uuid)
     }
@@ -13,26 +13,21 @@ class EventReport {
     return new Array(num)
   }
   getReport(id) {
-    this.service.getReportPublic(id)
+    let method = (this.profile) ? 'getReport' : 'getReportPublic'
+    this.service[method](id)
       .then(
         response => {
           console.log(response.data)
           this.report = response.data
-          this.slides = [
-            {
-              id: 0,
-              image: 'assets/images/perfil/carlos.jpg'
-            },
-            {
-              id: 1,
-              image: 'assets/images/perfil/fernanda.jpg'
-            },
-            {
-              id: 2,
-              image: 'assets/images/perfil/pedro.png'
-            }
-          ]
-          console.log(this.slides)
+          this.slides = []
+          let x, picture
+          for (x = 0; x < 3; x++) {
+            picture = `picture${x + 1}`
+            this.slides.push({
+              id: x,
+              image: this.report[picture].original
+            })
+          }
         },
         error => console.error(error)
       )
