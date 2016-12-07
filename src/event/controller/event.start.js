@@ -75,14 +75,21 @@ export default class EventStart {
   setPopoverContent(field) {
     this.popoverContent = this.popovers[field]
   }
+  checkEndDate(end) {
+    let end_date = end.split('/')
+    end_date = `${end_date[2]}-${end_date[1]}-${end_date[0]}`
+    let dateEnd = new Date(end_date),
+      dateCurrent = new Date(),
+      timeDiff = dateEnd - dateCurrent,
+      diffDays = parseInt(timeDiff / (1000 * 3600 * 24))
+    return (diffDays >= 22 && diffDays <= 90) ? false : true
+  }
   save(event) {
     event = angular.copy(event)
     if (event.institution_uuid) {
       event.institution_uuid = event.institution_uuid.uuid
     }
-    // let end_date = event.end_date.split('/')
-    // event.end_date = `${end_date[2]}-${end_date[1]}-${end_date[0]}`
-    console.log(JSON.stringify(event))
+    // console.log(JSON.stringify(event))
     this.service.save(event, progress => this.progress = progress)
       .then(
         response => {

@@ -2856,6 +2856,17 @@ var EventStart = function () {
       this.popoverContent = this.popovers[field];
     }
   }, {
+    key: 'checkEndDate',
+    value: function checkEndDate(end) {
+      var end_date = end.split('/');
+      end_date = end_date[2] + '-' + end_date[1] + '-' + end_date[0];
+      var dateEnd = new Date(end_date),
+          dateCurrent = new Date(),
+          timeDiff = dateEnd - dateCurrent,
+          diffDays = parseInt(timeDiff / (1000 * 3600 * 24));
+      return diffDays >= 22 && diffDays <= 90 ? false : true;
+    }
+  }, {
     key: 'save',
     value: function save(event) {
       var _this4 = this;
@@ -2864,9 +2875,7 @@ var EventStart = function () {
       if (event.institution_uuid) {
         event.institution_uuid = event.institution_uuid.uuid;
       }
-      // let end_date = event.end_date.split('/')
-      // event.end_date = `${end_date[2]}-${end_date[1]}-${end_date[0]}`
-      console.log(JSON.stringify(event));
+      // console.log(JSON.stringify(event))
       this.service.save(event, function (progress) {
         return _this4.progress = progress;
       }).then(function (response) {
@@ -2985,7 +2994,6 @@ var EventService = function (_CommonService) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EventService).call(this, API, $http));
 
     _this.$http = $http;
-    _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', _this).call(_this, 'events');
     return _this;
   }
 

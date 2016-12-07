@@ -61,13 +61,13 @@
           </count-down-element>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.uri.$invalid && start.uri.$dirty}">
-          <label for="uri" class="control-label">Como você quer o endereço da sua campanha?</label>
-          <count-down-element model="ctrl.event.uri" max="50">
+          <label for="uri" class="control-label">Este será o endereço web de sua campanha (gerado automaticamente baseado no nome acima)</label>
+          <!--<count-down-element model="ctrl.event.uri" max="50">-->
             <div class="input-group">
               <span class="input-group-addon">www.eventosdobem.com.br/</span>
-              <input type="text" name="uri" id="uri" class="form-control" data-ng-model="ctrl.event.uri" placeholder="nome da campanha" maxlength="50" readonly required>
+              <input type="text" name="uri" id="uri" class="form-control" data-ng-model="ctrl.event.uri" readonly required>
             </div>
-          </count-down-element>
+          <!--</count-down-element>-->
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.institution_uuid.$invalid && start.institution_uuid.$dirty}">
           <label for="institution_uuid" class="control-label">Escolha a causa que irá ajudar</label>
@@ -118,15 +118,15 @@
             </p>
           </div>
         </div>
-        <div class="checkbox">
+        <!--<div class="checkbox">
           <label>
             <input type="checkbox" name="image_default">
             Quero usar a imagem padrão registrada para a causa que escolhi.
           </label>
-        </div>
+        </div>-->
         <div class="row">
           <div class="col-md-6">
-            <div class="form-group" data-ng-class="{'has-error':start.goal_amount.$invalid && start.goal_amount.$dirty}">
+            <div class="form-group" data-ng-class="{'has-error':start.goal_amount.$invalid && start.goal_amount.$dirty, 'has-error': start.goal_amount.$dirty && ctrl.event.goal_amount < 100}">
               <label for="goal_amount" class="control-label">Meta</label>
               <div class="input-group">
                 <span class="input-group-addon">R$</span>
@@ -141,9 +141,9 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group" data-ng-class="{'has-error':start.end_date.$invalid && start.end_date.$dirty}">
+            <div class="form-group" data-ng-class="{'has-error':start.end_date.$invalid && start.end_date.$dirty, 'has-error': start.end_date.$dirty && ctrl.checkEndDate(ctrl.event.end_date)}">
               <label for="end_date" class="control-label">Término</label>
-              <input type="text" name="end_date" id="end_date" mask="99/99/9999" class="form-control" data-ng-model="ctrl.event.end_date" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
+              <input type="text" name="end_date" id="end_date" mask="99/99/9999" class="form-control" data-ng-model="ctrl.event.end_date" data-ng-model-options="{debounce: 1000}" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
             </div>
           </div>
         </div>
