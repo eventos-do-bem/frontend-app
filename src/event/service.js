@@ -41,6 +41,22 @@ export default class EventService extends CommonService {
     super.setPublicToken()
     return this.$http.get(this.url + this.route, this.config)
   }
+  getMessages(id, user) {
+    super.setRoute(`events/${id}/messages`)
+    if (user) {
+      super.setParams(user)
+    }
+    return this.$http.get(this.url + this.route, this.config)
+  }
+  getMessagesPublic(id, user) {
+    super.setRoute(`events/${id}/messages`)
+    super.setPublicToken()
+    if (user) {
+      super.setParams(user)
+    }
+    console.log(this.config)
+    return this.$http.get(this.url + this.route, this.config)
+  }
   saveReport(id, data, progress) {
     super.setRoute(`events/${id}/report/submit`)
     return super.postWithFile(data, progress)

@@ -571,7 +571,7 @@ Object.defineProperty(exports, "__esModule", {
 var Component = {
   restrict: 'E',
   bindings: {},
-  template: '\n    <p data-ng-repeat="alert in $ctrl.alerts" class="alert alert-dismissible" data-ng-class="[alert.type]" data-ng-show="alert.show" role="alert">\n      <button type="button" class="close" data-ng-click="alert.show = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n      <i class="fa" data-ng-class="[alert.icon]"></i>\n      <span data-ng-repeat="error in alert.message" data-ng-bind-html="error"></span>\n    </p>\n  ',
+  template: '\n    <p data-ng-repeat="alert in $ctrl.alerts" class="alert alert-dismissible" data-ng-class="[alert.type]" data-ng-show="alert.show" role="alert">\n      <button type="button" class="close" data-ng-click="alert.show = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n      <i class="fa" data-ng-class="[alert.icon]"></i>\n      <span data-ng-repeat="error in alert.message">\n        <span data-ng-bind="error"></span>\n        <br>\n      </span>\n    </p>\n  ',
   controller: function controller($scope) {
     var ctrl = this;
     $scope.$on('alert', function (event, args) {
@@ -585,7 +585,7 @@ var Component = {
         for (var i in message.errors) {
           args.message.push(message.errors[i]);
         }
-        args.message.join('<br>');
+        // args.message.join('<br>')
         ctrl.alerts.push(args);
       }
     });
@@ -2152,7 +2152,7 @@ var DonateBillet = function () {
         delete this.donate.name;
         delete this.donate.email;
         delete this.donate.birthdate;
-        if (this.donate.document) delete this.donate.document;
+        // if (this.donate.document) delete this.donate.document
       }
       var method = this.logged ? 'printLoggedBillet' : 'printPublicBillet';
       this.donateService[method](this.uuid, this.donate).then(function (response) {
@@ -2322,8 +2322,11 @@ var DonateEvent = function () {
         delete donate.name;
         delete donate.email;
         delete donate.birthdate;
-        delete donate.document;
+        if (!this.missingDoc) {
+          delete donate.document;
+        }
       }
+      console.log(donate);
       donate.card_validate = donate.card_month + '/' + donate.card_year;
       donate.card_number = donate.card_number.replace(/\-/g, '');
       var modalInstance = this.modal.open({
@@ -2410,7 +2413,9 @@ var DonateEvent = function () {
         }
       });
       card.classList.add('validated');
-      //5165-3011-0835-3140
+      //4111111111111111 SUCESSO
+      //4242424242424242 SUCESSO
+      //4012888888881881 FALHA
     }
   }, {
     key: 'getFlag',
@@ -2705,11 +2710,13 @@ var EventReport = function () {
     this.service = EventService;
     this.profile = StorageService.getItem('profile');
     if ($stateParams.uuid) {
+      this.uuid = $stateParams.uuid;
       this.getReport($stateParams.uuid);
     }
     this.myInterval = 5000;
     this.noWrapSlides = false;
     this.active = 0;
+    this.pagination = { current_page: 1 };
   }
 
   _createClass(EventReport, [{
@@ -2718,22 +2725,35 @@ var EventReport = function () {
       return new Array(num);
     }
   }, {
+    key: 'getMessages',
+    value: function getMessages(id, params) {
+      var _this = this;
+
+      var method = this.profile ? 'getMessages' : 'getMessagesPublic';
+      params.page = this.pagination.current_page;
+      this.service[method](id, params).then(function (response) {
+        _this.pagination = response.data.meta.pagination;
+        _this.report.messages = response.data;
+      });
+    }
+  }, {
     key: 'getReport',
     value: function getReport(id) {
-      var _this = this;
+      var _this2 = this;
 
       var method = this.profile ? 'getReport' : 'getReportPublic';
       this.service[method](id).then(function (response) {
         console.log(response.data);
-        _this.report = response.data;
-        _this.slides = [];
+        _this2.report = response.data;
+        _this2.getMessages(_this2.uuid, {});
+        _this2.slides = [];
         var x = void 0,
             picture = void 0;
         for (x = 0; x < 3; x++) {
           picture = 'picture' + (x + 1);
-          _this.slides.push({
+          _this2.slides.push({
             id: x,
-            image: _this.report[picture].original
+            image: _this2.report[picture].original
           });
         }
       }, function (error) {
@@ -3048,6 +3068,26 @@ var EventService = function (_CommonService) {
       return this.$http.get(this.url + this.route, this.config);
     }
   }, {
+    key: 'getMessages',
+    value: function getMessages(id, user) {
+      _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events/' + id + '/messages');
+      if (user) {
+        _get(Object.getPrototypeOf(EventService.prototype), 'setParams', this).call(this, user);
+      }
+      return this.$http.get(this.url + this.route, this.config);
+    }
+  }, {
+    key: 'getMessagesPublic',
+    value: function getMessagesPublic(id, user) {
+      _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events/' + id + '/messages');
+      _get(Object.getPrototypeOf(EventService.prototype), 'setPublicToken', this).call(this);
+      if (user) {
+        _get(Object.getPrototypeOf(EventService.prototype), 'setParams', this).call(this, user);
+      }
+      console.log(this.config);
+      return this.$http.get(this.url + this.route, this.config);
+    }
+  }, {
     key: 'saveReport',
     value: function saveReport(id, data, progress) {
       _get(Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events/' + id + '/report/submit');
@@ -3174,15 +3214,15 @@ var FaqService = function () {
     this.$q = $q;
     this.categories = [{
       id: 1,
-      name: 'Criadores de campanhas',
+      name: 'SOBRE A EVENTOS DO BEM',
       questions: [{
         id: 1,
-        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Si num tem leite então bota uma pinga aí cumpadi! Cevadis im ampola pa arma uma pindureta. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Si u mundo tá muito paradis? Toma um mé que o mundo vai girarzis! Sapien in monti palavris qui num significa nadis i pareci latim. Leite de capivaris, leite de mula manquis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss. Praesent malesuada urna nisi, quis volutpat erat hendrerit non. Nam vulputate dapibus. Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Quem num gosti di mum que vai caçá sua turmis! Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. undefined Interagi no mé, cursus quis, vehicula ac nisi. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Suco de cevadiss deixa as pessoas mais interessantiss. Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu levo! in elementis mé pra quem é amistosis quis leo. Quem manda na minha terra sou Euzis! Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Viva Forevis aptent taciti sociosqu ad litora torquent Delegadis gente finis, bibendum egestas augue arcu ut est. Admodum accumsan disputationi eu sit. Vide electram sadipscing et per. Casamentiss faiz malandris se pirulitá. Manduma pindureta quium dia nois paga. Diuretics paradis num copo é motivis de denguis. Quem num gosta di mé, boa gente num é. Não sou faixa preta cumpadi, sou preto inteiris, inteiris. Paisis, filhis, espiritis santis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Ta deprimidis, eu conheço uma cachacis que pode alegrar sua vidis.” Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. A ordem dos tratores não altera o pão duris Detraxit consequat et quo num tendi nada. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis. Atirei o pau no gatis, per gatis num morreus. Mé faiz elementum girarzis, nisi eros vermeio. Per aumento de cachacis, eu reclamis. Pra lá , depois divoltis porris, paradis. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Si u mundo tá muito paradis? Toma um mé que o mundo vai girarzis! Delegadis gente finis, bibendum egestas augue arcu ut est. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Detraxit consequat et quo num tendi nada. Atirei o pau no gatis, per gatis num morreus. Casamentiss faiz malandris se pirulitá. Quem num gosti di mum que vai caçá sua turmis! Admodum accumsan disputationi eu sit. Vide electram sadipscing et per. Sapien in monti palavris qui num significa nadis i pareci latim. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Interagi no mé, cursus quis, vehicula ac nisi. Si num tem leite então bota uma pinga aí cumpadi! Manduma pindureta quium dia nois paga. Não sou faixa preta cumpadi, sou preto inteiris, inteiris. Ta deprimidis, eu conheço uma cachacis que pode alegrar sua vidis.” Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Mussum Ipsum, cacilds vidis litro abertis. Si num tem leite então bota uma pinga aí cumpadi! Cevadis im ampola pa arma uma pindureta. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Si u mundo tá muito paradis? Toma um mé que o mundo vai girarzis! Sapien in monti palavris qui num significa nadis i pareci latim. Leite de capivaris, leite de mula manquis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss. Praesent malesuada urna nisi, quis volutpat erat hendrerit non. Nam vulputate dapibus. Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Quem num gosti di mum que vai caçá sua turmis! Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. undefined Interagi no mé, cursus quis, vehicula ac nisi. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Suco de cevadiss deixa as pessoas mais interessantiss. Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu levo! in elementis mé pra quem é amistosis quis leo. Quem manda na minha terra sou Euzis! Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Viva Forevis aptent taciti sociosqu ad litora torquent Delegadis gente finis, bibendum egestas augue arcu ut est. Admodum accumsan disputationi eu sit. Vide electram sadipscing et per. Casamentiss faiz malandris se pirulitá. Manduma pindureta quium dia nois paga. Diuretics paradis num copo é motivis de denguis. Quem num gosta di mé, boa gente num é. Não sou faixa preta cumpadi, sou preto inteiris, inteiris. Paisis, filhis, espiritis santis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Ta deprimidis, eu conheço uma cachacis que pode alegrar sua vidis.” Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. A ordem dos tratores não altera o pão duris Detraxit consequat et quo num tendi nada. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis. Atirei o pau no gatis, per gatis num morreus. Mé faiz elementum girarzis, nisi eros vermeio. Per aumento de cachacis, eu reclamis. Pra lá , depois divoltis porris, paradis. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Si u mundo tá muito paradis? Toma um mé que o mundo vai girarzis! Delegadis gente finis, bibendum egestas augue arcu ut est. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Detraxit consequat et quo num tendi nada. Atirei o pau no gatis, per gatis num morreus. Casamentiss faiz malandris se pirulitá. Quem num gosti di mum que vai caçá sua turmis! Admodum accumsan disputationi eu sit. Vide electram sadipscing et per. Sapien in monti palavris qui num significa nadis i pareci latim. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Interagi no mé, cursus quis, vehicula ac nisi. Si num tem leite então bota uma pinga aí cumpadi! Manduma pindureta quium dia nois paga. Não sou faixa preta cumpadi, sou preto inteiris, inteiris. Ta deprimidis, eu conheço uma cachacis que pode alegrar sua vidis.” Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
+        title: 'O que é a Eventos do Bem?',
+        question: 'A Eventos do Bem é um negócio social de arrecadação de recursos (do inglês “fundraising”) para Organizações Sociais. Fazemos isso através de campanhas de arrecadação online, criadas e gerenciadas no nosso site, chamadas "eventos do bem", nas quais pessoas transformam eventos comemorativos e divertidos de suas vidas em motivação para ajudar projetos de impacto social e/ou ambiental (exemplo: no meu aniversário, peço a meus amigos e familiares que façam doações ao invés de presentes). Nossa missão é ajudar pessoas engajadas em causas de impacto socioambiental a ampliarem tanto seu financiamento quanto sua divulgação através de uma maior interação com a Organização Social de interesse. Assim, aproximamos pessoas de causas sociais e motivamos maior engajamento social.'
       }, {
         id: 2,
-        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
+        title: 'Como funciona?',
+        question: 'Na Eventos do Bem, você pode ajudar uma organização que representa a sua causa de duas formas:\n\n\n1      Doando a um evento que está ativo.\n2      Criando o seu próprio evento de arrecadação.\nPara qualquer uma dessas opções, o primeiro passo é um cadastro simples e gratuito, sendo que você ainda pode optar por fazer login com suas mídias sociais.\n \nSe você quiser apoiar um evento do bem, basta ir à página do evento de seu interesse e clicar no botão de efetivar a doação.\n \nSe você for criar um evento do bem, é só clicar, na parte superior da tela, no botão amarelo para começar seu evento. É gratuito e dura menos de um minuto. Você só precisa escolher:\n·         uma Organização Social a que quer ajudar,\n·         um nome pro seu evento do bem,\n·         o tipo de evento do bem (aniversário, casamento, etc)\n·         a duração do seu evento do bem e, por último,\n·       redigir uma mensagem explicando o que você gostaria de fazer no seu evento do bem.\n \nAcabou! Seu evento do bem já está ativo e pronto para mudar o mundo!\nAgora é só compartilhá-lo nas suas redes sociais, convidando todo mundo a se juntar a você.'
       }, {
         id: 3,
         title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
@@ -3388,7 +3428,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = InstitutionConfig;
 function InstitutionConfig($stateProvider) {
-  $stateProvider.state('instituition', {
+  $stateProvider.state('institution', {
     url: '/instituition/:slug',
     templateUrl: './src/institution/view/page.html',
     controller: 'Page',

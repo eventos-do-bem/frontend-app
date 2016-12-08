@@ -74,8 +74,11 @@ export default class DonateEvent {
       delete donate.name
       delete donate.email
       delete donate.birthdate
-      delete donate.document
+      if (!this.missingDoc) {
+        delete donate.document
+      }
     }
+    console.log(donate)
     donate.card_validate = `${donate.card_month}/${donate.card_year}`
     donate.card_number = donate.card_number.replace(/\-/g, '')
     let modalInstance = this.modal.open({
@@ -151,7 +154,9 @@ export default class DonateEvent {
       }
     })
     card.classList.add('validated')
-    //5165-3011-0835-3140
+    //4111111111111111 SUCESSO
+    //4242424242424242 SUCESSO
+    //4012888888881881 FALHA
   }
   getFlag(number) {
     this.flag = this.creditCard.getFlag(number)

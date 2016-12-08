@@ -12,7 +12,7 @@ export default class DonateBillet {
       delete this.donate.name
       delete this.donate.email
       delete this.donate.birthdate
-      if (this.donate.document) delete this.donate.document
+      // if (this.donate.document) delete this.donate.document
     }
     let method = (this.logged) ? 'printLoggedBillet' : 'printPublicBillet'
     this.donateService[method](this.uuid, this.donate)

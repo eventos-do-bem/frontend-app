@@ -5,7 +5,10 @@ let Component = {
     <p data-ng-repeat="alert in $ctrl.alerts" class="alert alert-dismissible" data-ng-class="[alert.type]" data-ng-show="alert.show" role="alert">
       <button type="button" class="close" data-ng-click="alert.show = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <i class="fa" data-ng-class="[alert.icon]"></i>
-      <span data-ng-repeat="error in alert.message" data-ng-bind-html="error"></span>
+      <span data-ng-repeat="error in alert.message">
+        <span data-ng-bind="error"></span>
+        <br>
+      </span>
     </p>
   `,
   controller: function($scope) {
@@ -21,7 +24,7 @@ let Component = {
         for (let i in message.errors) {
           args.message.push(message.errors[i])
         }
-        args.message.join('<br>')
+        // args.message.join('<br>')
         ctrl.alerts.push(args)
       }
     })

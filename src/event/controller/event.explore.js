@@ -21,9 +21,9 @@ class EventExplore {
     this.eventService.findAll({
       page: this.pagination.current_page
     }).then(response => {
-        this.pagination = response.data.meta.pagination
-        this.events = response.data.values
-      })
+      this.pagination = response.data.meta.pagination
+      this.events = response.data.values
+    })
   }
   changePage() {
     this.getEvents()

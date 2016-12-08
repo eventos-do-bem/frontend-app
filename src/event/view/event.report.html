@@ -27,20 +27,23 @@
         <div class="row">
           <div class="col-md-12 text-center">
             <h4>
-              Valor Angariado: <span class="text-primary" data-ng-bind="ctrl.report.occurrence.goal_human"></span> reais
+              Valor Angariado: <span class="text-primary" data-ng-bind="ctrl.report.occurrence.total_receive_human"></span> reais
             </h4>
             <h4>
               Site do projeto: <a target="_blank" href="{{ctrl.report.institution.website}}" class="text-primary" data-ng-bind="ctrl.report.institution.website"></a>
             </h4>
             <h4>
-              Causa: <span class="text-primary" data-ng-bind="ctrl.report.institution.name"></span>
+              Causa: <a ui-sref="institution({slug: ctrl.report.institution.slug})" data-ng-bind="ctrl.report.institution.name"></a>
             </h4>
           </div>
         </div>
       </div>
       <div class="col-md-2">
         <p class="text-center">Causa beneficiada</p>
-        <div data-ng-switch="ctrl.report.benefitType" class="text-center">
+        <div>
+          <img data-ng-repeat="i in ctrl.getRepeat(8) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+        </div>
+        <!--<div data-ng-switch="ctrl.report.benefitType" class="text-center">
           <div data-ng-switch-when="children">
             <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
           </div>
@@ -68,7 +71,7 @@
           <div data-ng-switch-when="trees">
             <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
     <div class="row">
@@ -88,20 +91,24 @@
         <p class="text-center text-muted">
           Parabéns! Se você foi um dos apoiados do Bem,
           <br>
-          que doou para a campanha de <span data-ng-bind="ctrl.report.occurrence.user.name"></span>, encontre seu nome aqui :)
+          que doou para a campanha de <span data-ng-bind="ctrl.report.occurrence.user.name"></span>, encontre sua mensagem digitando seu nome ou e-mail aqui :)
         </p>
-        <form name="search" novalidate>
+        <form name="search" data-ng-submit="ctrl.getMessages(ctrl.uuid, params)" novalidate>
           <div class="input-group input-group-lg">
-            <input type="text" class="form-control" data-ng-model="query" placeholder="Procure seu nome aqui">
+            <input type="text" class="form-control" data-ng-model="params.user" data-ng-model-options="{debounce: 1000}" data-ng-change="ctrl.getMessages(ctrl.uuid, params)" placeholder="Use seu nome ou e-mail para procurar...">
             <span class="input-group-btn">
-              <button class="btn btn-primary" type="button">
+              <button class="btn btn-primary">
                 <i class="fa fa-search" aria-hidden="true"></i>
               </button>
             </span>
           </div>
         </form>
         <div class="margin-top-20">
-          <table class="table table-bordered">
+          <p class="alert alert-info" data-ng-show="ctrl.report.messages.values.length == 0">
+            <i class="fa fa-exclamation"></i>
+            Nenhum comentário de doação encontrado :(
+          </p>
+          <table class="table table-bordered" data-ng-show="ctrl.report.messages.values.length > 0">
             <thead>
               <tr>
                 <th>Doador</th>
@@ -120,6 +127,21 @@
               </tr>
             </tbody>
           </table>
+          <div class="text-center">
+            <ul uib-pagination
+                total-items="ctrl.pagination.total"
+                ng-model="ctrl.pagination.current_page"
+                max-size="ctrl.pagination.per_page"
+                class="pagination-sm"
+                previous-text="Anterior"
+                next-text="Próxima"
+                first-text="Primeira"
+                last-text="Última"
+                boundary-links="true"
+                num-pages="ctrl.pagination.total_pages"
+                data-ng-change="ctrl.changePage()">
+            </ul>
+          </div>
         </div>
       </div>
     </div>
