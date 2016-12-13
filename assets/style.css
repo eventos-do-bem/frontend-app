@@ -5,7 +5,7 @@ html {
   font-size: 62.5%;
 }
 html, body {
-  padding-top: 52px;
+  padding-top: 32px;
   /*margin-bottom: 200px;*/
   font-family: 'Lato', sans-serif;
   font-size: 62.5%;
@@ -359,6 +359,10 @@ dl dd:last-child {
 .institution .cover {
   height: 300px;
   overflow-y: hidden;
+}
+.campaign .cover > img,
+.institution .cover > img {
+  width: 100%;
 }
 .campaign .cover + .container > .row,
 .institution .cover + .container > .row {

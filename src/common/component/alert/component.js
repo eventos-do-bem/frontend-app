@@ -6,7 +6,7 @@ let Component = {
       <button type="button" class="close" data-ng-click="alert.show = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <i class="fa" data-ng-class="[alert.icon]"></i>
       <span data-ng-repeat="error in alert.message">
-        <span data-ng-bind="error"></span>
+        <span data-ng-bind-html="error"></span>
         <br>
       </span>
     </p>
@@ -15,22 +15,23 @@ let Component = {
     let ctrl = this
     $scope.$on('alert', (event, args) => {
       args.show = true
-      let message = angular.copy(args.message)
+      let data = angular.copy(args)
       args.message = []
-      if (typeof message == 'string') {
-        args.message.push(message)
-      } else {
-        args.show = true
-        for (let i in message.errors) {
-          args.message.push(message.errors[i])
+      if (data.message.errors) {
+        for (let i in data.message.errors) {
+          args.message.push(data.message.errors[i])
         }
-        // args.message.join('<br>')
-        ctrl.alerts.push(args)
+      } else {
+        args.message.push(data.message)
       }
+      ctrl.alerts.push(args)
     })
     $scope.$on('alert-clear', (event) => {
       ctrl.alerts = []
     })
+    ctrl.$onChanges = () => {
+      // ctrl.alerts = []
+    }
     ctrl.$onInit = () => {
       ctrl.alerts = []
     }

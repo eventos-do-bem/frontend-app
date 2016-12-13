@@ -7,6 +7,8 @@ export default function run($rootScope, $window, $location, $state, $anchorScrol
     switch(toState.name) {
       case 'profile.register': $rootScope.background = 'auth-login'; break;
       case 'auth.login': $rootScope.background = 'auth-login'; break;
+      case 'auth.forgot': $rootScope.background = 'auth-login'; break;
+      case 'auth.recovery': $rootScope.background = 'auth-login'; break;
       default: $rootScope.background = null;
     }
     // $location.hash('scrollArea')

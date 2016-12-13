@@ -29,6 +29,16 @@ export default class AuthService extends CommonService {
     this.setRoute('auth/confirmation')
     return this.$http.get(this.url + this.route);
   }
+  recovery(data) {
+    data = this.setDataToken(data)
+    this.setRoute('auth/recovery')
+    return this.$http.post(this.url + this.route, data)
+  }
+  reset(data) {
+    data = this.setDataToken(data)
+    this.setRoute('auth/recovery/reset')
+    return this.$http.post(this.url + this.route, data)
+  }
 }
 
 AuthService.$inject = ['API','$http','FacebookService']

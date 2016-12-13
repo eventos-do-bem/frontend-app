@@ -16,4 +16,16 @@ export default function AuthConfig($stateProvider) {
       controller: 'AuthLogout',
       controllerAs: 'ctrl'
     })
+    .state('auth.forgot', {
+      url: '/esqueci',
+      templateUrl: './src/auth/view/forgot.html',
+      controller: 'AuthForgot',
+      controllerAs: 'ctrl'
+    })
+    .state('auth.recovery', {
+      url: '/recuperar/:token/:email',
+      templateUrl: './src/auth/view/recovery.html',
+      controller: 'AuthRecovery',
+      controllerAs: 'ctrl'
+    })
 }

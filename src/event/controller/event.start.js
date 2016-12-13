@@ -85,10 +85,12 @@ export default class EventStart {
     return (diffDays >= 22 && diffDays <= 90) ? false : true
   }
   save(event) {
-    event = angular.copy(event)
+    // event = angular.copy(event)
+    
     if (event.institution_uuid) {
       event.institution_uuid = event.institution_uuid.uuid
     }
+    console.log(event)
     // console.log(JSON.stringify(event))
     this.service.save(event, progress => this.progress = progress)
       .then(

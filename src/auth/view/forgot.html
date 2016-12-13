@@ -1,0 +1,21 @@
+<form name="forgot" class="form-signin" novalidate data-ng-submit="ctrl.recovery(ctrl.forgot)">
+  <h2 class="text-center">Redefinir senha</h2>
+  <p class="text-center">Não tem conta? <a ui-sref="profile.register">faça seu registro!</a></p>
+  <p>Após inserir seu email, iremos enviar uma notificação com instruções de como redefinir sua senha.</p>
+  <div class="alert" data-ng-class="{'alert-success': ctrl.sended, 'alert-danger': ctrl.error}" data-ng-show="ctrl.sended || ctrl.error">
+    <div data-ng-show="ctrl.error">
+      <ul>
+        <li data-ng-repeat="e in ctrl.error.errors">
+          <p data-ng-bind="e.join(', ')"></p>
+        </li>
+      </ul>
+    </div>
+    <div data-ng-show="ctrl.sended">
+      <p>Enviamos instruções no seu email!</p>
+    </div>
+  </div>
+  <div data-ng-class="{'has-error':forgot.email.$invalid && forgot.email.$dirty}">
+    <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.forgot.email" placeholder="Insira o email cadastrado" required autofocus>
+  </div>
+  <button class="btn btn-lg btn-success btn-block" data-ng-disabled="forgot.$invalid">Redefinir</button>
+</form>

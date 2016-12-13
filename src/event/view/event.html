@@ -44,6 +44,21 @@
             </div>
           </li>
         </ul>
+        <div class="text-center">
+          <ul uib-pagination
+              total-items="ctrl.pagination.total"
+              ng-model="ctrl.pagination.current_page"
+              max-size="ctrl.pagination.per_page"
+              class="pagination-sm"
+              previous-text="Anterior"
+              next-text="Próxima"
+              first-text="Primeira"
+              last-text="Última"
+              boundary-links="true"
+              num-pages="ctrl.pagination.total_pages"
+              data-ng-change="ctrl.changePage()">
+          </ul>
+        </div>
       </div>
       <div class="col-md-4">
         <div class="panel panel-default">

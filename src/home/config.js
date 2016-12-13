@@ -4,6 +4,12 @@ export default function HomeConfig($stateProvider) {
       url: '/',
       templateUrl: './src/home/view/home.html',
       controller: 'Home',
-      controllerAs: 'ctrl'
+      controllerAs: 'ctrl',
+      resolve: {
+        state: function($state) {
+          console.log($state)
+          return $state
+        }
+      }
     })
 }

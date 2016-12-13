@@ -21,6 +21,9 @@
   <div data-ng-class="{'has-error':login.email.$invalid && login.email.$dirty}">
     <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Qual email você se cadastrou?" required autofocus>
   </div>
+  <div class="text-right">
+    <a ui-sref="auth.forgot">Esqueci minha senha</a>
+  </div>
   <div data-ng-class="{'has-error':login.password.$invalid && login.password.$dirty}">
     <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="E a senha?" minlength="6" maxlength="10" required>
   </div>

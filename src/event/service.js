@@ -30,6 +30,7 @@ export default class EventService extends CommonService {
   }
   save(data, progress) {
     super.setRoute('events/create')
+    console.log(data)
     return super.postWithFile(data, progress)
   }
   getReport(id) {
@@ -41,14 +42,14 @@ export default class EventService extends CommonService {
     super.setPublicToken()
     return this.$http.get(this.url + this.route, this.config)
   }
-  getMessages(id, user) {
+  getMessages(id, user = null) {
     super.setRoute(`events/${id}/messages`)
     if (user) {
       super.setParams(user)
     }
     return this.$http.get(this.url + this.route, this.config)
   }
-  getMessagesPublic(id, user) {
+  getMessagesPublic(id, user = null) {
     super.setRoute(`events/${id}/messages`)
     super.setPublicToken()
     if (user) {

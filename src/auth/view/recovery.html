@@ -1,0 +1,19 @@
+<form name="recovery" class="form-signin" novalidate data-ng-submit="ctrl.reset(ctrl.recovery)">
+  <h2 class="text-center">Redefinir senha</h2>
+  <p class="text-center">Não tem conta? <a ui-sref="profile.register">faça seu registro!</a></p>
+  <p>Está quase! Digite e confirme sua nova senha</p>
+  <div class="alert alert-danger" data-ng-show="ctrl.error">
+    <ul>
+      <li data-ng-repeat="e in ctrl.error.errors">
+        <p data-ng-bind="e.join(', ')"></p>
+      </li>
+    </ul>
+  </div>
+  <div data-ng-class="{'has-error':recovery.password.$invalid && recovery.password.$dirty}">
+    <input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.recovery.password" placeholder="Digite sua nova senha" minlength="6" required>
+  </div>
+  <div data-ng-class="{'has-error':(ctrl.recovery.password != ctrl.recovery.password_confirmation) && recovery.password_confirmation.$dirty}">
+    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" data-ng-model="ctrl.recovery.password_confirmation" placeholder="Digite sua nova senha novamente" required>
+  </div>
+  <button class="btn btn-lg btn-success btn-block" data-ng-disabled="recovery.$invalid || (ctrl.recovery.password != ctrl.recovery.password_confirmation)">Redefinir</button>
+</form>

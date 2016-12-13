@@ -30,7 +30,9 @@ class EventReport {
         response => {
           console.log(response.data)
           this.report = response.data
-          this.getMessages(this.uuid, {})
+          if (this.report.messages.contains) {
+            // this.getMessages(this.uuid, {})
+          }
           this.slides = []
           let x, picture
           for (x = 0; x < 3; x++) {
