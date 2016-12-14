@@ -7,6 +7,7 @@ import FacebookFactory      from './factory/facebook.js'
 import FacebookService      from './service/facebook.js'
 import CreditCardFactory    from './factory/creditcard.js'
 import GeoLocationFactory   from './factory/geolocation.js'
+import ValidationFactory    from './factory/validation.js'
 import FixedOnScroll        from './directive/fixedOnScroll.js'
 import File                 from './component/file/file.js'
 import Map                  from './component/map/map.js'
@@ -28,6 +29,7 @@ export default angular
   .factory('FacebookFactory', FacebookFactory.facebookFactory)
   .factory('CreditCardFactory', CreditCardFactory.creditCardFactory)
   .factory('GeoLocationFactory', GeoLocationFactory.geoLocationFactory)
+  .factory('ValidationFactory', ValidationFactory.validationFactory)
   .service('FacebookService', FacebookService)
   .service('StorageService', Storage)
   .service('Hydrator', Hydrator)

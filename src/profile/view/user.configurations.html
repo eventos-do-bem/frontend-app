@@ -43,7 +43,7 @@
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.birthdate.$invalid && configurations.birthdate.$dirty}">
         <label for="" class="control-label">Data de aniversário</label>
-        <input type="text" name="birthdate" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.profile.birthdate" placeholder="Data de nascimento" required>
+        <input type="text" name="birthdate" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.profile.birthdate" data-ng-change="ctrl.validateDate(configurations.birthdate, ctrl.profile.birthdate)" placeholder="Data de nascimento" required>
       </div>
     </div>
     <div class="col-md-6">

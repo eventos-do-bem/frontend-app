@@ -1,9 +1,10 @@
 export default class UserConfigurations {
-  constructor($filter, $rootScope, StorageService, ProfileService, profile) {
+  constructor($filter, $rootScope, StorageService, ProfileService, ValidationFactory, profile) {
     this.filter = $filter
     this.rootScope = $rootScope
     this.storage = StorageService
     this.service = ProfileService
+    this.validation = ValidationFactory
     this.reader = new FileReader()
     this.needpassword = true
     this.load(profile)
@@ -14,6 +15,17 @@ export default class UserConfigurations {
     profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy')
     this.profile = profile
     this.needpassword = profile.needpassword
+  }
+  validateDate(field, date) {
+    date = date.split('/')
+    date = new Date(`${date[2]}-${date[1]}-${date[0]}`)
+    if (!field.$error.mask) {
+      let valid = (
+        this.validation.dateMinByYears(date, 0) &&
+        this.validation.dateMaxByYears(date, 121)
+      )
+      field.$setValidity('age', valid)
+    }
   }
   save(profile) {
     this.service.change(profile, progress => {
@@ -36,4 +48,4 @@ export default class UserConfigurations {
   }
 }
 
-UserConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'ProfileService', 'profile']
+UserConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'ProfileService', 'ValidationFactory', 'profile']

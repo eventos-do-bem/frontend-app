@@ -5,7 +5,7 @@ html {
   font-size: 62.5%;
 }
 html, body {
-  padding-top: 32px;
+  padding-top: 26px;
   /*margin-bottom: 200px;*/
   font-family: 'Lato', sans-serif;
   font-size: 62.5%;
@@ -138,7 +138,13 @@ blockquote .name {
   margin-top: -114px;
   left: 50%;
   margin-left: -120px;
-
+}
+.loading p {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  left: 50%;
+  margin-left: -40px;
 }
 .video-container {
   position: relative;
@@ -437,6 +443,15 @@ dl dd:last-child {
   /*fill: #000000;*/
 }
 /* /report*/
+
+/* file */
+file button {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* /file */
 
 /* thumbnail */
 .thumbnail {

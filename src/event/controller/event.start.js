@@ -1,7 +1,7 @@
 export default class EventStart {
   constructor($rootScope, $state, $window, $stateParams, $filter, LocationService, CityService, EventService, CategoryService, InstitutionService) {
     this.rootScope = $rootScope
-    this.$state = $state
+    this.state = $state
     this.window = $window
     this.filter = $filter
     this.service = EventService

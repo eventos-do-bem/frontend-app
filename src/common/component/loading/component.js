@@ -6,6 +6,7 @@ let Component = {
   template: `
   <div class="loading" data-ng-show="$ctrl.show">
     <img src="assets/gifs/loading-evb.gif" />
+    <p>Carregando...</p>
   </div>
   `
 }
