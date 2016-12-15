@@ -1,8 +1,10 @@
-<header class="page-header">
-  <h2 data-ng-bind="ctrl.category.name"></h2>
-</header>
-<article data-ng-repeat="question in ctrl.category.questions | filter:query">
-  <h2 data-ng-bind="question.title"></h2>
-  <p data-ng-bind="question.question"></p>
-  <hr>
-</article>
+<div data-ng-repeat="category in ctrl.category">
+  <header class="page-header">
+    <h2 data-ng-bind="category.name"></h2>
+  </header>
+  <article data-ng-repeat="question in category.faqs.values | filter:query">
+    <h2 data-ng-bind="question.title"></h2>
+    <p data-ng-bind-html="question['body-preview']"></p>
+    <hr>
+  </article>
+</div>

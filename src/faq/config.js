@@ -2,13 +2,14 @@ export default function FaqConfig($stateProvider) {
   $stateProvider
     .state('faq', {
       // abstract: true,
+      // redirectTo: 'faq.category',
       url: '/perguntas-frequentes',
       templateUrl: './src/faq/view/faq.html',
       controller: 'Faq',
       controllerAs: 'ctrl'
     })
     .state('faq.category', {
-      url: '/category/:categoryId',
+      url: '/category/:filter?',
       templateUrl: './src/faq/view/faq.category.html',
       controller: 'Faq',
       controllerAs: 'ctrl'

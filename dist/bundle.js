@@ -3356,12 +3356,13 @@ exports.default = FaqConfig;
 function FaqConfig($stateProvider) {
   $stateProvider.state('faq', {
     // abstract: true,
+    // redirectTo: 'faq.category',
     url: '/perguntas-frequentes',
     templateUrl: './src/faq/view/faq.html',
     controller: 'Faq',
     controllerAs: 'ctrl'
   }).state('faq.category', {
-    url: '/category/:categoryId',
+    url: '/category/:filter?',
     templateUrl: './src/faq/view/faq.category.html',
     controller: 'Faq',
     controllerAs: 'ctrl'
@@ -3380,30 +3381,60 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Faq = function Faq($state, $stateParams, FaqService) {
-  var _this = this;
+var Faq = function () {
+  function Faq($state, $stateParams, FaqService) {
+    var _this = this;
 
-  _classCallCheck(this, Faq);
+    _classCallCheck(this, Faq);
 
-  this.$state = $state;
-  this.faqService = FaqService;
-  this.faqService.getCategories().then(function (response) {
-    return _this.categories = response;
-  });
-  if ($stateParams.categoryId) {
-    this.faqService.getCategory($stateParams.categoryId).then(function (response) {
-      return _this.category = response;
+    this.state = $state;
+    this.faqService = FaqService;
+    this.faqService.findAll().then(function (response) {
+      _this.categories = response.data.values;
     });
-  } else if ($stateParams.questionId) {
-    this.faqService.getQuestion($stateParams.questionId).then(function (response) {
-      return _this.question = response;
-    });
-  } else if (!$stateParams.categoryId && !$stateParams.questionId) {
-    $state.go('faq.category', { categoryId: 1 });
+    if (!$stateParams.filter && !$stateParams.questionId) {
+      $state.go('faq.category');
+      this.filter({ filter: null });
+    } else if ($stateParams.filter) {
+      this.filter({
+        filter: $stateParams.filter
+      });
+    } else if ($stateParams.questionId) {
+      this.find($stateParams.questionId);
+    }
   }
-};
+
+  _createClass(Faq, [{
+    key: 'search',
+    value: function search(params) {
+      this.state.go('faq.category', params);
+    }
+  }, {
+    key: 'filter',
+    value: function filter(params) {
+      var _this2 = this;
+
+      this.faqService.findAll(params).then(function (response) {
+        _this2.category = response.data.values;
+      });
+    }
+  }, {
+    key: 'find',
+    value: function find(id) {
+      var _this3 = this;
+
+      this.faqService.findById(id).then(function (response) {
+        _this3.question = response.data;
+      });
+    }
+  }]);
+
+  return Faq;
+}();
 
 exports.default = Faq;
 
@@ -3442,6 +3473,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
 var _common = require('./../common/service/common.js');
 
 var _common2 = _interopRequireDefault(_common);
@@ -3450,122 +3483,56 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var FaqService = function () {
-  function FaqService(API, $http, $q) {
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FaqService = function (_CommonService) {
+  _inherits(FaqService, _CommonService);
+
+  function FaqService(API, $http) {
     _classCallCheck(this, FaqService);
 
-    this.$q = $q;
-    this.categories = [{
-      id: 1,
-      name: 'SOBRE A EVENTOS DO BEM',
-      questions: [{
-        id: 1,
-        title: 'O que é a Eventos do Bem?',
-        question: 'A Eventos do Bem é um negócio social de arrecadação de recursos (do inglês “fundraising”) para Organizações Sociais. Fazemos isso através de campanhas de arrecadação online, criadas e gerenciadas no nosso site, chamadas "eventos do bem", nas quais pessoas transformam eventos comemorativos e divertidos de suas vidas em motivação para ajudar projetos de impacto social e/ou ambiental (exemplo: no meu aniversário, peço a meus amigos e familiares que façam doações ao invés de presentes). Nossa missão é ajudar pessoas engajadas em causas de impacto socioambiental a ampliarem tanto seu financiamento quanto sua divulgação através de uma maior interação com a Organização Social de interesse. Assim, aproximamos pessoas de causas sociais e motivamos maior engajamento social.'
-      }, {
-        id: 2,
-        title: 'Como funciona?',
-        question: 'Na Eventos do Bem, você pode ajudar uma organização que representa a sua causa de duas formas:\n\n\n1      Doando a um evento que está ativo.\n2      Criando o seu próprio evento de arrecadação.\nPara qualquer uma dessas opções, o primeiro passo é um cadastro simples e gratuito, sendo que você ainda pode optar por fazer login com suas mídias sociais.\n \nSe você quiser apoiar um evento do bem, basta ir à página do evento de seu interesse e clicar no botão de efetivar a doação.\n \nSe você for criar um evento do bem, é só clicar, na parte superior da tela, no botão amarelo para começar seu evento. É gratuito e dura menos de um minuto. Você só precisa escolher:\n·         uma Organização Social a que quer ajudar,\n·         um nome pro seu evento do bem,\n·         o tipo de evento do bem (aniversário, casamento, etc)\n·         a duração do seu evento do bem e, por último,\n·       redigir uma mensagem explicando o que você gostaria de fazer no seu evento do bem.\n \nAcabou! Seu evento do bem já está ativo e pronto para mudar o mundo!\nAgora é só compartilhá-lo nas suas redes sociais, convidando todo mundo a se juntar a você.'
-      }, {
-        id: 3,
-        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
-      }, {
-        id: 4,
-        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
-      }, {
-        id: 5,
-        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
-      }, {
-        id: 6,
-        title: 'Question 2',
-        question: 'Si num tem leite então bota uma pinga aí cumpadi! Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Leite de capivaris, leite de mula manquis.'
-      }]
-    }, {
-      id: 2,
-      name: 'Apoiadores',
-      questions: [{
-        id: 1,
-        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Si num tem leite então bota uma pinga aí cumpadi! Cevadis im ampola pa arma uma pindureta. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Si u mundo tá muito paradis? Toma um mé que o mundo vai girarzis! Sapien in monti palavris qui num significa nadis i pareci latim. Leite de capivaris, leite de mula manquis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss. Praesent malesuada urna nisi, quis volutpat erat hendrerit non. Nam vulputate dapibus. Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Quem num gosti di mum que vai caçá sua turmis! Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. undefined Interagi no mé, cursus quis, vehicula ac nisi. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Suco de cevadiss deixa as pessoas mais interessantiss. Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu levo! in elementis mé pra quem é amistosis quis leo. Quem manda na minha terra sou Euzis! Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Viva Forevis aptent taciti sociosqu ad litora torquent Delegadis gente finis, bibendum egestas augue arcu ut est. Admodum accumsan disputationi eu sit. Vide electram sadipscing et per. Casamentiss faiz malandris se pirulitá. Manduma pindureta quium dia nois paga. Diuretics paradis num copo é motivis de denguis. Quem num gosta di mé, boa gente num é. Não sou faixa preta cumpadi, sou preto inteiris, inteiris. Paisis, filhis, espiritis santis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Ta deprimidis, eu conheço uma cachacis que pode alegrar sua vidis.” Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. A ordem dos tratores não altera o pão duris Detraxit consequat et quo num tendi nada. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis. Atirei o pau no gatis, per gatis num morreus. Mé faiz elementum girarzis, nisi eros vermeio. Per aumento de cachacis, eu reclamis. Pra lá , depois divoltis porris, paradis. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Si u mundo tá muito paradis? Toma um mé que o mundo vai girarzis! Delegadis gente finis, bibendum egestas augue arcu ut est. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Detraxit consequat et quo num tendi nada. Atirei o pau no gatis, per gatis num morreus. Casamentiss faiz malandris se pirulitá. Quem num gosti di mum que vai caçá sua turmis! Admodum accumsan disputationi eu sit. Vide electram sadipscing et per. Sapien in monti palavris qui num significa nadis i pareci latim. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Interagi no mé, cursus quis, vehicula ac nisi. Si num tem leite então bota uma pinga aí cumpadi! Manduma pindureta quium dia nois paga. Não sou faixa preta cumpadi, sou preto inteiris, inteiris. Ta deprimidis, eu conheço uma cachacis que pode alegrar sua vidis.” Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
-      }, {
-        id: 2,
-        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
-      }, {
-        id: 3,
-        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
-      }, {
-        id: 4,
-        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
-      }, {
-        id: 5,
-        title: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss.',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
-      }, {
-        id: 6,
-        title: 'Question 2',
-        question: 'Si num tem leite então bota uma pinga aí cumpadi! Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Leite de capivaris, leite de mula manquis.'
-      }]
-    }, {
-      id: 3,
-      name: 'Sobre a plataforma',
-      questions: [{
-        id: 5,
-        title: 'Question 5',
-        question: 'Mussum Ipsum, cacilds vidis litro abertis. Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Suco de cevadiss deixa as pessoas mais interessantiss. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. Mauris nec dolor in eros commodo tempor. Aenean aliquam molestie leo, vitae iaculis nisl.'
-      }, {
-        id: 6,
-        title: 'Question 6',
-        question: 'Si num tem leite então bota uma pinga aí cumpadi! Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Leite de capivaris, leite de mula manquis.'
-      }]
-    }];
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FaqService).call(this, API, $http));
+
+    _this.$http = $http;
+    return _this;
   }
 
   _createClass(FaqService, [{
-    key: 'getCategories',
-    value: function getCategories() {
-      var deferred = this.$q.defer();
-      deferred.resolve(this.categories);
-      return deferred.promise;
+    key: 'findAll',
+    value: function findAll(params) {
+      _get(Object.getPrototypeOf(FaqService.prototype), 'setRoute', this).call(this, 'faq');
+      _get(Object.getPrototypeOf(FaqService.prototype), 'setPublicToken', this).call(this);
+      if (params != undefined) {
+        _get(Object.getPrototypeOf(FaqService.prototype), 'setParams', this).call(this, params);
+      }
+      return _get(Object.getPrototypeOf(FaqService.prototype), 'findAll', this).call(this);
     }
   }, {
-    key: 'getCategory',
-    value: function getCategory(id) {
-      var deferred = this.$q.defer();
-      var category = this.categories.filter(function (value) {
-        return value.id == id;
-      });
-      deferred.resolve(category[0]);
-      return deferred.promise;
+    key: 'findById',
+    value: function findById(id) {
+      _get(Object.getPrototypeOf(FaqService.prototype), 'setRoute', this).call(this, 'faq');
+      _get(Object.getPrototypeOf(FaqService.prototype), 'setPublicToken', this).call(this);
+      return _get(Object.getPrototypeOf(FaqService.prototype), 'findById', this).call(this, id);
     }
   }, {
-    key: 'getQuestion',
-    value: function getQuestion(id) {
-      var deferred = this.$q.defer();
-      var category = this.categories.map(function (category) {
-        return category.questions.filter(function (question) {
-          return question.id == id;
-        });
-      }).filter(function (category) {
-        return category.length > 0;
-      });
-      deferred.resolve(category[0][0]);
-      return deferred.promise;
+    key: 'filter',
+    value: function filter(data) {
+      _get(Object.getPrototypeOf(FaqService.prototype), 'setRoute', this).call(this, 'faq');
+      _get(Object.getPrototypeOf(FaqService.prototype), 'setPublicToken', this).call(this);
+      _get(Object.getPrototypeOf(FaqService.prototype), 'setParams', this).call(this, data);
+      return _get(Object.getPrototypeOf(FaqService.prototype), 'findAll', this).call(this);
     }
   }]);
 
   return FaqService;
-}();
+}(_common2.default);
 
 exports.default = FaqService;
 
 
-FaqService.$inject = ['API', '$http', '$q'];
+FaqService.$inject = ['API', '$http'];
 
 },{"./../common/service/common.js":38}],65:[function(require,module,exports){
 'use strict';

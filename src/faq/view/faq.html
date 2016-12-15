@@ -6,7 +6,7 @@
           <h1>Perguntas frequentes</h1>
           <form name="search" novalidate>
             <div class="input-group input-group-lg">
-              <input type="text" class="form-control" data-ng-model="query">
+              <input type="text" class="form-control" data-ng-model="ctrl.query" data-ng-model-options="{debounce: 1000}" data-ng-change="ctrl.search({filter: ctrl.query})">
               <span class="input-group-btn">
                 <button class="btn btn-primary" type="button">
                   <i class="fa fa-search" aria-hidden="true"></i>
@@ -30,11 +30,11 @@
         </header>
         <nav data-ng-repeat="category in ctrl.categories">
           <h3>
-            <a ui-sref="faq.category({categoryId: category.id})" ui-sref-active="active" data-ng-bind="category.name"></a>
+            <a ui-sref="faq.category({filter: category.slug})" ui-sref-active="active" data-ng-bind="category.name"></a>
           </h3>
           <ul class="list-group">
-            <li class="list-group-item" data-ng-repeat="question in category.questions">
-              <a ui-sref="faq.question({questionId: question.id})" ui-sref-active="active" data-ng-bind="question.title"></a>
+            <li class="list-group-item" data-ng-repeat="faq in category.faqs.values">
+              <a ui-sref="faq.question({questionId: faq.slug})" ui-sref-active="active" data-ng-bind="faq.title"></a>
             </li>
           </ul>
         </nav>

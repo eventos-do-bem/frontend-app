@@ -1,18 +1,36 @@
 export default class Faq {
   constructor($state, $stateParams, FaqService) {
-    this.$state = $state
+    this.state = $state
     this.faqService = FaqService
-    this.faqService.getCategories()
-      .then(response => this.categories = response)
-    if ($stateParams.categoryId) {
-      this.faqService.getCategory($stateParams.categoryId)
-        .then(response => this.category = response)
+    this.faqService.findAll()
+      .then(response => {
+        this.categories = response.data.values
+      })
+    if (!$stateParams.filter && !$stateParams.questionId) {
+      $state.go('faq.category')
+      this.filter({filter: null})
+    } else if ($stateParams.filter) {
+      this.filter({
+        filter: $stateParams.filter
+      })
     } else if ($stateParams.questionId) {
-      this.faqService.getQuestion($stateParams.questionId)
-        .then(response => this.question = response)
-    } else if (!$stateParams.categoryId && !$stateParams.questionId) {
-      $state.go('faq.category', { categoryId: 1 })
+      this.find($stateParams.questionId)
     }
+  }
+  search(params) {
+    this.state.go('faq.category', params)
+  }
+  filter(params) {
+    this.faqService.findAll(params)
+      .then(response => {
+        this.category = response.data.values
+      })
+  }
+  find(id) {
+    this.faqService.findById(id)
+      .then(response => {
+        this.question = response.data
+      })
   }
 }
 
