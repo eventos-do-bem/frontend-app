@@ -3,7 +3,8 @@ import uiBootstrap      from 'angular-ui-bootstrap'
 import ngMask           from 'ng-mask'
 import ngMessages       from 'angular-messages'
 import ngSanitize       from 'angular-sanitize'
-import APIConfig        from './api.json'
+import APIConfig        from './config/api.json'
+import FBConfig         from './config/facebook.json'
 import AppConfig        from './config.js'
 import HttpInterceptor  from './interceptor.js'
 import Run              from './run.js'
@@ -47,6 +48,7 @@ angular
   ])
   .config(AppConfig)
   .constant('API', APIConfig)
+  .constant('FBConfig', FBConfig)
   .factory('HttpInterceptor', HttpInterceptor)
   .controller('AppController', controller)
   .run(Run)

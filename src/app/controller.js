@@ -1,10 +1,11 @@
 export default class AppController {
-  constructor($location, $window, API, FacebookFactory) {
+  constructor($location, $window, API, FBConfig, FacebookFactory) {
     FacebookFactory.init({
-      appId: '922781867788493',
-      // appId: '1151546794911998',
-      xfbml: true
+      appId: FBConfig.appId,
+      xfbml: FBConfig.xfbml
     })
+      // appId: '922781867788493', dev
+      // appId: '813381015395246', prod
     // console.log(FacebookFactory.ui)
     // switch($location.path()) {
     //   case '/usuario/cadastro': {
@@ -35,4 +36,4 @@ export default class AppController {
   }
 }
 
-AppController.$inject = ['$location','$window','API','FacebookFactory']
+AppController.$inject = ['$location','$window','API', 'FBConfig','FacebookFactory']
