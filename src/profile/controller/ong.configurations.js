@@ -48,8 +48,8 @@ export default class OngConfigurations {
     }).then(
         response => {
           this.storage.setItem('token', response.data.token)
-          let {name, email, type, avatar} = response.data
-          this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar})
+          let {name, email, type, avatar, permissions} = response.data
+          this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
           this.rootScope.$broadcast('profile.change')
           this.profile.password = '';
           this.profile.new_password = '';

@@ -1,5 +1,6 @@
 class EventReport {
-  constructor($stateParams,EventService,StorageService) {
+  constructor($state, $stateParams,EventService,StorageService,$uibModal,$rootScope) {
+    this.state = $state
     this.service = EventService
     this.profile = StorageService.getItem('profile')
     if ($stateParams.uuid) {
@@ -10,6 +11,8 @@ class EventReport {
     this.noWrapSlides = false;
     this.active = 0;
     this.pagination = { current_page: 1 }
+    this.modal = $uibModal
+    this.rootScope = $rootScope
   }
   getRepeat(num) {
     return new Array(num)
@@ -29,25 +32,51 @@ class EventReport {
       .then(
         response => {
           console.log(response.data)
-          this.report = response.data
-          if (this.report.messages.contains) {
-            // this.getMessages(this.uuid, {})
-          }
-          this.slides = []
-          let x, picture
-          for (x = 0; x < 3; x++) {
-            picture = `picture${x + 1}`
-            this.slides.push({
-              id: x,
-              image: this.report[picture].original
-            })
+          if (response.data) {
+            this.report = response.data
+            if (this.report.messages.contains) {
+              this.getMessages(this.uuid, {})
+            }
+            this.slides = []
+            let x, picture
+            for (x = 0; x < 3; x++) {
+              picture = `picture${x + 1}`
+              this.slides.push({
+                id: x,
+                image: this.report[picture].original
+              })
+            }
+            if (!this.report.authorized_on && (this.profile.permissions['administration.global'] || this.profile.permissions.authorize_report)) {
+              this.authorize_report = true
+            }
+          } else {
+            this.state.go('home')
           }
         },
         error => console.error(error)
       )
   }
+  authorizeReport() {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/event/view/report.authorize.html',
+      controller: 'ReportAuthorize',
+      controllerAs: 'ctrl',
+      resolve: {
+        uuid: () => {
+          return this.report.uuid
+        }
+      }
+    })
+    modalInstance.result.then(response => {
+      console.log('ok',response)
+      this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.status})
+    }, error => {
+      console.error('no',error)
+      this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
+    })
+  }
 }
 
-EventReport.$inject = ['$stateParams','EventService','StorageService']
+EventReport.$inject = ['$state','$stateParams','EventService','StorageService','$uibModal','$rootScope']
 
 export default EventReport

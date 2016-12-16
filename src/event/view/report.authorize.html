@@ -1,0 +1,22 @@
+<div class="modal-body">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-ng-click="ctrl.cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h3>Autoriza habilitar a publicação do relatório de impacto desta Organização social?</h3>
+  <form name="authorize" novalidate>
+    <div class="form-group" data-ng-class="{'has-error':authorize.cause.$invalid && authorize.cause.$dirty}">
+      <label>Caso não for autorizar, escreva o motivo antes:</label>
+      <count-down-element model="ctrl.data.cause" max="165">
+        <textarea name="cause" id="cause" class="form-control" data-ng-model="ctrl.data.cause" maxlength="165" required></textarea>
+      </count-down-element>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" data-ng-click="ctrl.ok()" class="btn btn-lg btn-primary">
+    Autorizar
+  </button>
+  <button type="button" data-ng-click="ctrl.cancel()" data-ng-disabled="authorize.cause.$invalid" class="btn btn-lg btn-warning">
+    Não autorizar
+  </button>
+</div>

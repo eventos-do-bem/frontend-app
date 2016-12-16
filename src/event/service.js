@@ -62,6 +62,10 @@ export default class EventService extends CommonService {
     super.setRoute(`events/${id}/report/submit`)
     return super.postWithFile(data, progress)
   }
+  authorizeReport(id, data) {
+    super.setRoute(`reports/${id}`)
+    return this.$http.put(this.url + this.route, data)
+  }
 }
 
 EventService.$inject = ['API','$http']

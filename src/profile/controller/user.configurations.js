@@ -31,16 +31,16 @@ export default class UserConfigurations {
     this.service.change(profile, progress => {
       this.progress = progress
     }).then(
-        response => {
-          this.storage.setItem('token', response.data.token)
-          let {name, email, type, avatar} = response.data
-          this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar})
-          this.rootScope.$broadcast('profile.change')
-          this.profile.password = '';
-          this.profile.new_password = '';
-          this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: 'Dados alterados com sucesso!'})
-        }
-      )
+      response => {
+        this.storage.setItem('token', response.data.token)
+        let {name, email, type, avatar, permissions} = response.data
+        this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
+        this.rootScope.$broadcast('profile.change')
+        this.profile.password = '';
+        this.profile.new_password = '';
+        this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: 'Dados alterados com sucesso!'})
+      }
+    )
   }
   setPassword() {
     console.log(this.profile.needpassword && this.needpassword)
