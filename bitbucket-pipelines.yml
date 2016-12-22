@@ -13,3 +13,4 @@ pipelines:
           - npm install -g grunt-cli
           - npm install -g bower --save-dev
           - npm install
+          - npm test
