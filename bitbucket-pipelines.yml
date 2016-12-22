@@ -8,14 +8,14 @@ image: node:6.9.2
 pipelines:
   master:
     - step:
-        script: # Modify the commands below to build your repository.
+        script: 
          - apt-get update
          - apt-get -y install awscli
          - aws --version
          - aws --region us-east-1 s3 sync site s3://eventosdobem-frontend
   production:
     - step:
-        script: # Modify the commands below to build your repository.
+        script:
          - apt-get update
          - apt-get -y install awscli
          - aws --version
