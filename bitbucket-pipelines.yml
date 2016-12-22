@@ -14,6 +14,8 @@ pipelines:
            - apt-get -y install awscli
            - aws --version
            - aws --region us-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read
+           - aws configure set preview.cloudfront true
+           - aws cloudfront create-invalidation --distribution-id E2GGIDEF1PPNTQ --paths /*
     production:
       - step:
           script:
@@ -22,3 +24,5 @@ pipelines:
            - aws --version
            - echo "This script runs only on commit to the production branch."
            - aws --region sa-east-1 s3 sync . s3://eventosdobem.com.br --acl public-read
+           - aws configure set preview.cloudfront true
+           - aws cloudfront create-invalidation --distribution-id E1CX7CDU68AMAR --paths /*
