@@ -11,3 +11,4 @@ pipelines:
         script: # Modify the commands below to build your repository.
          - apt-get update
          - apt-get install awscli
+         - aws --version
