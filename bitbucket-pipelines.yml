@@ -10,6 +10,6 @@ pipelines:
     - step:
         script: # Modify the commands below to build your repository.
           - npm install -g gulp grunt-cli bower
-          - echo '{ "allow_root": true }' > /root/.bowerrc
+          - echo "{ \"allow_root\": true }" > /root/.bowerrc
           - npm install
           - npm test
