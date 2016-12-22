@@ -6,9 +6,18 @@
 image: node:6.9.2
 
 pipelines:
-  default:
+  master:
     - step:
         script: # Modify the commands below to build your repository.
          - apt-get update
          - apt-get -y install awscli
          - aws --version
+         - aws --region us-east-1 s3 sync site s3://eventosdobem-frontend
+  production:
+    - step:
+        script: # Modify the commands below to build your repository.
+         - apt-get update
+         - apt-get -y install awscli
+         - aws --version
+         - echo "This script runs only on commit to the production branch."
+         - aws --region us-east-1 s3 sync site s3://eventosdobem.com.br
