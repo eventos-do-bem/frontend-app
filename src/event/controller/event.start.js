@@ -1,11 +1,14 @@
 export default class EventStart {
-  constructor($rootScope, $state, $window, $stateParams, $filter, LocationService, CityService, EventService, CategoryService, InstitutionService) {
+  constructor($rootScope, $state, $window, $stateParams, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService) {
     this.rootScope = $rootScope
     this.state = $state
     this.window = $window
     this.filter = $filter
+    this.location = $location
+    this.anchorScroll = $anchorScroll
     this.service = EventService
     this.locationService = LocationService
+    this.event = {}
     if (this.hasDraft()) {
       this.draft = this.getDraft()
     }
@@ -47,8 +50,12 @@ export default class EventStart {
         text: 'É a cidade na qual você está localizado. Uma campanha pode acontecer de duas maneiras: ou somente aqui pela internet, ou tanto pela internet quanto em uma festa, presencialmente.'
       },
       goal: {
-        title: 'Meta e data limite',
-        text: 'Aqui você pode definir uma meta financeira, que é definida por duas informações: um valor e uma data-limite para a duração da campanha. Todas as nossas campanhas tem no mínimo 22 dias, pois é o tempo adequado para mobilizar seus amigos, mesmo que seu evento do bem tenha uma data específica, a maioria dos eventos batem a meta depois da data específica. Logo as datas de aniversários, casamentos entre outros não são limitantes mas motivadoras e impulsionadoras da captação de ajuda para a causa que você acredita.'
+        title: 'Meta',
+        text: 'A meta motiva seus amigos a se unirem a você e assim ampliar o impacto social! Para pensar em uma meta factível faça uma lista de apoiadores mais prováveis de sua campanha: fale com amigos e familiares próximos, avalie um valor médio provável por doação, calcule o valor total e dobre o resultado, esta será sua meta. Será factível e ao mesmo tempo motivadora.'
+      },
+      end: {
+        title: 'Data limite',
+        text: 'Todas as nossas campanhas tem no mínimo 22 dias, pois é o prazo necessário para você mobilizar seus amigos. Mesmo que uma data específica de um evento esteja há poucos dias da data de criação de seu evento do bem, fique tranquilo que a maioria das campanhas batem a meta depois de sua data chave.'
       },
       description: {
         title: 'Descrição da campanha',
@@ -68,10 +75,6 @@ export default class EventStart {
         citie.focus()
       })
   }
-  getSlugByName(name) {
-    this.service.getSlugByName(name)
-      .then(response => this.event.uri = response.data.slug)
-  }
   setPopoverContent(field) {
     this.popoverContent = this.popovers[field]
   }
@@ -85,20 +88,21 @@ export default class EventStart {
     return (diffDays >= 22 && diffDays <= 90) ? false : true
   }
   save(event) {
-    // event = angular.copy(event)
+    event = angular.copy(event)
     
     if (event.institution_uuid) {
       event.institution_uuid = event.institution_uuid.uuid
     }
-    console.log(event)
     // console.log(JSON.stringify(event))
     this.service.save(event, progress => this.progress = progress)
       .then(
         response => {
-          this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: 'Obrigado por criar seu evento! em breve entraremos em contato pra lhe ajudar e criar seus Eventos do Bem! :)'})
+          this.state.go('event.slug', {slug: response.data.slug})
         },
         error => {
           this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
+          this.location.hash('body')
+          this.anchorScroll()
         }
       )
   }
@@ -125,4 +129,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$filter', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']
+EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$filter','$location','$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']

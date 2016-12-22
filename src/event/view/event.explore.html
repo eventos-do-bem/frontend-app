@@ -46,10 +46,12 @@
       </div>
       <div class="col-md-4" data-ng-repeat="item in ctrl.events">
         <div class="thumbnail">
-          <img data-ng-src="assets/images/avatar.jpg" alt="Avatar">
+          <figure>
+            <img data-ng-src="{{item.cover.medium}}" alt="{{item.name}}" class="img-responsive">
+          </figure>
           <div class="caption">
-            <img class="avatar" data-ng-src="assets/images/avatar.jpg" alt="Avatar">
-            <p data-ng-bind-html="item.name"></p>
+            <img class="avatar" data-ng-src="{{item.user.avatar.medium}}" alt="{{item.user.avatar.name}}">
+            <p class="text-center" data-ng-bind-html="item.name"></p>
             <a href="#" class="btn btn-primary btn-block" ui-sref="event.slug({slug: item.slug})" role="button">Saiba mais sobre o projeto</a>
           </div>
         </div>

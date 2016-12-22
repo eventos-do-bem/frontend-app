@@ -7,6 +7,7 @@ import APIConfig        from './config/api.json'
 import FBConfig         from './config/facebook.json'
 import AppConfig        from './config.js'
 import HttpInterceptor  from './interceptor.js'
+import YoutubeFilter    from './../common/filter/youtube.js'
 import Run              from './run.js'
 import controller       from './controller.js'
 import common           from './../common/module.js'
@@ -50,5 +51,6 @@ angular
   .constant('API', APIConfig)
   .constant('FBConfig', FBConfig)
   .factory('HttpInterceptor', HttpInterceptor)
+  .filter('youtube', YoutubeFilter)
   .controller('AppController', controller)
   .run(Run)

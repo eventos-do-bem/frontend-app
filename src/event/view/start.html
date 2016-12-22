@@ -45,7 +45,7 @@
 </script>
 <script type="text/ng-template" id="myPopoverTemplate.html">
   <h4>{{ctrl.popoverContent.title}}</h4>
-  <p>{{ctrl.popoverContent.text}}</p>
+  <p data-ng-bind-html="ctrl.popoverContent.text"></p>
 </script>
 <div class="container">
   <div class="row">
@@ -57,18 +57,18 @@
         <div class="form-group" data-ng-class="{'has-error':start.name.$invalid && start.name.$dirty}">
           <label for="" class="control-label">Nome</label>
           <count-down-element model="ctrl.event.name" max="60">
-            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" data-ng-model-options="{updateOn: 'default blur', debounce: { 'default': 2000, 'blur': 0 }}" data-ng-change="ctrl.getSlugByName(ctrl.event.name)" placeholder="Digite o nome do evento aqui" maxlength="60" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('name')" popover-placement="right" popover-trigger="focus" required autofocus>
+            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" placeholder="Digite o nome do evento aqui" maxlength="60" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('name')" popover-placement="right" popover-trigger="click" required autofocus>
           </count-down-element>
         </div>
-        <div class="form-group" data-ng-class="{'has-error':start.uri.$invalid && start.uri.$dirty}">
+        <!--<div class="form-group" data-ng-class="{'has-error':start.uri.$invalid && start.uri.$dirty}">
           <label for="uri" class="control-label">Este será o endereço web de sua campanha (gerado automaticamente baseado no nome acima)</label>
-          <!--<count-down-element model="ctrl.event.uri" max="50">-->
+          <count-down-element model="ctrl.event.uri" max="50">
             <div class="input-group">
               <span class="input-group-addon">www.eventosdobem.com.br/</span>
               <input type="text" name="uri" id="uri" class="form-control" data-ng-model="ctrl.event.uri" readonly required>
             </div>
-          <!--</count-down-element>-->
-        </div>
+          </count-down-element>
+        </div>-->
         <div class="form-group" data-ng-class="{'has-error':start.institution_uuid.$invalid && start.institution_uuid.$dirty}">
           <label for="institution_uuid" class="control-label">Escolha a causa que irá ajudar</label>
           <input type="text" name="institution_uuid" data-ng-model="ctrl.event.institution_uuid" placeholder="Encontre uma causa" uib-typeahead="item as item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('institution')" popover-placement="right" popover-trigger="focus" required>
@@ -83,14 +83,14 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="state" class="control-label">Escolha seu estado</label>
-              <input type="text" name="state" data-ng-model="ctrl.state" typeahead-on-select="ctrl.getCities($item.name)" placeholder="Encontre seu estado" uib-typeahead="item.name for item in ctrl.states | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupStatesTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('state')" popover-placement="right" popover-trigger="focus" required>
+              <label for="state" class="control-label">Selecione seu Estado</label>
+              <input type="text" name="state" data-ng-model="ctrl.temp.state" typeahead-on-select="ctrl.getCities($item.name)" placeholder="Encontre seu estado" uib-typeahead="item.name for item in ctrl.states | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupStatesTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('state')" popover-placement="right" popover-trigger="focus" autocomplete="off" required>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="citie" class="control-label">Escolha sua cidade</label>
-              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 1000}" data-ng-change="ctrl.getCities(ctrl.state, ctrl.event.citie)" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.cities | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="true" typeahead-min-length="0" typeahead-wait-ms="1000" class="form-control" required>
+              <label for="citie" class="control-label">Selecione sua Cidade</label>
+              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 1000}" data-ng-change="ctrl.getCities(ctrl.temp.state, ctrl.event.citie)" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.cities | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="true" typeahead-min-length="0" typeahead-wait-ms="1000" class="form-control" autocomplete="off" required>
             </div>
           </div>
         </div>
@@ -100,10 +100,10 @@
             <option value="">Selecione</option>
           </select>
         </div>-->
-        <p>Se quiser você pode personalizar a foto da sua campanha</p>
+        <p>Se quiser você pode personalizar a foto de capa da sua campanha</p>
         <div class="media">
           <div class="media-left">
-            <file style="display: block" ng-model="ctrl.event.cover" progress="ctrl.progress">
+            <file style="display: block" ng-model="ctrl.event.cover" progress="ctrl.progress" disabled="ctrl.temp.cover_default">
               <span data-ng-bind="ctrl.event.cover.name || 'Imagem'"></span>
             </file>
             <!--<a href="#">
@@ -111,19 +111,19 @@
             </a>-->
           </div>
           <div class="media-body">
-            <p>
+            <p data-ng-class="{'text-muted': ctrl.temp.cover_default}">
               JPEG ou PNG - 1MB limite de tamanho do arquivo <br>
               Essa é a principal imagem da sua campanha, pega uma lindona :) <br>
               Tamanho recomendado: xxxx de largura por xxx de altura 
             </p>
           </div>
         </div>
-        <!--<div class="checkbox">
+        <div class="checkbox">
           <label>
-            <input type="checkbox" name="image_default">
-            Quero usar a imagem padrão registrada para a causa que escolhi.
+            <input type="checkbox" name="cover_default" data-ng-model="ctrl.temp.cover_default">
+            Quero usar a foto de capa padrão selecionada pela organização que escolhi.
           </label>
-        </div>-->
+        </div>
         <div class="row">
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.goal_amount.$invalid && start.goal_amount.$dirty, 'has-error': start.goal_amount.$dirty && ctrl.event.goal_amount < 100}">
@@ -132,35 +132,35 @@
                 <span class="input-group-addon">R$</span>
                 <input type="text" name="goal_amount" id="goal_amount" class="form-control" data-ng-model="ctrl.event.goal_amount" placeholder="Digite o valor" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
               </div>
-              <div class="checkbox">
+              <!--<div class="checkbox">
                 <label>
                   <input type="checkbox" name="disable_goal">
                   Desabilitar meta
                 </label>
-              </div>
+              </div>-->
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.end_date.$invalid && start.end_date.$dirty, 'has-error': start.end_date.$dirty && ctrl.checkEndDate(ctrl.event.end_date)}">
               <label for="end_date" class="control-label">Término</label>
-              <input type="text" name="end_date" id="end_date" mask="99/99/9999" class="form-control" data-ng-model="ctrl.event.end_date" data-ng-model-options="{debounce: 1000}" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
+              <input type="text" name="end_date" id="end_date" mask="99/99/9999" class="form-control" data-ng-model="ctrl.event.end_date" data-ng-model-options="{debounce: 1000}" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('end')" popover-placement="right" popover-trigger="focus">
             </div>
           </div>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.description.$invalid && start.description.$dirty}">
           <label for="description" class="control-label">Texto explicativo</label>
-          <count-down-element model="ctrl.event.description" max="300">
-            <textarea name="description" id="description" class="form-control" data-ng-model="ctrl.event.description" maxlength="300" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('description')" popover-placement="right" popover-trigger="focus"></textarea>
+          <count-down-element model="ctrl.event.description" max="3000">
+            <textarea name="description" id="description" class="form-control" data-ng-model="ctrl.event.description" maxlength="3000" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('description')" popover-placement="right" popover-trigger="focus"></textarea>
           </count-down-element>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.video.$invalid && start.video.$dirty}">
           <label for="video" class="control-label">Vídeo (Youtube ou Vimeo)</label>
-          <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right" popover-trigger="focus">
+          <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right" popover-trigger="focus" data-ng-disabled="ctrl.temp.video_default">
         </div>
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="video_default">
-            Quero usar o vídeo padrão da causa que irei ajudar.
+            <input type="checkbox" name="video_default" data-ng-model="ctrl.temp.video_default">
+            Quero usar o vídeo padrão selecionado pela organização que escolhi.
           </label>
         </div>
         <div class="form-buttons form-buttons-left">

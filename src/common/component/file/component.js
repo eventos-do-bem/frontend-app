@@ -4,11 +4,12 @@ let Component = {
   require: ['ngModel'],
   bindings: {
     ngModel: '=',
-    progress: '<?'
+    progress: '<?',
+    disabled: '<?'
   },
   template: `
     <input type="file" ng-model="file" data-ng-hide="true">
-    <button type="button" class="btn btn-default" data-ng-class="$ctrl.style" data-ng-click="click()">
+    <button type="button" class="btn btn-default" data-ng-class="$ctrl.style" data-ng-click="click()" data-ng-disabled="$ctrl.disabled">
       <i class="fa fa-upload"></i>
       <span ng-transclude></span>
       <span data-ng-show="$ctrl.percent">

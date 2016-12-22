@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col-md-8">
         <div data-ng-show="ctrl.event.videos.values[0]" class="video-container">
-          <iframe src="https://www.youtube.com/embed/V1U4mpk80_0" class="video-inner" frameborder="0" allowfullscreen></iframe>
+          <iframe src="{{ctrl.event.videos.values[0].url | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
         <p class="description" data-ng-bind="ctrl.event.description"></p>
         <div class="fb-share-button" 

@@ -14,6 +14,7 @@ let Component = {
   controller: function($scope) {
     let ctrl = this
     $scope.$on('alert', (event, args) => {
+      ctrl.alerts = []
       args.show = true
       let data = angular.copy(args)
       args.message = []
@@ -22,7 +23,7 @@ let Component = {
           args.message.push(data.message.errors[i])
         }
       } else {
-        args.message.push(data.message)
+        args.message.push(data.message.message)
       }
       ctrl.alerts.push(args)
     })

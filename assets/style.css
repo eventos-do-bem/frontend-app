@@ -163,6 +163,9 @@ blockquote .name {
   background-color: #eee;
   border: 1px solid #ccc;
   border-radius: 3px;
+  z-index: 1000;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 .popover.right {
   width: 100%;
@@ -343,6 +346,15 @@ dl dd:last-child {
 }
 .explore .thumbnail {
   margin-bottom: 40px;
+}
+.explore .thumbnail > figure {
+  max-height: 200px;
+  overflow: hidden;
+}
+.explore .thumbnail > figure > img {
+  width: auto;
+  max-width: none;
+  height: 200px;
 }
 .explore .thumbnail .caption {
   position: relative;
