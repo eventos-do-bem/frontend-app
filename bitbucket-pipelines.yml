@@ -1,0 +1,24 @@
+# This is a sample build configuration for Javascript.
+# Check our guides at https://confluence.atlassian.com/x/VYk8Lw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: node:6.9.2
+
+pipelines:
+  branches:
+    master:
+      - step:
+          script: 
+           - apt-get update
+           - apt-get -y install awscli
+           - aws --version
+           - aws --region us-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read
+    production:
+      - step:
+          script:
+           - apt-get update
+           - apt-get -y install awscli
+           - aws --version
+           - echo "This script runs only on commit to the production branch."
+           - aws --region us-east-1 s3 sync . s3://eventosdobem.com.br --acl public-read
