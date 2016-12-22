@@ -9,5 +9,7 @@ pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
-          - npm install -g gulp grunt-cli bower
+          - npm install -g gulp
+          - npm install -g grunt-cli
+          - npm install -g bower --save-dev
           - npm install
