@@ -11,8 +11,11 @@ pipelines:
       - step:
           script: 
            - apt-get update
+           - python --version
+           - apt-get -y install python-dev
            - apt-get -y install python-pip
            - pip install awscli
+           - pip --help
            - aws --version
            - aws --region us-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read
            - aws configure set preview.cloudfront true
