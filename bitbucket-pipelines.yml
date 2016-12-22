@@ -21,4 +21,4 @@ pipelines:
            - apt-get -y install awscli
            - aws --version
            - echo "This script runs only on commit to the production branch."
-           - aws --region us-east-1 s3 sync . s3://eventosdobem.com.br --acl public-read
+           - aws --region sa-east-1 s3 sync . s3://eventosdobem.com.br --acl public-read
