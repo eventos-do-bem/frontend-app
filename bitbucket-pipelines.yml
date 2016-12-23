@@ -11,11 +11,16 @@ pipelines:
       - step:
           script: 
            - apt-get update
+<<<<<<< HEAD
            - python --version
            - apt-get -y install python-dev
            - apt-get -y install python-pip
            - pip install awscli
            - pip --help
+=======
+           - apt-get -y install python-pip
+           - pip install awscli
+>>>>>>> 405968bac3f465ff8dd99561698da5a7ee4db7a6
            - aws --version
            - aws --region us-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read
            - aws configure set preview.cloudfront true
@@ -24,6 +29,7 @@ pipelines:
       - step:
           script: 
            - apt-get update
+<<<<<<< HEAD
            - python --version
            - apt-get -y install python-dev
            - apt-get -y install python-pip
@@ -31,5 +37,12 @@ pipelines:
            - pip --help
            - aws --version
            - aws --region us-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read
+=======
+           - apt-get -y install python-pip
+           - pip install awscli
+           - aws --version
+           - echo "This script runs only on commit to the production branch."
+           - aws --region sa-east-1 s3 sync . s3://eventosdobem.com.br --acl public-read
+>>>>>>> 405968bac3f465ff8dd99561698da5a7ee4db7a6
            - aws configure set preview.cloudfront true
            - aws cloudfront create-invalidation --distribution-id E1CX7CDU68AMAR --paths /*
