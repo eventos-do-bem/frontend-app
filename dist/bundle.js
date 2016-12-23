@@ -20,16 +20,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = AppConfig;
-function AppConfig($httpProvider, $injector, $urlRouterProvider, $sceDelegateProvider, $qProvider) {
+function AppConfig($httpProvider, $injector, $urlRouterProvider, $sceDelegateProvider) {
   $httpProvider.interceptors.push('HttpInterceptor');
   $sceDelegateProvider.resourceUrlWhitelist(['self', "http://www.youtube.com/embed/**"]);
-  $qProvider.errorOnUnhandledRejections(false);
   $urlRouterProvider.otherwise('/#');
 }
 
 },{}],3:[function(require,module,exports){
 module.exports={
-  "url": "https://production.eventosdobem.com/api/", //dev
+  "url": "https://dev.eventosdobem.com/api/", //dev
   // "url": "https://prod.eventosdobem.com/api/", //prod
   "accept": "application/vnd.api.v1+json",
   "contenttype": "application/json",
