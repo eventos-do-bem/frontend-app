@@ -20,9 +20,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = AppConfig;
-function AppConfig($httpProvider, $injector, $urlRouterProvider, $sceDelegateProvider) {
+function AppConfig($httpProvider, $injector, $urlRouterProvider, $sceDelegateProvider, $qProvider) {
   $httpProvider.interceptors.push('HttpInterceptor');
   $sceDelegateProvider.resourceUrlWhitelist(['self', "http://www.youtube.com/embed/**"]);
+  $qProvider.errorOnUnhandledRejections(false);
   $urlRouterProvider.otherwise('/#');
 }
 
@@ -2378,6 +2379,7 @@ var DonateBillet = function () {
     this.donateService = DonateService;
     this.uuid = data.uuid;
     this.donate = data.donate;
+    this.user = data.user;
     this.donate.is_anonymous = false;
     this.logged = StorageService.getItem('token');
   }
@@ -2387,12 +2389,6 @@ var DonateBillet = function () {
     value: function buildBillet() {
       var _this = this;
 
-      if (this.logged) {
-        delete this.donate.name;
-        delete this.donate.email;
-        delete this.donate.birthdate;
-        // if (this.donate.document) delete this.donate.document
-      }
       var method = this.logged ? 'printLoggedBillet' : 'printPublicBillet';
       this.donateService[method](this.uuid, this.donate).then(function (response) {
         return _this.instance.close({ uuid: _this.uuid, data: response.data });
@@ -2434,6 +2430,7 @@ var DonateCard = function () {
     this.donateService = DonateService;
     this.uuid = data.uuid;
     this.donate = data.donate;
+    this.user = data.user;
     this.donate.is_anonymous = false;
     this.logged = StorageService.getItem('token');
   }
@@ -2500,7 +2497,9 @@ var DonateEvent = function () {
     }
 
     this.eventService.findById(this.stateParams.slug).then(function (response) {
-      return _this.uuid = response.data.uuid;
+      console.log(response.data);
+      _this.uuid = response.data.uuid;
+      _this.event = response.data;
     });
 
     if (this.logged) {
@@ -2576,7 +2575,8 @@ var DonateEvent = function () {
           data: function data() {
             return {
               uuid: _this2.uuid,
-              donate: donate
+              donate: donate,
+              user: _this2.event.institution.user
             };
           }
         }
@@ -2597,6 +2597,14 @@ var DonateEvent = function () {
       var _this3 = this;
 
       var donate = angular.copy(this.donate);
+      if (this.logged) {
+        delete donate.name;
+        delete donate.email;
+        delete donate.birthdate;
+        if (!this.missingDoc) {
+          delete donate.document;
+        }
+      }
       var modalInstance = this.modal.open({
         templateUrl: './../src/donate/view/donate.billet.html',
         controller: 'DonateBillet',
@@ -2605,7 +2613,8 @@ var DonateEvent = function () {
           data: function data() {
             return {
               uuid: _this3.uuid,
-              donate: donate
+              donate: donate,
+              user: _this3.event.institution.user
             };
           }
         }

@@ -18,7 +18,11 @@ export default class DonateEvent {
     }
 
     this.eventService.findById(this.stateParams.slug)
-      .then(response => this.uuid = response.data.uuid)
+      .then(response => {
+        console.log(response.data)
+        this.uuid = response.data.uuid
+        this.event = response.data
+      })
 
     if (this.logged) {
       this.profileService.me()
@@ -89,7 +93,8 @@ export default class DonateEvent {
         data: () => {
           return {
             uuid: this.uuid,
-            donate: donate
+            donate: donate,
+            user: this.event.institution.user
           }
         }
       }
@@ -107,6 +112,14 @@ export default class DonateEvent {
   }
   openBillet() {
     let donate = angular.copy(this.donate)
+    if (this.logged) {
+      delete donate.name
+      delete donate.email
+      delete donate.birthdate
+      if (!this.missingDoc) {
+        delete donate.document
+      }
+    }
     let modalInstance = this.modal.open({
       templateUrl: './../src/donate/view/donate.billet.html',
       controller: 'DonateBillet',
@@ -115,7 +128,8 @@ export default class DonateEvent {
         data: () => {
           return {
             uuid: this.uuid,
-            donate: donate
+            donate: donate,
+            user: this.event.institution.user
           }
         }
       }

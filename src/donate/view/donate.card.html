@@ -4,11 +4,11 @@
   </button>
   <div class="panel profile">
     <div style="margin: 0 auto; width: 250px;">
-      <img src="assets/images/avatar.jpg" class="avatar img-responsive img-circle" alt="">
+      <img data-ng-src="{{ctrl.user.avatar.medium}}" class="avatar img-responsive img-circle" alt="">
     </div>
     <div style="margin: 0 auto; width: 400px;">
       <h4 class="text-center">
-        Obrigado! Seu apoio a campanha do <span data-ng-bind="ctrl.donate.name"></span> está sendo computado, aguarde o email confirmando a aprovação de pagamento do seu cartão. Escreva uma mensagem de apoio para o <span data-ng-bind="ctrl.donate.name"></span> que aparecerá em sua página de campanha!
+        Obrigado! Seu apoio a campanha do <span data-ng-bind="ctrl.user.name"></span> está sendo computado, aguarde o email confirmando a aprovação de pagamento do seu cartão. Escreva uma mensagem de apoio para o <span data-ng-bind="ctrl.user.name"></span> que aparecerá em sua página de campanha!
       </h4>
       <form name="donate" novalidate>
         <div class="form-group" data-ng-class="{'has-error':donate.message.$invalid}">
@@ -18,7 +18,9 @@
         </div>
         <div class="checkbox">
           <label>
-            <input type="checkbox" data-ng-model="ctrl.donate.is_anonymous"> Prefiro me manter anônimo
+            <input type="checkbox" data-ng-model="ctrl.donate.is_anonymous">
+            Prefiro me manter anônimo
+            <i class="glyphicon glyphicon-question-sign text-muted" uib-popover="Você permanecerá anônimo na página pública da campanha, no entanto, se acordo com a nossa política de transparência seu nome e valor de doação será informado em um relatório financeiro para o Organizador da campanha." popover-trigger="mouseenter" popover-placement="right"></i>
           </label>
         </div>
         <div class="form-buttons form-buttons-center">

@@ -25,6 +25,9 @@ html, body {
 /* /backgrounds */
 
 /* fonts */
+h1, h2, h3, h4, h5, h6, p {
+  /*line-height: 1.8;*/
+}
 h1 { font-size: 3rem; }
 h2 { font-size: 2.5rem; }
 h3 { font-size: 2.1rem; }
@@ -33,7 +36,7 @@ h5 { font-size: 1.5rem; }
 h6 { font-size: 1.3rem; }
 p, a, label, table th, table td {
   font-size: 1.4rem;
-  line-height: 1.8rem;
+  line-height: 1.8;
 }
 h1 a,
 h2 a,
@@ -169,6 +172,9 @@ blockquote .name {
 }
 .popover.right {
   width: 100%;
+}
+.donate .popover.right {
+  width: 260%;
 }
 .popover.right > .arrow:after {
   border-right-color: #eee;
@@ -807,12 +813,12 @@ figure.avatar img {
   width: 100%;
 }
 .panel.profile {
-  margin-top: 80px;
+  margin-top: 100px;
 }
 .panel.profile .avatar {
   margin: 0 auto;
-  width: 60%;
-  margin-top: -80px;
+  width: 50%;
+  margin-top: -55px;
   border: 2px solid #ccc;
 }
 .panel.profile .panel-body {
@@ -1388,6 +1394,9 @@ cursor: pointer;
 /* /creditcard */
 
 /* donate */
+form[name="donate"] {
+  margin-top: 50px;
+}
 .donate .flags {
   margin-bottom: 20px;
 }
