@@ -4,16 +4,11 @@ export default class DonateBillet {
     this.donateService = DonateService
     this.uuid = data.uuid
     this.donate = data.donate
+    this.user = data.user
     this.donate.is_anonymous = false
     this.logged = StorageService.getItem('token')
   }
   buildBillet() {
-    if (this.logged) {
-      delete this.donate.name
-      delete this.donate.email
-      delete this.donate.birthdate
-      // if (this.donate.document) delete this.donate.document
-    }
     let method = (this.logged) ? 'printLoggedBillet' : 'printPublicBillet'
     this.donateService[method](this.uuid, this.donate)
       .then(

@@ -1,8 +1,14 @@
+<script type="text/ng-template" id="myPopoverCardTemplate.html">
+  <div style="padding: 0 20%; text-align: center">
+    <img src="/assets/images/cards/back_card.svg" class="img-responsive" alt="Verso do cartão">
+  </div>
+  <small>O código de segurança consiste nos 3 últimos números no verso do seu cartão.</small>
+</script>
 <div class="donate container">
   <form name="donate" novalidate data-ng-submit="ctrl.save(ctrl.donate)">
     <div class="row">
       <div class="col-md-8">
-        <h3>Você está doando para a campanha de Gui Seek</h3>
+        <h3>Você está doando para a campanha de <span data-ng-bind="ctrl.event.institution.user.name"></span></h3>
         <h4>Preencha e revise os dados para o pagamento</h4>
         <p>Esses dados serão informados ao realizador do projeto</p>
         <div class="row">
@@ -101,12 +107,12 @@
           </div>
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':donate.amount.$invalid && donate.amount.$dirty}">
-              <label for="amount" class="control-label">Valor que deseja doar</label>
+              <label for="amount" class="control-label">Digite o valor que deseja doar para a campanha de <span data-ng-bind="ctrl.event.institution.user.name"></span></label>
               <input type="text" name="amount" id="amount" class="form-control" data-ng-model="ctrl.donate.amount" data-ng-focus="ctrl.onFocus('amount')" data-ng-blur="ctrl.onValidate(donate)" required>
             </div>
             <div class="form-group" data-ng-class="{'has-error':donate.card_number.$invalid && donate.card_number.$dirty}">
               <label for="card_number" class="control-label">Número do seu cartão</label>
-              <input type="text" name="card_number" id="card_number" class="form-control" data-ng-model="ctrl.donate.card_number" mask="9999-9999-9999-9999" data-ng-keyup="ctrl.getFlag(ctrl.donate.card.number)" data-ng-focus="ctrl.onFocus('card_number')" data-ng-blur="ctrl.onValidate(donate)" required>
+              <input type="text" name="card_number" id="card_number" class="form-control" data-ng-model="ctrl.donate.card_number" mask="9999-9999-9999-9999" data-ng-keyup="ctrl.getFlag(ctrl.donate.card_number)" data-ng-focus="ctrl.onFocus('card_number')" data-ng-blur="ctrl.onValidate(donate)" required>
             </div>
             <div class="form-group" data-ng-class="{'has-error':donate.card_name.$invalid && donate.card_name.$dirty}">
               <label for="card_name" class="control-label">Nome como está escrito no seu cartão</label>
@@ -136,7 +142,7 @@
               <div class="col-md-3">
                 <div class="form-group" data-ng-class="{'has-error':donate.card_cvc.$invalid && donate.card_cvc.$dirty}">
                   <label for="card_cvc" class="control-label">Código</label>
-                  <input type="number" name="card_cvc" id="card_cvc" class="form-control" data-ng-model="ctrl.donate.card_cvc" data-ng-blur="ctrl.onValidate(donate)" required>
+                  <input type="number" name="card_cvc" id="card_cvc" class="form-control" data-ng-model="ctrl.donate.card_cvc" data-ng-blur="ctrl.onValidate(donate)" uib-popover-template="'myPopoverCardTemplate.html'" popover-placement="right" popover-trigger="focus" required>
                 </div>
               </div>
             </div>
@@ -151,9 +157,9 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4" fixed-on-scroll offset="0" top="80">
+      <div class="col-md-4" fixed-on-scroll offset="0" top="100">
         <div class="panel profile panel-default">
-          <img src="assets/images/avatar.jpg" class="avatar img-responsive img-circle" alt="">
+          <img data-ng-src="{{ctrl.event.institution.user.avatar.medium}}" class="avatar img-responsive img-circle" alt="">
           <div class="panel-body">
             <h4>Dúvidas frequentes</h4>
             <div class="questions" data-ng-repeat="item in ctrl.questions" data-ng-init="item.active = ($index == 0) ? true : false">

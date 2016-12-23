@@ -4,6 +4,7 @@ export default class DonateCard {
     this.donateService = DonateService
     this.uuid = data.uuid
     this.donate = data.donate
+    this.user = data.user
     this.donate.is_anonymous = false
     this.logged = StorageService.getItem('token')
   }
