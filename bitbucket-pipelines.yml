@@ -6,10 +6,30 @@
 image: node:6.9.2
 
 pipelines:
-  default:
-    - step:
-        script: # Modify the commands below to build your repository.
-          - npm install -g gulp
-          - npm install -g grunt-cli
-          - npm install -g bower
-          - npm install
+  branches:
+    master:
+      - step:
+          script: 
+           - apt-get update
+           - python --version
+           - apt-get -y install python-dev
+           - apt-get -y install python-pip
+           - pip install awscli
+           - pip --help
+           - aws --version
+           - aws --region us-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read --exclude ".git" --exclude ".config" --exclude ".npm" --exclude "node_modules"
+           - aws configure set preview.cloudfront true
+           - aws cloudfront create-invalidation --distribution-id E2GGIDEF1PPNTQ --paths /*
+    production:
+      - step:
+          script: 
+           - apt-get update
+           - python --version
+           - apt-get -y install python-dev
+           - apt-get -y install python-pip
+           - pip install awscli
+           - pip --help
+           - aws --version
+           - aws --region us-east-1 s3 sync . s3://eventosdobem.com.br --acl public-read --exclude ".git" --exclude ".config" --exclude ".npm" --exclude "node_modules"
+           - aws configure set preview.cloudfront true
+           - aws cloudfront create-invalidation --distribution-id E1CX7CDU68AMAR --paths /*
