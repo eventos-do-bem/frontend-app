@@ -29,7 +29,7 @@ function AppConfig($httpProvider, $injector, $urlRouterProvider, $sceDelegatePro
 
 },{}],3:[function(require,module,exports){
 module.exports={
-  "url": "https://dev.eventosdobem.com/api/", //dev
+  "url": "https://production.eventosdobem.com/api/", //dev
   // "url": "https://prod.eventosdobem.com/api/", //prod
   "accept": "application/vnd.api.v1+json",
   "contenttype": "application/json",
@@ -37,8 +37,7 @@ module.exports={
 }
 },{}],4:[function(require,module,exports){
 module.exports={
-  "appId": "922781867788493", //dev
-  // "appId": "813381015395246", //prod
+  "appId": "813381015395246",
   "xfbml": true
 }
 },{}],5:[function(require,module,exports){
