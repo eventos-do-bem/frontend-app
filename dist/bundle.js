@@ -20,10 +20,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = AppConfig;
-function AppConfig($httpProvider, $injector, $urlRouterProvider, $sceDelegateProvider, $qProvider) {
+function AppConfig($httpProvider, $injector, $urlRouterProvider, $sceDelegateProvider) {
   $httpProvider.interceptors.push('HttpInterceptor');
   $sceDelegateProvider.resourceUrlWhitelist(['self', "http://www.youtube.com/embed/**"]);
-  $qProvider.errorOnUnhandledRejections(false);
   $urlRouterProvider.otherwise('/#');
 }
 
@@ -37,8 +36,7 @@ module.exports={
 }
 },{}],4:[function(require,module,exports){
 module.exports={
-  "appId": "922781867788493", //dev
-  // "appId": "813381015395246", //prod
+  "appId": "813381015395246",
   "xfbml": true
 }
 },{}],5:[function(require,module,exports){

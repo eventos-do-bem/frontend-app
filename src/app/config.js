@@ -1,9 +1,8 @@
-export default function AppConfig($httpProvider, $injector, $urlRouterProvider, $sceDelegateProvider, $qProvider) {
+export default function AppConfig($httpProvider, $injector, $urlRouterProvider, $sceDelegateProvider) {
   $httpProvider.interceptors.push('HttpInterceptor')
   $sceDelegateProvider.resourceUrlWhitelist([
     'self',
     "http://www.youtube.com/embed/**"
   ])
-  $qProvider.errorOnUnhandledRejections(false);
   $urlRouterProvider.otherwise('/#')
 }
