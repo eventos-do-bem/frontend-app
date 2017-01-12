@@ -383,10 +383,28 @@ dl dd:last-child {
 .institution .cover {
   height: 300px;
   overflow-y: hidden;
+  position: relative;
 }
 .campaign .cover > img,
 .institution .cover > img {
   width: 100%;
+}
+.campaign .cover > .image-cover,
+.institution .cover > .image-cover {
+  width: 100%;
+  height: 300px;
+}
+.campaign .cover > .image-cover:before,
+.institution .cover > .image-cover:before {
+  background: -webkit-linear-gradient(transparent, #000);
+  background: linear-gradient(transparent, #000);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: .8;
 }
 .campaign .cover + .container > .row,
 .institution .cover + .container > .row {
@@ -421,6 +439,9 @@ dl dd:last-child {
 .institution .cover-content h3 {
   margin-bottom: 20px;
 }
+.campaign .cover-content h3 ~ h3 {
+  color: #000;
+}
 .campaign .video,
 .institution .video {
   width: inherit;
@@ -431,7 +452,8 @@ dl dd:last-child {
 .campaign .content .description {
   margin-top: 20px;
   margin-bottom: 40px;
-  color: #888;
+  font-size: 1.7rem;
+  color: #444;
 }
 .institution .content .description {
   font-size: 2rem;
@@ -444,8 +466,17 @@ dl dd:last-child {
 .institution .content .birthday > header .fa {
   font-size: 3rem;
 }
+.campaign .content h3 {
+  font-weight: 700;
+}
+.campaign .content .media-list {
+  margin-top: 40px;
+}
 .campaign .content .media-object {
   width: 60px;
+}
+.campaign .gap-top {
+  margin-top: 1.8rem;
 }
 /* /campaign */
 

@@ -1,7 +1,8 @@
 export default class Event {
-  constructor($rootScope, $state, $stateParams, EventService, StorageService) {
+  constructor($rootScope, $state, $stateParams, $uibModal, EventService, StorageService) {
     this.rootScope = $rootScope
-    this.$state = $state
+    this.state = $state
+    this.modal = $uibModal
     this.service = EventService
     this.profile = StorageService.getItem('profile')
     this.event = {}
@@ -18,6 +19,7 @@ export default class Event {
       .then(response => {
         this.pagination = response.data.meta.pagination
         this.event.messages = response.data
+        console.log(this.event)
       })
   }
   getEvent(id) {
@@ -29,12 +31,38 @@ export default class Event {
           event.ends = new Date(event.ends)
           event.progress = Math.floor((event.total_receive / event.goal) * 100)
           this.event = event
+          console.log(this.event)
           if (this.event.messages.contains) {
             this.getMessages(this.slug, {})
           }
         }
       )
   }
+  seeWhatHappens() {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/event/view/event.happens.html',
+      controller: 'EventHappens',
+      controllerAs: 'ctrl',
+      size: 'md',
+      resolve: {
+        data: () => {
+          return {
+            institution: this.event.institution
+          }
+        }
+      }
+    })
+    // modalInstance.result.then(response => {
+    //   this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
+    //   this.anchorScroll('scrollArea')
+    //   this.timeout(() => {
+    //     this.state.go('event.slug', {slug: response.uuid})
+    //   }, 3000)
+    // }, error => {
+    //   this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
+    // }
+    // )
+  }
 }
 
-Event.$inject = ['$rootScope','$state','$stateParams','EventService','StorageService']
+Event.$inject = ['$rootScope','$state','$stateParams','$uibModal','EventService','StorageService']
