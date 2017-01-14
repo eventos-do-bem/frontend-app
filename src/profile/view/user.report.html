@@ -24,7 +24,7 @@
   </tbody>
 </table>
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-6 gap-top">
     <h2 class="text-center">Total angariado: <span class="text-right" data-ng-bind="ctrl.event.goal_human"></span></h2>
     <div class="progress">
       <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ctrl.event.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ctrl.event.progress}}%">
@@ -33,14 +33,14 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        <h4 data-ng-bind="ctrl.event.goal_human"></h4>
+        <h4 data-ng-bind="ctrl.event.total_receive_human"></h4>
       </div>
       <div class="col-md-6">
         <h4 class="text-right"><span data-ng-bind="ctrl.event.progress"></span>%</h4>
       </div>
     </div>
   </div>
-  <div class="col-md-4 col-md-offset-2">
+  <div class="col-md-4 col-md-offset-2 gap-top">
     <div style="text-align: right">
       <button type="button" class="btn btn-primary btn-block">
         Agradecer apoiadores

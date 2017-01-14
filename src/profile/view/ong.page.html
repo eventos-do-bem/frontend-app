@@ -1,6 +1,6 @@
 <div class="well">
   <h3>Página oficial da <span data-ng-bind="ctrl.page.name"></span></h3>
-  <button type="button" class="btn btn-success">Ver página oficial</button>
+  <a class="btn btn-success" ui-sref="institution({slug: ctrl.page.slug})">Ver página oficial</a>
 </div>
 <div class="well">
   <h3>Editar</h3>

@@ -30,7 +30,10 @@ export default class Page {
   }
   findInstitution(slug) {
     this.service.findById(slug)
-      .then(response => this.institution = response.data)
+      .then(response => {
+        this.institution = response.data
+        console.log(this.institution)
+      })
   }
   subscribe(data) {
     data.institution_uuid = this.institution.uuid

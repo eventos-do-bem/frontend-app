@@ -38,20 +38,24 @@ export default class Event {
         }
       )
   }
-  seeWhatHappens() {
-    let modalInstance = this.modal.open({
-      templateUrl: './../src/event/view/event.happens.html',
-      controller: 'EventHappens',
-      controllerAs: 'ctrl',
-      size: 'md',
-      resolve: {
-        data: () => {
-          return {
-            institution: this.event.institution
+  seeWhatHappens(event) {
+    if (event.report) {
+      this.state.go('event.report', {uuid: event.institution.uuid})
+    } else {
+      let modalInstance = this.modal.open({
+        templateUrl: './../src/event/view/event.happens.html',
+        controller: 'EventHappens',
+        controllerAs: 'ctrl',
+        size: 'md',
+        resolve: {
+          data: () => {
+            return {
+              institution: event.institution
+            }
           }
         }
-      }
-    })
+      })
+    }
     // modalInstance.result.then(response => {
     //   this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
     //   this.anchorScroll('scrollArea')

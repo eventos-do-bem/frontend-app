@@ -7,7 +7,7 @@
 <ul class="media-list">
   <li class="media" data-ng-repeat="item in ctrl.events">
     <div class="media-left">
-      <img class="media-object img-circle" src="assets/images/avatars/medium/avatar.svg" alt="Avatar">
+      <img class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
     </div>
     <div class="media-body">
       <div class="row">
@@ -20,9 +20,9 @@
           <a ui-sref="profile.user.report({uuid: item.uuid})" class="btn btn-primary btn-block">
             Relatório de doações
           </a>
-          <!--<a class="btn btn-success btn-block" disabled="disabled">
+          <a class="btn btn-success btn-block" data-ng-disabled="!item.report" ui-sref="event.report({uuid: item.institution.uuid})">
             Veja seu impacto
-          </a>-->
+          </a>
         </div>
       </div>
     </div>

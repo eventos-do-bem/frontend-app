@@ -17,7 +17,10 @@ class Explore {
   }
   getInstitutions() {
     this.institutionService.findAll()
-      .then(response => this.institutions = response.data.values)
+      .then(response => {
+        this.institutions = response.data.values
+        console.log(this.institutions)
+      })
   }
   getSearch(data) {
     data = angular.copy(data)

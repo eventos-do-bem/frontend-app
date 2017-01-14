@@ -45,8 +45,8 @@ export default class Header {
     }
     if (this.profile) {
       switch(this.profile.type) {
-        case 'user': item.url = 'profile.user'; break;
-        case 'ong': item.url = 'profile.ong'; break;
+        case 'user': item.url = 'profile.user.events'; break;
+        case 'ong': item.url = 'profile.ong.events'; break;
       }
       if (this.dropDownMenu.logged[0].label == 'Perfil') {
         this.dropDownMenu.logged[0] = item

@@ -78,6 +78,7 @@ form input[type="file"] {
   display: block;
   width: 24px;
   height: 24px;
+  margin: 0 auto;
 }
 .icon.check {
   background: url(../assets/icons/svgs/pagamento-efetuado.svg) no-repeat top left;
@@ -280,6 +281,9 @@ dl dd:last-child {
 }
 
 /* profile */
+.profile figure.avatar img {
+  border: 2px solid #ccc;
+}
 .profile .list-group {
   margin-top: 20px;
 }
@@ -296,6 +300,7 @@ dl dd:last-child {
 .profile .media-object {
   width: 120px;
   margin: 10px;
+  border: 2px solid #ccc;
 }
 .profile .media-list > .media {
   padding-bottom: 20px;
@@ -365,9 +370,15 @@ dl dd:last-child {
 .explore .thumbnail .caption {
   position: relative;
 }
-.explore .thumbnail .caption p {
+.explore .thumbnail .caption p,
+.explore .thumbnail .caption h4 {
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-width: 100%;
+  height: 5.3rem;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  height: 3.2rem;
   text-overflow: ellipsis;
 }
 .explore .thumbnail .caption .avatar {
@@ -375,6 +386,7 @@ dl dd:last-child {
   top: -70px;
   left: 10px;
   width: 80px;
+  border: 1px solid #ccc;
 }
 /* /explore */
 
@@ -475,7 +487,7 @@ dl dd:last-child {
 .campaign .content .media-object {
   width: 60px;
 }
-.campaign .gap-top {
+.gap-top {
   margin-top: 1.8rem;
 }
 /* /campaign */
@@ -588,9 +600,14 @@ header .navbar .navbar-brand {
 .navbar-nav {
   margin: 0;
 }
+.navbar-nav > li > a.photo {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 header .navbar .navbar-profile .avatar {
-  width: 2rem;
+  width: 3rem;
   margin-right: 7px;
+  border: 1px solid #ccc;
 }
 .navbar-nav .navbar-btn {
   margin: 7px 15px 7px;

@@ -37,6 +37,7 @@ module.exports={
 },{}],4:[function(require,module,exports){
 module.exports={
   "appId": "813381015395246",
+  // "appId": "922781867788493",
   "xfbml": true
 }
 },{}],5:[function(require,module,exports){
@@ -1054,9 +1055,9 @@ var Header = function () {
       if (this.profile) {
         switch (this.profile.type) {
           case 'user':
-            item.url = 'profile.user';break;
+            item.url = 'profile.user.events';break;
           case 'ong':
-            item.url = 'profile.ong';break;
+            item.url = 'profile.ong.events';break;
         }
         if (this.dropDownMenu.logged[0].label == 'Perfil') {
           this.dropDownMenu.logged[0] = item;
@@ -2999,22 +3000,24 @@ var Event = function () {
     }
   }, {
     key: 'seeWhatHappens',
-    value: function seeWhatHappens() {
-      var _this3 = this;
-
-      var modalInstance = this.modal.open({
-        templateUrl: './../src/event/view/event.happens.html',
-        controller: 'EventHappens',
-        controllerAs: 'ctrl',
-        size: 'md',
-        resolve: {
-          data: function data() {
-            return {
-              institution: _this3.event.institution
-            };
+    value: function seeWhatHappens(event) {
+      if (event.report) {
+        this.state.go('event.report', { uuid: event.institution.uuid });
+      } else {
+        var modalInstance = this.modal.open({
+          templateUrl: './../src/event/view/event.happens.html',
+          controller: 'EventHappens',
+          controllerAs: 'ctrl',
+          size: 'md',
+          resolve: {
+            data: function data() {
+              return {
+                institution: event.institution
+              };
+            }
           }
-        }
-      });
+        });
+      }
       // modalInstance.result.then(response => {
       //   this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
       //   this.anchorScroll('scrollArea')
@@ -3461,8 +3464,8 @@ var EventService = function (_CommonService) {
   _createClass(EventService, [{
     key: 'findAll',
     value: function findAll(params) {
-      _get(EventService.prototype.__proto__ || Object.getPrototypeOf(EventService.prototype), 'setPublicToken', this).call(this);
       _get(EventService.prototype.__proto__ || Object.getPrototypeOf(EventService.prototype), 'setRoute', this).call(this, 'events');
+      _get(EventService.prototype.__proto__ || Object.getPrototypeOf(EventService.prototype), 'setPublicToken', this).call(this);
       if (params != undefined) {
         _get(EventService.prototype.__proto__ || Object.getPrototypeOf(EventService.prototype), 'setParams', this).call(this, params);
       }
@@ -3916,7 +3919,8 @@ var Page = function () {
       var _this2 = this;
 
       this.service.findById(slug).then(function (response) {
-        return _this2.institution = response.data;
+        _this2.institution = response.data;
+        console.log(_this2.institution);
       });
     }
   }, {
@@ -4275,7 +4279,8 @@ var Explore = function () {
       var _this2 = this;
 
       this.institutionService.findAll().then(function (response) {
-        return _this2.institutions = response.data.values;
+        _this2.institutions = response.data.values;
+        console.log(_this2.institutions);
       });
     }
   }, {
@@ -5345,6 +5350,7 @@ var UserEvents = function () {
           event.ends = new Date(event.ends);
           return event;
         });
+        console.log(_this.events);
       });
     }
   }, {

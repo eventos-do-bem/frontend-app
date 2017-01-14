@@ -67,8 +67,9 @@
               <br>
               <small>e ajude a mudar o mundo</small>
             </a>
-            <button type="button" class="btn btn-lg btn-block btn-default" data-ng-click="ctrl.seeWhatHappens()">
-              Veja o que acontecerá depois
+            <button type="button" class="btn btn-lg btn-block btn-default" data-ng-click="ctrl.seeWhatHappens(ctrl.event)">
+              <span data-ng-show="!ctrl.event.report">Veja o que acontecerá depois</span>
+              <span data-ng-show="ctrl.event.report">Veja o impacto social</span>
             </button>
             <p class="text-center gap-top">Você pode doar até: {{ctrl.event.ends | date: 'dd/MM/yyyy'}}</p>
           </div>
