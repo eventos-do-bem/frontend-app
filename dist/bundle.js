@@ -3242,13 +3242,18 @@ var EventStart = function () {
   _createClass(EventStart, [{
     key: 'getCities',
     value: function getCities(state, city) {
-      var _this2 = this;
-
-      var citie = document.querySelector('input[name="citie"]');
-      this.locationService.getCities(state, city).then(function (response) {
-        _this2.cities = response.data.values;
-        citie.focus();
+      return this.locationService.getCities(state, city).then(function (response) {
+        return response.data.values;
       });
+    }
+  }, {
+    key: 'changeState',
+    value: function changeState() {
+      var citie = document.querySelector('input[name="citie"]');
+      delete this.event.citie;
+      setTimeout(function () {
+        return citie.focus();
+      }, 100);
     }
   }, {
     key: 'setPopoverContent',
@@ -3269,7 +3274,7 @@ var EventStart = function () {
   }, {
     key: 'save',
     value: function save(event) {
-      var _this3 = this;
+      var _this2 = this;
 
       event = angular.copy(event);
 
@@ -3278,13 +3283,13 @@ var EventStart = function () {
       }
       // console.log(JSON.stringify(event))
       this.service.save(event, function (progress) {
-        return _this3.progress = progress;
+        return _this2.progress = progress;
       }).then(function (response) {
-        _this3.state.go('event.slug', { slug: response.data.slug });
+        _this2.state.go('event.slug', { slug: response.data.slug });
       }, function (error) {
-        _this3.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data });
-        _this3.location.hash('body');
-        _this3.anchorScroll();
+        _this2.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data });
+        _this2.location.hash('body');
+        _this2.anchorScroll();
       });
     }
   }, {

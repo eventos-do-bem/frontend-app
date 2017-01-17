@@ -47,7 +47,7 @@
   <h4>{{ctrl.popoverContent.title}}</h4>
   <p data-ng-bind-html="ctrl.popoverContent.text"></p>
 </script>
-<div class="container">
+<div class="container start">
   <div class="row">
     <div class="col-md-7">
       <h3>
@@ -84,13 +84,13 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="state" class="control-label">Selecione seu Estado</label>
-              <input type="text" name="state" data-ng-model="ctrl.temp.state" typeahead-on-select="ctrl.getCities($item.name)" placeholder="Encontre seu estado" uib-typeahead="item.name for item in ctrl.states | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupStatesTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('state')" popover-placement="right" popover-trigger="focus" autocomplete="off" required>
+              <input type="text" name="state" data-ng-model="ctrl.temp.state" typeahead-on-select="ctrl.changeState()" placeholder="Encontre seu estado" uib-typeahead="item.name for item in ctrl.states | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupStatesTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('state')" popover-placement="right" popover-trigger="focus" autocomplete="off" required>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="citie" class="control-label">Selecione sua Cidade</label>
-              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 1000}" data-ng-change="ctrl.getCities(ctrl.temp.state, ctrl.event.citie)" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.cities | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="true" typeahead-min-length="0" typeahead-wait-ms="1000" class="form-control" autocomplete="off" required>
+              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 1000}" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" autocomplete="off" required>
             </div>
           </div>
         </div>
@@ -150,7 +150,7 @@
         <div class="form-group" data-ng-class="{'has-error':start.description.$invalid && start.description.$dirty}">
           <label for="description" class="control-label">Texto explicativo</label>
           <count-down-element model="ctrl.event.description" max="3000">
-            <textarea name="description" id="description" class="form-control" data-ng-model="ctrl.event.description" maxlength="3000" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('description')" popover-placement="right" popover-trigger="focus"></textarea>
+            <textarea name="description" id="description" class="form-control description" data-ng-model="ctrl.event.description" maxlength="3000" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('description')" popover-placement="right" popover-trigger="click"></textarea>
           </count-down-element>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.video.$invalid && start.video.$dirty}">

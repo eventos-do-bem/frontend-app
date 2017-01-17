@@ -174,6 +174,7 @@ blockquote .name {
 .popover.right {
   width: 100%;
 }
+.start .popover.right,
 .donate .popover.right {
   width: 260%;
 }
@@ -505,6 +506,12 @@ dl dd:last-child {
 }
 /* /report*/
 
+/* start */
+.start .description {
+  height: 12rem;
+}
+/* /start */
+
 /* file */
 file button {
   max-width: 100%;
@@ -618,7 +625,7 @@ header .navbar .navbar-profile .avatar {
 
 /* banner */
 .banner {
-  background-image: url('../assets/images/banner-home.jpg');
+  background-image: url('../assets/banners/banner-home.jpg');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: top center;
@@ -629,15 +636,19 @@ header .navbar .navbar-profile .avatar {
 }
 .banner h1 {
   margin: 0 auto;
-  padding-top: 120px;
+  padding-top: 80px;
   padding-bottom: 20px;
-  width: 400px;
+  /*width: 400px;*/
   font-weight: 400;
+}
+.banner h2 {
+  margin-bottom: 20px;
 }
 .banner a,
 .banner a:hover {
   display: inline-block;
   color: #000;
+  /*margin-bottom: 20px;*/
   font-weight: 500;
 }
 /* /banner */

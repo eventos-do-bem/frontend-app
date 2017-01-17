@@ -68,12 +68,15 @@ export default class EventStart {
     }
   }
   getCities(state, city) {
-    let citie = document.querySelector('input[name="citie"]')
-    this.locationService.getCities(state, city)
+    return this.locationService.getCities(state, city)
       .then(response => {
-        this.cities = response.data.values
-        citie.focus()
+        return response.data.values
       })
+  }
+  changeState() {
+    let citie = document.querySelector('input[name="citie"]')
+    delete this.event.citie
+    setTimeout(() => citie.focus(), 100)
   }
   setPopoverContent(field) {
     this.popoverContent = this.popovers[field]
