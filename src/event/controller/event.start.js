@@ -9,6 +9,7 @@ export default class EventStart {
     this.service = EventService
     this.locationService = LocationService
     this.event = {}
+    this.inputCity = document.querySelector('input[name="citie"]')
     if (this.hasDraft()) {
       this.draft = this.getDraft()
     }
@@ -68,15 +69,16 @@ export default class EventStart {
     }
   }
   getCities(state, city) {
+    this.inputCity.disabled = true
     return this.locationService.getCities(state, city)
       .then(response => {
+        this.inputCity.disabled = false
         return response.data.values
       })
   }
   changeState() {
-    let citie = document.querySelector('input[name="citie"]')
     delete this.event.citie
-    setTimeout(() => citie.focus(), 100)
+    setTimeout(() => this.inputCity.focus(), 100)
   }
   setPopoverContent(field) {
     this.popoverContent = this.popovers[field]
@@ -91,11 +93,12 @@ export default class EventStart {
     return (diffDays >= 22 && diffDays <= 90) ? false : true
   }
   save(event) {
-    event = angular.copy(event)
+    // event = angular.copy(event)
     
     if (event.institution_uuid) {
       event.institution_uuid = event.institution_uuid.uuid
     }
+    event.goal_amount = parseInt(event.goal_amount)
     // console.log(JSON.stringify(event))
     this.service.save(event, progress => this.progress = progress)
       .then(

@@ -161,6 +161,10 @@ var _angularSanitize = require('angular-sanitize');
 
 var _angularSanitize2 = _interopRequireDefault(_angularSanitize);
 
+var _formatAsCurrency = require('format-as-currency');
+
+var _formatAsCurrency2 = _interopRequireDefault(_formatAsCurrency);
+
 var _api = require('./config/api.json');
 
 var _api2 = _interopRequireDefault(_api);
@@ -180,6 +184,10 @@ var _interceptor2 = _interopRequireDefault(_interceptor);
 var _youtube = require('./../common/filter/youtube.js');
 
 var _youtube2 = _interopRequireDefault(_youtube);
+
+var _currencySymbol = require('./../common/filter/currency-symbol.js');
+
+var _currencySymbol2 = _interopRequireDefault(_currencySymbol);
 
 var _run = require('./run.js');
 
@@ -247,9 +255,9 @@ var _module20 = _interopRequireDefault(_module19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'ngSanitize', 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).constant('API', _api2.default).constant('FBConfig', _facebook2.default).factory('HttpInterceptor', _interceptor2.default).filter('youtube', _youtube2.default).controller('AppController', _controller2.default).run(_run2.default);
+angular.module('app', ['ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'ngSanitize', _formatAsCurrency2.default, 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).constant('API', _api2.default).constant('FBConfig', _facebook2.default).factory('HttpInterceptor', _interceptor2.default).filter('youtube', _youtube2.default).filter('currencySymbol', _currencySymbol2.default).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":14,"./../common/component/alert/alert.js":16,"./../common/component/countdown/countdown.js":19,"./../common/component/facebook/facebook.js":21,"./../common/component/loading/loading.js":25,"./../common/filter/youtube.js":35,"./../common/module.js":36,"./../confirmation/module.js":49,"./../donate/module.js":54,"./../event/module.js":63,"./../faq/module.js":67,"./../home/module.js":71,"./../institution/module.js":74,"./../pages/module.js":82,"./../profile/module.js":98,"./config.js":2,"./config/api.json":3,"./config/facebook.json":4,"./controller.js":5,"./interceptor.js":6,"./run.js":8,"angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],8:[function(require,module,exports){
+},{"./../auth/module.js":14,"./../common/component/alert/alert.js":16,"./../common/component/countdown/countdown.js":19,"./../common/component/facebook/facebook.js":21,"./../common/component/loading/loading.js":25,"./../common/filter/currency-symbol.js":35,"./../common/filter/youtube.js":36,"./../common/module.js":37,"./../confirmation/module.js":50,"./../donate/module.js":55,"./../event/module.js":64,"./../faq/module.js":68,"./../home/module.js":72,"./../institution/module.js":75,"./../pages/module.js":83,"./../profile/module.js":99,"./config.js":2,"./config/api.json":3,"./config/facebook.json":4,"./controller.js":5,"./interceptor.js":6,"./run.js":8,"angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","format-as-currency":"format-as-currency","ng-mask":"ng-mask"}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -712,7 +720,7 @@ exports.default = AuthService;
 
 AuthService.$inject = ['API', '$http', 'FacebookService'];
 
-},{"./../common/service/common.js":40}],16:[function(require,module,exports){
+},{"./../common/service/common.js":41}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1549,6 +1557,19 @@ ValidationFactory.validationFactory.$inject = [];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = currencySymbolFilter;
+function currencySymbolFilter($filter) {
+  return function (value) {
+    return $filter('currency')(value, 'R$ ', 0);
+  };
+}
+
+},{}],36:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = youtubeFilter;
 function youtubeFilter($sce) {
   return function (val) {
@@ -1560,7 +1581,7 @@ function youtubeFilter($sce) {
   };
 }
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1643,7 +1664,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('common', ['file', 'map']).service('CommonService', _common2.default).controller('Header', _header2.default).controller('Footer', _footer2.default).service('LocationService', _location2.default).service('CityService', _city2.default).service('CategoryService', _category2.default).service('ActivityAreaService', _activityArea2.default).factory('FacebookFactory', _facebook2.default.facebookFactory).factory('CreditCardFactory', _creditcard2.default.creditCardFactory).factory('GeoLocationFactory', _geolocation2.default.geoLocationFactory).factory('ValidationFactory', _validation2.default.validationFactory).service('FacebookService', _facebook4.default).service('StorageService', _storage2.default).service('Hydrator', _hydrator2.default).service('NotificationService', _notification2.default).directive('fixedOnScroll', _fixedOnScroll2.default.directiveFactory);
 
-},{"./component/file/file.js":23,"./component/map/map.js":27,"./controller/footer.js":28,"./controller/header.js":29,"./directive/fixedOnScroll.js":30,"./factory/creditcard.js":31,"./factory/facebook.js":32,"./factory/geolocation.js":33,"./factory/validation.js":34,"./service/activityArea.js":37,"./service/category.js":38,"./service/city.js":39,"./service/common.js":40,"./service/facebook.js":41,"./service/hydrator.js":42,"./service/location.js":43,"./service/notification.js":44,"./service/storage.js":45}],37:[function(require,module,exports){
+},{"./component/file/file.js":23,"./component/map/map.js":27,"./controller/footer.js":28,"./controller/header.js":29,"./directive/fixedOnScroll.js":30,"./factory/creditcard.js":31,"./factory/facebook.js":32,"./factory/geolocation.js":33,"./factory/validation.js":34,"./service/activityArea.js":38,"./service/category.js":39,"./service/city.js":40,"./service/common.js":41,"./service/facebook.js":42,"./service/hydrator.js":43,"./service/location.js":44,"./service/notification.js":45,"./service/storage.js":46}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1694,7 +1715,7 @@ exports.default = ActivityAreaService;
 
 ActivityAreaService.$inject = ['API', '$http'];
 
-},{"./common.js":40}],38:[function(require,module,exports){
+},{"./common.js":41}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1745,7 +1766,7 @@ exports.default = CategoryService;
 
 CategoryService.$inject = ['API', '$http'];
 
-},{"./common.js":40}],39:[function(require,module,exports){
+},{"./common.js":41}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1796,7 +1817,7 @@ exports.default = CityService;
 
 CityService.$inject = ['API', '$http'];
 
-},{"./common.js":40}],40:[function(require,module,exports){
+},{"./common.js":41}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1899,7 +1920,7 @@ var CommonService = function () {
 
 exports.default = CommonService;
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1971,7 +1992,7 @@ exports.default = FacebookService;
 
 FacebookService.$inject = ['FacebookFactory'];
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2007,7 +2028,7 @@ var HydratorService = function () {
 
 exports.default = HydratorService;
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2053,7 +2074,7 @@ exports.default = LocationService;
 
 LocationService.$inject = ['API', '$http'];
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2116,7 +2137,7 @@ exports.default = NotificationService;
 
 NotificationService.$inject = ['API', '$http'];
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2182,7 +2203,7 @@ exports.default = StorageService;
 
 StorageService.$inject = ['$window'];
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2206,7 +2227,7 @@ function ConfirmationConfig($stateProvider) {
   });
 }
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2275,7 +2296,7 @@ exports.default = ConfirmationProfile;
 
 ConfirmationProfile.$inject = ['$rootScope', '$stateParams', '$state', '$timeout', 'ProfileService', 'StorageService'];
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2317,7 +2338,7 @@ exports.default = ConfirmationSubscribe;
 
 ConfirmationSubscribe.$inject = ['$rootScope', '$stateParams', '$state', '$window', 'NotificationService'];
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2340,7 +2361,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('confirmation', []).config(_config2.default).controller('ConfirmationProfile', _confirmationProfile2.default).controller('ConfirmationSubscribe', _confirmationSubscribe2.default);
 
-},{"./config.js":46,"./controller/confirmation.profile.js":47,"./controller/confirmation.subscribe.js":48}],50:[function(require,module,exports){
+},{"./config.js":47,"./controller/confirmation.profile.js":48,"./controller/confirmation.subscribe.js":49}],51:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2359,7 +2380,7 @@ function DonateConfig($stateProvider) {
   });
 }
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2389,6 +2410,7 @@ var DonateBillet = function () {
       var _this = this;
 
       var method = this.logged ? 'printLoggedBillet' : 'printPublicBillet';
+      this.donate.amount = parseInt(this.donate.amount);
       this.donateService[method](this.uuid, this.donate).then(function (response) {
         return _this.instance.close({ uuid: _this.uuid, data: response.data });
       }, function (error) {
@@ -2410,7 +2432,7 @@ exports.default = DonateBillet;
 
 DonateBillet.$inject = ['$uibModalInstance', 'data', 'DonateService', 'StorageService'];
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2461,7 +2483,7 @@ exports.default = DonateCard;
 
 DonateCard.$inject = ['$uibModalInstance', 'data', 'DonateService', 'StorageService'];
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2566,6 +2588,7 @@ var DonateEvent = function () {
       console.log(donate);
       donate.card_validate = donate.card_month + '/' + donate.card_year;
       donate.card_number = donate.card_number.replace(/\-/g, '');
+      donate.amount = parseInt(donate.amount);
       var modalInstance = this.modal.open({
         templateUrl: './../src/donate/view/donate.card.html',
         controller: 'DonateCard',
@@ -2679,7 +2702,7 @@ exports.default = DonateEvent;
 
 DonateEvent.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$timeout', '$anchorScroll', 'ProfileService', 'EventService', 'NotificationService', '$uibModal', 'CreditCardFactory'];
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2710,7 +2733,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('donate', []).config(_config2.default).controller('DonateEvent', _donateEvent2.default).controller('DonateCard', _donateCard2.default).controller('DonateBillet', _donateBillet2.default).service('DonateService', _service2.default);
 
-},{"./config.js":50,"./controller/donate.billet.js":51,"./controller/donate.card.js":52,"./controller/donate.event.js":53,"./service.js":55}],55:[function(require,module,exports){
+},{"./config.js":51,"./controller/donate.billet.js":52,"./controller/donate.card.js":53,"./controller/donate.event.js":54,"./service.js":56}],56:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2784,7 +2807,7 @@ exports.default = DonateService;
 
 DonateService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":40}],56:[function(require,module,exports){
+},{"./../common/service/common.js":41}],57:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2819,7 +2842,7 @@ function EventConfig($stateProvider) {
   });
 }
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2904,7 +2927,7 @@ EventExplore.$inject = ['ActivityAreaService', 'EventService', 'StorageService']
 
 exports.default = EventExplore;
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2938,7 +2961,7 @@ exports.default = EventHappens;
 
 EventHappens.$inject = ['$uibModalInstance', 'data'];
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3039,7 +3062,7 @@ exports.default = Event;
 
 Event.$inject = ['$rootScope', '$state', '$stateParams', '$uibModal', 'EventService', 'StorageService'];
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3151,7 +3174,7 @@ EventReport.$inject = ['$state', '$stateParams', 'EventService', 'StorageService
 
 exports.default = EventReport;
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3177,6 +3200,7 @@ var EventStart = function () {
     this.service = EventService;
     this.locationService = LocationService;
     this.event = {};
+    this.inputCity = document.querySelector('input[name="citie"]');
     if (this.hasDraft()) {
       this.draft = this.getDraft();
     }
@@ -3242,17 +3266,22 @@ var EventStart = function () {
   _createClass(EventStart, [{
     key: 'getCities',
     value: function getCities(state, city) {
+      var _this2 = this;
+
+      this.inputCity.disabled = true;
       return this.locationService.getCities(state, city).then(function (response) {
+        _this2.inputCity.disabled = false;
         return response.data.values;
       });
     }
   }, {
     key: 'changeState',
     value: function changeState() {
-      var citie = document.querySelector('input[name="citie"]');
+      var _this3 = this;
+
       delete this.event.citie;
       setTimeout(function () {
-        return citie.focus();
+        return _this3.inputCity.focus();
       }, 100);
     }
   }, {
@@ -3274,22 +3303,23 @@ var EventStart = function () {
   }, {
     key: 'save',
     value: function save(event) {
-      var _this2 = this;
+      var _this4 = this;
 
-      event = angular.copy(event);
+      // event = angular.copy(event)
 
       if (event.institution_uuid) {
         event.institution_uuid = event.institution_uuid.uuid;
       }
+      event.goal_amount = parseInt(event.goal_amount);
       // console.log(JSON.stringify(event))
       this.service.save(event, function (progress) {
-        return _this2.progress = progress;
+        return _this4.progress = progress;
       }).then(function (response) {
-        _this2.state.go('event.slug', { slug: response.data.slug });
+        _this4.state.go('event.slug', { slug: response.data.slug });
       }, function (error) {
-        _this2.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data });
-        _this2.location.hash('body');
-        _this2.anchorScroll();
+        _this4.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data });
+        _this4.location.hash('body');
+        _this4.anchorScroll();
       });
     }
   }, {
@@ -3335,7 +3365,7 @@ exports.default = EventStart;
 
 EventStart.$inject = ['$rootScope', '$state', '$window', '$stateParams', '$filter', '$location', '$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService'];
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3388,7 +3418,7 @@ exports.default = ReportAuthorize;
 
 ReportAuthorize.$inject = ['$uibModalInstance', 'uuid', 'EventService'];
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3431,7 +3461,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('event', []).config(_config2.default).controller('Event', _event2.default).controller('EventStart', _eventStart2.default).controller('EventExplore', _eventExplore2.default).controller('EventReport', _eventReport2.default).controller('EventHappens', _eventHappens2.default).controller('ReportAuthorize', _reportAuthorize2.default).service('EventService', _service2.default);
 
-},{"./config.js":56,"./controller/event.explore.js":57,"./controller/event.happens.js":58,"./controller/event.js":59,"./controller/event.report.js":60,"./controller/event.start.js":61,"./controller/report.authorize.js":62,"./service.js":64}],64:[function(require,module,exports){
+},{"./config.js":57,"./controller/event.explore.js":58,"./controller/event.happens.js":59,"./controller/event.js":60,"./controller/event.report.js":61,"./controller/event.start.js":62,"./controller/report.authorize.js":63,"./service.js":65}],65:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3563,7 +3593,7 @@ exports.default = EventService;
 
 EventService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":40}],65:[function(require,module,exports){
+},{"./../common/service/common.js":41}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3591,7 +3621,7 @@ function FaqConfig($stateProvider) {
   });
 }
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3658,7 +3688,7 @@ exports.default = Faq;
 
 Faq.$inject = ['$state', '$stateParams', 'FaqService'];
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3681,7 +3711,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('faq', []).config(_config2.default).controller('Faq', _faq2.default).service('FaqService', _service2.default);
 
-},{"./config.js":65,"./controller/faq.js":66,"./service.js":68}],68:[function(require,module,exports){
+},{"./config.js":66,"./controller/faq.js":67,"./service.js":69}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3751,7 +3781,7 @@ exports.default = FaqService;
 
 FaqService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":40}],69:[function(require,module,exports){
+},{"./../common/service/common.js":41}],70:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3773,7 +3803,7 @@ function HomeConfig($stateProvider) {
   });
 }
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3785,9 +3815,21 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Home = function () {
-  function Home($scope, $timeout) {
+  function Home($scope, $timeout, $interval, CategoryService) {
+    var _this = this;
+
     _classCallCheck(this, Home);
 
+    CategoryService.findAll().then(function (response) {
+      var categories = response.data.values,
+          length = categories.length,
+          count = 0;
+      $interval(function () {
+        count++;
+        if (count >= length) count = 0;
+        _this.category = categories[count].name.toLowerCase();
+      }, 2000);
+    });
     this.impact = {
       image: 'assets/images/causas-impactadas.jpg',
       title: 'João se curou do câncer',
@@ -3826,9 +3868,9 @@ var Home = function () {
 exports.default = Home;
 
 
-Home.$inject = ['$scope', '$timeout'];
+Home.$inject = ['$scope', '$timeout', '$interval', 'CategoryService'];
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3853,7 +3895,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = angular.module('home', []).config(_config2.default).controller('Home', _home2.default);
 // .service('UserService', Service)
 
-},{"./config.js":69,"./controller/home.js":70}],72:[function(require,module,exports){
+},{"./config.js":70,"./controller/home.js":71}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3869,7 +3911,7 @@ function InstitutionConfig($stateProvider) {
   });
 }
 
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3959,7 +4001,7 @@ exports.default = Page;
 
 Page.$inject = ['$filter', '$stateParams', 'InstitutionService', 'ProfileService', 'NotificationService', 'StorageService'];
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3982,7 +4024,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('institution', []).config(_config2.default).service('InstitutionService', _service2.default).controller('Page', _page2.default);
 
-},{"./config.js":72,"./controller/page.js":73,"./service.js":75}],75:[function(require,module,exports){
+},{"./config.js":73,"./controller/page.js":74,"./service.js":76}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4052,7 +4094,7 @@ exports.default = InstitutionService;
 
 InstitutionService.$inject = ['API', '$http'];
 
-},{"./../common/service/common.js":40}],76:[function(require,module,exports){
+},{"./../common/service/common.js":41}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4095,7 +4137,7 @@ function PagesConfig($stateProvider) {
   });
 }
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4133,7 +4175,7 @@ exports.default = About;
 
 About.$inject = [];
 
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4151,7 +4193,7 @@ exports.default = Campaign;
 
 Campaign.$inject = [];
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4204,7 +4246,7 @@ exports.default = Contact;
 
 Contact.$inject = ['$rootScope', 'API', '$http'];
 
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4243,7 +4285,7 @@ exports.default = DonateBillet;
 
 DonateBillet.$inject = ['$uibModalInstance', 'donate'];
 
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4319,7 +4361,7 @@ Explore.$inject = ['ActivityAreaService', 'InstitutionService', 'StorageService'
 
 exports.default = Explore;
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4354,7 +4396,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('pages', []).config(_config2.default).controller('Contact', _contact2.default).controller('About', _about2.default).controller('Explore', _explore2.default).controller('Campaign', _campaign2.default).controller('DonateBillet', _donateBillet2.default);
 
-},{"./config.js":76,"./controller/about.js":77,"./controller/campaign.js":78,"./controller/contact.js":79,"./controller/donate.billet.js":80,"./controller/explore.js":81}],83:[function(require,module,exports){
+},{"./config.js":77,"./controller/about.js":78,"./controller/campaign.js":79,"./controller/contact.js":80,"./controller/donate.billet.js":81,"./controller/explore.js":82}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4495,7 +4537,7 @@ function ProfileConfig($stateProvider) {
   });
 }
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4545,7 +4587,7 @@ exports.default = ProfileChange;
 
 ProfileChange.$inject = ['$scope', '$stateParams', '$state', '$filter', 'ProfileService'];
 
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4614,7 +4656,7 @@ exports.default = ProfileConfirmation;
 
 ProfileConfirmation.$inject = ['$rootScope', '$stateParams', '$state', '$timeout', 'ProfileService', 'StorageService'];
 
-},{}],86:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4723,7 +4765,7 @@ exports.default = OngConfigurations;
 
 OngConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'ProfileService', 'InstitutionService', 'GeoLocationFactory', 'profile'];
 
-},{}],87:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4785,7 +4827,7 @@ exports.default = OngEvents;
 
 OngEvents.$inject = ['$rootScope', 'ProfileService'];
 
-},{}],88:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4845,7 +4887,7 @@ exports.default = OngHistory;
 
 OngHistory.$inject = ['$rootScope', 'ProfileService'];
 
-},{}],89:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4889,7 +4931,7 @@ exports.default = ProfileOng;
 
 ProfileOng.$inject = ['$scope', '$window', '$state', 'StorageService', 'ProfileService', 'profile'];
 
-},{}],90:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4951,7 +4993,7 @@ exports.default = OngPage;
 
 OngPage.$inject = ['profile', 'InstitutionService', '$rootScope'];
 
-},{}],91:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5033,7 +5075,7 @@ exports.default = OngReport;
 
 OngReport.$inject = ['$rootScope', 'EventService', '$stateParams'];
 
-},{}],92:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5234,7 +5276,7 @@ exports.default = ProfileRegister;
 
 ProfileRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'ProfileService'];
 
-},{}],93:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5317,7 +5359,7 @@ exports.default = UserConfigurations;
 
 UserConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'ProfileService', 'ValidationFactory', 'profile'];
 
-},{}],94:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5389,7 +5431,7 @@ exports.default = UserEvents;
 
 UserEvents.$inject = ['$scope', '$rootScope', 'ProfileService'];
 
-},{}],95:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5440,7 +5482,7 @@ exports.default = UserImpacts;
 
 UserImpacts.$inject = ['$scope', 'ProfileService'];
 
-},{}],96:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5493,7 +5535,7 @@ exports.default = ProfileUser;
 
 ProfileUser.$inject = ['$scope', '$rootScope', '$window', '$state', '$timeout', 'StorageService', 'ProfileService', 'profile'];
 
-},{}],97:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5543,7 +5585,7 @@ exports.default = UserReport;
 
 UserReport.$inject = ['EventService', 'ProfileService', '$stateParams'];
 
-},{}],98:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5618,7 +5660,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('profile', []).config(_config2.default).service('ProfileService', _service2.default).controller('ProfileRegister', _register2.default).controller('ProfileConfirmation', _confirmation2.default).controller('ProfileUser', _user2.default).controller('ProfileOng', _ong2.default).controller('UserConfigurations', _userConfigurations2.default).controller('OngConfigurations', _ongConfigurations2.default).controller('UserEvents', _userEvents2.default).controller('UserImpacts', _userImpacts2.default).controller('OngEvents', _ongEvents2.default).controller('UserReport', _userReport2.default).controller('OngPage', _ongPage2.default).controller('OngReport', _ongReport2.default).controller('OngHistory', _ongHistory2.default).controller('ProfileChange', _change2.default);
 
-},{"./config.js":83,"./controller/change.js":84,"./controller/confirmation.js":85,"./controller/ong.configurations.js":86,"./controller/ong.events.js":87,"./controller/ong.history.js":88,"./controller/ong.js":89,"./controller/ong.page.js":90,"./controller/ong.report.js":91,"./controller/register.js":92,"./controller/user.configurations.js":93,"./controller/user.events.js":94,"./controller/user.impacts.js":95,"./controller/user.js":96,"./controller/user.report.js":97,"./service.js":99}],99:[function(require,module,exports){
+},{"./config.js":84,"./controller/change.js":85,"./controller/confirmation.js":86,"./controller/ong.configurations.js":87,"./controller/ong.events.js":88,"./controller/ong.history.js":89,"./controller/ong.js":90,"./controller/ong.page.js":91,"./controller/ong.report.js":92,"./controller/register.js":93,"./controller/user.configurations.js":94,"./controller/user.events.js":95,"./controller/user.impacts.js":96,"./controller/user.js":97,"./controller/user.report.js":98,"./service.js":100}],100:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5728,4 +5770,4 @@ exports.default = ProfileService;
 
 ProfileService.$inject = ['API', '$http', 'FacebookService'];
 
-},{"./../common/service/common.js":40}]},{},[1]);
+},{"./../common/service/common.js":41}]},{},[1]);

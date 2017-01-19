@@ -53,7 +53,7 @@
       <h3>
         Comece um evento
       </h3>
-      <form name="start" novalidate data-ng-submit="ctrl.save(ctrl.event)">
+      <form name="start" enctype="multipart/form-data" novalidate data-ng-submit="ctrl.save(ctrl.event)">
         <div class="form-group" data-ng-class="{'has-error':start.name.$invalid && start.name.$dirty}">
           <label for="" class="control-label">Nome</label>
           <count-down-element model="ctrl.event.name" max="60">
@@ -90,7 +90,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="citie" class="control-label">Selecione sua Cidade</label>
-              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 1000}" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" autocomplete="off" required>
+              <input type="text" name="citie" data-ng-model="ctrl.event.citie" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" typeahead-wait-ms="500" data-ng-disabled="ctrl.inputCity.disabled" class="form-control" autocomplete="off" required>
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@
             <p data-ng-class="{'text-muted': ctrl.temp.cover_default}">
               JPEG ou PNG - 1MB limite de tamanho do arquivo <br>
               Essa é a principal imagem da sua campanha, pega uma lindona :) <br>
-              Tamanho recomendado: xxxx de largura por xxx de altura 
+              Tamanho mínimo: 1920px de largura por 450px de altura.
             </p>
           </div>
         </div>
@@ -128,10 +128,7 @@
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.goal_amount.$invalid && start.goal_amount.$dirty, 'has-error': start.goal_amount.$dirty && ctrl.event.goal_amount < 100}">
               <label for="goal_amount" class="control-label">Meta</label>
-              <div class="input-group">
-                <span class="input-group-addon">R$</span>
-                <input type="text" name="goal_amount" id="goal_amount" class="form-control" data-ng-model="ctrl.event.goal_amount" placeholder="Digite o valor" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
-              </div>
+              <input type="text" name="goal_amount" id="goal_amount" class="form-control" format-as-currency currency-filter="'currencySymbol'" data-ng-model="ctrl.event.goal_amount" placeholder="Digite o valor" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
               <!--<div class="checkbox">
                 <label>
                   <input type="checkbox" name="disable_goal">
@@ -150,17 +147,18 @@
         <div class="form-group" data-ng-class="{'has-error':start.description.$invalid && start.description.$dirty}">
           <label for="description" class="control-label">Texto explicativo</label>
           <count-down-element model="ctrl.event.description" max="3000">
-            <textarea name="description" id="description" class="form-control description" data-ng-model="ctrl.event.description" maxlength="3000" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('description')" popover-placement="right" popover-trigger="click"></textarea>
+            <textarea name="description" id="description" class="form-control description" data-ng-model="ctrl.event.description" maxlength="3000" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('description')" popover-placement="right" popover-trigger="focus"></textarea>
           </count-down-element>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.video.$invalid && start.video.$dirty}">
-          <label for="video" class="control-label">Vídeo (Youtube ou Vimeo)</label>
-          <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right" popover-trigger="focus" data-ng-disabled="ctrl.temp.video_default">
+          <label for="video" class="control-label">Vídeo (URL do Youtube)</label>
+          <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right" popover-trigger="focus" data-ng-disabled="ctrl.event.video_default">
         </div>
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="video_default" data-ng-model="ctrl.temp.video_default">
+            <input type="checkbox" name="video_default" data-ng-model="ctrl.event.video_default">
             Quero usar o vídeo padrão selecionado pela organização que escolhi.
+            {{ctrl.event.video_default}}
           </label>
         </div>
         <div class="form-buttons form-buttons-left">

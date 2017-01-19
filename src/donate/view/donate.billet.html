@@ -6,24 +6,25 @@
     <div style="margin: 0 auto; width: 250px;">
       <img data-ng-src="{{ctrl.user.avatar.medium}}" class="avatar img-responsive img-circle" alt="">
     </div>
-    <div style="margin: 0 auto; width: 400px;">
+    <div style="margin: 0 auto; width: 450px;">
       <h4 class="text-center">Escreva o valor que deseja apoiar para a campanha do <span data-ng-bind="ctrl.user.name"></span></h4>
       <form name="donate" novalidate data-ng-submit="ctrl.buildBillet(ctrl.donate)">
-        <div class="form-group">
-          <div class="input-group" data-ng-class="{'has-error':donate.amount.$invalid && donate.amount.$dirty}">
-            <span class="input-group-addon">R$</span>
-            <input type="text" name="amount" id="amount" class="form-control" data-ng-model="ctrl.donate.amount" required>
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3">
+            <div class="form-group" data-ng-class="{'has-error':donate.amount.$invalid && donate.amount.$dirty}">
+              <input type="text" name="amount" id="amount" class="form-control" format-as-currency currency-filter="'currencySymbol'" data-ng-model="ctrl.donate.amount" required>
+            </div>
           </div>
         </div>
 
         <!--<div class="form-group" data-ng-class="{'has-error':donate.amount.$invalid}">
           <input type="text" name="amount" id="amount" class="form-control" data-ng-model="ctrl.donate.amount" required>
         </div>-->
-        <p class="text-center">Mussum Ipsum, cacilds vidis litro abertis. A ordem dos tratores não altera o pão duris Praesent vel viverra nisi.</p>
-        <p class="text-center">Mauris aliquet nunc non turpis scelerisque, eget. Copo furadis é disculpa de bebadis, arcu quam euismod magna.</p>
+        <p class="text-center">Ao gerar o boleto, o organizador já está contando com o seu apoio. <br> Pague até a data de vencimento pela internet, casas lotéricas, caixas eletrônicos ou agência bancária.</p>
+        <p class="text-center">Escreva uma mensagem de apoio para o <span data-ng-bind="ctrl.user.name"></span> que assim que o boleo for pago aparecerá na página da campanha!</p>
         <div class="form-group" data-ng-class="{'has-error':donate.message.$invalid && donate.message.$dirty}">
           <count-down-element model="ctrl.donate.message" max="250">
-            <textarea name="message" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="250" required></textarea>
+            <textarea name="message" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="250" placeholder="Parabenize com sua mensagem de apoio :)" required></textarea>
           </count-down-element>
         </div>
         <div class="checkbox">
@@ -36,7 +37,7 @@
         <div class="form-buttons form-buttons-center">
           <button type="submit" class="btn btn-lg btn-horizontal-large btn-success">Imprimir seu boleto</button>
         </div>
-        <p class="text-center">Ao apoiar, você concorda com os <a ui-sref="pages.terms">Termos de Uso</a> e <a ui-sref="pages.policies">Política de privacidade</a></p>
+        <p class="text-center">Ao apoiar, você concorda com os <br> <a ui-sref="pages.terms">Termos de Uso</a> e <a ui-sref="pages.policies">Política de privacidade</a></p>
       </form>
     </div>
   </div>

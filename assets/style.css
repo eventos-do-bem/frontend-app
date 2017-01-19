@@ -174,6 +174,10 @@ blockquote .name {
 .popover.right {
   width: 100%;
 }
+.start .media > .media-left {
+  width: 200px;
+  max-width: 200px;
+}
 .start .popover.right,
 .donate .popover.right {
   width: 260%;
@@ -426,6 +430,7 @@ dl dd:last-child {
 }
 .campaign .cover-content .avatar {
   border: 2px solid #fff;
+  width: 100%;
 }
 .institution .content figure.avatar {
   position: absolute;

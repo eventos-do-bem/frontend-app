@@ -1,5 +1,17 @@
 export default class Home {
-  constructor($scope,$timeout) {
+  constructor($scope,$timeout,$interval,CategoryService) {
+
+    CategoryService.findAll()
+      .then(response => {
+        let categories = response.data.values,
+            length = categories.length,
+            count = 0
+        $interval(() => {
+          count++
+          if (count >= length) count = 0
+          this.category = categories[count].name.toLowerCase()
+        }, 2000)
+      })
     this.impact = {
       image: 'assets/images/causas-impactadas.jpg',
       title: 'João se curou do câncer',
@@ -34,4 +46,4 @@ export default class Home {
   }
 }
 
-Home.$inject = ['$scope','$timeout']
+Home.$inject = ['$scope','$timeout','$interval','CategoryService']
