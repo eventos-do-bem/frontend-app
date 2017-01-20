@@ -32,7 +32,6 @@ export default class Page {
     this.service.findById(slug)
       .then(response => {
         this.institution = response.data
-        console.log(this.institution)
       })
   }
   subscribe(data) {

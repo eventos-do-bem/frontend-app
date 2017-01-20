@@ -129,18 +129,21 @@ export default function ProfileConfig($stateProvider) {
     })
     .state('profile.register', {
       url: '/cadastro/:tab',
+      authenticate: false,
       templateUrl: './src/profile/view/register.html',
       controller: 'ProfileRegister',
       controllerAs: 'ctrl'
     })
     .state('profile.confirmation', {
       url: '/confirmacao/:uuid/:confirmation_code',
+      authenticate: false,
       templateUrl: './src/profile/view/confirmation.html',
       controller: 'ProfileConfirmation',
       controllerAs: 'ctrl'
     })
     .state('profile.check', {
       url: '/verifique',
+      authenticate: false,
       templateUrl: './src/profile/view/profile.check.html'
     })
     .state('profile.change', {

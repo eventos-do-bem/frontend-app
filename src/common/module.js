@@ -3,6 +3,7 @@ import LocationService      from './service/location.js'
 import CityService          from './service/city.js'
 import CategoryService      from './service/category.js'
 import ActivityAreaService  from './service/activityArea.js'
+import LastStateUnloggedService from './service/last-state-unlogged.js'
 import FacebookFactory      from './factory/facebook.js'
 import FacebookService      from './service/facebook.js'
 import CreditCardFactory    from './factory/creditcard.js'
@@ -26,6 +27,7 @@ export default angular
   .service('CityService', CityService)
   .service('CategoryService', CategoryService)
   .service('ActivityAreaService', ActivityAreaService)
+  .service('LastStateUnloggedService', LastStateUnloggedService)
   .factory('FacebookFactory', FacebookFactory.facebookFactory)
   .factory('CreditCardFactory', CreditCardFactory.creditCardFactory)
   .factory('GeoLocationFactory', GeoLocationFactory.geoLocationFactory)

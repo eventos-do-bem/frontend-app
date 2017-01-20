@@ -18,7 +18,6 @@ export default class UserEvents {
         event.ends = new Date(event.ends)
         return event
       })
-      console.log(this.events)
     })
   }
   changePage() {

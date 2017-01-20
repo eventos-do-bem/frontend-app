@@ -1,47 +1,52 @@
 <h3 class="well">
   Campanhas encerradas
 </h3>
-<ul class="media-list">
-  <li class="media" data-ng-repeat="item in ctrl.events">
-    <div class="media-left">
-      <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
-    </div>
-    <div class="media-body">
-      <div class="row">
-        <div class="col-md-8">
-          <h4 class="media-heading" data-ng-bind="item.name"></h4>
-          <p>Organizado por: <span data-ng-bind="item.user.name"></span></p>
-          <p>
-            <i class="fa fa-star-o"></i>
-            Projeto apoiado por: <span data-ng-bind="item.institution.name"></span>
-          </p>
-        </div>
-        <div class="col-md-4">
-          <a ui-sref="profile.ong.report({uuid: item.uuid})" class="btn btn-primary btn-block">
-            Ver relatório social
-          </a>
-          <br>
-          <p class="text-primary text-center">
-            Finalizado em:
-            <span data-ng-bind="item.ends | date: 'dd/MM/yyyy'"></span>
-          </p>
+<h4 class="alert alert-info" role="alert" data-ng-show="ctrl.events.length == 0">
+  Você não possui nenhum evento do bem encerrado.
+</h4>
+<div data-ng-show="ctrl.events.length > 0">
+  <ul class="media-list">
+    <li class="media" data-ng-repeat="item in ctrl.events">
+      <div class="media-left">
+        <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
+      </div>
+      <div class="media-body">
+        <div class="row">
+          <div class="col-md-8">
+            <h4 class="media-heading" data-ng-bind="item.name"></h4>
+            <p>Organizado por: <span data-ng-bind="item.user.name"></span></p>
+            <p>
+              <i class="fa fa-star-o"></i>
+              Projeto apoiado por: <span data-ng-bind="item.institution.name"></span>
+            </p>
+          </div>
+          <div class="col-md-4">
+            <a ui-sref="profile.ong.report({uuid: item.uuid})" class="btn btn-primary btn-block">
+              Ver relatório social
+            </a>
+            <br>
+            <p class="text-primary text-center">
+              Finalizado em:
+              <span data-ng-bind="item.ends | date: 'dd/MM/yyyy'"></span>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </li>
-</ul>
-<div class="text-center">
-  <ul uib-pagination
-      total-items="ctrl.pagination.total"
-      ng-model="ctrl.pagination.current_page"
-      max-size="ctrl.pagination.per_page"
-      class="pagination-sm"
-      previous-text="Anterior"
-      next-text="Próxima"
-      first-text="Primeira"
-      last-text="Última"
-      boundary-links="true"
-      num-pages="ctrl.pagination.total_pages"
-      data-ng-change="ctrl.changePage()">
+    </li>
   </ul>
+  <div class="text-center">
+    <ul uib-pagination
+        total-items="ctrl.pagination.total"
+        ng-model="ctrl.pagination.current_page"
+        max-size="ctrl.pagination.per_page"
+        class="pagination-sm"
+        previous-text="Anterior"
+        next-text="Próxima"
+        first-text="Primeira"
+        last-text="Última"
+        boundary-links="true"
+        num-pages="ctrl.pagination.total_pages"
+        data-ng-change="ctrl.changePage()">
+    </ul>
+  </div>
 </div>

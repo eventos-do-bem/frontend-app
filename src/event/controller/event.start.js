@@ -1,5 +1,5 @@
 export default class EventStart {
-  constructor($rootScope, $state, $window, $stateParams, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService) {
+  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService) {
     this.rootScope = $rootScope
     this.state = $state
     this.window = $window
@@ -8,26 +8,29 @@ export default class EventStart {
     this.anchorScroll = $anchorScroll
     this.service = EventService
     this.locationService = LocationService
-    this.event = {}
+    this.event = {
+      categorie_uuid: null
+    }
     this.inputCity = document.querySelector('input[name="citie"]')
     if (this.hasDraft()) {
       this.draft = this.getDraft()
     }
-    // this.categories = [
-    //   { id: 'Aniversários', label: 'Aniversários' },
-    //   { id: 'Casamentos', label: 'Casamentos' },
-    //   { id: 'Corridas', label: 'Corridas' },
-    //   { id: 'Jantares', label: 'Jantares' },
-    //   { id: 'Voluntariado', label: 'Voluntariado' }
-    // ]
     this.locationService.getStates()
       .then(response => this.states = response.data.values)
     // CityService.findAll()
     //   .then(response => this.cities = response.data.values)    
     InstitutionService.findAll()
-      .then(response => this.institutions = response.data.values)
+      .then(response => {
+        this.institutions = response.data.values
+      })
     CategoryService.findAll()
-      .then(response => this.categories = response.data.values)
+      .then(response => {
+        this.categories = response.data.values
+        console.log(this.categories)
+        if ($stateParams.categoria) {
+          this.event.categorie_uuid = { slug: $stateParams.categoria }
+        }
+      })
 
     this.popovers = {
       name: {
@@ -135,4 +138,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$filter','$location','$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']
+EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']
