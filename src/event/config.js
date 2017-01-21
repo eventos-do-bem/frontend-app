@@ -5,7 +5,7 @@ export default function EventConfig($stateProvider) {
       templateUrl: './src/event/view/index.html'
     })
     .state('event.start', {
-      url: '/comecar?categoria',
+      url: '/comecar?categoria?meta?termino',
       authenticate: true,
       templateUrl: './src/event/view/start.html',
       controller: 'EventStart',

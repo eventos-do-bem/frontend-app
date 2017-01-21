@@ -11,6 +11,12 @@ export default class EventStart {
     this.event = {
       categorie_uuid: null
     }
+    if ($stateParams.meta) {
+      this.event.goal_amount = $stateParams.meta
+    }
+    if ($stateParams.termino) {
+      this.event.end_date = $stateParams.termino
+    }
     this.inputCity = document.querySelector('input[name="citie"]')
     if (this.hasDraft()) {
       this.draft = this.getDraft()

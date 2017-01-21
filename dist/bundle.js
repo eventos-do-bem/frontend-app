@@ -2895,7 +2895,7 @@ function EventConfig($stateProvider) {
     url: '/evento',
     templateUrl: './src/event/view/index.html'
   }).state('event.start', {
-    url: '/comecar?categoria',
+    url: '/comecar?categoria?meta?termino',
     authenticate: true,
     templateUrl: './src/event/view/start.html',
     controller: 'EventStart',
@@ -3281,6 +3281,12 @@ var EventStart = function () {
     this.event = {
       categorie_uuid: null
     };
+    if ($stateParams.meta) {
+      this.event.goal_amount = $stateParams.meta;
+    }
+    if ($stateParams.termino) {
+      this.event.end_date = $stateParams.termino;
+    }
     this.inputCity = document.querySelector('input[name="citie"]');
     if (this.hasDraft()) {
       this.draft = this.getDraft();
@@ -5653,6 +5659,7 @@ var UserReport = function () {
         event.progress = event.total_receive / event.goal * 100;
         _this.event = event;
         _this.profileService.getEventPayments(id).then(function (response) {
+          console.log(response.data.values);
           _this.donors = response.data.values.map(function (donor) {
             donor.updated_at = new Date(donor.updated_at);
             return donor;

@@ -7,6 +7,7 @@
       <th style="width: 40px">#</th>
       <th style="width: 50px">Status</th>
       <th>Nome</th>
+      <th style="width: 30px">Método</th>
       <th>Valor</th>
       <th>Data</th>
     </tr>
@@ -18,6 +19,9 @@
         <i class="icon" data-ng-class="{'check': item.status == 'Autorizado', 'cancel': item.status != 'Autorizado'}"></i>
       </td>
       <td data-ng-bind="item.user.name"></td>
+      <td class="text-center">
+        <i class="fa" data-ng-class="{'fa-credit-card': item.method == 'credit_card', 'fa-barcode': item.method == 'boleto'}"></i>
+      </td>
       <td data-ng-bind="item.amount_human"></td>
       <td data-ng-bind="item.updated_at | date: 'dd/MM/yyyy'"></td>
     </tr>
@@ -25,7 +29,7 @@
 </table>
 <div class="row">
   <div class="col-md-6 gap-top">
-    <h2 class="text-center">Total angariado: <span class="text-right" data-ng-bind="ctrl.event.goal_human"></span></h2>
+    <h2 class="text-center">Meta de doações: <span class="text-right" data-ng-bind="ctrl.event.goal_human"></span></h2>
     <div class="progress">
       <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ctrl.event.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ctrl.event.progress}}%">
         <span class="sr-only">{{ctrl.event.progress}}% Complete (success)</span>

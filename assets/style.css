@@ -860,7 +860,7 @@ header .navbar .navbar-profile .avatar {
   font-weight: 600;
 }
 .home .row > header h2 {
-  font-weight: 100;
+  font-weight: 200;
   margin-left: 150px;
   margin-right: 150px;
 }
@@ -943,7 +943,7 @@ figure.avatar img {
   bottom: 0;
   left: 0;
   margin: 0px 15px 50px 15px;
-  padding: 50% 60px;
+  padding: 52% 60px;
   z-index: 10;
   opacity: 0;
   text-align: center;
@@ -976,7 +976,7 @@ figure.avatar img {
 .get-inspired figure {
   position: relative;
   display: block;
-  max-height: 400px;
+  max-height: 340px;
   overflow: hidden;
 }
 .get-inspired figure > .hover {
@@ -986,7 +986,7 @@ figure.avatar img {
   bottom: 0;
   left: 0;
   margin: 0px 15px 0px 15px;
-  padding: 60px;
+  padding: 10px 35px;
   z-index: 10;
   opacity: 0;
   text-align: center;
@@ -996,17 +996,22 @@ figure.avatar img {
   transition-duration: 0.5s;
 }
 .get-inspired figure:hover > .hover {
-  opacity: .8;
+  opacity: .9;
 }
+.get-inspired figure:hover > .hover h1,
 .get-inspired figure:hover > .hover p,
 .get-inspired figure:hover > .hover a {
   z-index: 10;
   opacity: 1;
-} 
-.get-inspired figure > .hover > p {
-  font-size: 2.2rem;
   color: #fff;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+} 
+.get-inspired figure:hover > .hover > h1 {
+  font-size: 3rem;
+  margin-bottom: 0px;
+}
+.get-inspired figure > .hover > p {
+  font-size: 1.8rem;
 }
 
 /* /get-inspired */
@@ -1231,7 +1236,8 @@ cursor: pointer;
   text-align: center;
 }
 .form-signin .tab-pane p.or {
-  margin: 0;
+  margin-bottom: -2rem !important;
+  margin-top: 4rem !important;
   padding: 0;
   border-top: 1px solid #ccc;
 }
@@ -1239,10 +1245,14 @@ cursor: pointer;
   content: 'ou';
   position: relative;
   margin: 0;
-  padding: 0 10px;
+  padding: 10px;
+  top: -3rem;
+  font-size: 1.4em;
   display: inline-block;
-  top: -10px;
   background-color: #fff;
+}
+.form-signin .forgot {
+  color: #000;
 }
 .form-signin .show-password {
   padding-top: 0px;
@@ -1255,6 +1265,7 @@ cursor: pointer;
 .form-signin .show-password,
 .form-signin label.rememberme,
 .form-signin label.gender {
+  padding-top: 0px;
   padding-left: 2px;
   font-weight: normal;
   color: #000;

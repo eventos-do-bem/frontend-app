@@ -6,7 +6,7 @@
      aria-hidden="{{!isOpen()}}">
     <ul class="dropdown-menu" role="listbox" style="max-height: 100px; overflow: auto">
       <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
-        ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+        ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.slug}}">
         <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
       </li>
       <li data-ng-show="ctrl.institutions.length > 10">
