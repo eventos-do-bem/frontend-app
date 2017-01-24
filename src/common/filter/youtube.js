@@ -3,7 +3,7 @@ export default function youtubeFilter($sce) {
     if (val) {
       let videoLink = val,
           watch = val.indexOf('?v=') + 3
-      return $sce.getTrustedResourceUrl(`//www.youtube.com/embed/${val.substring(watch, videoLink.length)}`)
+      return $sce.getTrustedResourceUrl(`https://www.youtube.com/embed/${val.substring(watch, videoLink.length)}`)
     }
   }
 }

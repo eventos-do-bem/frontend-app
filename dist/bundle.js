@@ -1591,7 +1591,7 @@ function youtubeFilter($sce) {
     if (val) {
       var videoLink = val,
           watch = val.indexOf('?v=') + 3;
-      return $sce.getTrustedResourceUrl('//www.youtube.com/embed/' + val.substring(watch, videoLink.length));
+      return $sce.getTrustedResourceUrl('https://www.youtube.com/embed/' + val.substring(watch, videoLink.length));
     }
   };
 }
@@ -2895,7 +2895,7 @@ function EventConfig($stateProvider) {
     url: '/evento',
     templateUrl: './src/event/view/index.html'
   }).state('event.start', {
-    url: '/comecar?categoria?meta?termino',
+    url: '/comecar?categoria?meta?termino?causa',
     authenticate: true,
     templateUrl: './src/event/view/start.html',
     controller: 'EventStart',
@@ -3295,14 +3295,23 @@ var EventStart = function () {
     this.locationService.getStates().then(function (response) {
       return _this.states = response.data.values;
     });
-    // CityService.findAll()
-    //   .then(response => this.cities = response.data.values)    
+
     InstitutionService.findAll().then(function (response) {
       _this.institutions = response.data.values;
+      if ($stateParams.causa) {
+        _this.event.institution_uuid = $stateParams.causa;
+      }
+      _this.formatLabel = function (model) {
+        var len = this.institutions.length;
+        for (var i = 0; i < len; i++) {
+          if (model === this.institutions[i].uuid) {
+            return this.institutions[i].name;
+          }
+        }
+      };
     });
     CategoryService.findAll().then(function (response) {
       _this.categories = response.data.values;
-      console.log(_this.categories);
       if ($stateParams.categoria) {
         _this.event.categorie_uuid = { slug: $stateParams.categoria };
       }
@@ -3383,25 +3392,27 @@ var EventStart = function () {
     }
   }, {
     key: 'save',
-    value: function save(event) {
+    value: function save(start, event) {
       var _this3 = this;
 
-      // event = angular.copy(event)
-
-      if (event.institution_uuid) {
-        event.institution_uuid = event.institution_uuid.uuid;
+      if (start.$invalid) {
+        angular.forEach(start.$error, function (field) {
+          angular.forEach(field, function (errorField) {
+            errorField.$setDirty();
+          });
+        });
+      } else {
+        event.goal_amount = parseInt(event.goal_amount);
+        this.service.save(event, function (progress) {
+          return _this3.progress = progress;
+        }).then(function (response) {
+          _this3.state.go('event.slug', { slug: response.data.slug });
+        }, function (error) {
+          _this3.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data });
+          _this3.location.hash('body');
+          _this3.anchorScroll();
+        });
       }
-      event.goal_amount = parseInt(event.goal_amount);
-      // console.log(JSON.stringify(event))
-      this.service.save(event, function (progress) {
-        return _this3.progress = progress;
-      }).then(function (response) {
-        _this3.state.go('event.slug', { slug: response.data.slug });
-      }, function (error) {
-        _this3.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data });
-        _this3.location.hash('body');
-        _this3.anchorScroll();
-      });
     }
   }, {
     key: 'getAttr',

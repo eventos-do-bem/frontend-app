@@ -24,17 +24,17 @@
       </div>
       <div class="col-md-4">
         <figure class="avatar">
-          <img src="assets/images/avatar.jpg" class="img-responsive img-thumbnail" alt="">
+          <img data-ng-src="{{ctrl.institution.user.avatar.medium}}" class="img-responsive img-thumbnail" alt="">
         </figure>
         <div class="panel panel-default">
           <div class="panel-heading text-center">
-            <a ui-sref="event.start" class="btn btn-block btn-success">
+            <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-block btn-success">
               Crie aqui seu evento do bem <br> e ajude essa causa
             </a>
             <br><br>
-            <a class="btn btn-block btn-default">
+            <!--<a class="btn btn-block btn-default">
               Contribuir mensamente
-            </a>
+            </a>-->
           </div>
           <div class="panel-body">
             <h4>Nome:</h4>

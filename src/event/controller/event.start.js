@@ -23,16 +23,25 @@ export default class EventStart {
     }
     this.locationService.getStates()
       .then(response => this.states = response.data.values)
-    // CityService.findAll()
-    //   .then(response => this.cities = response.data.values)    
+
     InstitutionService.findAll()
       .then(response => {
         this.institutions = response.data.values
+        if ($stateParams.causa) {
+          this.event.institution_uuid = $stateParams.causa
+        }
+        this.formatLabel = function(model) {
+          let len = this.institutions.length
+          for (var i = 0; i < len; i++) {
+            if (model === this.institutions[i].uuid) {
+              return this.institutions[i].name
+            }
+          }
+        }
       })
     CategoryService.findAll()
       .then(response => {
         this.categories = response.data.values
-        console.log(this.categories)
         if ($stateParams.categoria) {
           this.event.categorie_uuid = { slug: $stateParams.categoria }
         }
@@ -101,25 +110,27 @@ export default class EventStart {
       diffDays = parseInt(timeDiff / (1000 * 3600 * 24))
     return (diffDays >= 22 && diffDays <= 90) ? false : true
   }
-  save(event) {
-    // event = angular.copy(event)
-    
-    if (event.institution_uuid) {
-      event.institution_uuid = event.institution_uuid.uuid
+  save(start, event) {
+    if (start.$invalid) {
+      angular.forEach(start.$error, field => {
+        angular.forEach(field, errorField => {
+          errorField.$setDirty()
+        })
+      })
+    } else {
+      event.goal_amount = parseInt(event.goal_amount)
+      this.service.save(event, progress => this.progress = progress)
+        .then(
+          response => {
+            this.state.go('event.slug', {slug: response.data.slug})
+          },
+          error => {
+            this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
+            this.location.hash('body')
+            this.anchorScroll()
+          }
+        )
     }
-    event.goal_amount = parseInt(event.goal_amount)
-    // console.log(JSON.stringify(event))
-    this.service.save(event, progress => this.progress = progress)
-      .then(
-        response => {
-          this.state.go('event.slug', {slug: response.data.slug})
-        },
-        error => {
-          this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
-          this.location.hash('body')
-          this.anchorScroll()
-        }
-      )
   }
   getAttr(name,attr) {
     let e = document.querySelector(`[name='${name}']`)
