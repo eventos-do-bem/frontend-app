@@ -849,6 +849,10 @@ header .navbar .navbar-profile .avatar {
 /* /faq */
 
 /* home */
+.banner,
+.home > .col-md-12:first-child > .row:first-child {
+  background-color: #f2f2f2;
+}
 .home section {
   padding-bottom: 50px;
 }

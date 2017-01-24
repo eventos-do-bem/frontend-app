@@ -52,15 +52,24 @@ export default function ProfileConfig($stateProvider) {
         // }
       }
     })
-    .state('profile.user.report', {
-      url: '/eventos/:uuid/relatorio',
+    .state('profile.user.donors', {
+      url: '/eventos/:uuid/doacoes',
       authenticate: true,
-      templateUrl: './src/profile/view/user.report.html',
-      controller: 'UserReport',
+      templateUrl: './src/profile/view/event.donors.html',
+      controller: 'EventDonors',
       controllerAs: 'ctrl',
       resolve: {
       }
     })
+    // .state('profile.user.report', {
+    //   url: '/eventos/:uuid/relatorio',
+    //   authenticate: true,
+    //   templateUrl: './src/profile/view/event.report.html',
+    //   controller: 'UserReport',
+    //   controllerAs: 'ctrl',
+    //   resolve: {
+    //   }
+    // })
     .state('profile.ong', {
       url: '/ong',
       authenticate: true,
@@ -71,6 +80,15 @@ export default function ProfileConfig($stateProvider) {
         profile: (ProfileService) => {
           return ProfileService.me()
         }
+      }
+    })
+    .state('profile.ong.donors', {
+      url: '/eventos/:uuid/doacoes',
+      authenticate: true,
+      templateUrl: './src/profile/view/event.donors.html',
+      controller: 'EventDonors',
+      controllerAs: 'ctrl',
+      resolve: {
       }
     })
     .state('profile.ong.configurations', {

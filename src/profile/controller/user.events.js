@@ -2,7 +2,7 @@ export default class UserEvents {
   constructor($scope, $rootScope, ProfileService) {
     this.rootScope = $rootScope
     this.service = ProfileService
-    this.rootScope.$broadcast('alert', {type: 'alert-info', icon: 'fa-warning', message: ` Veja nosso <a href="#">kit</a> para bombar suas campanhas!`})
+    this.rootScope.$broadcast('alert', {type: 'alert-info', icon: 'fa-info-circle', message: { message: `Veja nosso <a href="https://drive.google.com/open?id=0B5mOKvkRV-iYMHZxX1pLdUMtcXM" target="_blank">KIT</a> para bombar suas campanhas!` }})
     this.pagination = { current_page: 1 }
     // this.pagination_closed = { current_page: 1 }
     this.getEvents()

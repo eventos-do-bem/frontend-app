@@ -25,38 +25,40 @@
           data-href="/evento/{{ctrl.event.slug}}" 
           data-layout="button_count">
         </div>
-        <h3>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
-        <ul class="media-list">
-          <li class="media" data-ng-repeat="item in ctrl.event.messages.values">
-            <div class="media-left">
-              <a>
-                <img data-ng-show="item.user" class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
-                <img data-ng-show="!item.user" class="media-object img-circle" data-ng-src="/assets/images/avatars/small/avatar.svg" alt="Anônimo">
-              </a>
-            </div>
-            <div class="media-body">
-              <h4 class="media-heading">
-                <span data-ng-show="item.user" data-ng-bind="item.user.name"></span>
-                <span data-ng-show="!item.user">Anônimo</span>
-              </h4>
-              <p data-ng-bind="item.message"></p>
-            </div>
-          </li>
-        </ul>
-        <div class="text-center">
-          <ul uib-pagination
-              total-items="ctrl.pagination.total"
-              ng-model="ctrl.pagination.current_page"
-              max-size="ctrl.pagination.per_page"
-              class="pagination-sm"
-              previous-text="Anterior"
-              next-text="Próxima"
-              first-text="Primeira"
-              last-text="Última"
-              boundary-links="true"
-              num-pages="ctrl.pagination.total_pages"
-              data-ng-change="ctrl.changePage()">
+        <div data-ng-show="ctrl.event.messages.values.length > 0">
+          <h3>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
+          <ul class="media-list">
+            <li class="media" data-ng-repeat="item in ctrl.event.messages.values">
+              <div class="media-left">
+                <a>
+                  <img data-ng-show="item.user" class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
+                  <img data-ng-show="!item.user" class="media-object img-circle" data-ng-src="/assets/images/avatars/small/avatar.svg" alt="Anônimo">
+                </a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">
+                  <span data-ng-show="item.user" data-ng-bind="item.user.name"></span>
+                  <span data-ng-show="!item.user">Anônimo</span>
+                </h4>
+                <p data-ng-bind="item.message"></p>
+              </div>
+            </li>
           </ul>
+          <div class="text-center">
+            <ul uib-pagination
+                total-items="ctrl.pagination.total"
+                ng-model="ctrl.pagination.current_page"
+                max-size="ctrl.pagination.per_page"
+                class="pagination-sm"
+                previous-text="Anterior"
+                next-text="Próxima"
+                first-text="Primeira"
+                last-text="Última"
+                boundary-links="true"
+                num-pages="ctrl.pagination.total_pages"
+                data-ng-change="ctrl.changePage()">
+            </ul>
+          </div>
         </div>
       </div>
       <div class="col-md-4" fixed-on-scroll offset="250" top="70">

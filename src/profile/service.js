@@ -26,8 +26,11 @@ export default class ProfileService extends CommonService {
     }
     return super.findAll()
   }
-  getEventPayments(uuid) {
+  getEventPayments(uuid, params) {
     super.setRoute(`users/me/events/${uuid}/payments`)
+    if (params != undefined) {
+      super.setParams(params)
+    }
     return super.findAll()
   }
   change(data, progress) {

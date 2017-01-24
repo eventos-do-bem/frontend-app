@@ -90,7 +90,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="citie" class="control-label">Selecione sua Cidade</label>
-              <input type="text" name="citie" data-ng-model="ctrl.event.citie" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" typeahead-wait-ms="500" data-ng-disabled="ctrl.inputCity.disabled" class="form-control" autocomplete="off" required>
+              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" autocomplete="off" required>
             </div>
           </div>
         </div>

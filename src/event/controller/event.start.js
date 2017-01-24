@@ -78,16 +78,16 @@ export default class EventStart {
     }
   }
   getCities(state, city) {
-    this.inputCity.disabled = true
     return this.locationService.getCities(state, city)
       .then(response => {
-        this.inputCity.disabled = false
         return response.data.values
       })
   }
   changeState() {
-    delete this.event.citie
-    setTimeout(() => this.inputCity.focus(), 100)
+    setTimeout(() => {
+      this.inputCity.focus()
+      delete this.event.citie
+    }, 100)
   }
   setPopoverContent(field) {
     this.popoverContent = this.popovers[field]
