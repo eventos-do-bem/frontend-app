@@ -3,17 +3,19 @@ import uiBootstrap      from 'angular-ui-bootstrap'
 import ngMask           from 'ng-mask'
 import ngMessages       from 'angular-messages'
 import ngSanitize       from 'angular-sanitize'
-import APIConfig        from './config/api.json'
-import FBConfig         from './config/facebook.json'
-import AppConfig        from './config.js'
-import HttpInterceptor  from './interceptor.js'
-import YoutubeFilter    from './../common/filter/youtube.js'
-import Run              from './run.js'
-import controller       from './controller.js'
-import common           from './../common/module.js'
-import loading          from './../common/component/loading/loading.js'
-import alert            from './../common/component/alert/alert.js'
-import countdown        from './../common/component/countdown/countdown.js'
+import formatAsCurrency from 'format-as-currency'
+import APIConfig            from './config/api.json'
+import FBConfig             from './config/facebook.json'
+import AppConfig            from './config.js'
+import HttpInterceptor      from './interceptor.js'
+import YoutubeFilter        from './../common/filter/youtube.js'
+import CurrencySymbolFilter from './../common/filter/currency-symbol.js'
+import Run                  from './run.js'
+import controller           from './controller.js'
+import common               from './../common/module.js'
+import loading              from './../common/component/loading/loading.js'
+import alert                from './../common/component/alert/alert.js'
+import countdown            from './../common/component/countdown/countdown.js'
 import facebook         from './../common/component/facebook/facebook.js'
 import home             from './../home/module.js'
 import pages            from './../pages/module.js'
@@ -32,6 +34,7 @@ angular
   ,'ngMask'
   ,'ngMessages'
   ,'ngSanitize'
+  , formatAsCurrency
   ,'common'
   ,'loading'
   ,'alert'
@@ -52,5 +55,6 @@ angular
   .constant('FBConfig', FBConfig)
   .factory('HttpInterceptor', HttpInterceptor)
   .filter('youtube', YoutubeFilter)
+  .filter('currencySymbol', CurrencySymbolFilter)
   .controller('AppController', controller)
   .run(Run)

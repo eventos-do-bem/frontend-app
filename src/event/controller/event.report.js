@@ -31,9 +31,10 @@ class EventReport {
     this.service[method](id)
       .then(
         response => {
-          console.log(response.data)
+          // console.log(response.data)
           if (response.data) {
             this.report = response.data
+            // console.log(this.report.occurrence)
             if (this.report.messages.contains) {
               this.getMessages(this.uuid, {})
             }

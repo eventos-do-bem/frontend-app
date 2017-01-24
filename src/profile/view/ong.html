@@ -2,13 +2,10 @@
   <div class="row">
     <aside class="col-md-3">
       <figure class="avatar">
-        <img data-ng-src="{{ctrl.profile.avatar.small}}" class="img-circle" alt="">
+        <img data-ng-src="{{ctrl.profile.avatar.medium}}" class="img-circle" alt="">
       </figure>
       <div class="text-center">
         <h4>{{ctrl.profile.name}}</h4>
-        <!--<a href="#">
-          <i class="glyphicon glyphicon-camera"></i> edite sua foto
-        </a>-->
         <ul class="list-group">
           <li class="list-group-item">
             <a ui-sref="profile.ong.page({uuid: ctrl.profile.uuid})" ui-sref-active="active">Página Oficial</a>
@@ -16,7 +13,7 @@
           <li class="list-group-item">
             <a ui-sref="profile.ong.events" ui-sref-active="active">
               Seus eventos do bem
-              <span class="badge badge-danger" data-ng-bind="ctrl.onlyEnabledToReceiveReport" data-ng-show="ctrl.onlyEnabledToReceiveReport > 0"></span>
+              <span class="badge badge-danger" data-ng-bind="ctrl.onlyEnabledToReceiveReport"></span>
             </a>
           </li>
           <li class="list-group-item">

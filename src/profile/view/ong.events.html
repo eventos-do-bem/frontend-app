@@ -1,49 +1,57 @@
 <h3 class="well">
   Relatórios
 </h3>
-<ul class="media-list">
-  <li class="media" data-ng-repeat="item in ctrl.events">
-    <div class="media-left">
-      <img class="media-object img-circle" data-ng-src="{{item.user.avatar.medium}}" alt="{{item.user.name}}">
-    </div>
-    <div class="media-body">
-      <div class="row">
-        <div class="col-md-8">
-          <h4 class="media-heading" data-ng-bind="item.name"></h4>
-          <p>Organizador por: <span data-ng-bind="item.user.name"></span></p>
-          <p>
-            <i class="fa fa-star-o"></i>
-            Projeto apoiado por: <span data-ng-bind="item.institution.name"></span>
-          </p>
-        </div>
-        <div class="col-md-4">
-          <a ui-sref="profile.ong.report({uuid: item.uuid})" data-ng-show="item.enabledToReceiveReport" class="btn btn-success btn-block btn-waiting">
-            Submeter relatório
-          </a>
-          <br>
-          <p class="text-success text-center">
-            Prazo máximo: 
-            <span data-ng-bind="item.dateStartSubmissionReport | date: 'dd/MM/yyyy'"></span>
+<h4 class="alert alert-info" role="alert" data-ng-show="ctrl.events.length == 0">
+	Você ainda não tem eventos cadastrados.
+</h4>
+<div data-ng-show="ctrl.events.length > 0">
+  <ul class="media-list">
+    <li class="media" data-ng-repeat="item in ctrl.events">
+      <div class="media-left">
+        <img class="media-object img-circle" data-ng-src="{{item.user.avatar.medium}}" alt="{{item.user.name}}">
+      </div>
+      <div class="media-body">
+        <div class="row">
+          <div class="col-md-8">
+            <h4 class="media-heading" data-ng-bind="item.name"></h4>
+            <p>Organizador por: <span data-ng-bind="item.user.name"></span></p>
+            <p>
+              <i class="fa fa-star-o"></i>
+              Projeto apoiado por: <span data-ng-bind="item.institution.name"></span>
+            </p>
+          </div>
+          <div class="col-md-4">
+            <a ui-sref="profile.ong.report({uuid: item.uuid})" data-ng-show="item.enabledToReceiveReport" class="btn btn-success btn-block btn-waiting">
+              Submeter relatório
+            </a>
+            <a ui-sref="profile.ong.donors({uuid: item.uuid})" class="btn btn-primary btn-block">
+              Relatório de doações
+            </a>
             <br>
-            <a ui-sref="event.slug({slug: item.slug})">Veja a página</a>
-          </p>
+            <p class="text-success text-center">
+              Prazo máximo: 
+              <span data-ng-bind="item.dateStartSubmissionReport | date: 'dd/MM/yyyy'"></span>
+              <br>
+              <a ui-sref="event.slug({slug: item.slug})">Veja a página</a>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </li>
-</ul>
-<div class="text-center">
-  <ul uib-pagination
-      total-items="ctrl.pagination.total"
-      ng-model="ctrl.pagination.current_page"
-      max-size="ctrl.pagination.per_page"
-      class="pagination-sm"
-      previous-text="Anterior"
-      next-text="Próxima"
-      first-text="Primeira"
-      last-text="Última"
-      boundary-links="true"
-      num-pages="ctrl.pagination.total_pages"
-      data-ng-change="ctrl.changePage()">
+    </li>
   </ul>
+  <div class="text-center">
+    <ul uib-pagination
+        total-items="ctrl.pagination.total"
+        ng-model="ctrl.pagination.current_page"
+        max-size="ctrl.pagination.per_page"
+        class="pagination-sm"
+        previous-text="Anterior"
+        next-text="Próxima"
+        first-text="Primeira"
+        last-text="Última"
+        boundary-links="true"
+        num-pages="ctrl.pagination.total_pages"
+        data-ng-change="ctrl.changePage()">
+    </ul>
+  </div>
 </div>

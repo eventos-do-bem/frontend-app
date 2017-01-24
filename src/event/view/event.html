@@ -1,7 +1,6 @@
 <div class="campaign">
   <div class="row cover">
-    <!--<img src="assets/banners/banner-quem-somos.jpg" class="img-responsive" alt="">-->
-    <img data-ng-src="{{ctrl.event.cover.original}}" class="img-responsive" alt="">
+    <div class="image-cover" style="background: url({{ctrl.event.cover.original}}); background-size: cover;"></div>
   </div>
   <section class="cover-content container">
     <div class="row">
@@ -9,9 +8,9 @@
         <img data-ng-src="{{ctrl.event.user.avatar.medium}}" class="avatar img-responsive img-circle" alt="">
       </div>
       <div class="col-md-10">
-        <h2 data-ng-bind="ctrl.event.name"></h2>
-        <h3 data-ng-bind="ctrl.event.short_description"></h3>
-        <p>Ajudando: <span data-ng-bind="ctrl.event.institution.name"></span></p>
+        <h2 data-ng-bind="ctrl.event.user.name"></h2>
+        <h3 data-ng-bind="ctrl.event.name"></h3>
+        <h3 class="text-">Ajudando: <span data-ng-bind="ctrl.event.institution.name"></span></h3>
       </div>
     </div>
   </section>
@@ -26,41 +25,43 @@
           data-href="/evento/{{ctrl.event.slug}}" 
           data-layout="button_count">
         </div>
-        <h4>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h4>
-        <ul class="media-list">
-          <li class="media" data-ng-repeat="item in ctrl.event.messages.values">
-            <div class="media-left">
-              <a href="#">
-                <img data-ng-show="item.user" class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
-                <img data-ng-show="!item.user" class="media-object img-circle" data-ng-src="/assets/images/avatars/small/avatar.svg" alt="Anônimo">
-              </a>
-            </div>
-            <div class="media-body">
-              <h4 class="media-heading">
-                <span data-ng-show="item.user" data-ng-bind="item.user.name"></span>
-                <span data-ng-show="!item.user">Anônimo</span>
-              </h4>
-              <p data-ng-bind="item.message"></p>
-            </div>
-          </li>
-        </ul>
-        <div class="text-center">
-          <ul uib-pagination
-              total-items="ctrl.pagination.total"
-              ng-model="ctrl.pagination.current_page"
-              max-size="ctrl.pagination.per_page"
-              class="pagination-sm"
-              previous-text="Anterior"
-              next-text="Próxima"
-              first-text="Primeira"
-              last-text="Última"
-              boundary-links="true"
-              num-pages="ctrl.pagination.total_pages"
-              data-ng-change="ctrl.changePage()">
+        <div data-ng-show="ctrl.event.messages.values.length > 0">
+          <h3>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
+          <ul class="media-list">
+            <li class="media" data-ng-repeat="item in ctrl.event.messages.values">
+              <div class="media-left">
+                <a>
+                  <img data-ng-show="item.user" class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
+                  <img data-ng-show="!item.user" class="media-object img-circle" data-ng-src="/assets/images/avatars/small/avatar.svg" alt="Anônimo">
+                </a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">
+                  <span data-ng-show="item.user" data-ng-bind="item.user.name"></span>
+                  <span data-ng-show="!item.user">Anônimo</span>
+                </h4>
+                <p data-ng-bind="item.message"></p>
+              </div>
+            </li>
           </ul>
+          <div class="text-center">
+            <ul uib-pagination
+                total-items="ctrl.pagination.total"
+                ng-model="ctrl.pagination.current_page"
+                max-size="ctrl.pagination.per_page"
+                class="pagination-sm"
+                previous-text="Anterior"
+                next-text="Próxima"
+                first-text="Primeira"
+                last-text="Última"
+                boundary-links="true"
+                num-pages="ctrl.pagination.total_pages"
+                data-ng-change="ctrl.changePage()">
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" fixed-on-scroll offset="250" top="70">
         <div class="panel panel-default">
           <div class="panel-heading">
             <a ui-sref="donate.event({slug: ctrl.event.slug})" class="btn btn-lg btn-block btn-success">
@@ -68,13 +69,14 @@
               <br>
               <small>e ajude a mudar o mundo</small>
             </a>
-            <button type="button" class="btn btn-lg btn-block btn-default">
-              Veja o que acontecerá depois
+            <button type="button" class="btn btn-lg btn-block btn-default" data-ng-click="ctrl.seeWhatHappens(ctrl.event)">
+              <span data-ng-show="!ctrl.event.report">Veja o que acontecerá depois</span>
+              <span data-ng-show="ctrl.event.report">Veja o impacto social</span>
             </button>
-            <p>Você pode doar até: {{ctrl.event.ends | date: 'dd/MM/yyyy'}}</p>
+            <p class="text-center gap-top">Você pode doar até: {{ctrl.event.ends | date: 'dd/MM/yyyy'}}</p>
           </div>
           <div class="panel-body">
-            <p>Como estamos até o momento</p>
+            <p class="text-center">Como estamos até o momento</p>
             <div class="progress">
               <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ctrl.event.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ctrl.event.progress}}%">
                 <span class="sr-only">{{ctrl.event.progress}}%</span>
@@ -101,11 +103,12 @@
             <p>Para saber mais sobre a causa beneficiada, acesse:</p>
             <p class="text-center">
               <a href="{{ctrl.event.institution.website}}">{{ctrl.event.institution.website}}</a>
+              <a data-ng-show="!ctrl.event.institution.website" ui-sref="institution({slug: ctrl.event.institution.slug})">{{ctrl.event.institution.name}}</a>
             </p>
-            <p>
+            <!--<p>
               <i class="fa fa-question"></i>
               Em caso de dúvida, entre em contato com o <a href="">organizador</a>.
-            </p>
+            </p>-->
           </div>
         </div>
       </div>

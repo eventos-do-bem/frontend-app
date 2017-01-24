@@ -234,6 +234,10 @@ a:hover {
   background-color: transparent;
   color: #169b48;
 }
+.table > tbody > tr.primary > td {
+  background-color: transparent;
+  color: #3a93d0;
+}
 .table > tbody > tr.danger > td {
   background-color: transparent;
   color: #ff1e00;

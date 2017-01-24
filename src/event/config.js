@@ -5,7 +5,7 @@ export default function EventConfig($stateProvider) {
       templateUrl: './src/event/view/index.html'
     })
     .state('event.start', {
-      url: '/comecar',
+      url: '/comecar?categoria?meta?termino?causa',
       authenticate: true,
       templateUrl: './src/event/view/start.html',
       controller: 'EventStart',
@@ -13,18 +13,21 @@ export default function EventConfig($stateProvider) {
     })
     .state('event.explore', {
       url: '/explore',
+      authenticate: false,
       templateUrl: './src/event/view/event.explore.html',
       controller: 'EventExplore',
       controllerAs: 'ctrl'
     })
     .state('event.report', {
       url: '/:uuid/relatorio',
+      authenticate: false,
       templateUrl: './src/event/view/event.report.html',
       controller: 'EventReport',
       controllerAs: 'ctrl'
     })
     .state('event.slug', {
       url: '/:slug',
+      authenticate: false,
       templateUrl: './src/event/view/event.html',
       controller: 'Event',
       controllerAs: 'ctrl'

@@ -1,10 +1,10 @@
 export default class AuthLogin {
-  constructor($rootScope, $stateParams, $state, $q, $window, AuthService, StorageService) {
+  constructor($rootScope, $state, AuthService, StorageService, LastStateUnloggedService) {
     this.service = AuthService
     this.storage = StorageService
+    this.lastStateUnloggedService = LastStateUnloggedService
     this.$rootScope = $rootScope
     this.state = $state
-    this.$window = $window
     this.profile = {
       rememberme: true
     }
@@ -32,14 +32,20 @@ export default class AuthLogin {
       )
   }
   loginSuccess(response) {
-    console.log(response.data)
     this.storage.setItem('token', response.data.token)
     let {name, email, type, avatar, permissions} = response.data
     this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
     this.$rootScope.$broadcast('profile.change')
-    switch(type) {
-      case 'user': this.state.go('profile.user.events'); break;
-      case 'ong': this.state.go('profile.ong.events'); break;
+    if (this.lastStateUnloggedService.getName()) {
+      let name = this.lastStateUnloggedService.getName()
+      let params = this.lastStateUnloggedService.getParams()
+      this.lastStateUnloggedService.clear()
+      this.state.go(name, params)
+    } else {
+      switch(type) {
+        case 'user': this.state.go('profile.user.events'); break;
+        case 'ong': this.state.go('profile.ong.events'); break;
+      }
     }
   }
   loginError(response) {
@@ -56,4 +62,4 @@ export default class AuthLogin {
   }
 }
 
-AuthLogin.$inject = ['$rootScope', '$stateParams', '$state', '$q', '$window', 'AuthService', 'StorageService']
+AuthLogin.$inject = ['$rootScope', '$state', 'AuthService', 'StorageService', 'LastStateUnloggedService']

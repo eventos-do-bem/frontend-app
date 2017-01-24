@@ -4,6 +4,7 @@ import Event              from './controller/event.js'
 import EventStart         from './controller/event.start.js'
 import EventExplore       from './controller/event.explore.js'
 import EventReport        from './controller/event.report.js'
+import EventHappens       from './controller/event.happens.js'
 import ReportAuthorize    from './controller/report.authorize.js'
 
 export default angular
@@ -13,5 +14,6 @@ export default angular
   .controller('EventStart', EventStart)
   .controller('EventExplore', EventExplore)
   .controller('EventReport', EventReport)
+  .controller('EventHappens', EventHappens)
   .controller('ReportAuthorize', ReportAuthorize)
   .service('EventService', Service)

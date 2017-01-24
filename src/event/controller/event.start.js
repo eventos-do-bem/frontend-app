@@ -1,5 +1,5 @@
 export default class EventStart {
-  constructor($rootScope, $state, $window, $stateParams, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService) {
+  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService) {
     this.rootScope = $rootScope
     this.state = $state
     this.window = $window
@@ -8,25 +8,44 @@ export default class EventStart {
     this.anchorScroll = $anchorScroll
     this.service = EventService
     this.locationService = LocationService
-    this.event = {}
+    this.event = {
+      categorie_uuid: null
+    }
+    if ($stateParams.meta) {
+      this.event.goal_amount = $stateParams.meta
+    }
+    if ($stateParams.termino) {
+      this.event.end_date = $stateParams.termino
+    }
+    this.inputCity = document.querySelector('input[name="citie"]')
     if (this.hasDraft()) {
       this.draft = this.getDraft()
     }
-    // this.categories = [
-    //   { id: 'Aniversários', label: 'Aniversários' },
-    //   { id: 'Casamentos', label: 'Casamentos' },
-    //   { id: 'Corridas', label: 'Corridas' },
-    //   { id: 'Jantares', label: 'Jantares' },
-    //   { id: 'Voluntariado', label: 'Voluntariado' }
-    // ]
     this.locationService.getStates()
       .then(response => this.states = response.data.values)
-    // CityService.findAll()
-    //   .then(response => this.cities = response.data.values)    
+
     InstitutionService.findAll()
-      .then(response => this.institutions = response.data.values)
+      .then(response => {
+        this.institutions = response.data.values
+        if ($stateParams.causa) {
+          this.event.institution_uuid = $stateParams.causa
+        }
+        this.formatLabel = function(model) {
+          let len = this.institutions.length
+          for (var i = 0; i < len; i++) {
+            if (model === this.institutions[i].uuid) {
+              return this.institutions[i].name
+            }
+          }
+        }
+      })
     CategoryService.findAll()
-      .then(response => this.categories = response.data.values)
+      .then(response => {
+        this.categories = response.data.values
+        if ($stateParams.categoria) {
+          this.event.categorie_uuid = { slug: $stateParams.categoria }
+        }
+      })
 
     this.popovers = {
       name: {
@@ -68,12 +87,16 @@ export default class EventStart {
     }
   }
   getCities(state, city) {
-    let citie = document.querySelector('input[name="citie"]')
-    this.locationService.getCities(state, city)
+    return this.locationService.getCities(state, city)
       .then(response => {
-        this.cities = response.data.values
-        citie.focus()
+        return response.data.values
       })
+  }
+  changeState() {
+    setTimeout(() => {
+      this.inputCity.focus()
+      delete this.event.citie
+    }, 100)
   }
   setPopoverContent(field) {
     this.popoverContent = this.popovers[field]
@@ -87,24 +110,27 @@ export default class EventStart {
       diffDays = parseInt(timeDiff / (1000 * 3600 * 24))
     return (diffDays >= 22 && diffDays <= 90) ? false : true
   }
-  save(event) {
-    event = angular.copy(event)
-    
-    if (event.institution_uuid) {
-      event.institution_uuid = event.institution_uuid.uuid
+  save(start, event) {
+    if (start.$invalid) {
+      angular.forEach(start.$error, field => {
+        angular.forEach(field, errorField => {
+          errorField.$setDirty()
+        })
+      })
+    } else {
+      event.goal_amount = parseInt(event.goal_amount)
+      this.service.save(event, progress => this.progress = progress)
+        .then(
+          response => {
+            this.state.go('event.slug', {slug: response.data.slug})
+          },
+          error => {
+            this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
+            this.location.hash('body')
+            this.anchorScroll()
+          }
+        )
     }
-    // console.log(JSON.stringify(event))
-    this.service.save(event, progress => this.progress = progress)
-      .then(
-        response => {
-          this.state.go('event.slug', {slug: response.data.slug})
-        },
-        error => {
-          this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
-          this.location.hash('body')
-          this.anchorScroll()
-        }
-      )
   }
   getAttr(name,attr) {
     let e = document.querySelector(`[name='${name}']`)
@@ -129,4 +155,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$filter','$location','$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']
+EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']

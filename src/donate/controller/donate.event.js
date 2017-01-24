@@ -85,6 +85,7 @@ export default class DonateEvent {
     console.log(donate)
     donate.card_validate = `${donate.card_month}/${donate.card_year}`
     donate.card_number = donate.card_number.replace(/\-/g, '')
+    donate.amount = parseInt(donate.amount)
     let modalInstance = this.modal.open({
       templateUrl: './../src/donate/view/donate.card.html',
       controller: 'DonateCard',

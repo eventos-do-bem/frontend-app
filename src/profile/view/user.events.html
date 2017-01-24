@@ -1,48 +1,51 @@
 <h3 class="well">
   Campanhas
 </h3>
-<h4 data-ng-show="ctrl.events.length == 0" class="text-center">
+<h4 class="alert alert-info" role="alert" data-ng-show="ctrl.events.length == 0">
 	Você ainda não tem eventos cadastrados.
 </h4>
-<ul class="media-list">
-  <li class="media" data-ng-repeat="item in ctrl.events">
-    <div class="media-left">
-      <img class="media-object img-circle" src="assets/images/avatars/medium/avatar.svg" alt="Avatar">
-    </div>
-    <div class="media-body">
-      <div class="row">
-        <div class="col-md-8">
-          <h4 class="media-heading">
-            <a ui-sref="event.slug({slug: item.slug})" data-ng-bind="item.name"></a>
-          </h4>
-        </div>
-        <div class="col-md-4">
-          <a ui-sref="profile.user.report({uuid: item.uuid})" class="btn btn-primary btn-block">
-            Relatório de doações
-          </a>
-          <!--<a class="btn btn-success btn-block" disabled="disabled">
-            Veja seu impacto
-          </a>-->
+<div data-ng-show="ctrl.events.length > 0">
+  <ul class="media-list">
+    <li class="media" data-ng-repeat="item in ctrl.events">
+      <div class="media-left">
+        <img class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
+      </div>
+      <div class="media-body">
+        <div class="row">
+          <div class="col-md-8">
+            <h4 class="media-heading">
+              <a ui-sref="event.slug({slug: item.slug})" data-ng-bind="item.name"></a>
+            </h4>
+          </div>
+          <div class="col-md-4">
+            <a ui-sref="profile.user.donors({uuid: item.uuid})" class="btn btn-primary btn-block">
+              Relatório de doações
+            </a>
+            <a class="btn btn-success btn-block" data-ng-disabled="!item.report" ui-sref="event.report({uuid: item.institution.uuid})">
+              Veja seu impacto
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </li>
-</ul>
-<div class="text-center">
-  <ul uib-pagination
-      total-items="ctrl.pagination.total"
-      ng-model="ctrl.pagination.current_page"
-      max-size="ctrl.pagination.per_page"
-      class="pagination-sm"
-      previous-text="Anterior"
-      next-text="Próxima"
-      first-text="Primeira"
-      last-text="Última"
-      boundary-links="true"
-      num-pages="ctrl.pagination.total_pages"
-      data-ng-change="ctrl.changePage()">
+    </li>
   </ul>
+  <div class="text-center">
+    <ul uib-pagination
+        total-items="ctrl.pagination.total"
+        ng-model="ctrl.pagination.current_page"
+        max-size="ctrl.pagination.per_page"
+        class="pagination-sm"
+        previous-text="Anterior"
+        next-text="Próxima"
+        first-text="Primeira"
+        last-text="Última"
+        boundary-links="true"
+        num-pages="ctrl.pagination.total_pages"
+        data-ng-change="ctrl.changePage()">
+    </ul>
+  </div>
 </div>
+
 <!--<h3 class="well">
   Campanhas encerradas
 </h3>
