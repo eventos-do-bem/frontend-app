@@ -1,11 +1,10 @@
-import uiRouter         from 'angular-ui-router'
-import uiBootstrap      from 'angular-ui-bootstrap'
-import ngMask           from 'ng-mask'
-import ngMessages       from 'angular-messages'
-import ngSanitize       from 'angular-sanitize'
-import formatAsCurrency from 'format-as-currency'
-import APIConfig            from './config/api.json'
-import FBConfig             from './config/facebook.json'
+import uiRouter             from 'angular-ui-router'
+import uiBootstrap          from 'angular-ui-bootstrap'
+import environment          from 'angular-environment'
+import ngMask               from 'ng-mask'
+import ngMessages           from 'angular-messages'
+import ngSanitize           from 'angular-sanitize'
+import formatAsCurrency     from 'format-as-currency'
 import AppConfig            from './config.js'
 import HttpInterceptor      from './interceptor.js'
 import YoutubeFilter        from './../common/filter/youtube.js'
@@ -29,7 +28,8 @@ import confirmation     from './../confirmation/module.js'
 
 angular
   .module('app', [
-   'ui.bootstrap'
+    'environment'
+  , 'ui.bootstrap'
   , uiRouter
   ,'ngMask'
   ,'ngMessages'
@@ -51,8 +51,6 @@ angular
   ,'confirmation'
   ])
   .config(AppConfig)
-  .constant('API', APIConfig)
-  .constant('FBConfig', FBConfig)
   .factory('HttpInterceptor', HttpInterceptor)
   .filter('youtube', YoutubeFilter)
   .filter('currencySymbol', CurrencySymbolFilter)

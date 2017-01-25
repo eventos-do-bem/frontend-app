@@ -30,7 +30,6 @@ export default class EventDonors {
       response => {
         this.pagination = response.data.meta.pagination
         this.donors = response.data.values.map(donor => {
-          console.log(donor)
           donor.updated_at = new Date(donor.updated_at)
           return donor
         })

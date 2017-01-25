@@ -1,39 +1,10 @@
 export default class AppController {
-  constructor($location, $window, API, FBConfig, FacebookFactory) {
+  constructor(envService, FacebookFactory) {
     FacebookFactory.init({
-      appId: FBConfig.appId,
-      xfbml: FBConfig.xfbml
+      appId: envService.read('fbAppId'),
+      xfbml: true
     })
-      // appId: '922781867788493', dev
-      // appId: '813381015395246', prod
-    // console.log(FacebookFactory.ui)
-    // switch($location.path()) {
-    //   case '/usuario/cadastro': {
-    //     this.background = 'auth-login.jpg'
-    //   }
-    // }
-    // this.brand = 'Eventos do Bem'
-    // this.logout = () => {
-    //   $window.localStorage.clear()
-    //   $state.go('auth-login')
-    // }
-    // this.user = JSON.parse($window.localStorage.getItem('user'))
-    // this.dropDownMenu = [
-    //   {
-    //     label: 'Perfil',
-    //     url: 'user-me'
-    //   },
-    //   {
-    //     label: 'Logout',
-    //     url: 'auth-logout'
-    //   }
-    // ]
-    // this.toggleDropdown = function($event) {
-    //   $event.preventDefault();
-    //   $event.stopPropagation();
-    //   this.status.isopen = !this.status.isopen;
-    // };
   }
 }
 
-AppController.$inject = ['$location','$window','API', 'FBConfig','FacebookFactory']
+AppController.$inject = ['envService','FacebookFactory']

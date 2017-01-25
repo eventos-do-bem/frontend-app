@@ -88,6 +88,10 @@ form input[type="file"] {
   background: url(../assets/icons/svgs/pagamento-cancelado.svg) no-repeat top left;
   background-size: contain;
 }
+.icon.pending {
+  background: url(../assets/icons/svgs/boleto-pendente.svg) no-repeat top left;
+  background-size: contain;
+}
 blockquote {
   margin: 0;
   padding-left: 70px;

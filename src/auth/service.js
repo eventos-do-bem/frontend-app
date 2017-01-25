@@ -1,8 +1,8 @@
 import CommonService  from './../common/service/common.js'
 
 export default class AuthService extends CommonService {
-  constructor(API, $http, FacebookService) {
-    super(API, $http)
+  constructor($http, FacebookService, envService) {
+    super($http, envService)
     this.facebookService = FacebookService
   }
   loginUser(data) {
@@ -41,4 +41,4 @@ export default class AuthService extends CommonService {
   }
 }
 
-AuthService.$inject = ['API','$http','FacebookService']
+AuthService.$inject = ['$http','FacebookService','envService']

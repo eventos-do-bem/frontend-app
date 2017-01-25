@@ -1,8 +1,8 @@
 import CommonService  from './../common/service/common.js'
 
 export default class DonateService extends CommonService {
-  constructor(API, $http) {
-    super(API, $http)
+  constructor($http, envService) {
+    super($http, envService)
   }
   pay(uuid, data) {
     return this.$http.post(this.url + this.route, data, this.config)
@@ -30,4 +30,4 @@ export default class DonateService extends CommonService {
   }
 }
 
-DonateService.$inject = ['API','$http']
+DonateService.$inject = ['$http','envService']

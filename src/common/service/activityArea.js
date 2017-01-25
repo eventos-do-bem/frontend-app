@@ -1,8 +1,8 @@
 import CommonService  from './common.js'
 
 export default class ActivityAreaService extends CommonService {
-  constructor(API, $http) {
-    super(API, $http)
+  constructor($http, envService) {
+    super($http, envService)
     this.setRoute('activityAreas')
   }
   findAll() {
@@ -11,4 +11,4 @@ export default class ActivityAreaService extends CommonService {
   }
 }
 
-ActivityAreaService.$inject = ['API','$http']
+ActivityAreaService.$inject = ['$http','envService']

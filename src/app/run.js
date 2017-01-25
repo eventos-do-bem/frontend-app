@@ -16,8 +16,8 @@ export default function run($rootScope, $window, $location, $state, $anchorScrol
       case 'auth.recovery': $rootScope.background = 'auth-login'; break;
       default: $rootScope.background = null;
     }
-    // $location.hash('scrollArea')
-    // $anchorScroll('scrollArea')
+    // $location.hash('body')
+    $anchorScroll('body')
   })
 }
 
