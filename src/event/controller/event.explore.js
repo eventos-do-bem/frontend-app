@@ -34,11 +34,16 @@ class EventExplore {
       data.area_activity_uuid = data.area_activity_uuid.uuid
     }
     this.eventService.search(data)
-      .then(response => this.events = response.data.values)
+      .then(response => {
+        this.pagination = response.data.meta.pagination
+        this.events = response.data.values
+      })
   }
   getActivityAreas() {
     this.activityAreaService.findAll()
-      .then(response => this.area_activities = response.data.values)
+      .then(response => {
+        this.area_activities = response.data.values
+      })
   }
 }
 

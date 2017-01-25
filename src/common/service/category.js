@@ -1,8 +1,8 @@
 import CommonService  from './common.js'
 
 export default class CategoryService extends CommonService {
-  constructor(API, $http) {
-    super(API, $http)
+  constructor($http, envService) {
+    super($http, envService)
     this.setRoute('categories')
   }
   findAll() {
@@ -11,4 +11,4 @@ export default class CategoryService extends CommonService {
   }
 }
 
-CategoryService.$inject = ['API','$http']
+CategoryService.$inject = ['$http','envService']

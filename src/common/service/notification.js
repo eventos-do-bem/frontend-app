@@ -1,6 +1,8 @@
-export default class NotificationService {
-  constructor(API, $http) {
-    this.API = API
+import CommonService  from './common.js'
+
+export default class NotificationService extends CommonService {
+  constructor($http, envService) {
+    super($http, envService)
     this.http = $http
     this.config = {}
     this.route = 'notifications'
@@ -8,14 +10,14 @@ export default class NotificationService {
   subscribe(data) {
     if (!data.type) {
       this.config['headers'] = {}
-      this.config.headers['token'] = this.API.token
+      this.config.headers['token'] = this.token
     }
-    return this.http.post(this.API.url + this.route + '/subscribe', data, this.config)
+    return this.http.post(this.url + this.route + '/subscribe', data, this.config)
   }
   subscribeConfirm(uuid) {
     this.config['headers'] = {}
-    this.config.headers['token'] = this.API.token
-    return this.http.get(this.API.url + this.route + '/subscribe/confirm/' + uuid, this.config)
+    this.config.headers['token'] = this.token
+    return this.http.get(this.url + this.route + '/subscribe/confirm/' + uuid, this.config)
   }
   setRoute(route) {
     this.source = new EventSource(route)
@@ -29,4 +31,4 @@ export default class NotificationService {
   }
 }
 
-NotificationService.$inject = ['API','$http']
+NotificationService.$inject = ['$http','envService']

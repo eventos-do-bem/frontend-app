@@ -1,7 +1,8 @@
 export default class Contact {
-  constructor($rootScope, API, $http) {
+  constructor($rootScope, $http, envService) {
     this.rootScope = $rootScope
-    this.API = API
+    this.url = envService.read('apiUrl')
+    this.token = envService.read('token')
     this.http = $http
     this.master = {
       destination: 'how-it-work'
@@ -10,23 +11,31 @@ export default class Contact {
   }
   send(contact, data) {
     this.http.post(
-      this.API.url + 'contact',
+      this.url + 'contact',
       data,
       {
         headers: {
-          token: this.API.token
+          token: this.token
         }
       }
     ).then(response => {
       this.rootScope.$broadcast('alert', {
         type: 'alert-success',
         icon: 'fa-check',
-        message: 'Legal ter entrado em contato :) aguarde nosso retorno.'
+        message: {
+          message: 'Legal ter entrado em contato :) aguarde nosso retorno.'
+        }
       })
       this.contact = angular.copy(this.master)
       contact.$setPristine()
+    }, error => {
+      this.rootScope.$broadcast('alert', {
+        type: 'alert-warning',
+        icon: 'fa-exclamation',
+        message: error.data
+      })
     })
   }
 }
 
-Contact.$inject = ['$rootScope','API','$http']
+Contact.$inject = ['$rootScope','$http','envService']

@@ -1,8 +1,8 @@
 import CommonService  from './../common/service/common.js'
 
 export default class InstitutionService extends CommonService {
-  constructor(API, $http) {
-    super(API, $http)
+  constructor($http, envService) {
+    super($http, envService)
   }
   findById(slug) {
     super.setRoute('institutions')
@@ -26,4 +26,4 @@ export default class InstitutionService extends CommonService {
   }
 }
 
-InstitutionService.$inject = ['API','$http']
+InstitutionService.$inject = ['$http', 'envService']

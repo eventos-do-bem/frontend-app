@@ -18,7 +18,7 @@
       <tr data-ng-repeat="item in ctrl.donors" data-ng-class="{success: item.status == 'Autorizado', primary: item.status == 'Em processamento', danger: item.status == 'Cancelado'}">
         <td data-ng-bind="$index + 1"></td>
         <td>
-          <i class="icon" data-ng-class="{'check': item.status == 'Em processamento' || item.status == 'Autorizado', 'cancel': item.status == 'Cancelado'}"></i>
+          <i class="icon" uib-tooltip="{{item.status}}" data-ng-class="{'pending': item.status == 'Em processamento', 'check': item.status == 'Autorizado', 'cancel': item.status == 'Cancelado'}"></i>
         </td>
         <td data-ng-bind="item.user.name"></td>
         <td data-ng-show="ctrl.profile.type == 'user'" data-ng-bind="item.user.email"></td>

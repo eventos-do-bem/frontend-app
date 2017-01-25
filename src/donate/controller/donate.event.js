@@ -19,7 +19,6 @@ export default class DonateEvent {
 
     this.eventService.findById(this.stateParams.slug)
       .then(response => {
-        console.log(response.data)
         this.uuid = response.data.uuid
         this.event = response.data
       })
@@ -27,7 +26,6 @@ export default class DonateEvent {
     if (this.logged) {
       this.profileService.me()
         .then(response => {
-          // console.log(response)
           let {name, birthdate, email, document} = response.data
           birthdate = birthdate.split('-')
           birthdate = `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`
@@ -82,7 +80,6 @@ export default class DonateEvent {
         delete donate.document
       }
     }
-    console.log(donate)
     donate.card_validate = `${donate.card_month}/${donate.card_year}`
     donate.card_number = donate.card_number.replace(/\-/g, '')
     donate.amount = parseInt(donate.amount)
@@ -142,7 +139,8 @@ export default class DonateEvent {
         this.state.go('event.slug', {slug: response.uuid})
       }, 3000)
       let billet = response.data.iugu_url.replace('?bs=true','.pdf')
-      let printBillet = this.window.open(billet, 'Imprimir boleto','left=0,top=0,width=800,height=600,toolbar=0,scrollbars=0,status=0')
+      // let printBillet = this.window.open(billet, 'Imprimir boleto','left=0,top=0,width=800,height=600,toolbar=0,scrollbars=0,status=0')
+      let printBillet = this.window.open(billet, '_blank')
       printBillet.focus()
       // printBillet.print()
     }, error => {

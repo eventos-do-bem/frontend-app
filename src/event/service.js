@@ -1,8 +1,8 @@
 import CommonService  from './../common/service/common.js'
 
 export default class EventService extends CommonService {
-  constructor(API, $http) {
-    super(API, $http)
+  constructor($http, envService) {
+    super($http, envService)
     this.$http = $http
   }
   findAll(params) {
@@ -68,4 +68,4 @@ export default class EventService extends CommonService {
   }
 }
 
-EventService.$inject = ['API','$http']
+EventService.$inject = ['$http','envService']
