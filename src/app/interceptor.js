@@ -1,10 +1,10 @@
-export default function config(API, $q, $window, $rootScope, $injector) {
+export default function config($q, $window, $rootScope, $injector) {
   return {
     'request': (config) => {
+      let envService = $injector.get('envService')
       if (config.url.indexOf('.html') === -1) $rootScope.loading = true
       config.headers = config.headers || {}
-      config['headers']['Accept'] = API.accept
-      // config['headers']['Content-Type'] = API.contenttype
+      config['headers']['Accept'] = envService.accept
       // console.log($window.localStorage.getItem('token'))
       if (!config.headers.token && config.url.indexOf('googleapis') === -1) {
         if ($window.localStorage.getItem('token')) {

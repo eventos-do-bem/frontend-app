@@ -1,7 +1,9 @@
 export default class CommonService {
-  constructor(API, $http) {
-    this.url = API.url
-    this.token = API.token
+  constructor($http, envService) {
+    if (envService) {
+      this.url = envService.read('apiUrl')
+      this.token = envService.read('token')
+    }
     this.config = {}
     this.$http = $http
   }
@@ -57,3 +59,5 @@ export default class CommonService {
     return this.$http.get(this.url + this.route + '/search', this.config)
   }
 }
+
+CommonService.$inject = ['$http','envService']

@@ -1,8 +1,8 @@
 import CommonService  from './common.js'
 
 export default class CityService extends CommonService {
-  constructor(API, $http) {
-    super(API, $http)
+  constructor($http, envService) {
+    super($http, envService)
     this.setRoute('cities')
   }
   findAll() {
@@ -11,4 +11,4 @@ export default class CityService extends CommonService {
   }
 }
 
-CityService.$inject = ['API','$http']
+CityService.$inject = ['$http','envService']

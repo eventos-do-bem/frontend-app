@@ -1,8 +1,8 @@
 import CommonService  from './../common/service/common.js'
 
 export default class UserService extends CommonService {
-  constructor(API, $http) {
-    super(API, $http)
+  constructor($http, envService) {
+    super($http, envService)
   }
   register(data) {
     data = this.setDataToken(data)
@@ -15,4 +15,4 @@ export default class UserService extends CommonService {
   }
 }
 
-UserService.$inject = ['API','$http']
+UserService.$inject = ['$http','envService']

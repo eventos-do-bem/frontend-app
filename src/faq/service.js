@@ -1,8 +1,8 @@
 import CommonService  from './../common/service/common.js'
 
 export default class FaqService extends CommonService {
-  constructor(API, $http) {
-    super(API, $http)
+  constructor($http, envService) {
+    super($http, envService)
     this.$http = $http
   }
   findAll(params) {
@@ -26,4 +26,4 @@ export default class FaqService extends CommonService {
   }
 }
 
-FaqService.$inject = ['API','$http']
+FaqService.$inject = ['$http','envService']
