@@ -28,7 +28,9 @@ export default class AuthLogin {
     this.service[this.method](profile)
       .then(
         response => this.loginSuccess(response),
-        response => this.loginError(response)
+        response => {
+          this.loginError(response)
+        }
       )
   }
   loginSuccess(response) {

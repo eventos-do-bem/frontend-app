@@ -1,8 +1,11 @@
 export default class ProfileRegister {
-  constructor($scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, ProfileService) {
+  constructor($rootScope, $scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, ProfileService, StorageService, LastStateUnloggedService) {
     this.activityAreaService = ActivityAreaService
     this.service = ProfileService
     this.timeout = $timeout
+    this.storage = StorageService
+    this.lastStateUnloggedService = LastStateUnloggedService
+    this.$rootScope = $rootScope
     this.state = $state
     this.filter = $filter
     this.masterProfile = {
@@ -92,8 +95,8 @@ export default class ProfileRegister {
       profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy')
       this.service.register(profile)
         .then(
-        response => this.registerSuccess(response),
-        response => this.registerError(response)
+          response => this.registerSuccess(response),
+          response => this.registerError(response)
         )
     }
   }
@@ -112,8 +115,20 @@ export default class ProfileRegister {
       )
   }
   registerSuccess(response) {
+    console.log(response)
     if (this.fbRegister) {
-      this.state.go('auth.login')
+      this.storage.setItem('token', response.data.token)
+      let {name, email, type, avatar, permissions} = response.data
+      this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
+      this.$rootScope.$broadcast('profile.change')
+      if (this.lastStateUnloggedService.getName()) {
+        let name = this.lastStateUnloggedService.getName()
+        let params = this.lastStateUnloggedService.getParams()
+        this.lastStateUnloggedService.clear()
+        this.state.go(name, params)
+      } else {
+        this.state.go('profile.user.events')
+      }
     } else {
       this.state.go('profile.check')
     }
@@ -124,4 +139,4 @@ export default class ProfileRegister {
   }
 }
 
-ProfileRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'ProfileService']
+ProfileRegister.$inject = ['$rootScope','$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'ProfileService', 'StorageService', 'LastStateUnloggedService']

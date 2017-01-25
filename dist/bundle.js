@@ -421,7 +421,7 @@ var AuthLogin = function () {
       this.service[this.method](profile).then(function (response) {
         return _this2.loginSuccess(response);
       }, function (response) {
-        return _this2.loginError(response);
+        _this2.loginError(response);
       });
     }
   }, {
@@ -5314,12 +5314,15 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProfileRegister = function () {
-  function ProfileRegister($scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, ProfileService) {
+  function ProfileRegister($rootScope, $scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, ProfileService, StorageService, LastStateUnloggedService) {
     _classCallCheck(this, ProfileRegister);
 
     this.activityAreaService = ActivityAreaService;
     this.service = ProfileService;
     this.timeout = $timeout;
+    this.storage = StorageService;
+    this.lastStateUnloggedService = LastStateUnloggedService;
+    this.$rootScope = $rootScope;
     this.state = $state;
     this.filter = $filter;
     this.masterProfile = {
@@ -5481,8 +5484,26 @@ var ProfileRegister = function () {
   }, {
     key: 'registerSuccess',
     value: function registerSuccess(response) {
+      console.log(response);
       if (this.fbRegister) {
-        this.state.go('auth.login');
+        this.storage.setItem('token', response.data.token);
+        var _response$data = response.data,
+            name = _response$data.name,
+            email = _response$data.email,
+            type = _response$data.type,
+            avatar = _response$data.avatar,
+            permissions = _response$data.permissions;
+
+        this.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar, permissions: permissions });
+        this.$rootScope.$broadcast('profile.change');
+        if (this.lastStateUnloggedService.getName()) {
+          var _name = this.lastStateUnloggedService.getName();
+          var params = this.lastStateUnloggedService.getParams();
+          this.lastStateUnloggedService.clear();
+          this.state.go(_name, params);
+        } else {
+          this.state.go('profile.user.events');
+        }
       } else {
         this.state.go('profile.check');
       }
@@ -5501,7 +5522,7 @@ var ProfileRegister = function () {
 exports.default = ProfileRegister;
 
 
-ProfileRegister.$inject = ['$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'ProfileService'];
+ProfileRegister.$inject = ['$rootScope', '$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'ProfileService', 'StorageService', 'LastStateUnloggedService'];
 
 },{}],94:[function(require,module,exports){
 'use strict';
