@@ -36,7 +36,8 @@ function AppConfig($httpProvider, envServiceProvider, $urlRouterProvider, $sceDe
         accept: "application/vnd.api.v1+json",
         contenttype: "application/json",
         token: "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg",
-        fbAppId: "922781867788493"
+        // fbAppId: "922781867788493"
+        fbAppId: "813381015395246"
       },
       production: {
         apiUrl: 'https://prod.eventosdobem.com/api/',
