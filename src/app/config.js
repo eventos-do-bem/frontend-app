@@ -3,7 +3,7 @@ export default function AppConfig($httpProvider, envServiceProvider, $urlRouterP
   envServiceProvider.config({
     domains: {
       development: ['127.0.0.1:8000', 'localhost:8000', 'frontend.eventosdobem.com'],
-      production: ['production.eventodobem.com']
+      production: ['production.eventosdobem.com.br', 'eventodobem.com.br', 'eventosdobem.com', 'eventodobem.com', 'eventosdobem.com.br', 'production.eventosdobem.com']
       // anotherStage: ['domain1', 'domain2'], 
       // anotherStage: ['domain1', 'domain2'] 
     },
