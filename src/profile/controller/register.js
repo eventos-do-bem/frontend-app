@@ -115,7 +115,6 @@ export default class ProfileRegister {
       )
   }
   registerSuccess(response) {
-    console.log(response)
     if (this.fbRegister) {
       this.storage.setItem('token', response.data.token)
       let {name, email, type, avatar, permissions} = response.data

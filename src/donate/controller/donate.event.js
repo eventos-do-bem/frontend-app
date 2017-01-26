@@ -12,6 +12,11 @@ export default class DonateEvent {
     this.modal = $uibModal
     this.creditCard = CreditCardFactory
     this.logged = this.window.localStorage.getItem('token')
+    this.options = {
+      aSign: 'R$ ',
+      aSep: '.',
+      aDec: ','
+    }
 
     if (!this.stateParams.slug) {
       this.state.go('pages.explore')

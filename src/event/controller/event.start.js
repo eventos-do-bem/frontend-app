@@ -11,6 +11,12 @@ export default class EventStart {
     this.event = {
       categorie_uuid: null
     }
+    this.options = {
+      aSign: 'R$ ',
+      aSep: '.',
+      aDec: ','
+    }
+
     if ($stateParams.meta) {
       this.event.goal_amount = $stateParams.meta
     }

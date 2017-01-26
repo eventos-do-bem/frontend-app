@@ -159,10 +159,6 @@ var _angularSanitize = require('angular-sanitize');
 
 var _angularSanitize2 = _interopRequireDefault(_angularSanitize);
 
-var _formatAsCurrency = require('format-as-currency');
-
-var _formatAsCurrency2 = _interopRequireDefault(_formatAsCurrency);
-
 var _config = require('./config.js');
 
 var _config2 = _interopRequireDefault(_config);
@@ -174,10 +170,6 @@ var _interceptor2 = _interopRequireDefault(_interceptor);
 var _youtube = require('./../common/filter/youtube.js');
 
 var _youtube2 = _interopRequireDefault(_youtube);
-
-var _currencySymbol = require('./../common/filter/currency-symbol.js');
-
-var _currencySymbol2 = _interopRequireDefault(_currencySymbol);
 
 var _run = require('./run.js');
 
@@ -245,9 +237,9 @@ var _module20 = _interopRequireDefault(_module19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['environment', 'ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'ngSanitize', _formatAsCurrency2.default, 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).factory('HttpInterceptor', _interceptor2.default).filter('youtube', _youtube2.default).filter('currencySymbol', _currencySymbol2.default).controller('AppController', _controller2.default).run(_run2.default);
+angular.module('app', ['environment', 'ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'ngSanitize', 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).factory('HttpInterceptor', _interceptor2.default).filter('youtube', _youtube2.default).controller('AppController', _controller2.default).run(_run2.default);
 
-},{"./../auth/module.js":12,"./../common/component/alert/alert.js":14,"./../common/component/countdown/countdown.js":17,"./../common/component/facebook/facebook.js":19,"./../common/component/loading/loading.js":23,"./../common/filter/currency-symbol.js":33,"./../common/filter/youtube.js":34,"./../common/module.js":35,"./../confirmation/module.js":49,"./../donate/module.js":54,"./../event/module.js":63,"./../faq/module.js":67,"./../home/module.js":71,"./../institution/module.js":74,"./../pages/module.js":82,"./../profile/module.js":99,"./config.js":2,"./controller.js":3,"./interceptor.js":4,"./run.js":6,"angular-environment":"angular-environment","angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","format-as-currency":"format-as-currency","ng-mask":"ng-mask"}],6:[function(require,module,exports){
+},{"./../auth/module.js":12,"./../common/component/alert/alert.js":14,"./../common/component/countdown/countdown.js":17,"./../common/component/facebook/facebook.js":19,"./../common/component/loading/loading.js":23,"./../common/filter/youtube.js":34,"./../common/module.js":35,"./../confirmation/module.js":49,"./../donate/module.js":54,"./../event/module.js":63,"./../faq/module.js":67,"./../home/module.js":71,"./../institution/module.js":74,"./../pages/module.js":82,"./../profile/module.js":99,"./config.js":2,"./controller.js":3,"./interceptor.js":4,"./run.js":6,"angular-environment":"angular-environment","angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1151,6 +1143,90 @@ FixedOnScroll.directiveFactory.$inject = ['$window'];
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var FormatCurrency = function () {
+	function FormatCurrency() {
+		_classCallCheck(this, FormatCurrency);
+
+		this.require = '?ngModel';
+		this.restrict = 'A';
+		this.scope = {
+			formatCurrency: '=',
+			variableOptions: '='
+		};
+		this.compile = this.compile;
+	}
+
+	_createClass(FormatCurrency, [{
+		key: 'compile',
+		value: function compile(tElem, tAttrs) {
+			var isInputText = tElem.is('input:text');
+			return function (scope, elem, attrs, controller) {
+				var updateElement = function updateElement(newVal) {
+					elem.autoNumeric('set', newVal);
+				};
+
+				elem.autoNumeric('init', scope.formatCurrency);
+				if (scope.variableOptions === true) {
+					scope.$watch('formatCurrency', function (newValue) {
+						elem.autoNumeric('update', newValue);
+					});
+				}
+
+				if (controller && isInputText) {
+					scope.$watch(tAttrs.ngModel, function () {
+						controller.$render();
+					});
+
+					controller.$render = function () {
+						updateElement(controller.$viewValue);
+					};
+
+					elem.on('keyup', function () {
+						scope.$applyAsync(function () {
+							controller.$setViewValue(elem.autoNumeric('get'));
+						});
+					});
+					elem.on('change', function () {
+						scope.$applyAsync(function () {
+							controller.$setViewValue(elem.autoNumeric('get'));
+						});
+					});
+				} else {
+					if (isInputText) {
+						attrs.$observe('value', function (val) {
+							updateElement(val);
+						});
+					}
+				}
+			};
+		}
+	}], [{
+		key: 'directiveFactory',
+		value: function directiveFactory($window) {
+			FormatCurrency.instance = new FormatCurrency();
+			return FormatCurrency.instance;
+		}
+	}]);
+
+	return FormatCurrency;
+}();
+
+exports.default = FormatCurrency;
+
+
+FormatCurrency.directiveFactory.$inject = [];
+
+},{}],30:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
@@ -1206,7 +1282,7 @@ exports.default = CreditCardFactory;
 
 CreditCardFactory.creditCardFactory.$inject = [];
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1441,7 +1517,7 @@ exports.default = FacebookFactory;
 
 FacebookFactory.facebookFactory.$inject = ['$window', '$timeout', '$q'];
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1506,7 +1582,7 @@ exports.default = GeoLocationFactory;
 
 GeoLocationFactory.geoLocationFactory.$inject = ['$window', '$http'];
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1555,19 +1631,6 @@ exports.default = ValidationFactory;
 
 
 ValidationFactory.validationFactory.$inject = [];
-
-},{}],33:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = currencySymbolFilter;
-function currencySymbolFilter($filter) {
-  return function (value) {
-    return $filter('currency')(value, 'R$ ', 0);
-  };
-}
 
 },{}],34:[function(require,module,exports){
 'use strict';
@@ -1641,6 +1704,10 @@ var _fixedOnScroll = require('./directive/fixedOnScroll.js');
 
 var _fixedOnScroll2 = _interopRequireDefault(_fixedOnScroll);
 
+var _formatCurrency = require('./directive/formatCurrency.js');
+
+var _formatCurrency2 = _interopRequireDefault(_formatCurrency);
+
 var _file = require('./component/file/file.js');
 
 var _file2 = _interopRequireDefault(_file);
@@ -1671,9 +1738,9 @@ var _notification2 = _interopRequireDefault(_notification);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = angular.module('common', ['file', 'map']).service('CommonService', _common2.default).controller('Header', _header2.default).controller('Footer', _footer2.default).service('LocationService', _location2.default).service('CityService', _city2.default).service('CategoryService', _category2.default).service('ActivityAreaService', _activityArea2.default).service('LastStateUnloggedService', _lastStateUnlogged2.default).factory('FacebookFactory', _facebook2.default.facebookFactory).factory('CreditCardFactory', _creditcard2.default.creditCardFactory).factory('GeoLocationFactory', _geolocation2.default.geoLocationFactory).factory('ValidationFactory', _validation2.default.validationFactory).service('FacebookService', _facebook4.default).service('StorageService', _storage2.default).service('Hydrator', _hydrator2.default).service('NotificationService', _notification2.default).directive('fixedOnScroll', _fixedOnScroll2.default.directiveFactory);
+exports.default = angular.module('common', ['file', 'map']).service('CommonService', _common2.default).controller('Header', _header2.default).controller('Footer', _footer2.default).service('LocationService', _location2.default).service('CityService', _city2.default).service('CategoryService', _category2.default).service('ActivityAreaService', _activityArea2.default).service('LastStateUnloggedService', _lastStateUnlogged2.default).factory('FacebookFactory', _facebook2.default.facebookFactory).factory('CreditCardFactory', _creditcard2.default.creditCardFactory).factory('GeoLocationFactory', _geolocation2.default.geoLocationFactory).factory('ValidationFactory', _validation2.default.validationFactory).service('FacebookService', _facebook4.default).service('StorageService', _storage2.default).service('Hydrator', _hydrator2.default).service('NotificationService', _notification2.default).directive('fixedOnScroll', _fixedOnScroll2.default.directiveFactory).directive('formatCurrency', _formatCurrency2.default.directiveFactory);
 
-},{"./component/file/file.js":21,"./component/map/map.js":25,"./controller/footer.js":26,"./controller/header.js":27,"./directive/fixedOnScroll.js":28,"./factory/creditcard.js":29,"./factory/facebook.js":30,"./factory/geolocation.js":31,"./factory/validation.js":32,"./service/activityArea.js":36,"./service/category.js":37,"./service/city.js":38,"./service/common.js":39,"./service/facebook.js":40,"./service/hydrator.js":41,"./service/last-state-unlogged.js":42,"./service/location.js":43,"./service/notification.js":44,"./service/storage.js":45}],36:[function(require,module,exports){
+},{"./component/file/file.js":21,"./component/map/map.js":25,"./controller/footer.js":26,"./controller/header.js":27,"./directive/fixedOnScroll.js":28,"./directive/formatCurrency.js":29,"./factory/creditcard.js":30,"./factory/facebook.js":31,"./factory/geolocation.js":32,"./factory/validation.js":33,"./service/activityArea.js":36,"./service/category.js":37,"./service/city.js":38,"./service/common.js":39,"./service/facebook.js":40,"./service/hydrator.js":41,"./service/last-state-unlogged.js":42,"./service/location.js":43,"./service/notification.js":44,"./service/storage.js":45}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2499,6 +2566,11 @@ var DonateBillet = function () {
     this.user = data.user;
     this.donate.is_anonymous = false;
     this.logged = StorageService.getItem('token');
+    this.options = {
+      aSign: 'R$ ',
+      aSep: '.',
+      aDec: ','
+    };
   }
 
   _createClass(DonateBillet, [{
@@ -2609,6 +2681,11 @@ var DonateEvent = function () {
     this.modal = $uibModal;
     this.creditCard = CreditCardFactory;
     this.logged = this.window.localStorage.getItem('token');
+    this.options = {
+      aSign: 'R$ ',
+      aSep: '.',
+      aDec: ','
+    };
 
     if (!this.stateParams.slug) {
       this.state.go('pages.explore');
@@ -3304,6 +3381,12 @@ var EventStart = function () {
     this.event = {
       categorie_uuid: null
     };
+    this.options = {
+      aSign: 'R$ ',
+      aSep: '.',
+      aDec: ','
+    };
+
     if ($stateParams.meta) {
       this.event.goal_amount = $stateParams.meta;
     }
@@ -5484,7 +5567,6 @@ var ProfileRegister = function () {
   }, {
     key: 'registerSuccess',
     value: function registerSuccess(response) {
-      console.log(response);
       if (this.fbRegister) {
         this.storage.setItem('token', response.data.token);
         var _response$data = response.data,

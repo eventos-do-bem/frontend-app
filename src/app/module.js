@@ -4,11 +4,9 @@ import environment          from 'angular-environment'
 import ngMask               from 'ng-mask'
 import ngMessages           from 'angular-messages'
 import ngSanitize           from 'angular-sanitize'
-import formatAsCurrency     from 'format-as-currency'
 import AppConfig            from './config.js'
 import HttpInterceptor      from './interceptor.js'
 import YoutubeFilter        from './../common/filter/youtube.js'
-import CurrencySymbolFilter from './../common/filter/currency-symbol.js'
 import Run                  from './run.js'
 import controller           from './controller.js'
 import common               from './../common/module.js'
@@ -34,7 +32,6 @@ angular
   ,'ngMask'
   ,'ngMessages'
   ,'ngSanitize'
-  , formatAsCurrency
   ,'common'
   ,'loading'
   ,'alert'
@@ -53,6 +50,5 @@ angular
   .config(AppConfig)
   .factory('HttpInterceptor', HttpInterceptor)
   .filter('youtube', YoutubeFilter)
-  .filter('currencySymbol', CurrencySymbolFilter)
   .controller('AppController', controller)
   .run(Run)

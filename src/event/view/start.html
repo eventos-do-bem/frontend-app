@@ -124,7 +124,7 @@
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.goal_amount.$invalid && start.goal_amount.$dirty, 'has-error': start.goal_amount.$dirty && ctrl.event.goal_amount < 100}">
               <label for="goal_amount" class="control-label">Meta</label>
-              <input type="text" name="goal_amount" id="goal_amount" class="form-control" format-as-currency currency-filter="'currencySymbol'" data-ng-model="ctrl.event.goal_amount" placeholder="Digite o valor" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
+              <input type="text" name="goal_amount" id="goal_amount" class="form-control" format-currency="ctrl.options" variable-options="true" data-ng-model="ctrl.event.goal_amount" placeholder="Digite o valor" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
               <!--<div class="checkbox">
                 <label>
                   <input type="checkbox" name="disable_goal">
