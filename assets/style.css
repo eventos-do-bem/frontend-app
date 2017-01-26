@@ -1260,6 +1260,9 @@ cursor: pointer;
   background-color: #fff;
 }
 .form-signin .forgot {
+  margin-top: -10px;
+}
+.form-signin .forgot a {
   color: #000;
 }
 .form-signin .show-password {

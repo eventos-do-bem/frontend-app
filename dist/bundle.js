@@ -25,7 +25,7 @@ function AppConfig($httpProvider, envServiceProvider, $urlRouterProvider, $sceDe
   envServiceProvider.config({
     domains: {
       development: ['127.0.0.1:8000', 'localhost:8000', 'frontend.eventosdobem.com'],
-      production: ['production.eventodobem.com']
+      production: ['production.eventosdobem.com.br', 'eventodobem.com.br', 'eventosdobem.com', 'eventodobem.com', 'eventosdobem.com.br', 'production.eventosdobem.com']
       // anotherStage: ['domain1', 'domain2'], 
       // anotherStage: ['domain1', 'domain2'] 
     },
@@ -3507,7 +3507,7 @@ var EventStart = function () {
           });
         });
       } else {
-        event.goal_amount = parseInt(event.goal_amount);
+        // event.goal_amount = parseInt(event.goal_amount)
         this.service.save(event, function (progress) {
           return _this3.progress = progress;
         }).then(function (response) {
@@ -4099,7 +4099,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = InstitutionConfig;
 function InstitutionConfig($stateProvider) {
   $stateProvider.state('institution', {
-    url: '/instituition/:slug',
+    url: '/instituicao/:slug',
     authenticate: false,
     templateUrl: './src/institution/view/page.html',
     controller: 'Page',

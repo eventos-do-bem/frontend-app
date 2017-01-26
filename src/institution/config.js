@@ -1,7 +1,7 @@
 export default function InstitutionConfig($stateProvider) {
   $stateProvider
     .state('institution', {
-      url: '/instituition/:slug',
+      url: '/instituicao/:slug',
       authenticate: false,
       templateUrl: './src/institution/view/page.html',
       controller: 'Page',
