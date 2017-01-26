@@ -124,7 +124,7 @@ export default class EventStart {
         })
       })
     } else {
-      event.goal_amount = parseInt(event.goal_amount)
+      // event.goal_amount = parseInt(event.goal_amount)
       this.service.save(event, progress => this.progress = progress)
         .then(
           response => {

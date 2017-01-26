@@ -36,7 +36,8 @@ function AppConfig($httpProvider, envServiceProvider, $urlRouterProvider, $sceDe
         accept: "application/vnd.api.v1+json",
         contenttype: "application/json",
         token: "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg",
-        fbAppId: "922781867788493"
+        // fbAppId: "922781867788493"
+        fbAppId: "813381015395246"
       },
       production: {
         apiUrl: 'https://prod.eventosdobem.com/api/',
@@ -3507,7 +3508,7 @@ var EventStart = function () {
           });
         });
       } else {
-        event.goal_amount = parseInt(event.goal_amount);
+        // event.goal_amount = parseInt(event.goal_amount)
         this.service.save(event, function (progress) {
           return _this3.progress = progress;
         }).then(function (response) {
@@ -4099,7 +4100,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = InstitutionConfig;
 function InstitutionConfig($stateProvider) {
   $stateProvider.state('institution', {
-    url: '/instituition/:slug',
+    url: '/instituicao/:slug',
     authenticate: false,
     templateUrl: './src/institution/view/page.html',
     controller: 'Page',
