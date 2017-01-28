@@ -108,7 +108,7 @@
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':donate.amount.$invalid && donate.amount.$dirty}">
               <label for="amount" class="control-label">Digite o valor que deseja doar para a campanha de <span data-ng-bind="ctrl.event.institution.user.name"></span></label>
-              <input type="text" name="amount" id="amount" class="form-control" format-currency="ctrl.options" variable-options="true" data-ng-model="ctrl.donate.amount" data-ng-focus="ctrl.onFocus('amount')" data-ng-blur="ctrl.onValidate(donate)" required>
+              <input type="text" name="amount" id="amount" class="form-control" format-currency="ctrl.amountOptions" variable-options="true" data-ng-model="ctrl.donate.amount" data-ng-focus="ctrl.onFocus('amount')" data-ng-blur="ctrl.onValidate(donate)" required>
             </div>
             <div class="form-group" data-ng-class="{'has-error':donate.card_number.$invalid && donate.card_number.$dirty}">
               <label for="card_number" class="control-label">Número do seu cartão</label>

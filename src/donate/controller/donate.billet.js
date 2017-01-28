@@ -7,10 +7,13 @@ export default class DonateBillet {
     this.user = data.user
     this.donate.is_anonymous = false
     this.logged = StorageService.getItem('token')
-    this.options = {
+    this.amountOptions = {
       aSign: 'R$ ',
       aSep: '.',
-      aDec: ','
+      aDec: ',',
+      mDec: '2',
+      lZero: 'deny',
+      aPad: true
     }
   }
   buildBillet() {

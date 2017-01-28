@@ -12,10 +12,13 @@ export default class DonateEvent {
     this.modal = $uibModal
     this.creditCard = CreditCardFactory
     this.logged = this.window.localStorage.getItem('token')
-    this.options = {
+    this.amountOptions = {
       aSign: 'R$ ',
       aSep: '.',
-      aDec: ','
+      aDec: ',',
+      mDec: '2',
+      lZero: 'deny',
+      aPad: true
     }
 
     if (!this.stateParams.slug) {

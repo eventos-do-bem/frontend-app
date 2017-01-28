@@ -36,8 +36,8 @@ function AppConfig($httpProvider, envServiceProvider, $urlRouterProvider, $sceDe
         accept: "application/vnd.api.v1+json",
         contenttype: "application/json",
         token: "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg",
-        // fbAppId: "922781867788493"
-        fbAppId: "813381015395246"
+        fbAppId: "922781867788493"
+        // fbAppId: "813381015395246"
       },
       production: {
         apiUrl: 'https://prod.eventosdobem.com/api/',
@@ -2567,10 +2567,13 @@ var DonateBillet = function () {
     this.user = data.user;
     this.donate.is_anonymous = false;
     this.logged = StorageService.getItem('token');
-    this.options = {
+    this.amountOptions = {
       aSign: 'R$ ',
       aSep: '.',
-      aDec: ','
+      aDec: ',',
+      mDec: '2',
+      lZero: 'deny',
+      aPad: true
     };
   }
 
@@ -2682,10 +2685,13 @@ var DonateEvent = function () {
     this.modal = $uibModal;
     this.creditCard = CreditCardFactory;
     this.logged = this.window.localStorage.getItem('token');
-    this.options = {
+    this.amountOptions = {
       aSign: 'R$ ',
       aSep: '.',
-      aDec: ','
+      aDec: ',',
+      mDec: '2',
+      lZero: 'deny',
+      aPad: true
     };
 
     if (!this.stateParams.slug) {
@@ -3382,10 +3388,13 @@ var EventStart = function () {
     this.event = {
       categorie_uuid: null
     };
-    this.options = {
+    this.amountOptions = {
       aSign: 'R$ ',
       aSep: '.',
-      aDec: ','
+      aDec: ',',
+      mDec: '2',
+      lZero: 'deny',
+      aPad: true
     };
 
     if ($stateParams.meta) {

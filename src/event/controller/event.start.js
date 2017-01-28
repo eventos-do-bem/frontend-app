@@ -11,10 +11,13 @@ export default class EventStart {
     this.event = {
       categorie_uuid: null
     }
-    this.options = {
+    this.amountOptions = {
       aSign: 'R$ ',
       aSep: '.',
-      aDec: ','
+      aDec: ',',
+      mDec: '2',
+      lZero: 'deny',
+      aPad: true
     }
 
     if ($stateParams.meta) {
