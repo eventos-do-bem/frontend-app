@@ -5,16 +5,15 @@ export default class UserConfigurations {
     this.storage = StorageService
     this.service = ProfileService
     this.validation = ValidationFactory
-    this.reader = new FileReader()
-    this.needpassword = true
-    this.load(profile)
+    this.load(profile.data)
   }
   load(profile) {
-    profile = angular.copy(profile.data)
+    profile = angular.copy(profile)
+    delete profile.avatar
     profile.birthdate = new Date(profile.birthdate)
     profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy')
+    // profile.needpassword = true
     this.profile = profile
-    this.needpassword = profile.needpassword
   }
   validateDate(field, date) {
     date = date.split('/')
@@ -36,15 +35,14 @@ export default class UserConfigurations {
         let {name, email, type, avatar, permissions} = response.data
         this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
         this.rootScope.$broadcast('profile.change')
-        this.profile.password = '';
-        this.profile.new_password = '';
-        this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: 'Dados alterados com sucesso!'})
+        this.profile = response.data
+        this.load(this.profile)
+        this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: { message: 'Dados alterados com sucesso!' }})
+      },
+      error => {
+        this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
       }
     )
-  }
-  setPassword() {
-    console.log(this.profile.needpassword && this.needpassword)
-    this.needpassword = !this.needpassword
   }
 }
 

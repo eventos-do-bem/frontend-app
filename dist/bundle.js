@@ -5660,19 +5660,18 @@ var UserConfigurations = function () {
     this.storage = StorageService;
     this.service = ProfileService;
     this.validation = ValidationFactory;
-    this.reader = new FileReader();
-    this.needpassword = true;
-    this.load(profile);
+    this.load(profile.data);
   }
 
   _createClass(UserConfigurations, [{
     key: 'load',
     value: function load(profile) {
-      profile = angular.copy(profile.data);
+      profile = angular.copy(profile);
+      delete profile.avatar;
       profile.birthdate = new Date(profile.birthdate);
       profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy');
+      // profile.needpassword = true
       this.profile = profile;
-      this.needpassword = profile.needpassword;
     }
   }, {
     key: 'validateDate',
@@ -5702,16 +5701,12 @@ var UserConfigurations = function () {
 
         _this.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar, permissions: permissions });
         _this.rootScope.$broadcast('profile.change');
-        _this.profile.password = '';
-        _this.profile.new_password = '';
-        _this.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: 'Dados alterados com sucesso!' });
+        _this.profile = response.data;
+        _this.load(_this.profile);
+        _this.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: { message: 'Dados alterados com sucesso!' } });
+      }, function (error) {
+        _this.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data });
       });
-    }
-  }, {
-    key: 'setPassword',
-    value: function setPassword() {
-      console.log(this.profile.needpassword && this.needpassword);
-      this.needpassword = !this.needpassword;
     }
   }]);
 
