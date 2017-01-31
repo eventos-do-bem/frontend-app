@@ -23,7 +23,9 @@ export default class OngEvents {
       this.rootScope.$broadcast('alert', {
         type: 'alert-warning',
         icon: 'fa-warning',
-        message: `Você tem ${this.pendings.length} relatórios pendentes.`
+        message: {
+          message: `Você tem ${this.pendings.length} relatórios pendentes.`
+        }
       })
     })
   }

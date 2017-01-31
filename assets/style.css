@@ -1517,8 +1517,9 @@ footer {
   font-weight: 500;
 }
 .about .history span:last-child {
-  font-size: 4rem;
+  font-size: 4.5rem;
   font-weight: 300;
+  text-transform: uppercase;
 }
 .about .history p {
   margin-top: 20px;
@@ -1529,11 +1530,14 @@ footer {
   margin: 50px 0px;
 }
 .about .content .perfil figure {
-  margin: 0 30px;
+  margin: 0 130px;
 }
 .carousel-control.left,
 .carousel-control.right {
   background-image: none;
+}
+.about .carousel .carousel-inner {
+  padding-top: 45px;
 }
 /* /perfil */
 

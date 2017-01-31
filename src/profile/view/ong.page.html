@@ -5,9 +5,25 @@
 <div class="well">
   <h3>Editar</h3>
   <form name="page" data-ng-submit="ctrl.save(ctrl.page)">
-    <file style="display: block" ng-model="ctrl.page.cover" progress="ctrl.progress">
-      <span data-ng-bind="ctrl.page.cover.name || 'Imagem da capa da página'"></span>
-    </file>
+    <div class="row">
+      <div class="col-md-4">
+        <file ng-model="ctrl.page.cover" progress="ctrl.progress">
+          <span data-ng-bind="ctrl.page.cover.name || 'Imagem da capa da página'"></span>
+        </file>
+      </div>
+      <div class="col-md-4">
+        <file ng-model="ctrl.page.avatar" progress="ctrl.progress">
+          <span data-ng-bind="ctrl.page.avatar.name || 'Imagem do perfil da página'"></span>
+        </file>
+      </div>
+    </div>
+    <h4>Missão:</h4>
+    <p class="text-muted">Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor.</p>
+    <div class="form-group">
+      <count-down-element model="ctrl.page.mission" max="165">
+        <textarea rows="2" class="form-control" data-ng-model="ctrl.page.mission" minlength="20" maxlength="165" required></textarea>
+      </count-down-element>
+    </div>
     <h4>Proposta:</h4>
     <p class="text-muted">Coloque a proposta de seus apoiadores fazerem eventos do bem e transformarem seu apoio em impacto social para a causa da sua organização.</p>
     <div class="form-group">

@@ -4364,20 +4364,20 @@ var About = function About() {
   this.slides = [{
     id: 0,
     quotes: [{
-      text: 'Mussum Ipsum, cacilds vidis litro abertis. Delegadis gente finis, bibendum egestas augue arcu ut est. Manduma pindureta quium dia nois paga. Quem num gosta di mé, boa gente num é. Per aumento de cachacis, eu reclamis.',
-      name: 'Fulano de souza 1'
+      text: 'Aniversário para os refugiados --> texto: No meu aniversário de 18 anos, resolvi pedir contribuições para doar para o projeto de apoio aos refugiados da ONG Cáritas. Meus parentes que moravam longe puderam facilmente doar através do site da Eventos do Bem e para meus amigos próximos fiz uma festa para nos divertirmos e eles trouxeram doações! Foi uma experiência incrível!!',
+      name: 'Aline Ferreira'
     }, {
-      text: 'Mussum Ipsum, cacilds vidis litro abertis. Delegadis gente finis, bibendum egestas augue arcu ut est. Manduma pindureta quium dia nois paga. Quem num gosta di mé, boa gente num é. Per aumento de cachacis, eu reclamis.',
-      name: 'Fulano de souza 2'
+      text: 'a ong que angariou bastante com os evbs já ---> vai o texto: Foi incrível a nossa experiência de captação de recursos por meio da plataforma da Eventos do Bem. Os resultados que alcançamos comprovaram como é grande o potencial que essa iniciativa tem de mobilização de pessoas e recursos em torno de causas sociais , promovendo a conexão de milhares de pessoas de bem, que desejam fazer algo para mudar o mundo, mas não sabem exatamente como.',
+      name: 'ONG AFESU'
     }]
   }, {
     id: 1,
     quotes: [{
-      text: 'Mussum Ipsum, cacilds vidis litro abertis. Delegadis gente finis, bibendum egestas augue arcu ut est. Manduma pindureta quium dia nois paga. Quem num gosta di mé, boa gente num é. Per aumento de cachacis, eu reclamis.',
-      name: 'Fulano de souza 3'
+      text: 'A experiência foi ótima, com a equipe dando atenção do começo ao fim, seja informando sobre cada nova doação, seja com dicas sobre como conseguir mais engajamento. Enfim, recomendo fortemente os serviços da Eventos do Bem, que de fato faz jus ao nome!',
+      name: 'Rodrigo da ONG  Migra Mundo'
     }, {
-      text: 'Mussum Ipsum, cacilds vidis litro abertis. Delegadis gente finis, bibendum egestas augue arcu ut est. Manduma pindureta quium dia nois paga. Quem num gosta di mé, boa gente num é. Per aumento de cachacis, eu reclamis.',
-      name: 'Fulano de souza 4'
+      text: 'Já organizou 3 evbs, 3 anos consecutivos de aniversário.',
+      name: 'Beatriz Haddad'
     }]
   }];
 };
@@ -4876,15 +4876,17 @@ var ProfileConfirmation = function () {
       var _profile = this.profile,
           name = _profile.name,
           email = _profile.email,
-          type = _profile.type;
+          type = _profile.type,
+          avatar = _profile.avatar,
+          permissions = _profile.permissions;
 
-      this.storage.setItem('profile', { name: name, email: email, type: type });
+      this.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar, permissions: permissions });
       this.rootScope.$broadcast('profile.change');
       switch (type) {
         case 'user':
-          this.state.go('profile.user');break;
+          this.state.go('profile.user.events');break;
         case 'ong':
-          this.state.go('profile.ong');break;
+          this.state.go('profile.ong.events');break;
       }
     }
   }]);
@@ -5128,7 +5130,9 @@ var OngEvents = function () {
         _this.rootScope.$broadcast('alert', {
           type: 'alert-warning',
           icon: 'fa-warning',
-          message: 'Voc\xEA tem ' + _this.pendings.length + ' relat\xF3rios pendentes.'
+          message: {
+            message: 'Voc\xEA tem ' + _this.pendings.length + ' relat\xF3rios pendentes.'
+          }
         });
       });
     }
@@ -5263,12 +5267,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var OngPage = function () {
-  function OngPage(profile, InstitutionService, $rootScope) {
+  function OngPage(profile, InstitutionService, $rootScope, StorageService) {
     _classCallCheck(this, OngPage);
 
     this.profile = profile.data;
     this.service = InstitutionService;
     this.rootScope = $rootScope;
+    this.storage = StorageService;
     this.getInstitution(profile.data.institutions.uuid);
   }
 
@@ -5279,7 +5284,9 @@ var OngPage = function () {
 
       this.service.findById(id).then(function (response) {
         delete response.data.cover;
+        delete response.data.avatar;
         _this.page = response.data;
+        console.log(_this.page);
       });
     }
   }, {
@@ -5287,19 +5294,27 @@ var OngPage = function () {
     value: function save(data) {
       var _this2 = this;
 
+      console.log(data);
       this.service.savePage(data, function (progress) {
         _this2.progress = progress;
       }).then(function (response) {
+        var profile = _this2.storage.getItem('profile');
+        profile.avatar = response.data.user.avatar;
+        _this2.storage.setItem('profile', profile);
+        _this2.rootScope.$broadcast('profile.change');
+
         _this2.rootScope.$broadcast('alert', {
           type: 'alert-success',
           icon: 'fa-check',
-          message: 'Página oficial salva com sucesso! :)'
+          message: {
+            message: 'Página oficial salva com sucesso! :)'
+          }
         });
       }, function (error) {
         _this2.rootScope.$broadcast('alert', {
           type: 'alert-danger',
           icon: 'fa-exclamation',
-          message: 'Erro ao salvar página oficial! :('
+          message: error.data
         });
       });
     }
@@ -5311,7 +5326,7 @@ var OngPage = function () {
 exports.default = OngPage;
 
 
-OngPage.$inject = ['profile', 'InstitutionService', '$rootScope'];
+OngPage.$inject = ['profile', 'InstitutionService', '$rootScope', 'StorageService'];
 
 },{}],92:[function(require,module,exports){
 'use strict';

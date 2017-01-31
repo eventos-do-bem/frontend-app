@@ -13,11 +13,15 @@
   <section class="content container">
     <div class="row">
       <div class="col-md-8">
+        <p class="description" data-ng-bind="ctrl.institution.propose"></p>
+        <div data-ng-show="ctrl.institution.video" class="video-container">
+          <iframe src="{{ctrl.institution.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
+        </div>
         <p class="description" data-ng-bind="ctrl.institution.impact"></p>
         <!--<pre>{{ctrl.institution | json}}</pre>-->
         <div class="text-center">
           <h2>Gostou?</h2>
-          <a ui-sref="event.start" class="btn btn-lg btn-warning">
+          <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-lg btn-warning">
             Crie seu Evento do Bem
           </a>
         </div>
@@ -39,8 +43,8 @@
           <div class="panel-body">
             <h4>Nome:</h4>
             <p data-ng-bind="ctrl.institution.name"></p>
-            <h4 data-ng-show="ctrl.institution.propose">Missão:</h4>
-            <p data-ng-bind="ctrl.institution.propose"></p>
+            <h4 data-ng-show="ctrl.institution.mission">Missão:</h4>
+            <p data-ng-bind="ctrl.institution.mission"></p>
             <h4 data-ng-show="ctrl.institution.contact">Contato:</h4>
             <p data-ng-bind="ctrl.institution.contact"></p>
           </div>
