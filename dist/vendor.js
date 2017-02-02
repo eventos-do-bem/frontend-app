@@ -4649,6 +4649,133 @@ angular.module('environment', []).
 	});
 
 },{}],4:[function(require,module,exports){
+'use strict';
+angular.module("ngLocale", [], ["$provide", function($provide) {
+var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
+$provide.value("$locale", {
+  "DATETIME_FORMATS": {
+    "AMPMS": [
+      "AM",
+      "PM"
+    ],
+    "DAY": [
+      "domingo",
+      "segunda-feira",
+      "ter\u00e7a-feira",
+      "quarta-feira",
+      "quinta-feira",
+      "sexta-feira",
+      "s\u00e1bado"
+    ],
+    "ERANAMES": [
+      "Antes de Cristo",
+      "Ano do Senhor"
+    ],
+    "ERAS": [
+      "a.C.",
+      "d.C."
+    ],
+    "FIRSTDAYOFWEEK": 6,
+    "MONTH": [
+      "janeiro",
+      "fevereiro",
+      "mar\u00e7o",
+      "abril",
+      "maio",
+      "junho",
+      "julho",
+      "agosto",
+      "setembro",
+      "outubro",
+      "novembro",
+      "dezembro"
+    ],
+    "SHORTDAY": [
+      "dom",
+      "seg",
+      "ter",
+      "qua",
+      "qui",
+      "sex",
+      "s\u00e1b"
+    ],
+    "SHORTMONTH": [
+      "jan",
+      "fev",
+      "mar",
+      "abr",
+      "mai",
+      "jun",
+      "jul",
+      "ago",
+      "set",
+      "out",
+      "nov",
+      "dez"
+    ],
+    "STANDALONEMONTH": [
+      "janeiro",
+      "fevereiro",
+      "mar\u00e7o",
+      "abril",
+      "maio",
+      "junho",
+      "julho",
+      "agosto",
+      "setembro",
+      "outubro",
+      "novembro",
+      "dezembro"
+    ],
+    "WEEKENDRANGE": [
+      5,
+      6
+    ],
+    "fullDate": "EEEE, d 'de' MMMM 'de' y",
+    "longDate": "d 'de' MMMM 'de' y",
+    "medium": "d 'de' MMM 'de' y HH:mm:ss",
+    "mediumDate": "d 'de' MMM 'de' y",
+    "mediumTime": "HH:mm:ss",
+    "short": "dd/MM/yy HH:mm",
+    "shortDate": "dd/MM/yy",
+    "shortTime": "HH:mm"
+  },
+  "NUMBER_FORMATS": {
+    "CURRENCY_SYM": "R$",
+    "DECIMAL_SEP": ",",
+    "GROUP_SEP": ".",
+    "PATTERNS": [
+      {
+        "gSize": 3,
+        "lgSize": 3,
+        "maxFrac": 3,
+        "minFrac": 0,
+        "minInt": 1,
+        "negPre": "-",
+        "negSuf": "",
+        "posPre": "",
+        "posSuf": ""
+      },
+      {
+        "gSize": 3,
+        "lgSize": 3,
+        "maxFrac": 2,
+        "minFrac": 2,
+        "minInt": 1,
+        "negPre": "-\u00a4",
+        "negSuf": "",
+        "posPre": "\u00a4",
+        "posSuf": ""
+      }
+    ]
+  },
+  "id": "pt-br",
+  "localeID": "pt_BR",
+  "pluralCat": function(n, opt_precision) {  if (n >= 0 && n <= 2 && n != 2) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+});
+}]);
+
+},{}],5:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -5389,7 +5516,7 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -6129,7 +6256,7 @@ angular.module('ngSanitize').filter('linky', ['$sanitize', function($sanitize) {
 
 })(window, window.angular);
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -13459,7 +13586,7 @@ angular.module('ui.bootstrap.datepickerPopup').run(function() {!angular.$$csp().
 angular.module('ui.bootstrap.tooltip').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTooltipCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style>'); angular.$$uibTooltipCss = true; });
 angular.module('ui.bootstrap.timepicker').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTimepickerCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-time input{width:50px;}</style>'); angular.$$uibTimepickerCss = true; });
 angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTypeaheadCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>'); angular.$$uibTypeaheadCss = true; });
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -45228,7 +45355,7 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.3.6
  * http://getbootstrap.com/javascript/#affix
@@ -45392,7 +45519,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: alert.js v3.3.6
  * http://getbootstrap.com/javascript/#alerts
@@ -45488,7 +45615,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.6
  * http://getbootstrap.com/javascript/#buttons
@@ -45610,7 +45737,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: carousel.js v3.3.6
  * http://getbootstrap.com/javascript/#carousel
@@ -45849,7 +45976,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: collapse.js v3.3.6
  * http://getbootstrap.com/javascript/#collapse
@@ -46062,7 +46189,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.6
  * http://getbootstrap.com/javascript/#dropdowns
@@ -46229,7 +46356,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: modal.js v3.3.6
  * http://getbootstrap.com/javascript/#modals
@@ -46568,7 +46695,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: popover.js v3.3.6
  * http://getbootstrap.com/javascript/#popovers
@@ -46678,7 +46805,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.3.6
  * http://getbootstrap.com/javascript/#scrollspy
@@ -46852,7 +46979,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tab.js v3.3.6
  * http://getbootstrap.com/javascript/#tabs
@@ -47009,7 +47136,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.6
  * http://getbootstrap.com/javascript/#tooltip
@@ -47525,7 +47652,7 @@ $provide.value("$locale", {
 
 }(jQuery);
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: transition.js v3.3.6
  * http://getbootstrap.com/javascript/#transitions
@@ -47597,11 +47724,15 @@ module.exports = 'ngAria';
 },{"./angular-aria":2}],"angular-environment":[function(require,module,exports){
 require('./src/angular-environment');
 module.exports = 'environment';
-},{"./src/angular-environment":3}],"angular-messages":[function(require,module,exports){
+},{"./src/angular-environment":3}],"angular-i18n/pt-br":[function(require,module,exports){
+require('./angular-locale_pt-br');
+module.exports = 'ngLocale';
+
+},{"./angular-locale_pt-br":4}],"angular-messages":[function(require,module,exports){
 require('./angular-messages');
 module.exports = 'ngMessages';
 
-},{"./angular-messages":4}],"angular-mocks":[function(require,module,exports){
+},{"./angular-messages":5}],"angular-mocks":[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -50733,12 +50864,12 @@ angular.mock.$RootScopeDecorator = ['$delegate', function($delegate) {
 require('./angular-sanitize');
 module.exports = 'ngSanitize';
 
-},{"./angular-sanitize":5}],"angular-ui-bootstrap":[function(require,module,exports){
+},{"./angular-sanitize":6}],"angular-ui-bootstrap":[function(require,module,exports){
 require('./dist/ui-bootstrap-tpls');
 
 module.exports = 'ui.bootstrap';
 
-},{"./dist/ui-bootstrap-tpls":6}],"angular-ui-router":[function(require,module,exports){
+},{"./dist/ui-bootstrap-tpls":7}],"angular-ui-router":[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.18
@@ -55282,7 +55413,7 @@ angular.module('ui.router.state')
 require('./angular');
 module.exports = angular;
 
-},{"./angular":7}],"bootstrap":[function(require,module,exports){
+},{"./angular":8}],"bootstrap":[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')
@@ -55296,7 +55427,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/affix.js":8,"../../js/alert.js":9,"../../js/button.js":10,"../../js/carousel.js":11,"../../js/collapse.js":12,"../../js/dropdown.js":13,"../../js/modal.js":14,"../../js/popover.js":15,"../../js/scrollspy.js":16,"../../js/tab.js":17,"../../js/tooltip.js":18,"../../js/transition.js":19}],"ng-mask":[function(require,module,exports){
+},{"../../js/affix.js":9,"../../js/alert.js":10,"../../js/button.js":11,"../../js/carousel.js":12,"../../js/collapse.js":13,"../../js/dropdown.js":14,"../../js/modal.js":15,"../../js/popover.js":16,"../../js/scrollspy.js":17,"../../js/tab.js":18,"../../js/tooltip.js":19,"../../js/transition.js":20}],"ng-mask":[function(require,module,exports){
 (function() {
   'use strict';
   angular.module('ngMask', []);

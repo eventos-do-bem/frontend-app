@@ -9,11 +9,11 @@
     "frontend": "npm-run-all -p app:sequential vendor:sequential app:style app:style:minify",
     "app:sequential": "npm-run-all -s -c app:minify app:concat",
     "app:minify": "uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
-    "app:concat": "watchify ./bootstrap.js -o ./dist/bundle.js -t [ babelify ] -v -x=angular -x=angular-animate -x=angular-aria -x=angular-messages -x=angular-mocks -x=angular-ui-router -x=angular-sanitize -x=bootstrap -x=angular-ui-bootstrap -x=ng-mask -x=angular-environment",
+    "app:concat": "watchify ./bootstrap.js -o ./dist/bundle.js -t [ babelify ] -v -x=angular -x=angular-animate -x=angular-aria -x=angular-messages -x=angular-mocks -x=angular-ui-router -x=angular-sanitize -x=angular-i18n/pt-br -x=bootstrap -x=angular-ui-bootstrap -x=ng-mask -x=angular-environment",
     "app:style": "catw -c 'lessc -' 'assets/less/*.less' -o assets/public/css/evb.css -v",
     "app:style:minify": "lessc --clean-css assets/public/css/evb.css assets/public/css/evb.min.css",
     "vendor:sequential": "npm-run-all -s -c vendor:concat vendor:minify",
-    "vendor:concat": "watchify -o ./dist/vendor.js -v -r angular -r angular-animate -r angular-aria -r angular-messages -r angular-mocks -r angular-ui-router -r angular-sanitize -r bootstrap -r angular-ui-bootstrap -r ng-mask -r angular-environment",
+    "vendor:concat": "watchify -o ./dist/vendor.js -v -r angular -r angular-animate -r angular-aria -r angular-messages -r angular-mocks -r angular-ui-router -r angular-sanitize -r angular-i18n/pt-br -r bootstrap -r angular-ui-bootstrap -r ng-mask -r angular-environment",
     "vendor:minify": "uglifyjs ./dist/vendor.js -o ./dist/vendor.min.js"
   },
   "babel": {
@@ -42,6 +42,7 @@
     "angular-animate": "1.5.8",
     "angular-aria": "1.5.8",
     "angular-environment": "^1.0.4",
+    "angular-i18n": "^1.5.8",
     "angular-messages": "1.5.8",
     "angular-mocks": "1.5.8",
     "angular-sanitize": "1.5.8",

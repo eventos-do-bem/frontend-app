@@ -14,18 +14,18 @@
         <div class="row">
           <div class="col-md-8">
             <h4 class="media-heading" data-ng-bind="item.name"></h4>
-            <p>Organizador por: <span data-ng-bind="item.user.name"></span></p>
+            <p>Organizador: <span data-ng-bind="item.user.name"></span></p>
             <p>
               <i class="fa fa-star-o"></i>
-              Projeto apoiado por: <span data-ng-bind="item.institution.name"></span>
+              Projeto apoiado: <span data-ng-bind="item.institution.name"></span>
             </p>
           </div>
           <div class="col-md-4">
-            <a ui-sref="profile.ong.report({uuid: item.uuid})" data-ng-show="item.enabledToReceiveReport" class="btn btn-success btn-block btn-waiting">
-              Submeter relatório
-            </a>
             <a ui-sref="profile.ong.donors({uuid: item.uuid})" class="btn btn-primary btn-block">
               Relatório de doações
+            </a>
+            <a ui-sref="profile.ong.report({uuid: item.uuid})" data-ng-show="item.enabledToReceiveReport" class="btn btn-success btn-block btn-waiting">
+              Submeter relatório
             </a>
             <br>
             <p class="text-success text-center">

@@ -107,7 +107,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':donate.amount.$invalid && donate.amount.$dirty}">
-              <label for="amount" class="control-label">Digite o valor que deseja doar para a campanha de <span data-ng-bind="ctrl.event.institution.user.name"></span></label>
+              <label for="amount" class="control-label">Digite o valor que deseja doar para o <span data-ng-bind="ctrl.event.institution.user.name"></span></label>
               <input type="text" name="amount" id="amount" class="form-control" format-currency="ctrl.amountOptions" variable-options="true" data-ng-model="ctrl.donate.amount" data-ng-focus="ctrl.onFocus('amount')" data-ng-blur="ctrl.onValidate(donate)" required>
             </div>
             <div class="form-group" data-ng-class="{'has-error':donate.card_number.$invalid && donate.card_number.$dirty}">
@@ -142,16 +142,38 @@
               <div class="col-md-3">
                 <div class="form-group" data-ng-class="{'has-error':donate.card_cvc.$invalid && donate.card_cvc.$dirty}">
                   <label for="card_cvc" class="control-label">Código</label>
-                  <input type="number" name="card_cvc" id="card_cvc" class="form-control" data-ng-model="ctrl.donate.card_cvc" data-ng-blur="ctrl.onValidate(donate)" uib-popover-template="'myPopoverCardTemplate.html'" popover-placement="right" popover-trigger="focus" required>
+                  <input type="number" name="card_cvc" id="card_cvc" class="form-control" data-ng-model="ctrl.donate.card_cvc" maxlength="3" data-ng-blur="ctrl.onValidate(donate)" uib-popover-template="'myPopoverCardTemplate.html'" popover-placement="right" popover-trigger="focus" required>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12">
-                <button type="button" class="btn btn-lg btn-block btn-success" data-ng-click="ctrl.openCard()" data-ng-disabled="donate.$invalid">
-                  <i class="fa fa-lock"></i>
-                  Doe com segurança
+                <div class="form-group" data-ng-class="{'has-error':donate.message.$invalid && donate.message.$dirty}">
+                  <label for="message" class="control-label">
+                    Escreva uma mensagem de apoio para o <span data-ng-bind="ctrl.event.institution.user.name"></span> que aparecerá em sua página de campanha!
+                  </label>
+                  <count-down-element model="ctrl.donate.message" max="165">
+                    <textarea name="message" id="message" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="165" placeholder="Escreva aqui uma mensagem de apoio e união a esta ação de melhora do mundo."></textarea>
+                  </count-down-element>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" data-ng-model="ctrl.donate.is_anonymous">
+                      Prefiro me manter anônimo
+                      <i class="glyphicon glyphicon-question-sign text-muted" uib-popover="Você permanecerá anônimo na página pública da campanha, no entanto, de acordo com a nossa política de transparência seu nome e valor de doação será informado em um relatório financeiro para o Organizador da campanha." popover-trigger="mouseenter" popover-placement="right"></i>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button type="button" class="btn btn-lg btn-block btn-success" data-ng-click="ctrl.donateCard()" data-ng-disabled="donate.$invalid">
+                  Apoiar com <span data-ng-bind="ctrl.donate.amount || 0 | currency: 'R$ '" ></span>
                 </button>
+                <p class="text-center">
+                  <i class="fa fa-lock"></i> Fácil, rápido e com segurança <br>
+                  Ao apoiar, você concorda com os <br> <a ui-sref="pages.terms">Termos de Uso</a> e <a ui-sref="pages.policies">Política de privacidade</a>
+                </p>
               </div>
             </div>
           </div>

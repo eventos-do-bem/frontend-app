@@ -1,5 +1,5 @@
 export default class DonateEvent {
-  constructor($rootScope, $state, $stateParams, $window, $timeout, $anchorScroll, ProfileService, EventService, NotificationService, $uibModal, CreditCardFactory) {
+  constructor($rootScope, $state, $stateParams, $window, $timeout, $anchorScroll, ProfileService, EventService, DonateService, $uibModal, CreditCardFactory) {
     this.rootScope = $rootScope
     this.state = $state
     this.stateParams = $stateParams
@@ -8,10 +8,13 @@ export default class DonateEvent {
     this.anchorScroll = $anchorScroll
     this.profileService = ProfileService
     this.eventService = EventService
-    this.notificationService = NotificationService
+    this.donateService = DonateService
     this.modal = $uibModal
     this.creditCard = CreditCardFactory
     this.logged = this.window.localStorage.getItem('token')
+    this.donate = {
+      is_anonymous: false
+    }
     this.amountOptions = {
       aSign: 'R$ ',
       aSep: '.',
@@ -37,12 +40,16 @@ export default class DonateEvent {
           let {name, birthdate, email, document} = response.data
           birthdate = birthdate.split('-')
           birthdate = `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`
-          this.donate = {
-            name: name,
-            birthdate: birthdate,
-            email: email,
-            document: document
-          }
+          this.donate.name = name
+          this.donate.birthdate = birthdate
+          this.donate.email = email
+          this.donate.document = document
+          // this.donate = {
+          //   name: name,
+          //   birthdate: birthdate,
+          //   email: email,
+          //   document: document
+          // }
           this.missingDoc = (this.donate.document) ? false : true
         })
     }
@@ -78,6 +85,48 @@ export default class DonateEvent {
       {question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.'}
     ]
   }
+  donateCard() {
+    let donate = angular.copy(this.donate)
+    if (this.logged) {
+      delete donate.name
+      delete donate.email
+      delete donate.birthdate
+      if (!this.missingDoc) {
+        delete donate.document
+      }
+    }
+    donate.card_validate = `${donate.card_month}/${donate.card_year}`
+    donate.card_number = donate.card_number.replace(/\-/g, '')
+    let method = (this.logged) ? 'payLogged' : 'payPublic'
+    this.donateService[method](this.event.uuid, donate)
+      .then(
+        response => this.openCardSuccess(this.event.institution.user, this.donate.name),
+        error => this.openCardError(error.data)
+      )
+  }
+  openCardSuccess(user, donor) {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/donate/view/donate.card.success.html',
+      controller: 'DonateCardSuccess',
+      controllerAs: 'ctrl',
+      resolve: {
+        data: () => {
+          return {
+            user: user,
+            donor: donor
+          }
+        }
+      }
+    })
+    modalInstance.result.then(response => {
+      this.state.go('event.slug', {slug: this.stateParams.slug})
+    })
+
+  }
+  openCardError(error) {
+    this.anchorScroll('body')
+    this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
+  }
   openCard() {
     let donate = angular.copy(this.donate)
     if (this.logged) {
@@ -107,7 +156,7 @@ export default class DonateEvent {
     })
     modalInstance.result.then(response => {
       this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
-      this.anchorScroll('scrollArea')
+      this.anchorScroll('body')
       this.timeout(() => {
         this.state.go('event.slug', {slug: response.uuid})
       }, 3000)
@@ -141,16 +190,10 @@ export default class DonateEvent {
       }
     })
     modalInstance.result.then(response => {
-      this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
-      this.anchorScroll('scrollArea')
-      this.timeout(() => {
-        this.state.go('event.slug', {slug: response.uuid})
-      }, 3000)
+      // this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
+      // this.anchorScroll('scrollArea')
       let billet = response.data.iugu_url.replace('?bs=true','.pdf')
-      // let printBillet = this.window.open(billet, 'Imprimir boleto','left=0,top=0,width=800,height=600,toolbar=0,scrollbars=0,status=0')
-      let printBillet = this.window.open(billet, '_blank')
-      printBillet.focus()
-      // printBillet.print()
+      let printBillet = this.window.open(billet, '_self')
     }, error => {
       this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
     })
@@ -184,4 +227,4 @@ export default class DonateEvent {
   }
 }
 
-DonateEvent.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$timeout', '$anchorScroll', 'ProfileService', 'EventService', 'NotificationService', '$uibModal', 'CreditCardFactory']
+DonateEvent.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$timeout', '$anchorScroll', 'ProfileService', 'EventService', 'DonateService', '$uibModal', 'CreditCardFactory']

@@ -14,7 +14,8 @@ export default function AppConfig($httpProvider, envServiceProvider, $urlRouterP
         accept: "application/vnd.api.v1+json",
         contenttype: "application/json",
         token: "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg",
-        fbAppId: "922781867788493"
+        fbAppId: "922781867788493",
+        fbVersion: "v2.2"
         // fbAppId: "813381015395246"
       },
       production: {
@@ -23,7 +24,8 @@ export default function AppConfig($httpProvider, envServiceProvider, $urlRouterP
         accept: "application/vnd.api.v1+json",
         contenttype: "application/json",
         token: "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg",
-        fbAppId: "813381015395246"
+        fbAppId: "813381015395246",
+        fbVersion: "v2.2"
       }
       // anotherStage: { 
       // 	customVar: 'lorem', 

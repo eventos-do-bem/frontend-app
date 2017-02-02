@@ -1,0 +1,28 @@
+<div class="modal-body donate-card-success">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="media">
+        <div class="media-left">
+          <img class="media-object" style="max-width: 100px" data-ng-src="{{ctrl.data.user.avatar.medium}}" alt="...">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">
+            Obrigado <span data-ng-bind="ctrl.data.donor"></span>! <br>
+            Ao contribuir com esta campanha iremos melhorar ainda mais o mundo! <br>
+            Você participou disso!
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <p class="text-center">
+        Seu apoio a campanha do <span data-ng-bind="ctrl.data.user.name"></span> está sendo processada, <strong>enviaremos a confirmação para o seu email cadastrado informando a aprovação de pagamento do seu cartão.</strong>
+      </p>
+      <button type="button" class="btn btn-lg btn-block btn-success" data-ng-click="ctrl.ok()">
+        Ir para a página da campanha
+      </button>
+    </div>
+  </div>
+</div>

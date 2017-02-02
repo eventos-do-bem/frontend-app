@@ -810,6 +810,7 @@ header .navbar .navbar-profile .avatar {
   margin-top: 0;
   margin-bottom: 0;
   color: inherit;
+  line-height: 1.8;
 }
 .timeline-body > p,
 .timeline-body > ul {
@@ -969,6 +970,8 @@ figure.avatar img {
   height: 140px;
 }
 .our-campaigns section i {
+  display: inline-block;
+  margin-top: 1rem;
   font-size: 1.4rem;
 }
 /* /out-campaigns */
@@ -1346,6 +1349,18 @@ cursor: pointer;
 }
 /* /.typeahead-popup > .dropdown-menu */
 
+/* .card */
+.donate-card-success .media {
+  margin: 10px 0 30px;
+}
+.donate-card-success .media-left {
+  padding-right: 30px;
+}
+.donate-card-success .media-body {
+  vertical-align: middle;
+}
+
+/* /.card */
 /* .creditcard */
 .creditcard-container {
     -webkit-perspective: 1000px;
