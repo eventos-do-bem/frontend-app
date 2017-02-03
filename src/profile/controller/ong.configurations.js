@@ -47,10 +47,11 @@ export default class OngConfigurations {
       this.progress = progress
     }).then(
         response => {
-          this.storage.setItem('token', response.data.token)
-          let {name, email, type, avatar, permissions} = response.data
-          this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
-          this.rootScope.$broadcast('profile.change')
+          // this.storage.setItem('token', response.data.token)
+          // let {name, email, type, avatar, permissions} = response.data
+          // this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
+          // this.rootScope.$broadcast('profile.change')
+          this.service.setProfile(response.data)
           this.profile.password = '';
           this.profile.new_password = '';
         }

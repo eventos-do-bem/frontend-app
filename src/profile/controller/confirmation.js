@@ -4,6 +4,7 @@ export default class ProfileConfirmation {
     this.rootScope = $rootScope
     this.state = $state
     this.timeout = $timeout
+    this.profileService = ProfileService
     this.confirmation = false
     if ($stateParams.uuid && $stateParams.confirmation_code) {
       let profile = {
@@ -26,11 +27,12 @@ export default class ProfileConfirmation {
     }
   }
   login() {
-    this.storage.setItem('token', this.profile.token)
-    let {name, email, type, avatar, permissions} = this.profile
-    this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
-    this.rootScope.$broadcast('profile.change')
-    switch(type) {
+    this.profileService.setProfile(this.profile)
+    // this.storage.setItem('token', this.profile.token)
+    // let {name, email, type} = this.profile
+    // this.storage.setItem('profile', {name: name, email: email, type: type})
+    // this.rootScope.$broadcast('profile.change')
+    switch(this.profile.type) {
       case 'user': this.state.go('profile.user.events'); break;
       case 'ong': this.state.go('profile.ong.events'); break;
     }

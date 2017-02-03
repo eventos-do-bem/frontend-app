@@ -64,6 +64,9 @@ form input[type="file"] {
 .margin-top-20 {
   margin-top: 20px
 }
+.margin-2 {
+  margin: 2rem;
+}
 
 .well {
   margin-top: 15px;
@@ -1528,7 +1531,7 @@ footer {
   text-align: right;
 }
 .about .history span:first-child {
-  font-size: 5rem;
+  font-size: 6rem;
   font-weight: 500;
 }
 .about .history span:last-child {
@@ -1545,7 +1548,7 @@ footer {
   margin: 50px 0px;
 }
 .about .content .perfil figure {
-  margin: 0 130px;
+  margin: 0 30px;
 }
 .carousel-control.left,
 .carousel-control.right {

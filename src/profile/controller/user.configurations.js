@@ -31,10 +31,11 @@ export default class UserConfigurations {
       this.progress = progress
     }).then(
       response => {
-        this.storage.setItem('token', response.data.token)
-        let {name, email, type, avatar, permissions} = response.data
-        this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
-        this.rootScope.$broadcast('profile.change')
+        this.service.setProfile(response.data)
+        // this.storage.setItem('token', response.data.token)
+        // let {name, email, type, avatar, permissions} = response.data
+        // this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
+        // this.rootScope.$broadcast('profile.change')
         this.profile = response.data
         this.load(this.profile)
         this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: { message: 'Dados alterados com sucesso!' }})

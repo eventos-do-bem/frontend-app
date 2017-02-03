@@ -48,7 +48,7 @@
             <h4 data-ng-show="ctrl.institution.contact">Contato:</h4>
             <p data-ng-bind="ctrl.institution.contact"></p>
             <h4 data-ng-show="ctrl.institution.website">Website:</h4>
-            <p data-ng-bind="ctrl.institution.website"></p>
+            <p><a data-ng-href="{{ctrl.institution.website}}" target="_blank" data-ng-bind="ctrl.institution.website"></a></p>
           </div>
         </div>
         <div class="well birthday" data-ng-show="!ctrl.profile || ctrl.profile.type == 'user'">

@@ -1,10 +1,12 @@
 import CommonService  from './../common/service/common.js'
 
 export default class ProfileService extends CommonService {
-  constructor($http, FacebookService, envService) {
+  constructor($http, FacebookService, envService, $rootScope, StorageService) {
     super($http, envService)
     this.http = $http
     this.facebookService = FacebookService
+    this.rootScope = $rootScope
+    this.storage = StorageService
   }
   register(data) {
     data = this.setDataToken(data)
@@ -49,6 +51,21 @@ export default class ProfileService extends CommonService {
       }
     })
   }
+  setProfile(data) {
+    this.storage.setItem('token', data.token)
+    let profile = {}
+    let fields = ['name', 'institutions', 'email', 'type', 'avatar', 'permissions']
+    fields.map(name => {
+      if (data.type == 'ong' && name == 'institutions') {
+        profile.name = data[name].name
+      } else {
+        profile[name] = data[name]
+      }
+    })
+    this.storage.setItem('profile', profile)
+    this.rootScope.$broadcast('profile.change')
+    return profile
+  }
   registerFacebook(callback) {
     return this.facebookService.auth(callback)
   }
@@ -57,4 +74,4 @@ export default class ProfileService extends CommonService {
   }
 }
 
-ProfileService.$inject = ['$http','FacebookService','envService']
+ProfileService.$inject = ['$http','FacebookService','envService','$rootScope','StorageService']

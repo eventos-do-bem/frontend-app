@@ -377,11 +377,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var AuthLogin = function () {
-  function AuthLogin($rootScope, $state, AuthService, StorageService, LastStateUnloggedService) {
+  function AuthLogin($rootScope, $state, AuthService, StorageService, ProfileService, LastStateUnloggedService) {
     _classCallCheck(this, AuthLogin);
 
     this.service = AuthService;
     this.storage = StorageService;
+    this.profileService = ProfileService;
     this.lastStateUnloggedService = LastStateUnloggedService;
     this.$rootScope = $rootScope;
     this.state = $state;
@@ -427,23 +428,17 @@ var AuthLogin = function () {
   }, {
     key: 'loginSuccess',
     value: function loginSuccess(response) {
-      this.storage.setItem('token', response.data.token);
-      var _response$data = response.data,
-          name = _response$data.name,
-          email = _response$data.email,
-          type = _response$data.type,
-          avatar = _response$data.avatar,
-          permissions = _response$data.permissions;
-
-      this.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar, permissions: permissions });
-      this.$rootScope.$broadcast('profile.change');
+      // this.storage.setItem('token', response.data.token)
+      var profile = this.profileService.setProfile(response.data);
+      // this.storage.setItem('profile', profile)
+      // this.$rootScope.$broadcast('profile.change')
       if (this.lastStateUnloggedService.getName()) {
-        var _name = this.lastStateUnloggedService.getName();
+        var name = this.lastStateUnloggedService.getName();
         var params = this.lastStateUnloggedService.getParams();
         this.lastStateUnloggedService.clear();
-        this.state.go(_name, params);
+        this.state.go(name, params);
       } else {
-        switch (type) {
+        switch (profile.type) {
           case 'user':
             this.state.go('profile.user.events');break;
           case 'ong':
@@ -473,7 +468,7 @@ var AuthLogin = function () {
 exports.default = AuthLogin;
 
 
-AuthLogin.$inject = ['$rootScope', '$state', 'AuthService', 'StorageService', 'LastStateUnloggedService'];
+AuthLogin.$inject = ['$rootScope', '$state', 'AuthService', 'StorageService', 'ProfileService', 'LastStateUnloggedService'];
 
 },{}],10:[function(require,module,exports){
 'use strict';
@@ -539,12 +534,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var AuthRecovery = function () {
-  function AuthRecovery(AuthService, $state, $stateParams, StorageService, $rootScope, $window) {
+  function AuthRecovery(AuthService, $state, $stateParams, StorageService, ProfileService, $rootScope, $window) {
     _classCallCheck(this, AuthRecovery);
 
     this.service = AuthService;
     this.state = $state;
     this.storage = StorageService;
+    this.profileService = ProfileService;
     this.rootScope = $rootScope;
     this.window = $window;
     // this.profile = {}
@@ -563,17 +559,14 @@ var AuthRecovery = function () {
 
       this.error = false;
       this.service.reset(recovery).then(function (response) {
-        var _response$data = response.data,
-            name = _response$data.name,
-            email = _response$data.email,
-            type = _response$data.type,
-            avatar = _response$data.avatar,
-            token = _response$data.token;
-
-        _this.storage.setItem('token', token);
-        _this.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar });
-        _this.rootScope.$broadcast('profile.change');
-        switch (type) {
+        // this.storage.setItem('token', response.data.token)
+        var profile = _this.profileService.setProfile(response.data);
+        // this.storage.setItem('profile', profile)
+        // let {name, email, type, avatar, token} = response.data
+        // this.storage.setItem('token', token)
+        // this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar})
+        // this.rootScope.$broadcast('profile.change')
+        switch (profile.type) {
           case 'user':
             _this.state.go('profile.user.events');break;
           case 'ong':
@@ -593,7 +586,7 @@ var AuthRecovery = function () {
 exports.default = AuthRecovery;
 
 
-AuthRecovery.$inject = ['AuthService', '$state', '$stateParams', 'StorageService', '$rootScope', '$window'];
+AuthRecovery.$inject = ['AuthService', '$state', '$stateParams', 'StorageService', 'ProfileService', '$rootScope', '$window'];
 
 },{}],12:[function(require,module,exports){
 'use strict';
@@ -2420,6 +2413,7 @@ var ConfirmationProfile = function () {
     this.rootScope = $rootScope;
     this.state = $state;
     this.timeout = $timeout;
+    this.profileService = ProfileService;
     this.confirmation = false;
     if ($stateParams.uuid && $stateParams.confirmation_code) {
       var profile = {
@@ -2443,15 +2437,12 @@ var ConfirmationProfile = function () {
   _createClass(ConfirmationProfile, [{
     key: 'login',
     value: function login() {
-      this.storage.setItem('token', this.profile.token);
-      var _profile = this.profile,
-          name = _profile.name,
-          email = _profile.email,
-          type = _profile.type;
-
-      this.storage.setItem('profile', { name: name, email: email, type: type });
-      this.rootScope.$broadcast('profile.change');
-      switch (type) {
+      this.profileService.setProfile(this.profile);
+      // this.storage.setItem('token', this.profile.token)
+      // let {name, email, type} = this.profile
+      // this.storage.setItem('profile', {name: name, email: email, type: type})
+      // this.rootScope.$broadcast('profile.change')
+      switch (this.profile.type) {
         case 'user':
           this.state.go('profile.user.configurations');break;
         case 'ong':
@@ -3283,7 +3274,6 @@ var Event = function () {
       this.service[method](id, params).then(function (response) {
         _this.pagination = response.data.meta.pagination;
         _this.event.messages = response.data;
-        console.log(_this.event);
       });
     }
   }, {
@@ -4461,19 +4451,19 @@ var About = function About() {
   this.slides = [{
     id: 0,
     quotes: [{
-      text: 'Aniversário para os refugiados --> texto: No meu aniversário de 18 anos, resolvi pedir contribuições para doar para o projeto de apoio aos refugiados da ONG Cáritas. Meus parentes que moravam longe puderam facilmente doar através do site da Eventos do Bem e para meus amigos próximos fiz uma festa para nos divertirmos e eles trouxeram doações! Foi uma experiência incrível!!',
+      text: 'No meu aniversário de 18 anos, resolvi pedir contribuições para doar para o projeto de apoio aos refugiados. Meus parentes que moravam longe puderam facilmente doar através do site da Eventos do Bem e para meus amigos próximos fiz uma festa para nos divertirmos e eles trouxeram doações! Foi incrível!',
       name: 'Aline Ferreira'
     }, {
-      text: 'a ong que angariou bastante com os evbs já ---> vai o texto: Foi incrível a nossa experiência de captação de recursos por meio da plataforma da Eventos do Bem. Os resultados que alcançamos comprovaram como é grande o potencial que essa iniciativa tem de mobilização de pessoas e recursos em torno de causas sociais , promovendo a conexão de milhares de pessoas de bem, que desejam fazer algo para mudar o mundo, mas não sabem exatamente como.',
+      text: 'Foi incrível a nossa experiência de captação de recursos por meio da plataforma da Eventos do Bem. Os resultados que alcançamos comprovaram como é grande o potencial que essa iniciativa tem de mobilização de pessoas e recursos em torno de causas sociais , promovendo a conexão de milhares de pessoas de bem.',
       name: 'ONG AFESU'
     }]
   }, {
     id: 1,
     quotes: [{
-      text: 'A experiência foi ótima, com a equipe dando atenção do começo ao fim, seja informando sobre cada nova doação, seja com dicas sobre como conseguir mais engajamento. Enfim, recomendo fortemente os serviços da Eventos do Bem, que de fato faz jus ao nome!',
-      name: 'Rodrigo da ONG  Migra Mundo'
+      text: ' A experiência foi ótima, com a equipe dando atenção do começo ao fim, seja informando sobre cada nova doação, seja com dicas sobre como conseguir mais engajamento. Enfim, recomendo fortemente os serviços da Eventos do Bem, que de fato faz jus ao nome!',
+      name: 'ONG Migra Mundo'
     }, {
-      text: 'Já organizou 3 evbs, 3 anos consecutivos de aniversário.',
+      text: 'A Eventos do Bem me ajudou a fazer várias campanhas em prol de instituições que eu apoio. É uma plataforma muito interessante que permitiu que meus amigos e parentes também se engajassem nas minhas iniciativas juntos às ONG! Sempre fui muito bem atendida pela equipe. Só tenho que agradecer!',
       name: 'Beatriz Haddad'
     }]
   }];
@@ -4991,6 +4981,7 @@ var ProfileConfirmation = function () {
     this.rootScope = $rootScope;
     this.state = $state;
     this.timeout = $timeout;
+    this.profileService = ProfileService;
     this.confirmation = false;
     if ($stateParams.uuid && $stateParams.confirmation_code) {
       var profile = {
@@ -5014,17 +5005,12 @@ var ProfileConfirmation = function () {
   _createClass(ProfileConfirmation, [{
     key: 'login',
     value: function login() {
-      this.storage.setItem('token', this.profile.token);
-      var _profile = this.profile,
-          name = _profile.name,
-          email = _profile.email,
-          type = _profile.type,
-          avatar = _profile.avatar,
-          permissions = _profile.permissions;
-
-      this.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar, permissions: permissions });
-      this.rootScope.$broadcast('profile.change');
-      switch (type) {
+      this.profileService.setProfile(this.profile);
+      // this.storage.setItem('token', this.profile.token)
+      // let {name, email, type} = this.profile
+      // this.storage.setItem('profile', {name: name, email: email, type: type})
+      // this.rootScope.$broadcast('profile.change')
+      switch (this.profile.type) {
         case 'user':
           this.state.go('profile.user.events');break;
         case 'ong':
@@ -5205,16 +5191,11 @@ var OngConfigurations = function () {
       this.service.change(profile, function (progress) {
         _this2.progress = progress;
       }).then(function (response) {
-        _this2.storage.setItem('token', response.data.token);
-        var _response$data = response.data,
-            name = _response$data.name,
-            email = _response$data.email,
-            type = _response$data.type,
-            avatar = _response$data.avatar,
-            permissions = _response$data.permissions;
-
-        _this2.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar, permissions: permissions });
-        _this2.rootScope.$broadcast('profile.change');
+        // this.storage.setItem('token', response.data.token)
+        // let {name, email, type, avatar, permissions} = response.data
+        // this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
+        // this.rootScope.$broadcast('profile.change')
+        _this2.service.setProfile(response.data);
         _this2.profile.password = '';
         _this2.profile.new_password = '';
       });
@@ -5409,13 +5390,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var OngPage = function () {
-  function OngPage(profile, InstitutionService, $rootScope, StorageService) {
+  function OngPage(profile, InstitutionService, $rootScope, StorageService, ProfileService) {
     _classCallCheck(this, OngPage);
 
     this.profile = profile.data;
     this.service = InstitutionService;
     this.rootScope = $rootScope;
     this.storage = StorageService;
+    this.profileService = ProfileService;
     this.getInstitution(profile.data.institutions.uuid);
   }
 
@@ -5428,7 +5410,6 @@ var OngPage = function () {
         delete response.data.cover;
         delete response.data.avatar;
         _this.page = response.data;
-        console.log(_this.page);
       });
     }
   }, {
@@ -5436,14 +5417,13 @@ var OngPage = function () {
     value: function save(data) {
       var _this2 = this;
 
-      console.log(data);
       this.service.savePage(data, function (progress) {
         _this2.progress = progress;
       }).then(function (response) {
-        var profile = _this2.storage.getItem('profile');
-        profile.avatar = response.data.user.avatar;
-        _this2.storage.setItem('profile', profile);
-        _this2.rootScope.$broadcast('profile.change');
+        _this2.profile.avatar = response.data.user.avatar;
+        _this2.profileService.setProfile(_this2.profile);
+        delete _this2.page.cover;
+        delete _this2.page.avatar;
 
         _this2.rootScope.$broadcast('alert', {
           type: 'alert-success',
@@ -5468,7 +5448,7 @@ var OngPage = function () {
 exports.default = OngPage;
 
 
-OngPage.$inject = ['profile', 'InstitutionService', '$rootScope', 'StorageService'];
+OngPage.$inject = ['profile', 'InstitutionService', '$rootScope', 'StorageService', 'ProfileService'];
 
 },{}],94:[function(require,module,exports){
 'use strict';
@@ -5735,21 +5715,16 @@ var ProfileRegister = function () {
     key: 'registerSuccess',
     value: function registerSuccess(response) {
       if (this.fbRegister) {
-        this.storage.setItem('token', response.data.token);
-        var _response$data = response.data,
-            name = _response$data.name,
-            email = _response$data.email,
-            type = _response$data.type,
-            avatar = _response$data.avatar,
-            permissions = _response$data.permissions;
-
-        this.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar, permissions: permissions });
-        this.$rootScope.$broadcast('profile.change');
+        // this.storage.setItem('token', response.data.token)
+        // let {name, email, type, avatar, permissions} = response.data
+        // this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
+        // this.$rootScope.$broadcast('profile.change')
+        this.service.setProfile(response.data);
         if (this.lastStateUnloggedService.getName()) {
-          var _name = this.lastStateUnloggedService.getName();
+          var name = this.lastStateUnloggedService.getName();
           var params = this.lastStateUnloggedService.getParams();
           this.lastStateUnloggedService.clear();
-          this.state.go(_name, params);
+          this.state.go(name, params);
         } else {
           this.state.go('profile.user.events');
         }
@@ -5857,16 +5832,11 @@ var UserConfigurations = function () {
       this.service.change(profile, function (progress) {
         _this.progress = progress;
       }).then(function (response) {
-        _this.storage.setItem('token', response.data.token);
-        var _response$data = response.data,
-            name = _response$data.name,
-            email = _response$data.email,
-            type = _response$data.type,
-            avatar = _response$data.avatar,
-            permissions = _response$data.permissions;
-
-        _this.storage.setItem('profile', { name: name, email: email, type: type, avatar: avatar, permissions: permissions });
-        _this.rootScope.$broadcast('profile.change');
+        _this.service.setProfile(response.data);
+        // this.storage.setItem('token', response.data.token)
+        // let {name, email, type, avatar, permissions} = response.data
+        // this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
+        // this.rootScope.$broadcast('profile.change')
         _this.profile = response.data;
         _this.load(_this.profile);
         _this.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: { message: 'Dados alterados com sucesso!' } });
@@ -6164,13 +6134,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ProfileService = function (_CommonService) {
   _inherits(ProfileService, _CommonService);
 
-  function ProfileService($http, FacebookService, envService) {
+  function ProfileService($http, FacebookService, envService, $rootScope, StorageService) {
     _classCallCheck(this, ProfileService);
 
     var _this = _possibleConstructorReturn(this, (ProfileService.__proto__ || Object.getPrototypeOf(ProfileService)).call(this, $http, envService));
 
     _this.http = $http;
     _this.facebookService = FacebookService;
+    _this.rootScope = $rootScope;
+    _this.storage = StorageService;
     return _this;
   }
 
@@ -6232,6 +6204,23 @@ var ProfileService = function (_CommonService) {
       });
     }
   }, {
+    key: 'setProfile',
+    value: function setProfile(data) {
+      this.storage.setItem('token', data.token);
+      var profile = {};
+      var fields = ['name', 'institutions', 'email', 'type', 'avatar', 'permissions'];
+      fields.map(function (name) {
+        if (data.type == 'ong' && name == 'institutions') {
+          profile.name = data[name].name;
+        } else {
+          profile[name] = data[name];
+        }
+      });
+      this.storage.setItem('profile', profile);
+      this.rootScope.$broadcast('profile.change');
+      return profile;
+    }
+  }, {
     key: 'registerFacebook',
     value: function registerFacebook(callback) {
       return this.facebookService.auth(callback);
@@ -6249,6 +6238,6 @@ var ProfileService = function (_CommonService) {
 exports.default = ProfileService;
 
 
-ProfileService.$inject = ['$http', 'FacebookService', 'envService'];
+ProfileService.$inject = ['$http', 'FacebookService', 'envService', '$rootScope', 'StorageService'];
 
 },{"./../common/service/common.js":39}]},{},[1]);

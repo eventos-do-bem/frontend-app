@@ -19,7 +19,6 @@ export default class Event {
       .then(response => {
         this.pagination = response.data.meta.pagination
         this.event.messages = response.data
-        console.log(this.event)
       })
   }
   getEvent(id) {

@@ -116,10 +116,11 @@ export default class ProfileRegister {
   }
   registerSuccess(response) {
     if (this.fbRegister) {
-      this.storage.setItem('token', response.data.token)
-      let {name, email, type, avatar, permissions} = response.data
-      this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
-      this.$rootScope.$broadcast('profile.change')
+      // this.storage.setItem('token', response.data.token)
+      // let {name, email, type, avatar, permissions} = response.data
+      // this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
+      // this.$rootScope.$broadcast('profile.change')
+      this.service.setProfile(response.data)
       if (this.lastStateUnloggedService.getName()) {
         let name = this.lastStateUnloggedService.getName()
         let params = this.lastStateUnloggedService.getParams()

@@ -1,8 +1,9 @@
 export default class AuthRecovery {
-  constructor(AuthService, $state, $stateParams, StorageService, $rootScope, $window) {
+  constructor(AuthService, $state, $stateParams, StorageService, ProfileService, $rootScope, $window) {
     this.service = AuthService
     this.state = $state
     this.storage = StorageService
+    this.profileService = ProfileService
     this.rootScope = $rootScope
     this.window = $window
     // this.profile = {}
@@ -18,11 +19,14 @@ export default class AuthRecovery {
     this.service.reset(recovery)
       .then(
         response => {
-          let {name, email, type, avatar, token} = response.data
-          this.storage.setItem('token', token)
-          this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar})
-          this.rootScope.$broadcast('profile.change')
-          switch(type) {
+          // this.storage.setItem('token', response.data.token)
+          let profile = this.profileService.setProfile(response.data)
+          // this.storage.setItem('profile', profile)
+          // let {name, email, type, avatar, token} = response.data
+          // this.storage.setItem('token', token)
+          // this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar})
+          // this.rootScope.$broadcast('profile.change')
+          switch(profile.type) {
             case 'user': this.state.go('profile.user.events'); break;
             case 'ong': this.state.go('profile.ong.events'); break;
           }
@@ -36,4 +40,4 @@ export default class AuthRecovery {
   }
 }
 
-AuthRecovery.$inject = ['AuthService', '$state', '$stateParams', 'StorageService', '$rootScope', '$window']
+AuthRecovery.$inject = ['AuthService', '$state', '$stateParams', 'StorageService', 'ProfileService', '$rootScope', '$window']

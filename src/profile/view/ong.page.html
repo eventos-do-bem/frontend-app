@@ -4,7 +4,7 @@
 </div>
 <div class="well">
   <h3>Editar</h3>
-  <form name="page" data-ng-submit="ctrl.save(ctrl.page)">
+  <form name="page" data-ng-submit="ctrl.save(ctrl.page)" novalidate>
     <div class="row">
       <div class="col-md-4">
         <file ng-model="ctrl.page.cover" progress="ctrl.progress">
@@ -47,9 +47,9 @@
         <textarea rows="6" class="form-control" data-ng-model="ctrl.page.impact" maxlength="900" required></textarea>
       </count-down-element>
     </div>
-    <div class="margin-top-10">
+    <!--<div class="margin-top-10">
       <p>Veja nosso <a href="#">artigo</a> com mais dicas de como elaborar uma boa página de sua organização!</p>
-    </div>
+    </div>-->
     <div class="form-buttons form-buttons-center">
       <button type="submit" class="btn btn-lg btn-large btn-success">Salvar</button>
     </div>

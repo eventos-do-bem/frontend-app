@@ -1,9 +1,10 @@
 export default class OngPage {
-  constructor(profile,InstitutionService,$rootScope,StorageService) {
+  constructor(profile,InstitutionService,$rootScope,StorageService,ProfileService) {
     this.profile = profile.data
     this.service = InstitutionService
     this.rootScope = $rootScope
     this.storage = StorageService
+    this.profileService = ProfileService
     this.getInstitution(profile.data.institutions.uuid)
   }
   getInstitution(id) {
@@ -12,19 +13,17 @@ export default class OngPage {
         delete response.data.cover
         delete response.data.avatar
         this.page = response.data
-        console.log(this.page)
       })
   }
   save(data) {
-    console.log(data)
     this.service.savePage(data, progress => {
       this.progress = progress
     }).then(
         response => {
-          let profile = this.storage.getItem('profile')
-          profile.avatar = response.data.user.avatar
-          this.storage.setItem('profile', profile)
-          this.rootScope.$broadcast('profile.change')
+          this.profile.avatar = response.data.user.avatar
+          this.profileService.setProfile(this.profile)
+          delete this.page.cover
+          delete this.page.avatar
           
           this.rootScope.$broadcast('alert', {
             type: 'alert-success',
@@ -45,4 +44,4 @@ export default class OngPage {
   }
 }
 
-OngPage.$inject = ['profile','InstitutionService','$rootScope','StorageService']
+OngPage.$inject = ['profile','InstitutionService','$rootScope','StorageService','ProfileService']

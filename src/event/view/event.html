@@ -21,10 +21,16 @@
           <iframe src="{{ctrl.event.videos.values[0].url | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
         <p class="description" data-ng-bind="ctrl.event.description"></p>
-        <div class="fb-share-button" 
-          data-href="/evento/{{ctrl.event.slug}}" 
-          data-layout="button_count">
-        </div>
+        <!--<div>
+          <div class="fb-share-button" 
+            data-href="/evento/{{ctrl.event.slug}}" 
+            data-layout="button_count">
+          </div>
+          <script src="https://apis.google.com/js/platform.js" async defer>
+            {lang: 'pt-BR'}
+          </script>
+          <div class="g-plus" data-action="share" data-annotation="none" data-height="22" data-href="/evento/{{ctrl.event.slug}}"></div>
+        </div>-->
         <div data-ng-show="ctrl.event.messages.values.length > 0">
           <h3>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
           <ul class="media-list">
