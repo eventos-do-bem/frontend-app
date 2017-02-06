@@ -2786,7 +2786,7 @@ var DonateEvent = function () {
     var curYear = today.getFullYear();
     for (var y = curYear; y <= curYear + 10; y++) {
       this.years.push(y);
-    }this.questions = [{ question: 'Como eu apoio este projeto?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Como eu apoio este projeto?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Mussum Ipsum, cacilds vidis litro abertis. Mais vale um bebadis conhecidiss, que um alcoolatra anonimiss.' }];
+    }this.questions = [{ question: 'Como eu apoio esta campanha?', answer: 'Primeiro, escolha o valor desejado. Depois é só selecionar seu meio de pagamento (cartão ou boleto) e clicar em "doar" que redirecionaremos você para a próxima página para concluir o seu pagamento.' }, { question: 'Posso ter segurança de que meus dados bancários estão seguros?', answer: 'Sim, além de termos um certificado de segurança no nosso site que criptografa as informações, nós não guardamos seus dados de cartão de crédito, ele é informado diretamente para a rede de cartão de crédito.' }, { question: 'Quando o pagamento é efetivado?', answer: 'Se você pagou com cartão de crédito, a confirmação deverá ser no mesmo dia e você receberá um email de confirmação nosso em seu email cadastrado. Se foi com boleto, em até 4 dias úteis você receberá um email de confirmação de pagamento.' }, { question: 'O que os outros podem ver do meu apoio?', answer: 'Como nossa política de transparência, a pessoa que criou o evento do bem poderá visualizar nome, email e valor do apoio. ' }, { question: 'Conseguirei ver o resultado do meu apoio à Organização?', answer: 'Sim! está é a melhor parte, a Organização social apoiada se dispõe a quantificar no que o seu apoio se transformou ( ex. apoio escolar para 30 crianças e etc.), você receberá esse retorno no seu email cadastrado na eventos do bem, por isso se certifique que o email que você se cadastrou está correto.' }];
   }
 
   _createClass(DonateEvent, [{
@@ -2894,6 +2894,7 @@ var DonateEvent = function () {
         if (!this.missingDoc) {
           delete donate.document;
         }
+        console.log(this.donate);
       }
       var modalInstance = this.modal.open({
         templateUrl: './../src/donate/view/donate.billet.html',
