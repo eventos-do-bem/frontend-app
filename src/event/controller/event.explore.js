@@ -2,7 +2,7 @@ class EventExplore {
   constructor(ActivityAreaService,EventService,StorageService) {
     this.activityAreaService = ActivityAreaService
     this.eventService = EventService
-    this.user = StorageService.getItem('user')
+    this.profile = StorageService.getItem('profile')
     this.modelOptions = {
       updateOn: 'default blur',
       debounce: {

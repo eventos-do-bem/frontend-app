@@ -277,8 +277,6 @@ a {
   .add-icon-star(@fill-black);
 }
 
-
-
 .navbar-nav .navbar-btn {
   &:hover, &:focus {
     background-color: @btn-warning-off !important;
@@ -298,10 +296,10 @@ a {
   background-color: transparent;
   color: @red-strong;
 }
-.our-campaigns .panel:hover > .hover {
+.our-campaigns .panel:hover > a.hover {
   opacity: .9;
 }
-.our-campaigns .panel > .hover > a {
+.our-campaigns .panel > a.hover {
   font-size: 2.2rem;
   color: #fff;
   text-decoration: none;
@@ -329,6 +327,13 @@ a {
 }
 .our-campaigns .green .panel-body i {
   color: #3a8356;
+}
+.our-campaigns .orange > .hover:hover,
+.our-campaigns .orange .panel-body {
+  background-color: @orange;
+}
+.our-campaigns .orange .panel-body i {
+  color: rgba(138, 104, 59, 0.72);
 }
 
 .get-inspired {

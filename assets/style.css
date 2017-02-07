@@ -948,14 +948,15 @@ figure.avatar img {
   box-shadow: none;
   -webkit-box-shadow: none;
 }
-.our-campaigns .panel > .hover {
+.our-campaigns .panel > a.hover {
+  display: block;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  margin: 0px 15px 50px 15px;
-  padding: 52% 60px;
+  margin: 0px 15px;
+  padding: 50% 20px;
   z-index: 10;
   opacity: 0;
   text-align: center;

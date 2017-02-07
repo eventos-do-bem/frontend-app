@@ -256,6 +256,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = run;
 function run($rootScope, $window, $location, $state, $anchorScroll, LastStateUnloggedService) {
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+    // if (toState.templateUrl) {
+    //   ga('send', 'pageview', { page: toState.templateUrl })
+    // }
     if (toState.authenticate && !$window.localStorage.getItem('token')) {
       LastStateUnloggedService.setName(toState.name);
       LastStateUnloggedService.setParams(toParams);
@@ -3134,7 +3137,7 @@ var EventExplore = function () {
 
     this.activityAreaService = ActivityAreaService;
     this.eventService = EventService;
-    this.user = StorageService.getItem('user');
+    this.profile = StorageService.getItem('profile');
     this.modelOptions = {
       updateOn: 'default blur',
       debounce: {
@@ -4108,21 +4111,21 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Home = function () {
-  function Home($scope, $timeout, $interval, CategoryService) {
+  function Home($scope, $timeout, $interval) {
     var _this = this;
 
     _classCallCheck(this, Home);
 
-    CategoryService.findAll().then(function (response) {
-      var categories = response.data.values,
-          length = categories.length,
-          count = 0;
-      $interval(function () {
-        count++;
-        if (count >= length) count = 0;
-        _this.category = categories[count].name.toLowerCase();
-      }, 2000);
-    });
+    var categories = ['fazer um jantar', 'fazer um aniversário', 'fazer uma corrida', 'dar uma festa'],
+        length = 4,
+        count = 0;
+
+    $interval(function () {
+      count++;
+      if (count >= length) count = 0;
+      _this.category = categories[count];
+    }, 2000);
+
     this.impact = {
       image: 'assets/images/causas-impactadas.jpg',
       title: 'João se curou do câncer',
@@ -4161,7 +4164,7 @@ var Home = function () {
 exports.default = Home;
 
 
-Home.$inject = ['$scope', '$timeout', '$interval', 'CategoryService'];
+Home.$inject = ['$scope', '$timeout', '$interval'];
 
 },{}],72:[function(require,module,exports){
 'use strict';
@@ -4260,6 +4263,7 @@ var Page = function () {
       var _this2 = this;
 
       this.service.findById(slug).then(function (response) {
+        console.log(response.data);
         _this2.institution = response.data;
       });
     }

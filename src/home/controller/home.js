@@ -1,17 +1,16 @@
 export default class Home {
-  constructor($scope,$timeout,$interval,CategoryService) {
+  constructor($scope,$timeout,$interval) {
 
-    CategoryService.findAll()
-      .then(response => {
-        let categories = response.data.values,
-            length = categories.length,
-            count = 0
-        $interval(() => {
-          count++
-          if (count >= length) count = 0
-          this.category = categories[count].name.toLowerCase()
-        }, 2000)
-      })
+    let categories = ['fazer um jantar','fazer um aniversário','fazer uma corrida','dar uma festa'],
+        length = 4,
+        count = 0
+    
+    $interval(() => {
+      count++
+      if (count >= length) count = 0
+      this.category = categories[count]
+    }, 2000)
+
     this.impact = {
       image: 'assets/images/causas-impactadas.jpg',
       title: 'João se curou do câncer',
@@ -46,4 +45,4 @@ export default class Home {
   }
 }
 
-Home.$inject = ['$scope','$timeout','$interval','CategoryService']
+Home.$inject = ['$scope','$timeout','$interval']

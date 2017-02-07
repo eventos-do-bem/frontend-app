@@ -1,5 +1,8 @@
 export default function run($rootScope, $window, $location, $state, $anchorScroll, LastStateUnloggedService) {
   $rootScope.$on("$stateChangeStart", (event, toState, toParams, fromState, fromParams) => {
+    // if (toState.templateUrl) {
+    //   ga('send', 'pageview', { page: toState.templateUrl })
+    // }
     if (toState.authenticate && !$window.localStorage.getItem('token')) {
       LastStateUnloggedService.setName(toState.name)
       LastStateUnloggedService.setParams(toParams)

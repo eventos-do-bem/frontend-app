@@ -5,6 +5,7 @@
   <article data-ng-repeat="question in category.faqs.values | filter:query">
     <h2 data-ng-bind="question.title"></h2>
     <p data-ng-bind-html="question['body-preview']"></p>
+    <a ui-sref="faq.question({questionId: question.slug})">Continuar lendo...</a>
     <hr>
   </article>
 </div>
