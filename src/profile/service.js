@@ -66,6 +66,9 @@ export default class ProfileService extends CommonService {
     this.rootScope.$broadcast('profile.change')
     return profile
   }
+  getProfile() {
+    return this.storage.getItem('profile')
+  }
   registerFacebook(callback) {
     return this.facebookService.auth(callback)
   }

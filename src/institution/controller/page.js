@@ -1,9 +1,10 @@
 export default class Page {
-  constructor($filter, $stateParams, InstitutionService, ProfileService, NotificationService, StorageService) {
+  constructor($filter, $stateParams, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService) {
     this.filter = $filter
     this.service = InstitutionService
     this.profileService = ProfileService
     this.notification = NotificationService
+    this.validation = ValidationFactory
     this.storage = StorageService
     this.profile = this.storage.getItem('profile')
     if (this.profile && this.profile.type == 'user') {
@@ -31,9 +32,19 @@ export default class Page {
   findInstitution(slug) {
     this.service.findById(slug)
       .then(response => {
-        console.log(response.data)
         this.institution = response.data
       })
+  }
+  validateDate(field, date) {
+    date = date.split('/')
+    date = new Date(`${date[2]}-${date[1]}-${date[0]}`)
+    if (!field.$error.mask) {
+      let valid = (
+        this.validation.dateMinByYears(date, 18) &&
+        this.validation.dateMaxByYears(date, 121)
+      )
+      field.$setValidity('age', valid)
+    }
   }
   subscribe(data) {
     data.institution_uuid = this.institution.uuid
@@ -58,4 +69,4 @@ export default class Page {
   }
 }
 
-Page.$inject = ['$filter','$stateParams','InstitutionService','ProfileService','NotificationService','StorageService']
+Page.$inject = ['$filter','$stateParams','InstitutionService','ProfileService','NotificationService','ValidationFactory','StorageService']

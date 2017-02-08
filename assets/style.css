@@ -1040,10 +1040,17 @@ figure.avatar img {
 }
 .proven-impact .text {
   color: #fff;
-  padding: 60px 15px 30px 30px;
+  padding: 40px 15px 30px 30px;
+}
+.proven-impact .text h3 {
+  margin-bottom: 30px;
+  font-weight: 300;
+  line-height: 3rem;
 }
 .proven-impact .text p {
-  line-height: 2rem;
+  margin-bottom: 20px;
+  font-weight: 100;
+  line-height: 2.2rem;
 }
 .proven-impact .image {
   padding-right: 0px;
@@ -1053,30 +1060,46 @@ figure.avatar img {
   width: 600px;
 }
 .proven-impact .icons {
-  margin-bottom: 30px;
+  padding-bottom: 30px;
+}
+.proven-impact .icons h3.active:before {
+  content: " ";
+  display: inline-block;
+  position: absolute;
+  bottom: -52px;
+  /*margin: 0 auto;*/
+  /*padding-right: -110px;*/
+  right: 50%;
+  border-top: 15px solid transparent;
+  border-right: 0 solid #fff;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid #fff;
+  transform: rotate(90deg);
+  z-index: 99999;
 }
 .icons h3 {
   margin: 0 auto;
-  width: 200px;
-  background-size:contain;
-  background-repeat: no-repeat;
-  background-position: left;
-  padding-left: 70px;
+  width: 220px;
+  text-align: center;
   line-height: 42px;
   font-weight: 300;
   cursor: pointer;
 }
-.icons .health {
-  /*background-image: url('../assets/icons/pngs/saude.png');*/
-  background-image: url('../assets/icons/svgs/saude.svg');
+.icons object {
+  width: 48px;
+  margin: -13px 0px;
 }
-.icons .education {
-  /*background-image: url('../assets/icons/pngs/educacao.png');*/
-  background-image: url('../assets/icons/svgs/causa-educacao.svg');
+.icons .humans.active {
+  color: #9060c3;
 }
-.icons .habitation {
-  /*background-image: url('../assets/icons/pngs/moradia.png');*/
-  background-image: url('../assets/icons/svgs/moradia.svg');
+.icons .health.active {
+  color: #3b94d0;
+}
+.icons .education.active {
+  color: #f25d61;
+}
+.icons .habitation.active {
+  color: #179b48;
 }
 .icons .animals {
   /*background-image: url('../assets/icons/pngs/animal.png');*/

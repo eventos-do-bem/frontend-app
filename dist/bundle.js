@@ -2897,7 +2897,6 @@ var DonateEvent = function () {
         if (!this.missingDoc) {
           delete donate.document;
         }
-        console.log(this.donate);
       }
       var modalInstance = this.modal.open({
         templateUrl: './../src/donate/view/donate.billet.html',
@@ -4111,7 +4110,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Home = function () {
-  function Home($scope, $timeout, $interval) {
+  function Home($scope, $interval) {
     var _this = this;
 
     _classCallCheck(this, Home);
@@ -4126,34 +4125,71 @@ var Home = function () {
       _this.category = categories[count];
     }, 2000);
 
-    this.impact = {
-      image: 'assets/images/causas-impactadas.jpg',
-      title: 'João se curou do câncer',
-      text: 'Mussum Ipsum, cacilds vidis litro abertis. Viva Forevis aptent taciti sociosqu ad litora torquent Quem manda na minha terra sou Euzis! Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose.'
-    };
     this.impacts = [{
-      image: 'assets/images/causas-impactadas.jpg',
-      title: 'João se curou do câncer',
-      text: 'Mussum Ipsum, cacilds vidis litro abertis. Viva Forevis aptent taciti sociosqu ad litora torquent Quem manda na minha terra sou Euzis! Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose.'
+      id: 'health',
+      active: true,
+      color: '#3b94d0',
+      icon: 'assets/icons/svgs/saude.svg',
+      label: 'Saúde',
+      image: 'assets/images/saude.jpeg',
+      title: '"O projeto está sendo parte fundamental do meu tratamento. Sem esse apoio não teria chegado até aqui." Lia Mantovani',
+      text: '<p>O Eventos do Bem foi a plataforma responsável pela arrecadação dos recursos para a abertura do CNPJ do Portal SuperAção.O Portal SuperAção tem a missão de levar apoio emocional e informações em saúde integral de forma inclusiva, para pacientes com câncer e seus familiares, em todo Brasil.</p><p>O apoio de paciente para paciente é fundamental no tratamento.  Por isso o Portal  criou uma rede onde um paciente que está no tratamento do câncer ou seu familiar (SuperaDor) recebe apoio de outro que já passou exatamente pela mesma situação e superou (Anjo), com o apoio de um profissional voluntário que garante a segurança dessa relação.</p><p>Hoje, a ONG precisa manter seus serviços e está construindo um aplicativo para ampliar sua capacidade de atendimento para 10 a 50 mil participantes.  Ajude o Portal a realizar o sonho de levar amor a mais pessoas, criando  um evento do bem!</p>'
     }, {
-      image: 'assets/images/causas-impactadas.jpg',
-      title: 'João aprender a ler',
-      text: 'Mussum Ipsum, cacilds vidis litro abertis. Viva Forevis aptent taciti sociosqu ad litora torquent Quem manda na minha terra sou Euzis! Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose.'
+      id: 'education',
+      active: false,
+      color: '#f25d61',
+      icon: 'assets/icons/svgs/causa-educacao.svg',
+      label: 'Educação',
+      image: 'assets/images/educacao.jpeg',
+      title: 'Quando eu crescer eu quero ser professora de português!',
+      text: '<p>O Projeto Vida atua ajudando crianças que moram na comunidade da Vila Missionária,a conseguirem um futuro melhor proporcionando educação de qualidade como meio das crianças conquistarem seus sonhos.</p><p>Com o objetivo de aumentar ainda mais esse bem, voluntários e doadores  do Projeto Vida fizeram seus eventos do bem de aniversario  ajudando crianças como a Juliana, que chegou ao projeto sem saber escrever direito mas que se desenvolveu tanto que, agora, quando crescer quer ser  professora de português!</p><p>Isso está sendo possível graças ao Projeto Vida e aos mais de 100 apoiadores  que apoiaram um evento do bem. Vamos juntos?</p>'
     }, {
-      image: 'assets/images/causas-impactadas.jpg',
-      title: 'João ganhou um lar',
-      text: 'Mussum Ipsum, cacilds vidis litro abertis. Viva Forevis aptent taciti sociosqu ad litora torquent Quem manda na minha terra sou Euzis! Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose.'
+      id: 'habitation',
+      active: false,
+      color: '#179b48',
+      icon: 'assets/icons/svgs/moradia.svg',
+      label: 'Moradia',
+      image: 'assets/images/moradia.jpeg',
+      title: 'Dona Quitéria está melhorando seu lar.',
+      text: '<p>“Pra mim foi um sonho. Até hoje eu não consigo dormir direito, até hoje eu  levanto pra olhar né, ver se a cozinha tá do mesmo jeito... <br> Meu Deus! Como esta linda a minha casa!”</p><p>Foram realizados eventos do bem para apoiar reformas de moradias insalubres localizadas no Jardim Pantanal - SP, uma região de periferia e que sofre  recorrentes alagamentos do rio Tietê que está nas proximidades da comunidade.</p><p>O Moradigna é um negócio social localizado em São Paulo que busca possibilitar  moradias mais dignas para famílias de comunidades de baixa-renda,  possibilitando uma melhor qualidade de vida para pessoas das classes C e D.</p><p> Desta forma, você pode fazer um evento do bem, mobilizando seus amigos e conhecidos para fortalecer pessoas e famílias de alta vulnerabilidade social como de Dona Quitéria que agora olham para seus cômodos e sentem-se encorajados para  crescer ainda mais.</p>'
     }, {
-      image: 'assets/images/causas-impactadas.jpg',
-      title: 'João tem um cachorro',
-      text: 'Mussum Ipsum, cacilds vidis litro abertis. Viva Forevis aptent taciti sociosqu ad litora torquent Quem manda na minha terra sou Euzis! Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose.'
+      id: 'humans',
+      active: false,
+      color: '#9060c3',
+      icon: 'assets/icons/svgs/direitos-humanos.svg',
+      label: 'Direitos humanos',
+      image: 'assets/images/direitos-humanos.jpeg',
+      title: 'Se eu consegui, vocês também conseguem!',
+      text: '<p>Este é o testemundo de Dener, o primeiro atendido recuperado no Projeto Ruas, que atualmente já trabalha e tem moradia.</p><p>"Se foi possível para mim, será possível para vocês também... <br> Quando eu estava na rua, eu esperava ansioso todas as 3as <br> para encontrar com o pessoal do projeto que me incentivavam a viver. <br> Hoje eu estou aqui fazendo parte da equipe Ruas, <br> tentando salvar vidas como a minha foi salva."</p><p>O Projeto Ruas é um laboratorio de inovação social focado em população em situação de rua, atuando em bairros e comunidades com o intuito de aproximar residentes da população de rua  de sua região.</p><p>Em 2016 foi realizado um evento do bem no qual um aniversário  possibilitou 20 rondas atendendo cerca de 400 pessoas que como o Dener  estavam em  situação de rua.</p>'
     }];
-    this.loadImpact(0);
+    this.impact = this.impacts[0];
   }
 
   _createClass(Home, [{
     key: 'loadImpact',
-    value: function loadImpact(index) {
+    value: function loadImpact(index, event) {
+      var _this2 = this;
+
+      var colors = void 0;
+      this.icons = document.querySelectorAll('.proven-impact .icons object');
+      this.icons.forEach(function (icon) {
+        colors = icon.contentDocument.querySelectorAll('.color');
+        colors.forEach(function (color) {
+          return color.style.fill = '#000000';
+        });
+      });
+      if (event) {
+        var target = event.target;
+        target.classList.add('active');
+        colors = target.children[0].contentDocument.querySelectorAll('.color');
+        colors.forEach(function (color) {
+          return color.style.fill = _this2.impacts[index].color;
+        });
+      }
+      this.impacts.map(function (impact) {
+        return impact.active = false;
+      });
+      this.impacts[index].active = true;
       this.impact = this.impacts[index];
     }
   }]);
@@ -4164,7 +4200,7 @@ var Home = function () {
 exports.default = Home;
 
 
-Home.$inject = ['$scope', '$timeout', '$interval'];
+Home.$inject = ['$scope', '$interval'];
 
 },{}],72:[function(require,module,exports){
 'use strict';
@@ -4220,13 +4256,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Page = function () {
-  function Page($filter, $stateParams, InstitutionService, ProfileService, NotificationService, StorageService) {
+  function Page($filter, $stateParams, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService) {
     _classCallCheck(this, Page);
 
     this.filter = $filter;
     this.service = InstitutionService;
     this.profileService = ProfileService;
     this.notification = NotificationService;
+    this.validation = ValidationFactory;
     this.storage = StorageService;
     this.profile = this.storage.getItem('profile');
     if (this.profile && this.profile.type == 'user') {
@@ -4263,9 +4300,18 @@ var Page = function () {
       var _this2 = this;
 
       this.service.findById(slug).then(function (response) {
-        console.log(response.data);
         _this2.institution = response.data;
       });
+    }
+  }, {
+    key: 'validateDate',
+    value: function validateDate(field, date) {
+      date = date.split('/');
+      date = new Date(date[2] + '-' + date[1] + '-' + date[0]);
+      if (!field.$error.mask) {
+        var valid = this.validation.dateMinByYears(date, 18) && this.validation.dateMaxByYears(date, 121);
+        field.$setValidity('age', valid);
+      }
     }
   }, {
     key: 'subscribe',
@@ -4296,7 +4342,7 @@ var Page = function () {
 exports.default = Page;
 
 
-Page.$inject = ['$filter', '$stateParams', 'InstitutionService', 'ProfileService', 'NotificationService', 'StorageService'];
+Page.$inject = ['$filter', '$stateParams', 'InstitutionService', 'ProfileService', 'NotificationService', 'ValidationFactory', 'StorageService'];
 
 },{}],75:[function(require,module,exports){
 'use strict';
@@ -4831,12 +4877,12 @@ function ProfileConfig($stateProvider) {
     authenticate: true,
     templateUrl: './src/profile/view/ong.html',
     controller: 'ProfileOng',
-    controllerAs: 'ctrl',
-    resolve: {
-      profile: function profile(ProfileService) {
-        return ProfileService.me();
-      }
-    }
+    controllerAs: 'ctrl'
+    // resolve: {
+    //   profile: (ProfileService) => {
+    //     return ProfileService.me()
+    //   }
+    // }
   }).state('profile.ong.donors', {
     url: '/eventos/:uuid/doacoes',
     authenticate: true,
@@ -5351,13 +5397,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProfileOng = function () {
-  function ProfileOng($scope, $window, $state, StorageService, ProfileService, profile) {
+  function ProfileOng($scope, $window, $state, StorageService, ProfileService) {
     var _this = this;
 
     _classCallCheck(this, ProfileOng);
 
     this.service = ProfileService;
-    this.profile = profile.data;
+    this.profile = ProfileService.getProfile();
     this.getEventsWithoutReport();
     $scope.$on('profile.change', function () {
       _this.profile = StorageService.getItem('profile');
@@ -5381,7 +5427,7 @@ var ProfileOng = function () {
 exports.default = ProfileOng;
 
 
-ProfileOng.$inject = ['$scope', '$window', '$state', 'StorageService', 'ProfileService', 'profile'];
+ProfileOng.$inject = ['$scope', '$window', '$state', 'StorageService', 'ProfileService'];
 
 },{}],93:[function(require,module,exports){
 'use strict';
@@ -6224,6 +6270,11 @@ var ProfileService = function (_CommonService) {
       this.storage.setItem('profile', profile);
       this.rootScope.$broadcast('profile.change');
       return profile;
+    }
+  }, {
+    key: 'getProfile',
+    value: function getProfile() {
+      return this.storage.getItem('profile');
     }
   }, {
     key: 'registerFacebook',

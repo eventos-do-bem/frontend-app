@@ -156,38 +156,28 @@
           </header>
           <div class="col-md-12 icons">
             <div class="row">
-              <div class="col-md-3">
-                <h3 class="health" data-ng-click="ctrl.loadImpact(0)">Saúde</h3>
-              </div>
-              <div class="col-md-3">
-                <h3 class="education" data-ng-click="ctrl.loadImpact(1)">Educação</h3>
-              </div>
-              <div class="col-md-3">
-                <h3 class="habitation" data-ng-click="ctrl.loadImpact(2)">Moradia</h3>
-              </div>
-              <div class="col-md-3">
-                <h3 class="animals" data-ng-click="ctrl.loadImpact(3)">Animais</h3>
+              <div class="col-md-3" data-ng-repeat="impact in ctrl.impacts">
+                <h3 class="{{impact.id}}" data-ng-class="{active: impact.active}" data-ng-click="ctrl.loadImpact($index, $event)">
+                  <object type="image/svg+xml" data="{{impact.icon}}"></object>
+                  {{impact.label}}
+                </h3>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row impact">
-        <!--<div class="container">-->
-          <!--<div class="row">-->
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-6 text">
-                  <h2 data-ng-bind="ctrl.impact.title"></h2>
-                  <p data-ng-bind="ctrl.impact.text"></p>
-                </div>
-                <div class="col-md-6 image">
-                  <img data-ng-src="{{ctrl.impact.image}}" class="img-responsive" alt="">
-                </div>
-              </div>
+      <div class="row impact" data-ng-style="{'background-color': ctrl.impact.color}">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6 text">
+              <h3 data-ng-bind="ctrl.impact.title"></h3>
+              <p data-ng-bind-html="ctrl.impact.text"></p>
             </div>
-          <!--</div>-->
-        <!--</div>-->
+            <div class="col-md-6 image">
+              <img data-ng-src="{{ctrl.impact.image}}" class="img-responsive" alt="">
+            </div>
+          </div>
+        </div>
       </div>
     </section>
     <section class="row portfolio">

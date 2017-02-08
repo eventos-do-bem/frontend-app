@@ -174,7 +174,6 @@ export default class DonateEvent {
       if (!this.missingDoc) {
         delete donate.document
       }
-      console.log(this.donate)
     }
     let modalInstance = this.modal.open({
       templateUrl: './../src/donate/view/donate.billet.html',

@@ -75,12 +75,12 @@ export default function ProfileConfig($stateProvider) {
       authenticate: true,
       templateUrl: './src/profile/view/ong.html',
       controller: 'ProfileOng',
-      controllerAs: 'ctrl',
-      resolve: {
-        profile: (ProfileService) => {
-          return ProfileService.me()
-        }
-      }
+      controllerAs: 'ctrl'
+      // resolve: {
+      //   profile: (ProfileService) => {
+      //     return ProfileService.me()
+      //   }
+      // }
     })
     .state('profile.ong.donors', {
       url: '/eventos/:uuid/doacoes',

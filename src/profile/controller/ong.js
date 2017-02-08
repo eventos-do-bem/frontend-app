@@ -1,7 +1,7 @@
 export default class ProfileOng {
-  constructor($scope, $window, $state, StorageService, ProfileService, profile) {
+  constructor($scope, $window, $state, StorageService, ProfileService) {
     this.service = ProfileService
-    this.profile = profile.data
+    this.profile = ProfileService.getProfile()
     this.getEventsWithoutReport()
     $scope.$on('profile.change', () => {
       this.profile = StorageService.getItem('profile')
@@ -13,4 +13,4 @@ export default class ProfileOng {
   }
 }
 
-ProfileOng.$inject = ['$scope', '$window', '$state', 'StorageService', 'ProfileService', 'profile']
+ProfileOng.$inject = ['$scope', '$window', '$state', 'StorageService', 'ProfileService']
