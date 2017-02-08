@@ -25,7 +25,7 @@ function AppConfig($httpProvider, envServiceProvider, $urlRouterProvider, $sceDe
   envServiceProvider.config({
     domains: {
       development: ['127.0.0.1:8000', 'localhost:8000', 'frontend.eventosdobem.com'],
-      production: ['production.eventosdobem.com.br', 'eventodobem.com.br', 'eventosdobem.com', 'eventodobem.com', 'eventosdobem.com.br', 'production.eventosdobem.com']
+      production: ['production.eventosdobem.com.br', 'production.eventosdobem.com', 'eventodobem.com.br', 'eventosdobem.com', 'eventodobem.com', 'eventosdobem.com.br', 'www.eventodobem.com.br', 'www.eventosdobem.com', 'www.eventodobem.com', 'www.eventosdobem.com.br']
       // anotherStage: ['domain1', 'domain2'], 
       // anotherStage: ['domain1', 'domain2'] 
     },
