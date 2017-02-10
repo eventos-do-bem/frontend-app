@@ -16,6 +16,7 @@ export default class OngPage {
       })
   }
   save(data) {
+    console.log(data)
     this.service.savePage(data, progress => {
       this.progress = progress
     }).then(

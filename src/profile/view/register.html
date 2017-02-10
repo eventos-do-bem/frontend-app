@@ -81,13 +81,13 @@
           </div>
           <div data-ng-switch-when="1">
             <div data-ng-class="{'has-error':registerOng.phone.$invalid && registerOng.phone.$dirty}">
-              <input type="text" name="phone" class="form-control" mask="99 9999 9999" data-ng-model="ctrl.profile.phone" placeholder="Qual o telefone da organização?" required>
+              <input type="text" name="phone" class="form-control" mask="99 9?9999 9999" data-ng-model="ctrl.profile.phone" placeholder="Qual o telefone da organização?" required>
             </div>
             <div data-ng-class="{'has-error':registerOng.facebook.$invalid && registerOng.facebook.$dirty}">
-              <input type="url" name="facebook" class="form-control" data-ng-model="ctrl.profile.facebook" placeholder="Qual a página do facebook oficial?" required>
+              <input type="text" name="facebook" class="form-control" data-ng-model="ctrl.profile.facebook" data-ng-pattern="ctrl.urlPattern" placeholder="Qual a página do facebook oficial?" required>
             </div>
             <div data-ng-class="{'has-error':registerOng.website.$invalid && registerOng.website.$dirty}">
-              <input type="url" name="website" class="form-control" data-ng-model="ctrl.profile.website" placeholder="Qual o website oficial?">
+              <input type="text" name="website" class="form-control" data-ng-model="ctrl.profile.website" data-ng-pattern="ctrl.urlPattern" placeholder="Qual o website oficial?">
             </div>
           </div>
           <div data-ng-switch-when="2">

@@ -45,7 +45,7 @@ export default class Home {
         id: 'humans',
         active: false,
         color: '#9060c3',
-        icon: 'assets/icons/svgs/direitos-humanos.svg',
+        icon: 'assets/icons/svgs/humanos.svg',
         label: 'Direitos humanos',
         image: 'assets/images/direitos-humanos.jpeg',
         title: 'Se eu consegui, vocês também conseguem!',

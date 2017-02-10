@@ -1,5 +1,22 @@
 /* Extra small devices */
 @media (max-width: 768px) {
+  .portfolio h1 {
+    width: 100%;
+  }
+  .proven-impact h1 {
+    width: 100%;
+  }
+  .our-campaigns header h1 {
+    width: 100%;
+  }
+  header .navbar .navbar-brand {
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    width: 60%;
+    padding: 15px 30%;
+  }
   .banner h3 {
     padding-top: 10px;
     padding-bottom: 10px;
