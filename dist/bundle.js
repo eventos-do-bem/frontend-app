@@ -4156,7 +4156,7 @@ var Home = function () {
       id: 'humans',
       active: false,
       color: '#9060c3',
-      icon: 'assets/icons/svgs/direitos-humanos.svg',
+      icon: 'assets/icons/svgs/humanos.svg',
       label: 'Direitos humanos',
       image: 'assets/images/direitos-humanos.jpeg',
       title: 'Se eu consegui, vocês também conseguem!',
@@ -4300,6 +4300,7 @@ var Page = function () {
       var _this2 = this;
 
       this.service.findById(slug).then(function (response) {
+        console.log(response.data);
         _this2.institution = response.data;
       });
     }
@@ -5468,6 +5469,7 @@ var OngPage = function () {
     value: function save(data) {
       var _this2 = this;
 
+      console.log(data);
       this.service.savePage(data, function (progress) {
         _this2.progress = progress;
       }).then(function (response) {
@@ -5615,6 +5617,7 @@ var ProfileRegister = function () {
     this.typeInputPassword = 'password';
     this.getActivityAreas();
     this.fbRegister = false;
+    this.urlPattern = /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i;
     // $http.get('data/area_activities.json')
     //   .then(response => this.area_activities = response.data) 
   }
@@ -5749,6 +5752,12 @@ var ProfileRegister = function () {
     value: function registerOng(profile) {
       var _this4 = this;
 
+      if (profile.facebook.indexOf('http') && profile.facebook.indexOf('https')) {
+        profile.facebook = 'http://' + profile.facebook;
+      }
+      if (profile.website.indexOf('http') && profile.website.indexOf('https')) {
+        profile.website = 'http://' + profile.website;
+      }
       this.error = null;
       profile = angular.copy(profile);
       if (profile.area_activity_uuid) {

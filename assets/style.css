@@ -398,6 +398,7 @@ dl dd:last-child {
   top: -70px;
   left: 10px;
   width: 80px;
+  background-color: #fff;
   border: 1px solid #ccc;
 }
 /* /explore */
@@ -873,8 +874,8 @@ header .navbar .navbar-profile .avatar {
 }
 .home .row > header h2 {
   font-weight: 200;
-  margin-left: 150px;
-  margin-right: 150px;
+  /*margin-left: 150px;*/
+  /*margin-right: 150px;*/
 }
 /* /home */
 
@@ -1040,7 +1041,7 @@ figure.avatar img {
 }
 .proven-impact .text {
   color: #fff;
-  padding: 40px 15px 30px 30px;
+  padding: 10px 15px 10px 30px;
 }
 .proven-impact .text h3 {
   margin-bottom: 30px;
@@ -1077,6 +1078,22 @@ figure.avatar img {
   transform: rotate(90deg);
   z-index: 99999;
 }
+.proven-impact .icons h3:before {
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  opacity: 0;
+}
+.proven-impact .icons h3.active:before {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+}
+.proven-impact .icons h3:before,
+.proven-impact .icons h3.active:before {
+  -webkit-transition: -webkit-opacity 2s;
+  -moz-transition: -moz-opacity 2s;
+  transition: opacity 2s;
+}
 .icons h3 {
   margin: 0 auto;
   width: 220px;
@@ -1085,9 +1102,10 @@ figure.avatar img {
   font-weight: 300;
   cursor: pointer;
 }
-.icons object {
+.icons h3 object {
   width: 48px;
   margin: -13px 0px;
+  cursor: pointer;
 }
 .icons .humans.active {
   color: #9060c3;

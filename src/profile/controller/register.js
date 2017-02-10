@@ -17,6 +17,7 @@ export default class ProfileRegister {
     this.typeInputPassword = 'password'
     this.getActivityAreas()
     this.fbRegister = false;
+    this.urlPattern =  /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i
     // $http.get('data/area_activities.json')
     //   .then(response => this.area_activities = response.data) 
   }
@@ -101,6 +102,12 @@ export default class ProfileRegister {
     }
   }
   registerOng(profile) {
+    if (profile.facebook.indexOf('http') && profile.facebook.indexOf('https')) {
+      profile.facebook = 'http://' + profile.facebook
+    }
+    if (profile.website.indexOf('http') && profile.website.indexOf('https')) {
+      profile.website = 'http://' + profile.website
+    }
     this.error = null
     profile = angular.copy(profile)
     if (profile.area_activity_uuid) {
@@ -110,8 +117,8 @@ export default class ProfileRegister {
     profile.phone = profile.phone.replace(/\s/g, '');
     this.service.register(profile)
       .then(
-      response => this.registerSuccess(response),
-      response => this.registerError(response)
+        response => this.registerSuccess(response),
+        response => this.registerError(response)
       )
   }
   registerSuccess(response) {
