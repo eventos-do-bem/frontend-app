@@ -245,7 +245,9 @@ var _module20 = _interopRequireDefault(_module19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['environment', 'ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'ngSanitize', 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).factory('HttpInterceptor', _interceptor2.default).filter('youtube', _youtube2.default).controller('AppController', _controller2.default).run(_run2.default);
+angular.module('app', ['environment', 'ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'ngSanitize', 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).factory('HttpInterceptor', _interceptor2.default).filter('youtube', _youtube2.default).controller('AppController', _controller2.default).constant('Regex', {
+  URL: /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i
+}).run(_run2.default);
 
 },{"./../auth/module.js":12,"./../common/component/alert/alert.js":14,"./../common/component/countdown/countdown.js":17,"./../common/component/facebook/facebook.js":19,"./../common/component/loading/loading.js":23,"./../common/filter/youtube.js":34,"./../common/module.js":35,"./../confirmation/module.js":49,"./../donate/module.js":55,"./../event/module.js":64,"./../faq/module.js":68,"./../home/module.js":72,"./../institution/module.js":75,"./../pages/module.js":84,"./../profile/module.js":101,"./config.js":2,"./controller.js":3,"./interceptor.js":4,"./run.js":6,"angular-environment":"angular-environment","angular-i18n/pt-br":"angular-i18n/pt-br","angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],6:[function(require,module,exports){
 'use strict';
@@ -4300,7 +4302,6 @@ var Page = function () {
       var _this2 = this;
 
       this.service.findById(slug).then(function (response) {
-        console.log(response.data);
         _this2.institution = response.data;
       });
     }
@@ -5442,7 +5443,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var OngPage = function () {
-  function OngPage(profile, InstitutionService, $rootScope, StorageService, ProfileService) {
+  function OngPage(profile, InstitutionService, $rootScope, Regex, StorageService, ProfileService) {
     _classCallCheck(this, OngPage);
 
     this.profile = profile.data;
@@ -5450,6 +5451,7 @@ var OngPage = function () {
     this.rootScope = $rootScope;
     this.storage = StorageService;
     this.profileService = ProfileService;
+    this.urlPattern = Regex.URL;
     this.getInstitution(profile.data.institutions.uuid);
   }
 
@@ -5469,7 +5471,6 @@ var OngPage = function () {
     value: function save(data) {
       var _this2 = this;
 
-      console.log(data);
       this.service.savePage(data, function (progress) {
         _this2.progress = progress;
       }).then(function (response) {
@@ -5501,7 +5502,7 @@ var OngPage = function () {
 exports.default = OngPage;
 
 
-OngPage.$inject = ['profile', 'InstitutionService', '$rootScope', 'StorageService', 'ProfileService'];
+OngPage.$inject = ['profile', 'InstitutionService', '$rootScope', 'Regex', 'StorageService', 'ProfileService'];
 
 },{}],94:[function(require,module,exports){
 'use strict';
@@ -5597,7 +5598,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProfileRegister = function () {
-  function ProfileRegister($rootScope, $scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, ProfileService, StorageService, LastStateUnloggedService) {
+  function ProfileRegister($rootScope, $scope, $stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, StorageService, LastStateUnloggedService) {
     _classCallCheck(this, ProfileRegister);
 
     this.activityAreaService = ActivityAreaService;
@@ -5617,7 +5618,8 @@ var ProfileRegister = function () {
     this.typeInputPassword = 'password';
     this.getActivityAreas();
     this.fbRegister = false;
-    this.urlPattern = /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i;
+    // this.urlPattern =  /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i
+    this.urlPattern = Regex.URL;
     // $http.get('data/area_activities.json')
     //   .then(response => this.area_activities = response.data) 
   }
@@ -5806,7 +5808,7 @@ var ProfileRegister = function () {
 exports.default = ProfileRegister;
 
 
-ProfileRegister.$inject = ['$rootScope', '$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'ProfileService', 'StorageService', 'LastStateUnloggedService'];
+ProfileRegister.$inject = ['$rootScope', '$scope', '$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'StorageService', 'LastStateUnloggedService'];
 
 },{}],96:[function(require,module,exports){
 'use strict';
