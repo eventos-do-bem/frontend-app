@@ -56,10 +56,13 @@
       <form name="start" enctype="multipart/form-data" novalidate data-ng-submit="ctrl.save(start, ctrl.event)">
         <div class="form-group" data-ng-class="{'has-error':start.name.$invalid && start.name.$dirty}">
           <label for="" class="control-label">Nome</label>
-          <count-down-element model="ctrl.event.name" max="60">
-            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" placeholder="Digite o nome do evento aqui" maxlength="60" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('name')" popover-placement="right" popover-trigger="focus" required autofocus>
+          <count-down-element model="start.name.$viewValue" max="60">
+            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" placeholder="Digite o nome do evento aqui" data-ng-maxlength="60" aria-describedby="nameHelpBlock" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('name')" popover-placement="right" popover-trigger="focus" required autofocus>
           </count-down-element>
-          <p data-ng-show="start.name.$invalid && start.name.$touched" class="text-danger">Escolha o nome do evento</p>
+          <div id="nameHelpBlock" class="help-block" data-ng-show="start.name.$error">
+            <p data-ng-show="start.name.$error.required" class="text-danger">Nome do evento é obrigatório.</p>
+            <p data-ng-show="start.name.$error.maxlength" class="text-danger">Só é possível informar nome do evento de no máximo 60 caracteres.</p>
+          </div>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.institution_uuid.$invalid && start.institution_uuid.$dirty}">
           <label for="institution_uuid" class="control-label">Escolha a causa que irá ajudar</label>
@@ -85,8 +88,10 @@
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.citie.$invalid && start.citie.$dirty}">
               <label for="citie" class="control-label">Selecione sua Cidade</label>
-              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" autocomplete="off" required>
-              <p data-ng-show="start.citie.$invalid && start.citie.$touched" class="text-danger">Selecione sua cidade</p>
+              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" aria-describedby="citieHelpBlock" autocomplete="off" required>
+              <div id="citieHelpBlock" class="help-block" data-ng-show="start.citie.$error && start.citie.$touched">
+                <p data-ng-show="start.citie.$error.required" class="text-danger">Informe a cidade que este evento irá ocorrer.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -124,7 +129,13 @@
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.goal_amount.$invalid && start.goal_amount.$dirty, 'has-error': start.goal_amount.$dirty && ctrl.event.goal_amount < 100}">
               <label for="goal_amount" class="control-label">Meta</label>
-              <input type="text" name="goal_amount" id="goal_amount" class="form-control" format-currency="ctrl.amountOptions" variable-options="true" data-ng-model="ctrl.event.goal_amount" placeholder="Digite o valor" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus">
+              <input type="text" name="goal_amount" id="goal_amount" class="form-control" format-currency="ctrl.amountOptions" variable-options="true" data-ng-model="ctrl.event.goal_amount" aria-describedby="goalAmountHelpBlock" placeholder="Digite o valor" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus" required>
+              <div id="goalAmountHelpBlock" class="help-block" data-ng-show="start.goal_amount.$error && start.goal_amount.$touched">
+                <p data-ng-show="start.goal_amount.$error.required" class="text-danger">
+                  A meta do evento deve ser maior que <span data-ng-bind="100.00 | currency: 'R$ '"></span>
+                </p>
+              </div>
+              <!--Informe o valor do evento, deverá ser um valor maior que R$ 100.00-->
               <!--<div class="checkbox">
                 <label>
                   <input type="checkbox" name="disable_goal">
@@ -134,9 +145,17 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="form-group" data-ng-class="{'has-error':start.end_date.$invalid && start.end_date.$dirty, 'has-error': start.end_date.$dirty && ctrl.checkEndDate(ctrl.event.end_date)}">
+            <div class="form-group" data-ng-class="{'has-error':start.end_date.$invalid && start.end_date.$dirty}">
               <label for="end_date" class="control-label">Término</label>
-              <input type="text" name="end_date" id="end_date" mask="99/99/9999" class="form-control" data-ng-model="ctrl.event.end_date" data-ng-model-options="{debounce: 1000}" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('end')" popover-placement="right" popover-trigger="focus">
+              <input type="text" name="end_date" id="end_date" mask="39/19/2999" class="form-control" data-ng-model="ctrl.event.end_date" data-ng-model-options="{debounce: 1000}" data-ng-change="ctrl.checkEndDate(start.end_date, ctrl.event.end_date)" aria-describedby="endDateHelpBlock" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('end')" popover-placement="right" popover-trigger="focus" required>
+              <div id="endDateHelpBlock" class="help-block" data-ng-show="start.end_date.$error && start.end_date.$touched">
+                <p data-ng-show="start.end_date.$error.required" class="text-danger">
+                  Campo término do evento é obrigatório.
+                </p>
+                <p data-ng-show="start.end_date.$error.end_date" class="text-danger">
+                  A data mínima deve ser de 22 dias a partir de hoje e a máxima de 90 dias.
+                </p>
+              </div>
             </div>
           </div>
         </div>

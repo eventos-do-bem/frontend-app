@@ -1,5 +1,5 @@
 export default class EventStart {
-  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService) {
+  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory) {
     this.rootScope = $rootScope
     this.state = $state
     this.window = $window
@@ -8,6 +8,7 @@ export default class EventStart {
     this.anchorScroll = $anchorScroll
     this.service = EventService
     this.locationService = LocationService
+    this.validation = ValidationFactory
     this.event = {
       categorie_uuid: null
     }
@@ -110,14 +111,30 @@ export default class EventStart {
   setPopoverContent(field) {
     this.popoverContent = this.popovers[field]
   }
-  checkEndDate(end) {
-    let end_date = end.split('/')
-    end_date = `${end_date[2]}-${end_date[1]}-${end_date[0]}`
-    let dateEnd = new Date(end_date),
-      dateCurrent = new Date(),
-      timeDiff = dateEnd - dateCurrent,
-      diffDays = parseInt(timeDiff / (1000 * 3600 * 24))
-    return (diffDays >= 22 && diffDays <= 90) ? false : true
+  validateDate(field, date) {
+    date = date.split('/')
+    date = new Date(`${date[2]}-${date[1]}-${date[0]}`)
+    if (!field.$error.mask && field.$viewValue) {
+      let valid = (
+        this.validation.dateMinByDays(date, 22, 'future') &&
+        this.validation.dateMaxByDays(date, 90, 'future')
+      )
+      field.$setValidity('end_date', valid)
+    }
+  }
+  checkEndDate(field, end) {
+    if (!field.$error.mask && field.$viewValue) {
+      let end_date = end.split('/')
+      end_date = `${end_date[2]}-${end_date[1]}-${end_date[0]}`
+      let dateEnd = new Date(end_date),
+        dateCurrent = new Date(),
+        timeDiff = dateEnd - dateCurrent,
+        diffDays = parseInt(timeDiff / (1000 * 3600 * 24)),
+        valid = (diffDays >= 22 && diffDays <= 90) ? true : false
+      field.$setValidity('end_date', valid)
+    } else {
+      field.$setValidity('end_date', false)
+    }
   }
   save(start, event) {
     if (start.$invalid) {
@@ -164,4 +181,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService']
+EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService','ValidationFactory']

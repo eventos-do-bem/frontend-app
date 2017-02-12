@@ -1589,7 +1589,7 @@ exports.default = GeoLocationFactory;
 GeoLocationFactory.geoLocationFactory.$inject = ['$window', '$http'];
 
 },{}],33:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1605,26 +1605,69 @@ var ValidationFactory = function () {
   }
 
   _createClass(ValidationFactory, [{
-    key: "dateYearsDiff",
+    key: 'dateDaysDiff',
+    value: function dateDaysDiff(start, end, time) {
+      var diff = start - end,
+          daysDiff = diff / (1000 * 60 * 60 * 24);
+      console.log(daysDiff);
+      return daysDiff;
+    }
+  }, {
+    key: 'dateMaxByDays',
+    value: function dateMaxByDays(date, days) {
+      var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'past';
+
+      var daysDiff = void 0;
+      if (time == 'past') {
+        daysDiff = this.dateDaysDiff(new Date(), date);
+      } else {
+        daysDiff = this.dateDaysDiff(date, new Date());
+      }
+      return daysDiff >= days ? false : true;
+    }
+  }, {
+    key: 'dateMinByDays',
+    value: function dateMinByDays(date, days) {
+      var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'past';
+
+      var daysDiff = void 0;
+      if (time == 'past') {
+        daysDiff = this.dateDaysDiff(new Date(), date);
+      } else {
+        daysDiff = this.dateDaysDiff(date, new Date());
+      }
+      return daysDiff <= days ? false : true;
+      // let diff,
+      //     daysDiff = this.dateDaysDiff(new Date(), date)
+      // if (time == 'past') {
+      //   diff = (daysDiff >= days) ? false : true
+      // } else {
+      //   diff = (daysDiff <= days) ? false : true
+      // }
+      // return diff
+      // return (daysDiff <= days) ? false : true
+    }
+  }, {
+    key: 'dateYearsDiff',
     value: function dateYearsDiff(start, end) {
       var diff = start - end,
           yearsDiff = diff / (1000 * 3600 * 24 * 365);
       return yearsDiff;
     }
   }, {
-    key: "dateMaxByYears",
+    key: 'dateMaxByYears',
     value: function dateMaxByYears(date, years) {
       var yearsDiff = this.dateYearsDiff(new Date(), date);
       return yearsDiff >= years ? false : true;
     }
   }, {
-    key: "dateMinByYears",
+    key: 'dateMinByYears',
     value: function dateMinByYears(date, years) {
       var yearsDiff = this.dateYearsDiff(new Date(), date);
       return yearsDiff <= years ? false : true;
     }
   }], [{
-    key: "validationFactory",
+    key: 'validationFactory',
     value: function validationFactory() {
       return new ValidationFactory();
     }
@@ -3464,7 +3507,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var EventStart = function () {
-  function EventStart($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService) {
+  function EventStart($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory) {
     var _this = this;
 
     _classCallCheck(this, EventStart);
@@ -3477,6 +3520,7 @@ var EventStart = function () {
     this.anchorScroll = $anchorScroll;
     this.service = EventService;
     this.locationService = LocationService;
+    this.validation = ValidationFactory;
     this.event = {
       categorie_uuid: null
     };
@@ -3587,15 +3631,30 @@ var EventStart = function () {
       this.popoverContent = this.popovers[field];
     }
   }, {
+    key: 'validateDate',
+    value: function validateDate(field, date) {
+      date = date.split('/');
+      date = new Date(date[2] + '-' + date[1] + '-' + date[0]);
+      if (!field.$error.mask && field.$viewValue) {
+        var valid = this.validation.dateMinByDays(date, 22, 'future') && this.validation.dateMaxByDays(date, 90, 'future');
+        field.$setValidity('end_date', valid);
+      }
+    }
+  }, {
     key: 'checkEndDate',
-    value: function checkEndDate(end) {
-      var end_date = end.split('/');
-      end_date = end_date[2] + '-' + end_date[1] + '-' + end_date[0];
-      var dateEnd = new Date(end_date),
-          dateCurrent = new Date(),
-          timeDiff = dateEnd - dateCurrent,
-          diffDays = parseInt(timeDiff / (1000 * 3600 * 24));
-      return diffDays >= 22 && diffDays <= 90 ? false : true;
+    value: function checkEndDate(field, end) {
+      if (!field.$error.mask && field.$viewValue) {
+        var end_date = end.split('/');
+        end_date = end_date[2] + '-' + end_date[1] + '-' + end_date[0];
+        var dateEnd = new Date(end_date),
+            dateCurrent = new Date(),
+            timeDiff = dateEnd - dateCurrent,
+            diffDays = parseInt(timeDiff / (1000 * 3600 * 24)),
+            valid = diffDays >= 22 && diffDays <= 90 ? true : false;
+        field.$setValidity('end_date', valid);
+      } else {
+        field.$setValidity('end_date', false);
+      }
     }
   }, {
     key: 'save',
@@ -3662,7 +3721,7 @@ var EventStart = function () {
 exports.default = EventStart;
 
 
-EventStart.$inject = ['$rootScope', '$state', '$window', '$stateParams', '$timeout', '$filter', '$location', '$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService'];
+EventStart.$inject = ['$rootScope', '$state', '$window', '$stateParams', '$timeout', '$filter', '$location', '$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService', 'ValidationFactory'];
 
 },{}],63:[function(require,module,exports){
 'use strict';
@@ -5598,15 +5657,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProfileRegister = function () {
-  function ProfileRegister($rootScope, $scope, $stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, StorageService, LastStateUnloggedService) {
+  function ProfileRegister($stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, LastStateUnloggedService) {
     _classCallCheck(this, ProfileRegister);
 
     this.activityAreaService = ActivityAreaService;
     this.service = ProfileService;
     this.timeout = $timeout;
-    this.storage = StorageService;
     this.lastStateUnloggedService = LastStateUnloggedService;
-    this.$rootScope = $rootScope;
+    this.rootScope = $rootScope;
     this.state = $state;
     this.filter = $filter;
     this.masterProfile = {
@@ -5754,18 +5812,17 @@ var ProfileRegister = function () {
     value: function registerOng(profile) {
       var _this4 = this;
 
-      if (profile.facebook.indexOf('http') && profile.facebook.indexOf('https')) {
+      profile = angular.copy(profile);
+      // profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
+      if (profile.facebook.trim().indexOf('http') != 0) {
         profile.facebook = 'http://' + profile.facebook;
       }
-      if (profile.website.indexOf('http') && profile.website.indexOf('https')) {
+      if (profile.website.trim().indexOf('http') != 0) {
         profile.website = 'http://' + profile.website;
       }
-      this.error = null;
-      profile = angular.copy(profile);
       if (profile.area_activity_uuid) {
         profile.area_activity_uuid = profile.area_activity_uuid.uuid;
       }
-      profile = profile ? angular.copy(profile) : angular.copy(this.profile);
       profile.phone = profile.phone.replace(/\s/g, '');
       this.service.register(profile).then(function (response) {
         return _this4.registerSuccess(response);
@@ -5808,7 +5865,7 @@ var ProfileRegister = function () {
 exports.default = ProfileRegister;
 
 
-ProfileRegister.$inject = ['$rootScope', '$scope', '$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'StorageService', 'LastStateUnloggedService'];
+ProfileRegister.$inject = ['$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'LastStateUnloggedService'];
 
 },{}],96:[function(require,module,exports){
 'use strict';

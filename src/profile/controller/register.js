@@ -1,11 +1,10 @@
 export default class ProfileRegister {
-  constructor($rootScope, $scope, $stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, StorageService, LastStateUnloggedService) {
+  constructor($stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, LastStateUnloggedService) {
     this.activityAreaService = ActivityAreaService
     this.service = ProfileService
     this.timeout = $timeout
-    this.storage = StorageService
     this.lastStateUnloggedService = LastStateUnloggedService
-    this.$rootScope = $rootScope
+    this.rootScope = $rootScope
     this.state = $state
     this.filter = $filter
     this.masterProfile = {
@@ -103,18 +102,17 @@ export default class ProfileRegister {
     }
   }
   registerOng(profile) {
-    if (profile.facebook.indexOf('http') && profile.facebook.indexOf('https')) {
+    profile = angular.copy(profile)
+    // profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
+    if (profile.facebook.trim().indexOf('http') != 0) {
       profile.facebook = 'http://' + profile.facebook
     }
-    if (profile.website.indexOf('http')  && profile.website.indexOf('https')) {
+    if (profile.website.trim().indexOf('http') != 0) {
       profile.website = 'http://' + profile.website
     }
-    this.error = null
-    profile = angular.copy(profile)
     if (profile.area_activity_uuid) {
       profile.area_activity_uuid = profile.area_activity_uuid.uuid
     }
-    profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
     profile.phone = profile.phone.replace(/\s/g, '');
     this.service.register(profile)
       .then(
@@ -147,4 +145,4 @@ export default class ProfileRegister {
   }
 }
 
-ProfileRegister.$inject = ['$rootScope','$scope', '$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'StorageService', 'LastStateUnloggedService']
+ProfileRegister.$inject = ['$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'LastStateUnloggedService']
