@@ -5664,7 +5664,7 @@ var ProfileRegister = function () {
     this.service = ProfileService;
     this.timeout = $timeout;
     this.lastStateUnloggedService = LastStateUnloggedService;
-    this.rootScope = $rootScope;
+    // this.rootScope = $rootScope
     this.state = $state;
     this.filter = $filter;
     this.masterProfile = {
@@ -5812,6 +5812,7 @@ var ProfileRegister = function () {
     value: function registerOng(profile) {
       var _this4 = this;
 
+      this.error = null;
       profile = angular.copy(profile);
       // profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
       if (profile.facebook.trim().indexOf('http') != 0) {

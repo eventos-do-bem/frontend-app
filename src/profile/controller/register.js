@@ -4,7 +4,7 @@ export default class ProfileRegister {
     this.service = ProfileService
     this.timeout = $timeout
     this.lastStateUnloggedService = LastStateUnloggedService
-    this.rootScope = $rootScope
+    // this.rootScope = $rootScope
     this.state = $state
     this.filter = $filter
     this.masterProfile = {
@@ -102,6 +102,7 @@ export default class ProfileRegister {
     }
   }
   registerOng(profile) {
+    this.error = null
     profile = angular.copy(profile)
     // profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
     if (profile.facebook.trim().indexOf('http') != 0) {
