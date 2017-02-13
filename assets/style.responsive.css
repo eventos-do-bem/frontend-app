@@ -17,6 +17,17 @@
     width: 60%;
     padding: 15px 30%;
   }
+  .banner {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: right bottom;
+  }
+  .banner h1,
+  .banner h2 {
+    text-shadow: 1px 1px #fff;
+  }
   .banner h3 {
     padding-top: 10px;
     padding-bottom: 10px;

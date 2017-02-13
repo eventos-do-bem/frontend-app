@@ -646,8 +646,7 @@ header .navbar .navbar-profile .avatar {
 .banner {
   background-image: url('../assets/banners/banner-home.jpg');
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: right bottom;
+  background-size: contain;
   position: relative;
   width: 100%;
   height: auto;
