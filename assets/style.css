@@ -420,6 +420,7 @@ dl dd:last-child {
 .campaign .cover > .image-cover,
 .institution .cover > .image-cover {
   width: 100%;
+  max-width: 100%;
   height: 300px;
 }
 .campaign .cover > .image-cover:before,
@@ -481,6 +482,7 @@ dl dd:last-child {
 .campaign .content .description {
   margin-top: 20px;
   margin-bottom: 40px;
+  padding: 2%;
   font-size: 1.7rem;
   color: #444;
 }

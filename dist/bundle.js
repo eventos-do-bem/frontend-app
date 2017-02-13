@@ -788,10 +788,34 @@ var Component = {
   restrict: 'E',
   transclude: true,
   bindings: {
-    model: '=',
+    model: '<',
     max: '@'
   },
-  template: '\n    <div class="input-countdown">\n      <div ng-transclude></div>\n      <span class="input-countdown-chars">{{$ctrl.model.length || 0}}/{{$ctrl.max || 0}}</span>\n    </div>\n  '
+  template: '\n    <div class="input-countdown">\n      <div ng-transclude></div>\n      <span class="input-countdown-chars">{{$ctrl.count}}/{{$ctrl.max || 0}}</span>\n    </div>\n  ',
+  controller: function controller($element) {
+    var ctrl = this,
+        elem = void 0,
+        prevMaxLen = void 0;
+    ctrl.count = 0;
+    ctrl.$onChanges = function (obj) {
+      if (obj.model.currentValue) {
+        var newLines = obj.model.currentValue.match(/(\r\n|\n|\r)/g);
+        var addition = 0;
+        if (newLines != null) {
+          addition = newLines.length;
+        }
+        ctrl.count = obj.model.currentValue.length + addition;
+        if (obj.model.currentValue.length + addition >= prevMaxLen) {
+          ctrl.count = obj.model.currentValue.length + addition;
+          elem.maxLength = prevMaxLen - addition;
+        }
+      }
+    };
+    ctrl.$postLink = function () {
+      elem = $element[0].querySelector('textarea');
+      prevMaxLen = elem.maxLength;
+    };
+  }
 };
 
 exports.default = Component;
