@@ -1,11 +1,10 @@
 export default class ProfileRegister {
-  constructor($rootScope, $scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, ProfileService, StorageService, LastStateUnloggedService) {
+  constructor($stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, LastStateUnloggedService) {
     this.activityAreaService = ActivityAreaService
     this.service = ProfileService
     this.timeout = $timeout
-    this.storage = StorageService
     this.lastStateUnloggedService = LastStateUnloggedService
-    this.$rootScope = $rootScope
+    // this.rootScope = $rootScope
     this.state = $state
     this.filter = $filter
     this.masterProfile = {
@@ -17,7 +16,8 @@ export default class ProfileRegister {
     this.typeInputPassword = 'password'
     this.getActivityAreas()
     this.fbRegister = false;
-    this.urlPattern =  /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i
+    // this.urlPattern =  /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i
+    this.urlPattern = Regex.URL
     // $http.get('data/area_activities.json')
     //   .then(response => this.area_activities = response.data) 
   }
@@ -102,18 +102,18 @@ export default class ProfileRegister {
     }
   }
   registerOng(profile) {
-    if (profile.facebook.indexOf('http') && profile.facebook.indexOf('https')) {
-      profile.facebook = 'http://' + profile.facebook
-    }
-    if (profile.website.indexOf('http') && profile.website.indexOf('https')) {
-      profile.website = 'http://' + profile.website
-    }
     this.error = null
     profile = angular.copy(profile)
+    // profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
+    if (profile.facebook.trim().indexOf('http') != 0) {
+      profile.facebook = 'http://' + profile.facebook
+    }
+    if (profile.website.trim().indexOf('http') != 0) {
+      profile.website = 'http://' + profile.website
+    }
     if (profile.area_activity_uuid) {
       profile.area_activity_uuid = profile.area_activity_uuid.uuid
     }
-    profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
     profile.phone = profile.phone.replace(/\s/g, '');
     this.service.register(profile)
       .then(
@@ -146,4 +146,4 @@ export default class ProfileRegister {
   }
 }
 
-ProfileRegister.$inject = ['$rootScope','$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'ProfileService', 'StorageService', 'LastStateUnloggedService']
+ProfileRegister.$inject = ['$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'LastStateUnloggedService']

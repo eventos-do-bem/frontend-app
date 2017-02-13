@@ -245,7 +245,9 @@ var _module20 = _interopRequireDefault(_module19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['environment', 'ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'ngSanitize', 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).factory('HttpInterceptor', _interceptor2.default).filter('youtube', _youtube2.default).controller('AppController', _controller2.default).run(_run2.default);
+angular.module('app', ['environment', 'ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'ngSanitize', 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).factory('HttpInterceptor', _interceptor2.default).filter('youtube', _youtube2.default).controller('AppController', _controller2.default).constant('Regex', {
+  URL: /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i
+}).run(_run2.default);
 
 },{"./../auth/module.js":12,"./../common/component/alert/alert.js":14,"./../common/component/countdown/countdown.js":17,"./../common/component/facebook/facebook.js":19,"./../common/component/loading/loading.js":23,"./../common/filter/youtube.js":34,"./../common/module.js":35,"./../confirmation/module.js":49,"./../donate/module.js":55,"./../event/module.js":64,"./../faq/module.js":68,"./../home/module.js":72,"./../institution/module.js":75,"./../pages/module.js":84,"./../profile/module.js":101,"./config.js":2,"./controller.js":3,"./interceptor.js":4,"./run.js":6,"angular-environment":"angular-environment","angular-i18n/pt-br":"angular-i18n/pt-br","angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],6:[function(require,module,exports){
 'use strict';
@@ -786,10 +788,34 @@ var Component = {
   restrict: 'E',
   transclude: true,
   bindings: {
-    model: '=',
+    model: '<',
     max: '@'
   },
-  template: '\n    <div class="input-countdown">\n      <div ng-transclude></div>\n      <span class="input-countdown-chars">{{$ctrl.model.length || 0}}/{{$ctrl.max || 0}}</span>\n    </div>\n  '
+  template: '\n    <div class="input-countdown">\n      <div ng-transclude></div>\n      <span class="input-countdown-chars">{{$ctrl.count}}/{{$ctrl.max || 0}}</span>\n    </div>\n  ',
+  controller: function controller($element) {
+    var ctrl = this,
+        elem = void 0,
+        prevMaxLen = void 0;
+    ctrl.count = 0;
+    ctrl.$onChanges = function (obj) {
+      if (obj.model.currentValue) {
+        var newLines = obj.model.currentValue.match(/(\r\n|\n|\r)/g);
+        var addition = 0;
+        if (newLines != null) {
+          addition = newLines.length;
+        }
+        ctrl.count = obj.model.currentValue.length + addition;
+        if (obj.model.currentValue.length + addition >= prevMaxLen) {
+          ctrl.count = obj.model.currentValue.length + addition;
+          elem.maxLength = prevMaxLen - addition;
+        }
+      }
+    };
+    ctrl.$postLink = function () {
+      elem = $element[0].querySelector('textarea');
+      prevMaxLen = elem.maxLength;
+    };
+  }
 };
 
 exports.default = Component;
@@ -1587,7 +1613,7 @@ exports.default = GeoLocationFactory;
 GeoLocationFactory.geoLocationFactory.$inject = ['$window', '$http'];
 
 },{}],33:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1603,26 +1629,69 @@ var ValidationFactory = function () {
   }
 
   _createClass(ValidationFactory, [{
-    key: "dateYearsDiff",
+    key: 'dateDaysDiff',
+    value: function dateDaysDiff(start, end, time) {
+      var diff = start - end,
+          daysDiff = diff / (1000 * 60 * 60 * 24);
+      console.log(daysDiff);
+      return daysDiff;
+    }
+  }, {
+    key: 'dateMaxByDays',
+    value: function dateMaxByDays(date, days) {
+      var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'past';
+
+      var daysDiff = void 0;
+      if (time == 'past') {
+        daysDiff = this.dateDaysDiff(new Date(), date);
+      } else {
+        daysDiff = this.dateDaysDiff(date, new Date());
+      }
+      return daysDiff >= days ? false : true;
+    }
+  }, {
+    key: 'dateMinByDays',
+    value: function dateMinByDays(date, days) {
+      var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'past';
+
+      var daysDiff = void 0;
+      if (time == 'past') {
+        daysDiff = this.dateDaysDiff(new Date(), date);
+      } else {
+        daysDiff = this.dateDaysDiff(date, new Date());
+      }
+      return daysDiff <= days ? false : true;
+      // let diff,
+      //     daysDiff = this.dateDaysDiff(new Date(), date)
+      // if (time == 'past') {
+      //   diff = (daysDiff >= days) ? false : true
+      // } else {
+      //   diff = (daysDiff <= days) ? false : true
+      // }
+      // return diff
+      // return (daysDiff <= days) ? false : true
+    }
+  }, {
+    key: 'dateYearsDiff',
     value: function dateYearsDiff(start, end) {
       var diff = start - end,
           yearsDiff = diff / (1000 * 3600 * 24 * 365);
       return yearsDiff;
     }
   }, {
-    key: "dateMaxByYears",
+    key: 'dateMaxByYears',
     value: function dateMaxByYears(date, years) {
       var yearsDiff = this.dateYearsDiff(new Date(), date);
       return yearsDiff >= years ? false : true;
     }
   }, {
-    key: "dateMinByYears",
+    key: 'dateMinByYears',
     value: function dateMinByYears(date, years) {
       var yearsDiff = this.dateYearsDiff(new Date(), date);
       return yearsDiff <= years ? false : true;
     }
   }], [{
-    key: "validationFactory",
+    key: 'validationFactory',
     value: function validationFactory() {
       return new ValidationFactory();
     }
@@ -3462,7 +3531,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var EventStart = function () {
-  function EventStart($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService) {
+  function EventStart($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory) {
     var _this = this;
 
     _classCallCheck(this, EventStart);
@@ -3475,6 +3544,7 @@ var EventStart = function () {
     this.anchorScroll = $anchorScroll;
     this.service = EventService;
     this.locationService = LocationService;
+    this.validation = ValidationFactory;
     this.event = {
       categorie_uuid: null
     };
@@ -3585,15 +3655,30 @@ var EventStart = function () {
       this.popoverContent = this.popovers[field];
     }
   }, {
+    key: 'validateDate',
+    value: function validateDate(field, date) {
+      date = date.split('/');
+      date = new Date(date[2] + '-' + date[1] + '-' + date[0]);
+      if (!field.$error.mask && field.$viewValue) {
+        var valid = this.validation.dateMinByDays(date, 22, 'future') && this.validation.dateMaxByDays(date, 90, 'future');
+        field.$setValidity('end_date', valid);
+      }
+    }
+  }, {
     key: 'checkEndDate',
-    value: function checkEndDate(end) {
-      var end_date = end.split('/');
-      end_date = end_date[2] + '-' + end_date[1] + '-' + end_date[0];
-      var dateEnd = new Date(end_date),
-          dateCurrent = new Date(),
-          timeDiff = dateEnd - dateCurrent,
-          diffDays = parseInt(timeDiff / (1000 * 3600 * 24));
-      return diffDays >= 22 && diffDays <= 90 ? false : true;
+    value: function checkEndDate(field, end) {
+      if (!field.$error.mask && field.$viewValue) {
+        var end_date = end.split('/');
+        end_date = end_date[2] + '-' + end_date[1] + '-' + end_date[0];
+        var dateEnd = new Date(end_date),
+            dateCurrent = new Date(),
+            timeDiff = dateEnd - dateCurrent,
+            diffDays = parseInt(timeDiff / (1000 * 3600 * 24)),
+            valid = diffDays >= 22 && diffDays <= 90 ? true : false;
+        field.$setValidity('end_date', valid);
+      } else {
+        field.$setValidity('end_date', false);
+      }
     }
   }, {
     key: 'save',
@@ -3660,7 +3745,7 @@ var EventStart = function () {
 exports.default = EventStart;
 
 
-EventStart.$inject = ['$rootScope', '$state', '$window', '$stateParams', '$timeout', '$filter', '$location', '$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService'];
+EventStart.$inject = ['$rootScope', '$state', '$window', '$stateParams', '$timeout', '$filter', '$location', '$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService', 'ValidationFactory'];
 
 },{}],63:[function(require,module,exports){
 'use strict';
@@ -4133,7 +4218,7 @@ var Home = function () {
       label: 'Saúde',
       image: 'assets/images/saude.jpeg',
       title: '"O projeto está sendo parte fundamental do meu tratamento. Sem esse apoio não teria chegado até aqui." Lia Mantovani',
-      text: '<p>O Eventos do Bem foi a plataforma responsável pela arrecadação dos recursos para a abertura do CNPJ do Portal SuperAção.O Portal SuperAção tem a missão de levar apoio emocional e informações em saúde integral de forma inclusiva, para pacientes com câncer e seus familiares, em todo Brasil.</p><p>O apoio de paciente para paciente é fundamental no tratamento.  Por isso o Portal  criou uma rede onde um paciente que está no tratamento do câncer ou seu familiar (SuperaDor) recebe apoio de outro que já passou exatamente pela mesma situação e superou (Anjo), com o apoio de um profissional voluntário que garante a segurança dessa relação.</p><p>Hoje, a ONG precisa manter seus serviços e está construindo um aplicativo para ampliar sua capacidade de atendimento para 10 a 50 mil participantes.  Ajude o Portal a realizar o sonho de levar amor a mais pessoas, criando  um evento do bem!</p>'
+      text: '<p>A Eventos do Bem foi a plataforma responsável pela arrecadação dos recursos para a abertura do CNPJ do Portal SuperAção. O Portal SuperAção tem a missão de levar apoio emocional e informação em saúde integral de forma inclusiva, para pacientes com câncer e seus familiares, em todo Brasil.</p><p>Para isso, o Portal criou uma rede onde um pacientes em tratamento do câncer ou seu familiar (SuperaDor) recebe apoio de outro que já passou exatamente pela mesma situação e superou (Anjo), com o apoio de um profissional voluntário que garante a segurança dessa relação.</p><p>Hoje, a ONG precisa manter seus serviços e está construindo um aplicativo para ampliar sua capacidade de atendimento para 10 a 50 mil participantes. Ajude o Portal a realizar o sonho de levar amor a mais pessoas, criando um evento do bem!</p>'
     }, {
       id: 'education',
       active: false,
@@ -4141,8 +4226,8 @@ var Home = function () {
       icon: 'assets/icons/svgs/causa-educacao.svg',
       label: 'Educação',
       image: 'assets/images/educacao.jpeg',
-      title: 'Quando eu crescer eu quero ser professora de português!',
-      text: '<p>O Projeto Vida atua ajudando crianças que moram na comunidade da Vila Missionária,a conseguirem um futuro melhor proporcionando educação de qualidade como meio das crianças conquistarem seus sonhos.</p><p>Com o objetivo de aumentar ainda mais esse bem, voluntários e doadores  do Projeto Vida fizeram seus eventos do bem de aniversario  ajudando crianças como a Juliana, que chegou ao projeto sem saber escrever direito mas que se desenvolveu tanto que, agora, quando crescer quer ser  professora de português!</p><p>Isso está sendo possível graças ao Projeto Vida e aos mais de 100 apoiadores  que apoiaram um evento do bem. Vamos juntos?</p>'
+      title: 'Apoiando os sonhos das crianças do Projeto Vida.',
+      text: '<p>Quando algumas das crianças do Projeto Vida são perguntadas sobre o que querem ser quando crescer, não há dúvidas: Amanda quer ser professora e Juliana advogada criminal (como os personagens do seriado que assiste!).</p><p>Essas meninas podem contar com o apoio do Projeto Vida, que atua com crianças que moram na comunidade da Vila Missionária, possibilitando um futuro melhor por meio de apoio escolar, mentoria personalizada e atividades lúdicas de aprendizado.</p><p>Com o objetivo de aumentar ainda mais esse bem, voluntários e mais de 100 apoiadores por meio de eventos do bem de aniversário ajudaram crianças como a Juliana e Amanda apoiando seus sonhos.</p><p>Você pode fazer um evento do bem e expandir ainda mais o apoio que o Projeto Vida dá para as crianças da Vila Missionária! Além disso, você e os apoiadores da campanha são convidados a conhecer o bem que vocês geraram ao vivo!</p>'
     }, {
       id: 'habitation',
       active: false,
@@ -4151,7 +4236,7 @@ var Home = function () {
       label: 'Moradia',
       image: 'assets/images/moradia.jpeg',
       title: 'Dona Quitéria está melhorando seu lar.',
-      text: '<p>“Pra mim foi um sonho. Até hoje eu não consigo dormir direito, até hoje eu  levanto pra olhar né, ver se a cozinha tá do mesmo jeito... <br> Meu Deus! Como esta linda a minha casa!”</p><p>Foram realizados eventos do bem para apoiar reformas de moradias insalubres localizadas no Jardim Pantanal - SP, uma região de periferia e que sofre  recorrentes alagamentos do rio Tietê que está nas proximidades da comunidade.</p><p>O Moradigna é um negócio social localizado em São Paulo que busca possibilitar  moradias mais dignas para famílias de comunidades de baixa-renda,  possibilitando uma melhor qualidade de vida para pessoas das classes C e D.</p><p> Desta forma, você pode fazer um evento do bem, mobilizando seus amigos e conhecidos para fortalecer pessoas e famílias de alta vulnerabilidade social como de Dona Quitéria que agora olham para seus cômodos e sentem-se encorajados para  crescer ainda mais.</p>'
+      text: '<p>"Pra mim foi um sonho. At\xE9 hoje eu n\xE3o consigo dormir direito, at\xE9 hoje eu levanto pra olhar n\xE9, ver se a cozinha t\xE1 do mesmo jeito... Meu Deus! Como est\xE1 linda a minha casa!"</p><p>Foram realizados eventos do bem para apoiar reformas de moradias insalubres localizadas no Jardim Pantanal - SP, uma regi\xE3o de periferia e que sofre recorrentes alagamentos do rio Tiet\xEA que est\xE1 nas proximidades da comunidade.</p><p>O Moradigna \xE9 um neg\xF3cio social localizado em S\xE3o Paulo que busca possibilitar moradias mais dignas para fam\xEDlias de comunidades de baixa-renda, possibilitando uma melhor qualidade de vida para pessoas das classes C e D.</p><p>Fa\xE7a um evento do bem, mobilizando seus amigos e conhecidos para fortalecer pessoas e fam\xEDlias de alta vulnerabilidade social como de Dona Quit\xE9ria que agora olham para seus c\xF4modos e sentem-se encorajados para crescer ainda mais.</p>'
     }, {
       id: 'humans',
       active: false,
@@ -4159,8 +4244,8 @@ var Home = function () {
       icon: 'assets/icons/svgs/humanos.svg',
       label: 'Direitos humanos',
       image: 'assets/images/direitos-humanos.jpeg',
-      title: 'Se eu consegui, vocês também conseguem!',
-      text: '<p>Este é o testemundo de Dener, o primeiro atendido recuperado no Projeto Ruas, que atualmente já trabalha e tem moradia.</p><p>"Se foi possível para mim, será possível para vocês também... <br> Quando eu estava na rua, eu esperava ansioso todas as 3as <br> para encontrar com o pessoal do projeto que me incentivavam a viver. <br> Hoje eu estou aqui fazendo parte da equipe Ruas, <br> tentando salvar vidas como a minha foi salva."</p><p>O Projeto Ruas é um laboratorio de inovação social focado em população em situação de rua, atuando em bairros e comunidades com o intuito de aproximar residentes da população de rua  de sua região.</p><p>Em 2016 foi realizado um evento do bem no qual um aniversário  possibilitou 20 rondas atendendo cerca de 400 pessoas que como o Dener  estavam em  situação de rua.</p>'
+      title: '"Se eu consegui, vocês também conseguem!"',
+      text: '<p>Este é o testemunho de Dener, o primeiro atendido recuperado no Projeto Ruas, que atualmente já trabalha e tem moradia.</p><p>"Se foi possível para mim, será possível para vocês também...<br>Quando eu estava na rua, eu esperava ansioso todas as terças para encontrar com o pessoal do projeto que me incentivaram a viver. Hoje eu estou aqui fazendo parte da equipe Ruas, tentando salvar vidas como a minha foi salva."</p><p>O Projeto Ruas é um laboratório de inovação social focado em população em situação de rua, atuando em bairros e comunidades com o intuito de aproximar residentes da população de rua de sua região.</p><p>Em 2016 foi realizado um evento do bem no qual um aniversário possibilitou 20 rondas atendendo cerca de 400 pessoas que como o Dener estavam em situação de rua.</p>'
     }];
     this.impact = this.impacts[0];
   }
@@ -4300,7 +4385,6 @@ var Page = function () {
       var _this2 = this;
 
       this.service.findById(slug).then(function (response) {
-        console.log(response.data);
         _this2.institution = response.data;
       });
     }
@@ -5442,7 +5526,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var OngPage = function () {
-  function OngPage(profile, InstitutionService, $rootScope, StorageService, ProfileService) {
+  function OngPage(profile, InstitutionService, $rootScope, Regex, StorageService, ProfileService) {
     _classCallCheck(this, OngPage);
 
     this.profile = profile.data;
@@ -5450,6 +5534,7 @@ var OngPage = function () {
     this.rootScope = $rootScope;
     this.storage = StorageService;
     this.profileService = ProfileService;
+    this.urlPattern = Regex.URL;
     this.getInstitution(profile.data.institutions.uuid);
   }
 
@@ -5469,7 +5554,6 @@ var OngPage = function () {
     value: function save(data) {
       var _this2 = this;
 
-      console.log(data);
       this.service.savePage(data, function (progress) {
         _this2.progress = progress;
       }).then(function (response) {
@@ -5501,7 +5585,7 @@ var OngPage = function () {
 exports.default = OngPage;
 
 
-OngPage.$inject = ['profile', 'InstitutionService', '$rootScope', 'StorageService', 'ProfileService'];
+OngPage.$inject = ['profile', 'InstitutionService', '$rootScope', 'Regex', 'StorageService', 'ProfileService'];
 
 },{}],94:[function(require,module,exports){
 'use strict';
@@ -5597,15 +5681,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProfileRegister = function () {
-  function ProfileRegister($rootScope, $scope, $stateParams, $state, $filter, $timeout, ActivityAreaService, ProfileService, StorageService, LastStateUnloggedService) {
+  function ProfileRegister($stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, LastStateUnloggedService) {
     _classCallCheck(this, ProfileRegister);
 
     this.activityAreaService = ActivityAreaService;
     this.service = ProfileService;
     this.timeout = $timeout;
-    this.storage = StorageService;
     this.lastStateUnloggedService = LastStateUnloggedService;
-    this.$rootScope = $rootScope;
+    // this.rootScope = $rootScope
     this.state = $state;
     this.filter = $filter;
     this.masterProfile = {
@@ -5617,7 +5700,8 @@ var ProfileRegister = function () {
     this.typeInputPassword = 'password';
     this.getActivityAreas();
     this.fbRegister = false;
-    this.urlPattern = /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i;
+    // this.urlPattern =  /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i
+    this.urlPattern = Regex.URL;
     // $http.get('data/area_activities.json')
     //   .then(response => this.area_activities = response.data) 
   }
@@ -5752,18 +5836,18 @@ var ProfileRegister = function () {
     value: function registerOng(profile) {
       var _this4 = this;
 
-      if (profile.facebook.indexOf('http') && profile.facebook.indexOf('https')) {
-        profile.facebook = 'http://' + profile.facebook;
-      }
-      if (profile.website.indexOf('http') && profile.website.indexOf('https')) {
-        profile.website = 'http://' + profile.website;
-      }
       this.error = null;
       profile = angular.copy(profile);
+      // profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
+      if (profile.facebook.trim().indexOf('http') != 0) {
+        profile.facebook = 'http://' + profile.facebook;
+      }
+      if (profile.website.trim().indexOf('http') != 0) {
+        profile.website = 'http://' + profile.website;
+      }
       if (profile.area_activity_uuid) {
         profile.area_activity_uuid = profile.area_activity_uuid.uuid;
       }
-      profile = profile ? angular.copy(profile) : angular.copy(this.profile);
       profile.phone = profile.phone.replace(/\s/g, '');
       this.service.register(profile).then(function (response) {
         return _this4.registerSuccess(response);
@@ -5806,7 +5890,7 @@ var ProfileRegister = function () {
 exports.default = ProfileRegister;
 
 
-ProfileRegister.$inject = ['$rootScope', '$scope', '$stateParams', '$state', '$filter', '$timeout', 'ActivityAreaService', 'ProfileService', 'StorageService', 'LastStateUnloggedService'];
+ProfileRegister.$inject = ['$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'LastStateUnloggedService'];
 
 },{}],96:[function(require,module,exports){
 'use strict';

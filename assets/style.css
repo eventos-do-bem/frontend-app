@@ -1,6 +1,6 @@
 
 html {
-  /*position: relative;*/
+  position: relative;
   min-height: 100%;
   font-size: 62.5%;
 }
@@ -24,6 +24,9 @@ html, body {
 }
 /* /backgrounds */
 
+main {
+  margin-bottom: 400px;
+}
 /* fonts */
 h1, h2, h3, h4, h5, h6, p {
   /*line-height: 1.8;*/
@@ -417,6 +420,7 @@ dl dd:last-child {
 .campaign .cover > .image-cover,
 .institution .cover > .image-cover {
   width: 100%;
+  max-width: 100%;
   height: 300px;
 }
 .campaign .cover > .image-cover:before,
@@ -478,6 +482,7 @@ dl dd:last-child {
 .campaign .content .description {
   margin-top: 20px;
   margin-bottom: 40px;
+  padding: 2%;
   font-size: 1.7rem;
   color: #444;
 }
@@ -520,6 +525,9 @@ dl dd:last-child {
 /* /report*/
 
 /* start */
+.start {
+  margin-top: 50px;
+}
 .start .description {
   height: 12rem;
 }
@@ -641,7 +649,6 @@ header .navbar .navbar-profile .avatar {
   background-image: url('../assets/banners/banner-home.jpg');
   background-repeat: no-repeat;
   background-size: contain;
-  background-position: top center;
   position: relative;
   width: 100%;
   height: auto;
@@ -675,12 +682,14 @@ header .navbar .navbar-profile .avatar {
 }
 .input-countdown .input-countdown-chars {
   position: absolute;
-  padding: 6px 12px;
+  margin: 6px 12px;
   right: 0px;
   bottom: 0px;
   font-size: 1.4rem;
   color: #999;
   z-index: 3;
+  opacity: .8;
+  background-color: #fff;
 }
 /* /form */
 .event .media {
@@ -1123,6 +1132,9 @@ figure.avatar img {
   /*background-image: url('../assets/icons/pngs/animal.png');*/
   background-image: url('../assets/icons/svgs/causa-animal.svg');
 }
+.home section.portfolio {
+  /*margin-bottom: 400px;*/
+}
 .portfolio {
   text-align: center;
 }
@@ -1555,11 +1567,11 @@ form[name="donate"] {
 /* /donate */
 
 footer {
-  margin-top: 120px;
-  /*position: absolute;*/
-  bottom: 0px;
+  /*margin-top: 120px;*/
+  position: absolute;
+  bottom: 0;
   width: 100%;
-  /*height: 180px;*/
+  height: 280px;
   background-color: #111;
 }
 

@@ -1,10 +1,11 @@
 export default class OngPage {
-  constructor(profile,InstitutionService,$rootScope,StorageService,ProfileService) {
+  constructor(profile,InstitutionService,$rootScope,Regex,StorageService,ProfileService) {
     this.profile = profile.data
     this.service = InstitutionService
     this.rootScope = $rootScope
     this.storage = StorageService
     this.profileService = ProfileService
+    this.urlPattern = Regex.URL
     this.getInstitution(profile.data.institutions.uuid)
   }
   getInstitution(id) {
@@ -16,7 +17,6 @@ export default class OngPage {
       })
   }
   save(data) {
-    console.log(data)
     this.service.savePage(data, progress => {
       this.progress = progress
     }).then(
@@ -45,4 +45,4 @@ export default class OngPage {
   }
 }
 
-OngPage.$inject = ['profile','InstitutionService','$rootScope','StorageService','ProfileService']
+OngPage.$inject = ['profile','InstitutionService','$rootScope','Regex','StorageService','ProfileService']

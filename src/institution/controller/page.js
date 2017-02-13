@@ -32,7 +32,6 @@ export default class Page {
   findInstitution(slug) {
     this.service.findById(slug)
       .then(response => {
-        console.log(response.data)
         this.institution = response.data
       })
   }
