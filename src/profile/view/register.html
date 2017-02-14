@@ -66,12 +66,12 @@
         <div data-ng-switch="ctrl.step">
           <div data-ng-switch-when="0">
             <div data-ng-class="{'has-error':registerOng.name_organization.$invalid && registerOng.name_organization.$dirty}">
-              <count-down-element model="ctrl.profile.name_organization" max="50">
+              <count-down-element model="registerOng.name_organization.$viewValue" max="50">
                 <input type="text" name="name_organization" class="form-control" data-ng-model="ctrl.profile.name_organization" placeholder="Qual o nome da sua organização?" minlength="5" maxlength="50" required autofocus>
               </count-down-element>
             </div>
             <div data-ng-class="{'has-error':registerOng.mission.$invalid && registerOng.mission.$dirty}">
-              <count-down-element model="ctrl.profile.mission" max="165">
+              <count-down-element model="registerOng.mission.$viewValue" max="165">
                 <textarea name="mission" class="form-control" data-ng-model="ctrl.profile.mission" cols="5" placeholder="Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor." minlength="20" maxlength="165" required></textarea>
               </count-down-element>
             </div>
