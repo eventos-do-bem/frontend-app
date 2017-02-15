@@ -148,7 +148,7 @@
             <div class="form-group" data-ng-class="{'has-error':start.end_date.$invalid && start.end_date.$dirty}">
               <label for="end_date" class="control-label">Término</label>
               <input type="text" name="end_date" id="end_date" mask="39/19/2999" class="form-control" data-ng-model="ctrl.event.end_date" data-ng-model-options="{debounce: 1000}" data-ng-change="ctrl.checkEndDate(start.end_date, ctrl.event.end_date)" aria-describedby="endDateHelpBlock" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('end')" popover-placement="right" popover-trigger="focus" required>
-              <div id="endDateHelpBlock" class="help-block" data-ng-show="start.end_date.$error && start.end_date.$touched">
+              <div id="endDateHelpBlock" class="help-block" data-ng-show="start.end_date.$error && start.end_date.$dirty">
                 <p data-ng-show="start.end_date.$error.required" class="text-danger">
                   Campo término do evento é obrigatório.
                 </p>
@@ -167,7 +167,7 @@
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.video.$invalid && start.video.$dirty}">
           <label for="video" class="control-label">Vídeo (URL do Youtube)</label>
-          <input type="url" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right" popover-trigger="focus" data-ng-disabled="ctrl.event.video_default">
+          <input type="text" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" data-ng-pattern="ctrl.urlPattern" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right" popover-trigger="focus" data-ng-disabled="ctrl.event.video_default">
         </div>
         <div class="checkbox">
           <label>

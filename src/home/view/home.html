@@ -152,13 +152,14 @@
         <div class="row">
           <header>
             <h1>Nós comprovamos o impacto</h1>
-            <h2>Você receberá relatórios comprovando o impacto dos recursos angariados, como <a href="#">esse aqui</a>.</h2>
+            <!--<h2>Você receberá relatórios comprovando o impacto dos recursos angariados, como <a href="#">esse aqui</a>.</h2>-->
+            <h2>Você receberá relatórios comprovando o impacto dos recursos angariados.</h2>
           </header>
           <div class="col-md-12 icons">
             <div class="row">
               <div class="col-md-3" data-ng-repeat="impact in ctrl.impacts">
                 <h3 class="{{impact.id}}" data-ng-class="{active: impact.active}" data-ng-click="ctrl.loadImpact($index, $event)">
-                  <object type="image/svg+xml" data="{{impact.icon}}"></object>
+                  <object type="image/svg+xml" ng-attr-data="{{impact.icon}}"></object>
                   {{impact.label}}
                 </h3>
               </div>
@@ -169,11 +170,11 @@
       <div class="row impact" data-ng-style="{'background-color': ctrl.impact.color}">
         <div class="col-md-12">
           <div class="row">
-            <div class="col-md-7 text">
+            <div class="col-md-8 text">
               <h3 data-ng-bind="ctrl.impact.title"></h3>
               <p data-ng-bind-html="ctrl.impact.text"></p>
             </div>
-            <div class="col-md-5 image">
+            <div class="col-md-4 image">
               <img data-ng-src="{{ctrl.impact.image}}" class="img-responsive" alt="">
             </div>
           </div>

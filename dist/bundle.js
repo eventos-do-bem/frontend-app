@@ -910,7 +910,10 @@ var Component = {
       });
     });
     ctrl.$onChanges = function (obj) {
-      if (obj.progress && obj.progress.currentValue) ctrl.percent = Math.round(obj.progress.currentValue.loaded / obj.progress.currentValue.total * 100);
+      if (obj.progress && obj.progress.currentValue) {
+        ctrl.percent = Math.round(obj.progress.currentValue.loaded / obj.progress.currentValue.total * 100);
+        if (ctrl.percent == 100) ctrl.percent = null;
+      }
     };
   }
 };
@@ -1385,32 +1388,30 @@ var FacebookFactory = function () {
       var _this2 = this;
 
       if (!this.FBPromise) {
-        (function () {
-          var deferred = _this2.$q.defer();
-          _this2.$window.fbAsyncInit = function () {
-            _this2.FB = _this2.$window.FB;
-            _this2.loading = false;
-            _this2.loaded = true;
-            _this2.$timeout(function () {
-              return deferred.resolve(FB);
-            });
-          };
-          (function (d, s, id) {
-            var js = void 0,
-                fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-              return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = '//connect.facebook.net/pt_BR/sdk.js';
-            fjs.parentNode.insertBefore(js, fjs);
-          })(_this2.$window.document, 'script', 'facebook-jssdk');
+        var deferred = this.$q.defer();
+        this.$window.fbAsyncInit = function () {
+          _this2.FB = _this2.$window.FB;
+          _this2.loading = false;
+          _this2.loaded = true;
+          _this2.$timeout(function () {
+            return deferred.resolve(FB);
+          });
+        };
+        (function (d, s, id) {
+          var js = void 0,
+              fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {
+            return;
+          }
+          js = d.createElement(s);
+          js.id = id;
+          js.src = '//connect.facebook.net/pt_BR/sdk.js';
+          fjs.parentNode.insertBefore(js, fjs);
+        })(this.$window.document, 'script', 'facebook-jssdk');
 
-          _this2.loading = true;
+        this.loading = true;
 
-          _this2.FBPromise = deferred.promise;
-        })();
+        this.FBPromise = deferred.promise;
       }
       return this.FBPromise;
     }
@@ -1851,6 +1852,7 @@ var ActivityAreaService = function (_CommonService) {
   _createClass(ActivityAreaService, [{
     key: 'findAll',
     value: function findAll() {
+      this.setRoute('activityAreas');
       this.setPublicToken();
       return _get(ActivityAreaService.prototype.__proto__ || Object.getPrototypeOf(ActivityAreaService.prototype), 'findAll', this).call(this);
     }
@@ -3531,7 +3533,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var EventStart = function () {
-  function EventStart($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory) {
+  function EventStart($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, Regex, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory) {
     var _this = this;
 
     _classCallCheck(this, EventStart);
@@ -3545,6 +3547,7 @@ var EventStart = function () {
     this.service = EventService;
     this.locationService = LocationService;
     this.validation = ValidationFactory;
+    this.urlPattern = Regex.URL;
     this.event = {
       categorie_uuid: null
     };
@@ -3745,7 +3748,7 @@ var EventStart = function () {
 exports.default = EventStart;
 
 
-EventStart.$inject = ['$rootScope', '$state', '$window', '$stateParams', '$timeout', '$filter', '$location', '$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService', 'ValidationFactory'];
+EventStart.$inject = ['$rootScope', '$state', '$window', '$stateParams', '$timeout', '$filter', '$location', '$anchorScroll', 'Regex', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService', 'ValidationFactory'];
 
 },{}],63:[function(require,module,exports){
 'use strict';
@@ -5681,12 +5684,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProfileRegister = function () {
-  function ProfileRegister($stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, LastStateUnloggedService) {
+  function ProfileRegister($stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, ValidationFactory, LastStateUnloggedService) {
     _classCallCheck(this, ProfileRegister);
 
     this.activityAreaService = ActivityAreaService;
     this.service = ProfileService;
     this.timeout = $timeout;
+    this.validation = ValidationFactory;
     this.lastStateUnloggedService = LastStateUnloggedService;
     // this.rootScope = $rootScope
     this.state = $state;
@@ -5724,6 +5728,18 @@ var ProfileRegister = function () {
     key: 'toggleShowPassword',
     value: function toggleShowPassword() {
       this.typeInputPassword = this.showPassword ? 'text' : 'password';
+    }
+  }, {
+    key: 'validateDate',
+    value: function validateDate(field, date) {
+      if (!field.$error.mask && date) {
+        date = date.split('/');
+        date = new Date(date[2] + '-' + date[1] + '-' + date[0]);
+        var valid = this.validation.dateMinByYears(date, 18);
+        field.$setValidity('birthdate', valid);
+      } else {
+        field.$setValidity('birthdate', false);
+      }
     }
   }, {
     key: 'changeTab',
@@ -5890,7 +5906,7 @@ var ProfileRegister = function () {
 exports.default = ProfileRegister;
 
 
-ProfileRegister.$inject = ['$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'LastStateUnloggedService'];
+ProfileRegister.$inject = ['$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'ValidationFactory', 'LastStateUnloggedService'];
 
 },{}],96:[function(require,module,exports){
 'use strict';

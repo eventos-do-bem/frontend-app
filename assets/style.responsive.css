@@ -44,7 +44,15 @@
     width: 160px;
     height: 85px;
   }
-
+  /* home */
+  .proven-impact .text,
+  .proven-impact .image {
+    display: block;
+  }
+  .proven-impact .image {
+    padding-left: 0px;
+  }
+  /* /home */
   /* timeline */
   ul.timeline:before {
     left: 40px;
@@ -116,6 +124,15 @@
     width: 360px;
     height: 215px;
   }
+  /* home */
+  .proven-impact .text,
+  .proven-impact .image {
+    display: block;
+  }
+  .proven-impact .image {
+    padding-left: 0px;
+  }
+  /* /home */
   /* faq */
   .faq .search {
     padding: 40px 100px;
@@ -181,6 +198,19 @@
     width: 560px;
     height: 315px;
   }
+  /* home */
+  .proven-impact .text {
+    padding: 10px 15px 10px 30px;
+  }
+  .proven-impact .text h3 {
+    margin-bottom: 15px;
+    font-size: 2rem;
+  }
+  .proven-impact .text p {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+  }
+  /* /home */
   /* faq */
   .faq .search {
     padding: 80px 200px;

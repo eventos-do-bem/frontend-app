@@ -1,5 +1,5 @@
 export default class EventStart {
-  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory) {
+  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, Regex, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory) {
     this.rootScope = $rootScope
     this.state = $state
     this.window = $window
@@ -9,6 +9,7 @@ export default class EventStart {
     this.service = EventService
     this.locationService = LocationService
     this.validation = ValidationFactory
+    this.urlPattern = Regex.URL
     this.event = {
       categorie_uuid: null
     }
@@ -181,4 +182,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService','ValidationFactory']
+EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'Regex', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService','ValidationFactory']

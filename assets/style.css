@@ -386,16 +386,27 @@ dl dd:last-child {
   position: relative;
 }
 .explore .thumbnail .caption p,
+.explore .thumbnail .caption h3,
 .explore .thumbnail .caption h4 {
   display: block; /* Fallback for non-webkit */
-  display: -webkit-box;
   max-width: 100%;
-  height: 5.3rem;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.explore .thumbnail .caption h3 {
+  height: 2.3rem;
+  -moz-line-clamp: 1;
+  -webkit-line-clamp: 1;
+}
+.explore .thumbnail .caption h4 {
+  height: 5.6rem;
+  display: -webkit-box;
+  display: -moz-box;
+  -moz-line-clamp: 3;
+  -webkit-line-clamp: 3;
+}
+
 .explore .thumbnail .caption .avatar {
   position: absolute;
   top: -70px;
@@ -1050,15 +1061,17 @@ figure.avatar img {
 }
 .proven-impact .text {
   color: #fff;
-  padding: 10px 15px 10px 30px;
+  padding: 10px 30px 10px 45px;
 }
 .proven-impact .text h3 {
   margin-bottom: 30px;
+  font-size: 2.6rem;
   font-weight: 300;
   line-height: 3rem;
 }
 .proven-impact .text p {
   margin-bottom: 20px;
+  font-size: 2rem;
   font-weight: 100;
   line-height: 2.2rem;
 }
@@ -1303,6 +1316,15 @@ cursor: pointer;
   font-size: 1.6rem;
   text-align: center;
 }
+.form-signin .tab-pane .help-block {
+  margin: -10px 0 20px;
+}
+.form-signin .tab-pane .help-block p {
+  margin: 0px !important;
+  padding: 0px;
+  font-size: 1.4rem;
+  text-align: left;
+}
 .form-signin .tab-pane p.or {
   margin-bottom: -2rem !important;
   margin-top: 4rem !important;
@@ -1329,6 +1351,10 @@ cursor: pointer;
   padding-top: 0px;
   padding-bottom: 0px;
   font-size: 1.4rem;
+}
+.form-signin .has-error .show-password {
+  display: block;
+  margin-top: -20px;
 }
 .form-signin .show-password[disabled] {
   color: #666;
