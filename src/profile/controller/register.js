@@ -1,8 +1,9 @@
 export default class ProfileRegister {
-  constructor($stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, LastStateUnloggedService) {
+  constructor($stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, ValidationFactory, LastStateUnloggedService) {
     this.activityAreaService = ActivityAreaService
     this.service = ProfileService
     this.timeout = $timeout
+    this.validation = ValidationFactory
     this.lastStateUnloggedService = LastStateUnloggedService
     // this.rootScope = $rootScope
     this.state = $state
@@ -30,6 +31,16 @@ export default class ProfileRegister {
   }
   toggleShowPassword() {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
+  }
+  validateDate(field, date) {
+    if (!field.$error.mask && date) {
+      date = date.split('/')
+      date = new Date(`${date[2]}-${date[1]}-${date[0]}`)
+      let valid = this.validation.dateMinByYears(date, 18)
+      field.$setValidity('birthdate', valid)
+    } else {
+      field.$setValidity('birthdate', false)
+    }
   }
   changeTab(active) {
     this.error = null
@@ -146,4 +157,4 @@ export default class ProfileRegister {
   }
 }
 
-ProfileRegister.$inject = ['$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'LastStateUnloggedService']
+ProfileRegister.$inject = ['$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'ValidationFactory', 'LastStateUnloggedService']

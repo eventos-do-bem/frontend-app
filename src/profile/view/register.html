@@ -28,21 +28,36 @@
         </button>
         <p class="or"></p>
         <div data-ng-class="{'has-error':registerUser.name.$invalid && registerUser.name.$dirty}">
-          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Nome completo" required
+          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Nome completo" aria-describedby="nameHelpBlock" required
             autofocus>
+          <div id="nameHelpBlock" class="help-block" data-ng-show="registerUser.name.$error && registerUser.name.$dirty">
+            <p data-ng-show="registerUser.name.$error.required" class="text-danger">O nome é obrigatório.</p>
+          </div>
         </div>
         <div data-ng-class="{'has-error':registerUser.email.$invalid && registerUser.email.$dirty}">
-          <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Endereço de e-mail do usuário" required>
+          <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Endereço de e-mail do usuário" aria-describedby="emailHelpBlock" required>
+          <div id="emailHelpBlock" class="help-block" data-ng-show="registerUser.email.$error && registerUser.email.$dirty">
+            <p data-ng-show="registerUser.email.$error.required" class="text-danger">O email é obrigatório.</p>
+            <p data-ng-show="registerUser.email.$error.email" class="text-danger">Seu email deve ser um email válido.</p>
+          </div>
         </div>
         <div data-ng-class="{'has-error':registerUser.password.$invalid && registerUser.password.$dirty}">
-          <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" minlength="6" maxlength="10" required>
+          <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" aria-describedby="passwordHelpBlock" minlength="6" maxlength="10" required>
+          <div id="passwordHelpBlock" class="help-block" data-ng-show="registerUser.password.$error && registerUser.password.$dirty">
+            <p data-ng-show="registerUser.password.$error.required" class="text-danger">A senha é obrigatória.</p>
+            <p data-ng-show="registerUser.password.$error.minlength" class="text-danger">Sua senha deve ter no mínimo 6 letras.</p>
+          </div>
+          <label class="show-password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+            <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
+            Mostrar sua senha
+          </label>
         </div>
-        <label class="show-password" data-ng-disabled="!ctrl.profile.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
-          <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
-          Mostrar sua senha
-        </label>
         <div data-ng-class="{'has-error':registerUser.birthdate.$invalid && registerUser.birthdate.$dirty}">
-          <input type="text" name="birthdate" id="birthdate" class="form-control" mask="99/99/9999" data-ng-model="ctrl.profile.birthdate" placeholder="Data de nascimento" required>
+          <input type="text" name="birthdate" id="birthdate" class="form-control" mask="39/19/2999" data-ng-model="ctrl.profile.birthdate" data-ng-change="ctrl.validateDate(registerUser.birthdate, ctrl.profile.birthdate)" placeholder="Data de nascimento" aria-describedby="birthdateHelpBlock" required>
+          <div id="birthdateHelpBlock" class="help-block" data-ng-show="registerUser.birthdate.$error && registerUser.birthdate.$dirty">
+            <p data-ng-show="registerUser.birthdate.$error.required" class="text-danger">Data de nascimento é obrigatória.</p>
+            <p data-ng-show="registerUser.birthdate.$error.birthdate" class="text-danger">Desculpe, você deve ser maior de idade.</p>
+          </div>
         </div>
         <div class="btn-group-justified">
           <label class="gender" ng-model="ctrl.profile.gender" uib-btn-radio="'Masculino'">
@@ -67,43 +82,76 @@
           <div data-ng-switch-when="0">
             <div data-ng-class="{'has-error':registerOng.name_organization.$invalid && registerOng.name_organization.$dirty}">
               <count-down-element model="registerOng.name_organization.$viewValue" max="50">
-                <input type="text" name="name_organization" class="form-control" data-ng-model="ctrl.profile.name_organization" placeholder="Qual o nome da sua organização?" minlength="5" maxlength="50" required autofocus>
+                <input type="text" name="name_organization" class="form-control" data-ng-model="ctrl.profile.name_organization" placeholder="Qual o nome da sua organização?" minlength="5" maxlength="50" aria-describedby="name_orgHelpBlock" required autofocus>
               </count-down-element>
+              <div id="name_orgHelpBlock" class="help-block" data-ng-show="registerOng.name_organization.$error && registerOng.name_organization.$dirty">
+                <p data-ng-show="registerOng.name_organization.$error.required" class="text-danger">O nome da organização é obrigatório.</p>
+                <p data-ng-show="registerOng.name_organization.$error.minlength" class="text-danger">O nome da organização deve ter no mínimo 5 letras.</p>
+              </div>
             </div>
             <div data-ng-class="{'has-error':registerOng.mission.$invalid && registerOng.mission.$dirty}">
               <count-down-element model="registerOng.mission.$viewValue" max="165">
-                <textarea name="mission" class="form-control" data-ng-model="ctrl.profile.mission" cols="5" placeholder="Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor." minlength="20" maxlength="165" required></textarea>
+                <textarea name="mission" class="form-control" data-ng-model="ctrl.profile.mission" cols="5" placeholder="Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor." aria-describedby="missionHelpBlock" minlength="20" maxlength="165" required></textarea>
               </count-down-element>
+              <div id="missionHelpBlock" class="help-block" data-ng-show="registerOng.mission.$error && registerOng.mission.$dirty">
+                <p data-ng-show="registerOng.mission.$error.required" class="text-danger">A missão da organização é obrigatória.</p>
+                <p data-ng-show="registerOng.mission.$error.minlength" class="text-danger">A missão da organização deve ter no mínimo 20 letras.</p>
+              </div>
             </div>
             <div data-ng-class="{'has-error':registerOng.area_activity_uuid.$invalid && registerOng.area_activity_uuid.$dirty}">
-              <input type="text" name="area_activity_uuid" data-ng-model="ctrl.profile.area_activity_uuid" placeholder="Qual sua área de atuação?" uib-typeahead="item as item.name for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
+              <input type="text" name="area_activity_uuid" data-ng-model="ctrl.profile.area_activity_uuid" placeholder="Qual sua área de atuação?" aria-describedby="area_activity_uuiHelpBlock" uib-typeahead="item as item.name for item in ctrl.area_activities | filter:$viewValue | limitTo:10" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" required>
+              <div id="area_activity_uuidHelpBlock" class="help-block" data-ng-show="registerOng.area_activity_uuid.$error && registerOng.area_activity_uuid.$dirty">
+                <p data-ng-show="registerOng.area_activity_uuid.$error.required" class="text-danger">A área de atuação da organização é obrigatória.</p>
+              </div>
             </div>
           </div>
           <div data-ng-switch-when="1">
             <div data-ng-class="{'has-error':registerOng.phone.$invalid && registerOng.phone.$dirty}">
-              <input type="text" name="phone" class="form-control" mask="99 9?9999 9999" data-ng-model="ctrl.profile.phone" placeholder="Qual o telefone da organização?" required>
+              <input type="text" name="phone" class="form-control" mask="99 9?9999 9999" data-ng-model="ctrl.profile.phone" placeholder="Qual o telefone da organização?" aria-describedby="phoneHelpBlock" required>
+              <div id="phoneHelpBlock" class="help-block" data-ng-show="registerOng.phone.$error && registerOng.phone.$dirty">
+                <p data-ng-show="registerOng.phone.$error.required" class="text-danger">O telefone da organização é obrigatório.</p>
+                <p data-ng-show="registerOng.phone.$error.mask" class="text-danger">O telefone da organização deve conter o DDD e número com 8 ou 9 digitos.</p>
+              </div>
             </div>
             <div data-ng-class="{'has-error':registerOng.facebook.$invalid && registerOng.facebook.$dirty}">
-              <input type="text" name="facebook" class="form-control" data-ng-model="ctrl.profile.facebook" data-ng-pattern="ctrl.urlPattern" placeholder="Qual a página do facebook oficial?" required>
+              <input type="text" name="facebook" class="form-control" data-ng-model="ctrl.profile.facebook" data-ng-pattern="ctrl.urlPattern" placeholder="Qual a página do facebook oficial?" aria-describedby="facebookHelpBlock" required>
+              <div id="phoneHelpBlock" class="help-block" data-ng-show="registerOng.facebook.$error && registerOng.facebook.$dirty">
+                <p data-ng-show="registerOng.facebook.$error.required" class="text-danger">O facebook da organização é obrigatório.</p>
+                <p data-ng-show="registerOng.facebook.$error.pattern" class="text-danger">Utilize um endereço de página de facebook válido.</p>
+              </div>
             </div>
             <div data-ng-class="{'has-error':registerOng.website.$invalid && registerOng.website.$dirty}">
-              <input type="text" name="website" class="form-control" data-ng-model="ctrl.profile.website" data-ng-pattern="ctrl.urlPattern" placeholder="Qual o website oficial?">
+              <input type="text" name="website" class="form-control" data-ng-model="ctrl.profile.website" data-ng-pattern="ctrl.urlPattern" placeholder="Qual o website oficial?" aria-describedby="websiteHelpBlock">
+              <div id="websiteHelpBlock" class="help-block" data-ng-show="registerOng.website.$error && registerOng.website.$dirty">
+                <p data-ng-show="registerOng.website.$error.pattern" class="text-danger">Utilize um endereço de website válido.</p>
+              </div>
             </div>
           </div>
           <div data-ng-switch-when="2">
             <div data-ng-class="{'has-error':registerOng.name.$invalid && registerOng.name.$dirty}">
-              <input type="text" name="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Qual o seu nome?" required>
+              <input type="text" name="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Qual o seu nome?" aria-describedby="nameHelpBlock" required>
+              <div id="nameHelpBlock" class="help-block" data-ng-show="registerOng.name.$error && registerOng.name.$dirty">
+                <p data-ng-show="registerOng.name.$error.required" class="text-danger">O seu nome é obrigatório.</p>
+              </div>
             </div>
             <div data-ng-class="{'has-error':registerOng.email.$invalid && registerOng.email.$dirty}">
-              <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Qual seu e-mail profissional?" required>
+              <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Qual seu e-mail profissional?" aria-describedby="emailHelpBlock" required>
+              <div id="emailHelpBlock" class="help-block" data-ng-show="registerOng.email.$error && registerOng.email.$dirty">
+                <p data-ng-show="registerOng.email.$error.required" class="text-danger">O email da organização é obrigatório.</p>
+                <p data-ng-show="registerOng.email.$error.email" class="text-danger">O email da organização deve ser um email válido.</p>
+              </div>
             </div>
             <div data-ng-class="{'has-error':registerOng.password.$invalid && registerOng.password.$dirty}">
-              <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" minlength="6" maxlength="10" required>
+              <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" aria-describedby="passwordHelpBlock" minlength="6" maxlength="10" required>
+              <div id="passwordHelpBlock" class="help-block" data-ng-show="registerOng.password.$error && registerOng.password.$dirty">
+                <p data-ng-show="registerOng.password.$error.required" class="text-danger">A senha da organização é obrigatória.</p>
+                <p data-ng-show="registerOng.password.$error.minlength" class="text-danger">Sua senha da organização deve ter no mínimo 6 letras.</p>
+              </div>
+              <label class="show-password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+                <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
+                Mostrar sua senha
+              </label>
             </div>
-            <label class="show-password" data-ng-disabled="!ctrl.profile.password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
-              <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
-              Mostrar sua senha
-            </label>
           </div>
         </div>
         <div class="btn-group steps btn-group-lg btn-group-justified" role="group" aria-label="...">

@@ -6,6 +6,7 @@ export default class ActivityAreaService extends CommonService {
     this.setRoute('activityAreas')
   }
   findAll() {
+    this.setRoute('activityAreas')
     this.setPublicToken()
     return super.findAll()
   }

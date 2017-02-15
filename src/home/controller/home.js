@@ -9,7 +9,7 @@ export default class Home {
       if (count >= length) count = 0
       this.category = categories[count]
     }, 2000)
-
+    
     this.impacts = [
       {
         id: 'health',
