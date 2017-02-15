@@ -1388,32 +1388,30 @@ var FacebookFactory = function () {
       var _this2 = this;
 
       if (!this.FBPromise) {
-        (function () {
-          var deferred = _this2.$q.defer();
-          _this2.$window.fbAsyncInit = function () {
-            _this2.FB = _this2.$window.FB;
-            _this2.loading = false;
-            _this2.loaded = true;
-            _this2.$timeout(function () {
-              return deferred.resolve(FB);
-            });
-          };
-          (function (d, s, id) {
-            var js = void 0,
-                fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-              return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = '//connect.facebook.net/pt_BR/sdk.js';
-            fjs.parentNode.insertBefore(js, fjs);
-          })(_this2.$window.document, 'script', 'facebook-jssdk');
+        var deferred = this.$q.defer();
+        this.$window.fbAsyncInit = function () {
+          _this2.FB = _this2.$window.FB;
+          _this2.loading = false;
+          _this2.loaded = true;
+          _this2.$timeout(function () {
+            return deferred.resolve(FB);
+          });
+        };
+        (function (d, s, id) {
+          var js = void 0,
+              fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {
+            return;
+          }
+          js = d.createElement(s);
+          js.id = id;
+          js.src = '//connect.facebook.net/pt_BR/sdk.js';
+          fjs.parentNode.insertBefore(js, fjs);
+        })(this.$window.document, 'script', 'facebook-jssdk');
 
-          _this2.loading = true;
+        this.loading = true;
 
-          _this2.FBPromise = deferred.promise;
-        })();
+        this.FBPromise = deferred.promise;
       }
       return this.FBPromise;
     }
