@@ -15,7 +15,7 @@
       <div class="col-md-8">
         <p class="description" data-ng-bind="ctrl.institution.propose"></p>
         <div data-ng-show="ctrl.institution.video" class="video-container">
-          <iframe src="{{ctrl.institution.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
+          <iframe data-ng-src="{{ctrl.institution.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
         <p class="description" data-ng-bind="ctrl.institution.impact"></p>
         <!--<pre>{{ctrl.institution | json}}</pre>-->

@@ -3695,6 +3695,9 @@ var EventStart = function () {
           });
         });
       } else {
+        if (event.video && event.video.trim().indexOf('http') != 0) {
+          event.video = 'http://' + event.video;
+        }
         // event.goal_amount = parseInt(event.goal_amount)
         this.service.save(event, function (progress) {
           return _this3.progress = progress;
@@ -5547,6 +5550,7 @@ var OngPage = function () {
       var _this = this;
 
       this.service.findById(id).then(function (response) {
+        if (response.data.video == null) delete response.data.video;
         delete response.data.cover;
         delete response.data.avatar;
         _this.page = response.data;
@@ -5557,13 +5561,18 @@ var OngPage = function () {
     value: function save(data) {
       var _this2 = this;
 
+      if (data.video && data.video.trim().indexOf('http') != 0) {
+        data.video = 'http://' + data.video;
+      }
       this.service.savePage(data, function (progress) {
         _this2.progress = progress;
       }).then(function (response) {
         _this2.profile.avatar = response.data.user.avatar;
         _this2.profileService.setProfile(_this2.profile);
-        delete _this2.page.cover;
-        delete _this2.page.avatar;
+        if (response.data.video == null) delete response.data.video;
+        delete response.data.cover;
+        delete response.data.avatar;
+        _this2.page = response.data;
 
         _this2.rootScope.$broadcast('alert', {
           type: 'alert-success',
