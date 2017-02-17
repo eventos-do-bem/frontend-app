@@ -6,12 +6,11 @@ export default class AuthLogin {
     this.lastStateUnloggedService = LastStateUnloggedService
     this.$rootScope = $rootScope
     this.state = $state
-    this.profile = {
-      rememberme: true
-    }
+    this.masterProfile = {}
     this.showPassword = false
     this.typeInputPassword = 'password'
     this.method = 'loginUser'
+    // this.profile = angular.copy(this.masterProfile)
   }
   toggleShowPassword() {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
@@ -22,6 +21,7 @@ export default class AuthLogin {
     })
   }
   changeMethod(method) {
+    this.profile = angular.copy(this.masterProfile)
     this.method = method
   }
   login(profile) {

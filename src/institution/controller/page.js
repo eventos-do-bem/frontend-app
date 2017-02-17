@@ -1,6 +1,7 @@
 export default class Page {
-  constructor($filter, $stateParams, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService) {
+  constructor($filter, $stateParams, $sce, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService) {
     this.filter = $filter
+    this.sce = $sce
     this.service = InstitutionService
     this.profileService = ProfileService
     this.notification = NotificationService
@@ -34,6 +35,9 @@ export default class Page {
       .then(response => {
         this.institution = response.data
       })
+  }
+  getTrustHtml(html) {
+    return this.sce.trustAsHtml(html)
   }
   validateDate(field, date) {
     date = date.split('/')
@@ -69,4 +73,4 @@ export default class Page {
   }
 }
 
-Page.$inject = ['$filter','$stateParams','InstitutionService','ProfileService','NotificationService','ValidationFactory','StorageService']
+Page.$inject = ['$filter','$stateParams', '$sce','InstitutionService','ProfileService','NotificationService','ValidationFactory','StorageService']

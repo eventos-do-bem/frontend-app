@@ -45,7 +45,7 @@
           <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" aria-describedby="passwordHelpBlock" minlength="6" maxlength="10" required>
           <div id="passwordHelpBlock" class="help-block" data-ng-show="registerUser.password.$error && registerUser.password.$dirty">
             <p data-ng-show="registerUser.password.$error.required" class="text-danger">A senha é obrigatória.</p>
-            <p data-ng-show="registerUser.password.$error.minlength" class="text-danger">Sua senha deve ter no mínimo 6 letras.</p>
+            <p data-ng-show="registerUser.password.$error.minlength" class="text-danger">Sua senha deve ter entre 6 e 10 caracteres.</p>
           </div>
           <label class="show-password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
             <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
@@ -56,7 +56,7 @@
           <input type="text" name="birthdate" id="birthdate" class="form-control" mask="39/19/2999" data-ng-model="ctrl.profile.birthdate" data-ng-change="ctrl.validateDate(registerUser.birthdate, ctrl.profile.birthdate)" placeholder="Data de nascimento" aria-describedby="birthdateHelpBlock" required>
           <div id="birthdateHelpBlock" class="help-block" data-ng-show="registerUser.birthdate.$error && registerUser.birthdate.$dirty">
             <p data-ng-show="registerUser.birthdate.$error.required" class="text-danger">Data de nascimento é obrigatória.</p>
-            <p data-ng-show="registerUser.birthdate.$error.birthdate" class="text-danger">Desculpe, você deve ser maior de idade.</p>
+            <p data-ng-show="registerUser.birthdate.$error.birthdate" class="text-danger">Cadastro permitido somente para maiores de 18 anos.</p>
           </div>
         </div>
         <div class="btn-group-justified">
@@ -144,8 +144,8 @@
             <div data-ng-class="{'has-error':registerOng.password.$invalid && registerOng.password.$dirty}">
               <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="Senha" aria-describedby="passwordHelpBlock" minlength="6" maxlength="10" required>
               <div id="passwordHelpBlock" class="help-block" data-ng-show="registerOng.password.$error && registerOng.password.$dirty">
-                <p data-ng-show="registerOng.password.$error.required" class="text-danger">A senha da organização é obrigatória.</p>
-                <p data-ng-show="registerOng.password.$error.minlength" class="text-danger">Sua senha da organização deve ter no mínimo 6 letras.</p>
+                <p data-ng-show="registerOng.password.$error.required" class="text-danger">A senha é obrigatória.</p>
+                <p data-ng-show="registerOng.password.$error.minlength" class="text-danger">Sua senha deve ter entre 6 e 10 caracteres.</p>
               </div>
               <label class="show-password" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
                 <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>

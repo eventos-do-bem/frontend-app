@@ -101,6 +101,13 @@ a {
 .has-error .control-label {
   color: @red;
 }
+.ta-root.focussed > .ta-scroll-window.form-control {
+  box-shadow: none;
+}
+.ta-scroll-window.form-control,
+.ta-scroll-window > .ta-bind {
+  min-height: 150px;
+}
 .form-control {
   &:focus {
     box-shadow: none;
@@ -152,6 +159,12 @@ a {
 .btn {
   padding: @btn-padding;
   border-width: @btn-border;
+}
+.ta-toolbar.btn-group-justified .btn-group .btn {
+  padding: 6px 8px;
+}
+.start .ta-toolbar.btn-group-justified .btn-group .btn {
+  padding: 6px 6px;
 }
 .btn.btn-large {
   padding: @btn-padding-large;

@@ -20,7 +20,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = AppConfig;
-function AppConfig($httpProvider, envServiceProvider, $urlRouterProvider, $sceDelegateProvider) {
+function AppConfig($httpProvider, envServiceProvider, $provide, $urlRouterProvider, $sceDelegateProvider) {
   // set the domains and variables for each environment
   envServiceProvider.config({
     domains: {
@@ -59,6 +59,22 @@ function AppConfig($httpProvider, envServiceProvider, $urlRouterProvider, $sceDe
   // run the environment check, so the comprobation is made 
   // before controllers and services are built 
   envServiceProvider.check();
+
+  $provide.decorator('taOptions', ['$delegate', function (taOptions) {
+    taOptions.toolbar = [['h1'], ['h2'], ['h3'], ['h4'], ['h5'], ['h6'], ['p'], ['bold'], ['italics'], ['underline'], ['ul'], ['ol'], ['redo'], ['undo'], ['clear'], ['justifyLeft'], ['justifyCenter'], ['justifyRight'], ['insertImage'], ['insertLink'], ['insertVideo']];
+    taOptions.classes = {
+      focussed: 'focussed',
+      toolbar: 'btn-group btn-group-justified',
+      toolbarGroup: 'btn-group',
+      toolbarButton: 'btn btn-default text-center',
+      toolbarButtonActive: 'active',
+      disabled: 'disabled',
+      textEditor: 'form-control',
+      htmlEditor: 'form-control'
+    };
+    // taOptions.disableSanitizer = false;
+    return taOptions;
+  }]);
 
   $httpProvider.interceptors.push('HttpInterceptor');
   $sceDelegateProvider.resourceUrlWhitelist(['self', "http://www.youtube.com/embed/**", "https://www.youtube.com/embed/**"]);
@@ -159,9 +175,13 @@ var _angularMessages = require('angular-messages');
 
 var _angularMessages2 = _interopRequireDefault(_angularMessages);
 
-var _angularSanitize = require('angular-sanitize');
+var _textAngularSanitize = require('textangular/dist/textAngular-sanitize');
 
-var _angularSanitize2 = _interopRequireDefault(_angularSanitize);
+var _textAngularSanitize2 = _interopRequireDefault(_textAngularSanitize);
+
+var _textangular = require('textangular');
+
+var _textangular2 = _interopRequireDefault(_textangular);
 
 var _ptBr = require('angular-i18n/pt-br');
 
@@ -245,11 +265,11 @@ var _module20 = _interopRequireDefault(_module19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('app', ['environment', 'ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'ngSanitize', 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).factory('HttpInterceptor', _interceptor2.default).filter('youtube', _youtube2.default).controller('AppController', _controller2.default).constant('Regex', {
+angular.module('app', ['environment', 'ui.bootstrap', _angularUiRouter2.default, 'ngMask', 'ngMessages', 'ngSanitize', 'textAngular', 'common', 'loading', 'alert', 'countdown', 'facebook', 'home', 'pages', 'faq', 'event', 'donate', 'auth', 'profile', 'institution', 'confirmation']).config(_config2.default).factory('HttpInterceptor', _interceptor2.default).filter('youtube', _youtube2.default).controller('AppController', _controller2.default).constant('Regex', {
   URL: /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i
 }).run(_run2.default);
 
-},{"./../auth/module.js":12,"./../common/component/alert/alert.js":14,"./../common/component/countdown/countdown.js":17,"./../common/component/facebook/facebook.js":19,"./../common/component/loading/loading.js":23,"./../common/filter/youtube.js":34,"./../common/module.js":35,"./../confirmation/module.js":49,"./../donate/module.js":55,"./../event/module.js":64,"./../faq/module.js":68,"./../home/module.js":72,"./../institution/module.js":75,"./../pages/module.js":84,"./../profile/module.js":101,"./config.js":2,"./controller.js":3,"./interceptor.js":4,"./run.js":6,"angular-environment":"angular-environment","angular-i18n/pt-br":"angular-i18n/pt-br","angular-messages":"angular-messages","angular-sanitize":"angular-sanitize","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask"}],6:[function(require,module,exports){
+},{"./../auth/module.js":12,"./../common/component/alert/alert.js":14,"./../common/component/countdown/countdown.js":17,"./../common/component/facebook/facebook.js":19,"./../common/component/loading/loading.js":23,"./../common/filter/youtube.js":34,"./../common/module.js":35,"./../confirmation/module.js":49,"./../donate/module.js":55,"./../event/module.js":64,"./../faq/module.js":68,"./../home/module.js":72,"./../institution/module.js":75,"./../pages/module.js":84,"./../profile/module.js":101,"./config.js":2,"./controller.js":3,"./interceptor.js":4,"./run.js":6,"angular-environment":"angular-environment","angular-i18n/pt-br":"angular-i18n/pt-br","angular-messages":"angular-messages","angular-ui-bootstrap":"angular-ui-bootstrap","angular-ui-router":"angular-ui-router","ng-mask":"ng-mask","textangular":"textangular","textangular/dist/textAngular-sanitize":"textangular/dist/textAngular-sanitize"}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -391,12 +411,11 @@ var AuthLogin = function () {
     this.lastStateUnloggedService = LastStateUnloggedService;
     this.$rootScope = $rootScope;
     this.state = $state;
-    this.profile = {
-      rememberme: true
-    };
+    this.masterProfile = {};
     this.showPassword = false;
     this.typeInputPassword = 'password';
     this.method = 'loginUser';
+    // this.profile = angular.copy(this.masterProfile)
   }
 
   _createClass(AuthLogin, [{
@@ -416,6 +435,7 @@ var AuthLogin = function () {
   }, {
     key: 'changeMethod',
     value: function changeMethod(method) {
+      this.profile = angular.copy(this.masterProfile);
       this.method = method;
     }
   }, {
@@ -3320,11 +3340,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Event = function () {
-  function Event($rootScope, $state, $stateParams, $uibModal, EventService, StorageService) {
+  function Event($rootScope, $state, $sce, $stateParams, $uibModal, EventService, StorageService) {
     _classCallCheck(this, Event);
 
     this.rootScope = $rootScope;
     this.state = $state;
+    this.sce = $sce;
     this.modal = $uibModal;
     this.service = EventService;
     this.profile = StorageService.getItem('profile');
@@ -3368,6 +3389,11 @@ var Event = function () {
       });
     }
   }, {
+    key: 'getTrustHtml',
+    value: function getTrustHtml(html) {
+      return this.sce.trustAsHtml(html);
+    }
+  }, {
     key: 'seeWhatHappens',
     value: function seeWhatHappens(event) {
       if (event.report) {
@@ -3406,7 +3432,7 @@ var Event = function () {
 exports.default = Event;
 
 
-Event.$inject = ['$rootScope', '$state', '$stateParams', '$uibModal', 'EventService', 'StorageService'];
+Event.$inject = ['$rootScope', '$state', '$sce', '$stateParams', '$uibModal', 'EventService', 'StorageService'];
 
 },{}],61:[function(require,module,exports){
 'use strict';
@@ -4347,10 +4373,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Page = function () {
-  function Page($filter, $stateParams, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService) {
+  function Page($filter, $stateParams, $sce, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService) {
     _classCallCheck(this, Page);
 
     this.filter = $filter;
+    this.sce = $sce;
     this.service = InstitutionService;
     this.profileService = ProfileService;
     this.notification = NotificationService;
@@ -4395,6 +4422,11 @@ var Page = function () {
       });
     }
   }, {
+    key: 'getTrustHtml',
+    value: function getTrustHtml(html) {
+      return this.sce.trustAsHtml(html);
+    }
+  }, {
     key: 'validateDate',
     value: function validateDate(field, date) {
       date = date.split('/');
@@ -4433,7 +4465,7 @@ var Page = function () {
 exports.default = Page;
 
 
-Page.$inject = ['$filter', '$stateParams', 'InstitutionService', 'ProfileService', 'NotificationService', 'ValidationFactory', 'StorageService'];
+Page.$inject = ['$filter', '$stateParams', '$sce', 'InstitutionService', 'ProfileService', 'NotificationService', 'ValidationFactory', 'StorageService'];
 
 },{}],75:[function(require,module,exports){
 'use strict';
@@ -5000,7 +5032,7 @@ function ProfileConfig($stateProvider) {
     controllerAs: 'ctrl',
     resolve: {}
   }).state('profile.ong.page', {
-    url: '/:uuid/pagina',
+    url: '/pagina',
     authenticate: true,
     templateUrl: './src/profile/view/ong.page.html',
     controller: 'OngPage',

@@ -161,13 +161,19 @@
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.description.$invalid && start.description.$dirty}">
           <label for="description" class="control-label">Texto explicativo</label>
-          <count-down-element model="ctrl.event.description" max="3000">
+          <div text-angular="text-angular" name="description" data-ng-model="ctrl.event.description" ta-disabled='disabled' data-ng-required="true" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('description')" popover-placement="right" popover-trigger="focus"></div>
+          <!--<count-down-element model="ctrl.event.description" max="3000">
             <textarea name="description" id="description" class="form-control description" data-ng-model="ctrl.event.description" maxlength="3000" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('description')" popover-placement="right" popover-trigger="focus"></textarea>
-          </count-down-element>
+          </count-down-element>-->
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.video.$invalid && start.video.$dirty}">
           <label for="video" class="control-label">Vídeo (URL do Youtube)</label>
-          <input type="text" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" data-ng-pattern="ctrl.urlPattern" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right" popover-trigger="focus" data-ng-disabled="ctrl.event.video_default">
+          <input type="text" name="video" id="video" class="form-control" data-ng-model="ctrl.event.video" data-ng-pattern="ctrl.urlPattern" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('video')" popover-placement="right" popover-trigger="focus" data-ng-disabled="ctrl.event.video_default" aria-describedby="videoHelpBlock">
+          <div id="videoHelpBlock" class="help-block" data-ng-messages="page.video.$error">
+            <p class="text-danger" data-ng-message="pattern">
+              O vídeo deve ser uma URL válida.
+            </p>
+          </div>
         </div>
         <div class="checkbox">
           <label>

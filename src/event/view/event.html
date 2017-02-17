@@ -20,7 +20,7 @@
         <div data-ng-show="ctrl.event.videos.values[0]" class="video-container">
           <iframe data-ng-src="{{ctrl.event.videos.values[0].url | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
-        <p class="description" data-ng-bind="ctrl.event.description"></p>
+        <p class="description" data-ng-bind-html="ctrl.getTrustHtml(ctrl.event.description)"></p>
         <!--<div>
           <div class="fb-share-button" 
             data-href="/evento/{{ctrl.event.slug}}" 

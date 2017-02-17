@@ -1,7 +1,8 @@
 export default class Event {
-  constructor($rootScope, $state, $stateParams, $uibModal, EventService, StorageService) {
+  constructor($rootScope, $state, $sce, $stateParams, $uibModal, EventService, StorageService) {
     this.rootScope = $rootScope
     this.state = $state
+    this.sce = $sce
     this.modal = $uibModal
     this.service = EventService
     this.profile = StorageService.getItem('profile')
@@ -37,6 +38,9 @@ export default class Event {
         }
       )
   }
+  getTrustHtml(html) {
+    return this.sce.trustAsHtml(html)
+  }
   seeWhatHappens(event) {
     if (event.report) {
       this.state.go('event.report', {uuid: event.institution.uuid})
@@ -68,4 +72,4 @@ export default class Event {
   }
 }
 
-Event.$inject = ['$rootScope','$state','$stateParams','$uibModal','EventService','StorageService']
+Event.$inject = ['$rootScope','$state', '$sce','$stateParams','$uibModal','EventService','StorageService']
