@@ -1,6 +1,7 @@
 class EventExplore {
-  constructor(ActivityAreaService,EventService,StorageService) {
+  constructor(ActivityAreaService,CategoryService,EventService,StorageService) {
     this.activityAreaService = ActivityAreaService
+    this.categoryService = CategoryService
     this.eventService = EventService
     this.profile = StorageService.getItem('profile')
     this.modelOptions = {
@@ -14,8 +15,17 @@ class EventExplore {
     this.pendings = 0
     this.pagination = { current_page: 1 }
     this.getEvents()
-    this.getActivityAreas()
+    this.getCategories()
     this.search = () => this.getSearch(this.query)
+  }
+  getCategories() {
+    this.categoryService.findAll()
+      .then(response => {
+        this.categories = response.data.values
+        // if ($stateParams.categoria) {
+        //   this.event.categorie_uuid = { slug: $stateParams.categoria }
+        // }
+      })
   }
   getEvents() {
     this.eventService.findAll({
@@ -30,8 +40,8 @@ class EventExplore {
   }
   getSearch(data) {
     data = angular.copy(data)
-    if (data.area_activity_uuid) {
-      data.area_activity_uuid = data.area_activity_uuid.uuid
+    if (data.categorie_uuid) {
+      data.categorie_uuid = data.categorie_uuid.uuid
     }
     this.eventService.search(data)
       .then(response => {
@@ -47,6 +57,6 @@ class EventExplore {
   }
 }
 
-EventExplore.$inject = ['ActivityAreaService','EventService','StorageService']
+EventExplore.$inject = ['ActivityAreaService','CategoryService','EventService','StorageService']
 
 export default EventExplore

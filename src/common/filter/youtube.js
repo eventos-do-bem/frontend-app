@@ -1,9 +1,13 @@
 export default function youtubeFilter($sce) {
-  return function(val) {
-    if (val) {
-      let videoLink = val,
-          watch = val.indexOf('?v=') + 3
-      return $sce.getTrustedResourceUrl(`https://www.youtube.com/embed/${val.substring(watch, videoLink.length)}`)
+  return function(url) {
+    if (url) {
+      let regExp = /^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/
+      let match = url.match(regExp)
+      let id = (match && match[2].length == 11) ? match[2] : false
+      return `https://www.youtube.com/embed/${id}`
+      // let videoLink = val,
+      //     watch = val.indexOf('?v=') + 3
+      // return $sce.getTrustedResourceUrl(`https://www.youtube.com/embed/${val.substring(watch, videoLink.length)}`)
     }
   }
 }

@@ -1593,6 +1593,11 @@ var GeoLocationFactory = function () {
   }
 
   _createClass(GeoLocationFactory, [{
+    key: 'checkSupport',
+    value: function checkSupport() {
+      return this.window.navigator.geolocation;
+    }
+  }, {
     key: 'setOptions',
     value: function setOptions(options) {
       this.options = angular.extend({
@@ -1727,18 +1732,22 @@ exports.default = ValidationFactory;
 ValidationFactory.validationFactory.$inject = [];
 
 },{}],34:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = youtubeFilter;
 function youtubeFilter($sce) {
-  return function (val) {
-    if (val) {
-      var videoLink = val,
-          watch = val.indexOf('?v=') + 3;
-      return $sce.getTrustedResourceUrl('https://www.youtube.com/embed/' + val.substring(watch, videoLink.length));
+  return function (url) {
+    if (url) {
+      var regExp = /^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/;
+      var match = url.match(regExp);
+      var id = match && match[2].length == 11 ? match[2] : false;
+      return "https://www.youtube.com/embed/" + id;
+      // let videoLink = val,
+      //     watch = val.indexOf('?v=') + 3
+      // return $sce.getTrustedResourceUrl(`https://www.youtube.com/embed/${val.substring(watch, videoLink.length)}`)
     }
   };
 }
@@ -3220,12 +3229,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var EventExplore = function () {
-  function EventExplore(ActivityAreaService, EventService, StorageService) {
+  function EventExplore(ActivityAreaService, CategoryService, EventService, StorageService) {
     var _this = this;
 
     _classCallCheck(this, EventExplore);
 
     this.activityAreaService = ActivityAreaService;
+    this.categoryService = CategoryService;
     this.eventService = EventService;
     this.profile = StorageService.getItem('profile');
     this.modelOptions = {
@@ -3239,22 +3249,34 @@ var EventExplore = function () {
     this.pendings = 0;
     this.pagination = { current_page: 1 };
     this.getEvents();
-    this.getActivityAreas();
+    this.getCategories();
     this.search = function () {
       return _this.getSearch(_this.query);
     };
   }
 
   _createClass(EventExplore, [{
+    key: 'getCategories',
+    value: function getCategories() {
+      var _this2 = this;
+
+      this.categoryService.findAll().then(function (response) {
+        _this2.categories = response.data.values;
+        // if ($stateParams.categoria) {
+        //   this.event.categorie_uuid = { slug: $stateParams.categoria }
+        // }
+      });
+    }
+  }, {
     key: 'getEvents',
     value: function getEvents() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.eventService.findAll({
         page: this.pagination.current_page
       }).then(function (response) {
-        _this2.pagination = response.data.meta.pagination;
-        _this2.events = response.data.values;
+        _this3.pagination = response.data.meta.pagination;
+        _this3.events = response.data.values;
       });
     }
   }, {
@@ -3265,24 +3287,24 @@ var EventExplore = function () {
   }, {
     key: 'getSearch',
     value: function getSearch(data) {
-      var _this3 = this;
+      var _this4 = this;
 
       data = angular.copy(data);
-      if (data.area_activity_uuid) {
-        data.area_activity_uuid = data.area_activity_uuid.uuid;
+      if (data.categorie_uuid) {
+        data.categorie_uuid = data.categorie_uuid.uuid;
       }
       this.eventService.search(data).then(function (response) {
-        _this3.pagination = response.data.meta.pagination;
-        _this3.events = response.data.values;
+        _this4.pagination = response.data.meta.pagination;
+        _this4.events = response.data.values;
       });
     }
   }, {
     key: 'getActivityAreas',
     value: function getActivityAreas() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.activityAreaService.findAll().then(function (response) {
-        _this4.area_activities = response.data.values;
+        _this5.area_activities = response.data.values;
       });
     }
   }]);
@@ -3290,7 +3312,7 @@ var EventExplore = function () {
   return EventExplore;
 }();
 
-EventExplore.$inject = ['ActivityAreaService', 'EventService', 'StorageService'];
+EventExplore.$inject = ['ActivityAreaService', 'CategoryService', 'EventService', 'StorageService'];
 
 exports.default = EventExplore;
 
@@ -4543,6 +4565,12 @@ var InstitutionService = function (_CommonService) {
       return _get(InstitutionService.prototype.__proto__ || Object.getPrototypeOf(InstitutionService.prototype), 'postWithFile', this).call(this, data, progress);
     }
   }, {
+    key: 'update',
+    value: function update(data) {
+      _get(InstitutionService.prototype.__proto__ || Object.getPrototypeOf(InstitutionService.prototype), 'setRoute', this).call(this, 'institutions');
+      return _get(InstitutionService.prototype.__proto__ || Object.getPrototypeOf(InstitutionService.prototype), 'update', this).call(this, data);
+    }
+  }, {
     key: 'search',
     value: function search(data) {
       _get(InstitutionService.prototype.__proto__ || Object.getPrototypeOf(InstitutionService.prototype), 'setRoute', this).call(this, 'institutions');
@@ -5292,15 +5320,19 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var OngConfigurations = function () {
-  function OngConfigurations($filter, $rootScope, StorageService, ProfileService, InstitutionService, GeoLocationFactory, profile) {
+  function OngConfigurations($filter, $rootScope, StorageService, ProfileService, Regex, InstitutionService, GeoLocationFactory, profile) {
     _classCallCheck(this, OngConfigurations);
 
     this.filter = $filter;
     this.rootScope = $rootScope;
     this.storage = StorageService;
     this.service = ProfileService;
+    this.urlPattern = Regex.URL;
     this.institutionService = InstitutionService;
     this.geolocation = GeoLocationFactory;
+    this.locationSupport = this.geolocation.checkSupport();
+    this.locationError = false;
+    this.addressError = false;
     this.load(profile);
   }
 
@@ -5308,29 +5340,22 @@ var OngConfigurations = function () {
     key: 'load',
     value: function load(profile) {
       profile = angular.copy(profile.data);
-      console.log(profile);
-      var _profile$institutions = profile.institutions,
-          uuid = _profile$institutions.uuid,
-          name = _profile$institutions.name,
-          cnpj = _profile$institutions.cnpj,
-          bank_account = _profile$institutions.bank_account,
-          coords = _profile$institutions.coords,
-          address = _profile$institutions.address,
-          phone = _profile$institutions.phone,
-          areaActivity = _profile$institutions.areaActivity,
-          facebook = _profile$institutions.facebook;
-
-      this.institution = {
-        uuid: uuid,
-        name: name,
-        cnpj: cnpj,
-        bank_account: bank_account,
-        coords: coords,
-        address: address,
-        phone: phone,
-        area_activity_uuid: areaActivity.uuid,
-        facebook: facebook
-      };
+      profile.institution = profile.institutions;
+      profile.institution.area_activity_uuid = profile.institution.areaActivity.uuid;
+      delete profile.institutions;
+      // let {uuid, name, cnpj, bank_account, coords, address, phone, areaActivity, facebook} = profile.institutions
+      // this.institution = {
+      //   uuid: uuid,
+      //   name: name,
+      //   cnpj: cnpj,
+      //   bank_account: bank_account,
+      //   coords: coords,
+      //   address: address,
+      //   phone: phone,
+      //   area_activity_uuid: areaActivity.uuid,
+      //   facebook: facebook
+      // }
+      delete profile.avatar;
       profile.birthdate = new Date(profile.birthdate);
       profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy');
       this.profile = profile;
@@ -5341,37 +5366,60 @@ var OngConfigurations = function () {
       var _this = this;
 
       this.geolocation.getPosition(function (position) {
-        _this.institution.coords = position.coords.latitude + ', ' + position.coords.longitude;
+        _this.locationError = false;
+        _this.profile.institution.coords = position.coords.latitude + ', ' + position.coords.longitude;
         _this.geolocation.getAddress(position.coords).then(function (response) {
-          return _this.institution.address = response.data.results[0].formatted_address;
+          _this.addressError = false;
+          _this.profile.institution.address = response.data.results[0].formatted_address;
+        }, function (error) {
+          _this.addressError = true;
         });
       }, function (error) {
-        return console.error(error);
+        return _this.locationError = true;
       });
+    }
+  }, {
+    key: 'diffPassword',
+    value: function diffPassword(form, current, pass) {
+      if (!this.profile.needpassword) {
+        if (form[current].$valid && form[pass].$valid) {
+          form[pass].$setValidity('diff', !(form[current].$viewValue == form[pass].$viewValue));
+        } else if (form[current].$error.diff) {
+          form[pass].$setValidity('diff', false);
+        } else {
+          form[current].$setValidity('diff', true);
+          form[pass].$setValidity('diff', true);
+        }
+      }
     }
   }, {
     key: 'saveOng',
     value: function saveOng(institution) {
+      var _this2 = this;
+
       institution = angular.copy(institution);
       this.institutionService.update(institution).then(function (response) {
-        return console.log(response);
+        _this2.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: { message: 'Dados da organização alterados com sucesso!' } });
+      }, function (error) {
+        _this2.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data });
       });
     }
   }, {
     key: 'saveUser',
     value: function saveUser(profile) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.service.change(profile, function (progress) {
-        _this2.progress = progress;
+        _this3.progress = progress;
       }).then(function (response) {
-        // this.storage.setItem('token', response.data.token)
-        // let {name, email, type, avatar, permissions} = response.data
-        // this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})
-        // this.rootScope.$broadcast('profile.change')
-        _this2.service.setProfile(response.data);
-        _this2.profile.password = '';
-        _this2.profile.new_password = '';
+        response.data.institutions = profile.institution;
+        _this3.service.setProfile(response.data);
+        delete _this3.profile.avatar;
+        _this3.profile.password = '';
+        _this3.profile.new_password = '';
+        _this3.rootScope.$broadcast('alert', { type: 'alert-success', icon: 'fa-check', message: { message: 'Dados do responsável alterados com sucesso!' } });
+      }, function (error) {
+        _this3.rootScope.$broadcast('alert', { type: 'alert-warning', icon: 'fa-exclamation', message: error.data });
       });
     }
   }]);
@@ -5382,7 +5430,7 @@ var OngConfigurations = function () {
 exports.default = OngConfigurations;
 
 
-OngConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'ProfileService', 'InstitutionService', 'GeoLocationFactory', 'profile'];
+OngConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'ProfileService', 'Regex', 'InstitutionService', 'GeoLocationFactory', 'profile'];
 
 },{}],90:[function(require,module,exports){
 'use strict';
