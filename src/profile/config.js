@@ -113,7 +113,7 @@ export default function ProfileConfig($stateProvider) {
       }
     })
     .state('profile.ong.page', {
-      url: '/:uuid/pagina',
+      url: '/pagina',
       authenticate: true,
       templateUrl: './src/profile/view/ong.page.html',
       controller: 'OngPage',

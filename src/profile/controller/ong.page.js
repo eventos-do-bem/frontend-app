@@ -11,20 +11,26 @@ export default class OngPage {
   getInstitution(id) {
     this.service.findById(id)
       .then(response => {
+        if (response.data.video == null) delete response.data.video
         delete response.data.cover
         delete response.data.avatar
         this.page = response.data
       })
   }
   save(data) {
+    if (data.video && data.video.trim().indexOf('http') != 0) {
+      data.video = 'http://' + data.video
+    }
     this.service.savePage(data, progress => {
       this.progress = progress
     }).then(
         response => {
           this.profile.avatar = response.data.user.avatar
           this.profileService.setProfile(this.profile)
-          delete this.page.cover
-          delete this.page.avatar
+          if (response.data.video == null) delete response.data.video
+          delete response.data.cover
+          delete response.data.avatar
+          this.page = response.data
           
           this.rootScope.$broadcast('alert', {
             type: 'alert-success',

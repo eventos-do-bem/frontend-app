@@ -23,21 +23,24 @@
       <count-down-element model="page.mission.$viewValue" max="165">
         <textarea rows="2" name="mission" class="form-control" data-ng-model="ctrl.page.mission" minlength="20" maxlength="165" aria-describedby="missionHelpBlock" required></textarea>
       </count-down-element>
-      <div id="missionHelpBlock" class="help-block" data-ng-show="page.mission.$error">
-        <p data-ng-show="page.mission.$error.required" class="text-danger">É obrigatório informar um texto sobre missão da instituição.</p>
-        <p data-ng-show="page.mission.$error.minlength" class="text-danger">Texto da missão da instituição deverá ter mínimo 20 letras.</p>
-        <!--<p data-ng-show="page.mission.$error.maxlength" class="text-danger">Texto da missão da instituição deverá ter máximo 165 letras.</p>-->
+      <div id="missionHelpBlock" class="help-block" data-ng-messages="page.mission.$error">
+        <p class="text-danger" data-ng-message="required">
+          É obrigatório informar um texto sobre missão da instituição.
+        </p>
+        <p class="text-danger" data-ng-message="minlength">
+          Texto da missão da instituição deverá ter mínimo 20 caracteres.
+        </p>
       </div>
     </div>
     <h4>Proposta:</h4>
     <p class="text-muted">Coloque a proposta de seus apoiadores fazerem eventos do bem e transformarem seu apoio em impacto social para a causa da sua organização.</p>
     <div class="form-group" data-ng-class="{'has-error':page.propose.$invalid && page.propose.$dirty}">
-      <count-down-element model="page.propose.$viewValue" max="415">
-        <textarea rows="4" name="propose" class="form-control" data-ng-model="ctrl.page.propose" maxlength="415" aria-describedby="proposeHelpBlock" required></textarea>
-      </count-down-element>
-      <div id="proposeHelpBlock" class="help-block" data-ng-show="page.propose.$error">
-        <p data-ng-show="page.propose.$error.required" class="text-danger">É obrigatório informar um texto sobre proposta da instituição.</p>
-        <!--<p data-ng-show="page.propose.$error.maxlength" class="text-danger">Texto da proposta da instituição deverá ter máximo 415 letras.</p>-->
+      <div text-angular="text-angular" name="propose" data-ng-model="ctrl.page.propose" ta-disabled='disabled' data-ng-required="true"></div>
+      <!--<textarea rows="4" name="propose" class="form-control" data-ng-model="ctrl.page.propose" aria-describedby="proposeHelpBlock" required></textarea>-->
+      <div id="proposeHelpBlock" class="help-block" data-ng-messages="page.propose.$error">
+        <p class="text-danger" data-ng-message="required">
+          É obrigatório informar um texto sobre a proposta da instituição.
+        </p>
       </div>
     </div>
     <div class="form-group">
@@ -46,18 +49,21 @@
       </label>
       <div class="input-group" data-ng-class="{'has-error':page.video.$invalid && page.video.$dirty}">
         <div class="input-group-addon">Vídeo do Youtube</div>
-        <input type="text" class="form-control" name="video" data-ng-model="ctrl.page.video" data-ng-pattern="ctrl.urlPattern" placeholder="Essa parte é opcional">
+        <input type="text" class="form-control" name="video" data-ng-model="ctrl.page.video" data-ng-pattern="ctrl.urlPattern" placeholder="Essa parte é opcional" aria-describedby="videoHelpBlock">
+      </div>
+      <div id="videoHelpBlock" class="help-block" data-ng-messages="page.video.$error">
+        <p class="text-danger" data-ng-message="pattern">
+          O vídeo do YouTube deve ser uma URL válida.
+        </p>
       </div>
     </div>
     <h4>Demonstre o impacto das doações:</h4>
     <p class="text-muted">Explique rapidamente a importância da sua causa e coloque de forma bem concreta o que certos montantes de doações podem fazer de impacto, se as pessoa doarem para a sua organização.</p>
     <div class="form-group" data-ng-class="{'has-error':page.impact.$invalid && page.impact.$dirty}">
-      <count-down-element model="page.impact.$viewValue" max="900">
-        <textarea rows="6" name="impact" class="form-control" data-ng-model="ctrl.page.impact" maxlength="900" aria-describedby="impactHelpBlock" required></textarea>
-      </count-down-element>
-      <div id="impactHelpBlock" class="help-block" data-ng-show="page.impact.$error">
-        <p data-ng-show="page.impact.$error.required" class="text-danger">É obrigatório informar um texto de impacto.</p>
-        <!--<p data-ng-show="page.impact.$error.maxlength" class="text-danger">O texto de impacto só pode ter no máximo 900 letras.</p>-->
+      <div text-angular="text-angular" name="impact" data-ng-model="ctrl.page.impact" ta-disabled='disabled' data-ng-required="true"></div>
+      <!--<textarea rows="6" name="impact" class="form-control" data-ng-model="ctrl.page.impact" aria-describedby="impactHelpBlock" required></textarea>-->
+      <div id="impactHelpBlock" class="help-block" data-ng-messages="page.impact.$error">
+        <p class="text-danger" data-ng-message="required">É obrigatório informar um texto sobre o impacto.</p>
       </div>
     </div>
     <!--<div class="margin-top-10">

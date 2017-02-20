@@ -69,6 +69,13 @@ a:hover {
 .has-error .control-label {
   color: #f25e5e;
 }
+.ta-root.focussed > .ta-scroll-window.form-control {
+  box-shadow: none;
+}
+.ta-scroll-window.form-control,
+.ta-scroll-window > .ta-bind {
+  min-height: 150px;
+}
 .form-control:focus {
   box-shadow: none;
 }
@@ -115,6 +122,12 @@ a:hover {
 .btn {
   padding: 10px 24px;
   border-width: 2px;
+}
+.ta-toolbar.btn-group-justified .btn-group .btn {
+  padding: 6px 8px;
+}
+.start .ta-toolbar.btn-group-justified .btn-group .btn {
+  padding: 6px 6px;
 }
 .btn.btn-large {
   padding: 6px 96px;

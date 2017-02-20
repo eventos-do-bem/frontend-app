@@ -1,7 +1,6 @@
 <div class="institution">
   <div class="row cover">
     <div class="image-cover" style="background: url({{ctrl.institution.cover.original}}) repeat-x left top fixed; background-size: contain;"></div>
-    <!--<img data-ng-src="{{ctrl.institution.cover.original}}" class="img-responsive" alt="">-->
   </div>
   <section class="cover-content container">
     <div class="row">
@@ -13,12 +12,11 @@
   <section class="content container">
     <div class="row">
       <div class="col-md-8">
-        <p class="description" data-ng-bind="ctrl.institution.propose"></p>
+        <p class="description" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.propose)"></p>
         <div data-ng-show="ctrl.institution.video" class="video-container">
-          <iframe src="{{ctrl.institution.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
+          <iframe data-ng-src="{{ctrl.institution.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
-        <p class="description" data-ng-bind="ctrl.institution.impact"></p>
-        <!--<pre>{{ctrl.institution | json}}</pre>-->
+        <p class="description" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.impact)"></p>
         <div class="text-center">
           <h2>Gostou?</h2>
           <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-lg btn-warning">

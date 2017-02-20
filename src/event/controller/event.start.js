@@ -145,6 +145,9 @@ export default class EventStart {
         })
       })
     } else {
+      if (event.video && event.video.trim().indexOf('http') != 0) {
+        event.video = 'http://' + event.video
+      }
       // event.goal_amount = parseInt(event.goal_amount)
       this.service.save(event, progress => this.progress = progress)
         .then(

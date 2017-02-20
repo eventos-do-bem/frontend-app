@@ -1,4 +1,4 @@
-export default function AppConfig($httpProvider, envServiceProvider, $urlRouterProvider, $sceDelegateProvider) {
+export default function AppConfig($httpProvider, envServiceProvider, $provide, $urlRouterProvider, $sceDelegateProvider) {
   // set the domains and variables for each environment
   envServiceProvider.config({
     domains: {
@@ -48,6 +48,24 @@ export default function AppConfig($httpProvider, envServiceProvider, $urlRouterP
   // run the environment check, so the comprobation is made 
   // before controllers and services are built 
   envServiceProvider.check()
+
+  $provide.decorator('taOptions', ['$delegate', function(taOptions) {
+    taOptions.toolbar = [
+      ['h1'],['h2'],['h3'],['h4'],['h5'],['h6'],['p'],['bold'],['italics'],['underline'],['ul'],['ol'],['redo'],['undo'],['clear'],['justifyLeft'],['justifyCenter'],['justifyRight'],['insertImage'],['insertLink'],['insertVideo']
+    ]
+    taOptions.classes = {
+      focussed: 'focussed',
+      toolbar: 'btn-group btn-group-justified',
+      toolbarGroup: 'btn-group',
+      toolbarButton: 'btn btn-default text-center',
+      toolbarButtonActive: 'active',
+      disabled: 'disabled',
+      textEditor: 'form-control',
+      htmlEditor: 'form-control'
+    }
+    // taOptions.disableSanitizer = false;
+    return taOptions
+  }])
 
   $httpProvider.interceptors.push('HttpInterceptor')
   $sceDelegateProvider.resourceUrlWhitelist([

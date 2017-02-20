@@ -16,7 +16,7 @@
   <section class="container">
     <div class="row search">
       <div class="col-md-12">
-        <h1 class="text-center">Inspire-se e descubra eventos fantásticos para apoiar criando um evento do bem</h1>
+        <h1 class="text-center">Inspire-se e descubra eventos fantásticos para apoiar.</h1>
         <form class="row" name="search" novalidate>
           <div class="col-md-6">
             <div class="input-group transparent">
@@ -27,9 +27,9 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div data-ng-class="{'input-group transparent': ctrl.query.area_activity_uuid}">
-              <input type="text" name="area_activity_uuid" data-ng-model="ctrl.query.area_activity_uuid" typeahead-on-select="ctrl.search()" placeholder="Selecione uma área de atuação" uib-typeahead="item as item.name for item in ctrl.area_activities | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control">
-              <span data-ng-show="ctrl.query.area_activity_uuid" data-ng-class="{'input-group-addon': ctrl.query.area_activity_uuid}" data-ng-click="ctrl.query.area_activity_uuid = undefined">
+            <div data-ng-class="{'input-group transparent': ctrl.query.categorie_uuid}">
+              <input type="text" name="categorie_uuid" data-ng-model="ctrl.query.categorie_uuid" typeahead-on-select="ctrl.search()" placeholder="Selecione uma categoria" uib-typeahead="item as item.name for item in ctrl.categories | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control">
+              <span data-ng-show="ctrl.query.categorie_uuid" data-ng-class="{'input-group-addon': ctrl.query.categorie_uuid}" data-ng-click="ctrl.query.categorie_uuid = undefined">
                 <i class="fa fa-close" aria-hidden="true"></i>
               </span>
             </div>
@@ -41,7 +41,7 @@
       <div class="col-md-12" data-ng-show="ctrl.events.length === 0">
         <h2 class="text-warning text-center">
           <i class="fa fa-frown-o" aria-hidden="true"></i>
-          Não encontramos nenhuma ong para a pesquisa, tente novamente...
+          Nenhum evento encontrado...
         </h2>
       </div>
       <div class="col-md-4" data-ng-repeat="item in ctrl.events">

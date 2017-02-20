@@ -18,6 +18,10 @@ export default class InstitutionService extends CommonService {
     super.setRoute(`institutions/${data.uuid}/page`)
     return super.postWithFile(data, progress)
   }
+  update(data) {
+    super.setRoute('institutions')
+    return super.update(data)
+  }
   search(data) {
     super.setRoute('institutions')
     super.setPublicToken()

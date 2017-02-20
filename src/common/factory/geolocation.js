@@ -8,6 +8,9 @@ export default class GeoLocationFactory {
       maximumAge: 0
     }
   }
+  checkSupport() {
+    return this.window.navigator.geolocation
+  }
   setOptions(options) {
     this.options = angular.extend({
       enableHighAccuracy: this.options.enableHighAccuracy,
