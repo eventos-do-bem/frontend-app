@@ -1,6 +1,7 @@
 class EventExplore {
-  constructor(ActivityAreaService,CategoryService,EventService,StorageService) {
-    this.activityAreaService = ActivityAreaService
+  constructor($stateParams,CategoryService,EventService,StorageService) {
+    this.stateParams = $stateParams
+    // this.activityAreaService = ActivityAreaService
     this.categoryService = CategoryService
     this.eventService = EventService
     this.profile = StorageService.getItem('profile')
@@ -49,14 +50,14 @@ class EventExplore {
         this.events = response.data.values
       })
   }
-  getActivityAreas() {
-    this.activityAreaService.findAll()
-      .then(response => {
-        this.area_activities = response.data.values
-      })
-  }
+  // getActivityAreas() {
+  //   this.activityAreaService.findAll()
+  //     .then(response => {
+  //       this.area_activities = response.data.values
+  //     })
+  // }
 }
 
-EventExplore.$inject = ['ActivityAreaService','CategoryService','EventService','StorageService']
+EventExplore.$inject = ['$stateParams','CategoryService','EventService','StorageService']
 
 export default EventExplore

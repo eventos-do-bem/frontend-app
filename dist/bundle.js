@@ -3197,7 +3197,7 @@ function EventConfig($stateProvider) {
     controller: 'EventStart',
     controllerAs: 'ctrl'
   }).state('event.explore', {
-    url: '/explore',
+    url: '/explore?instituicao',
     authenticate: false,
     templateUrl: './src/event/view/event.explore.html',
     controller: 'EventExplore',
@@ -3229,12 +3229,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var EventExplore = function () {
-  function EventExplore(ActivityAreaService, CategoryService, EventService, StorageService) {
+  function EventExplore($stateParams, CategoryService, EventService, StorageService) {
     var _this = this;
 
     _classCallCheck(this, EventExplore);
 
-    this.activityAreaService = ActivityAreaService;
+    this.stateParams = $stateParams;
+    // this.activityAreaService = ActivityAreaService
     this.categoryService = CategoryService;
     this.eventService = EventService;
     this.profile = StorageService.getItem('profile');
@@ -3298,21 +3299,19 @@ var EventExplore = function () {
         _this4.events = response.data.values;
       });
     }
-  }, {
-    key: 'getActivityAreas',
-    value: function getActivityAreas() {
-      var _this5 = this;
+    // getActivityAreas() {
+    //   this.activityAreaService.findAll()
+    //     .then(response => {
+    //       this.area_activities = response.data.values
+    //     })
+    // }
 
-      this.activityAreaService.findAll().then(function (response) {
-        _this5.area_activities = response.data.values;
-      });
-    }
   }]);
 
   return EventExplore;
 }();
 
-EventExplore.$inject = ['ActivityAreaService', 'CategoryService', 'EventService', 'StorageService'];
+EventExplore.$inject = ['$stateParams', 'CategoryService', 'EventService', 'StorageService'];
 
 exports.default = EventExplore;
 
@@ -4878,7 +4877,7 @@ var Explore = function () {
 
       this.institutionService.findAll().then(function (response) {
         _this2.institutions = response.data.values;
-        console.log(_this2.institutions);
+        // console.log(this.institutions)
       });
     }
   }, {

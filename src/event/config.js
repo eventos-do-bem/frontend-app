@@ -12,7 +12,7 @@ export default function EventConfig($stateProvider) {
       controllerAs: 'ctrl'
     })
     .state('event.explore', {
-      url: '/explore',
+      url: '/explore?instituicao',
       authenticate: false,
       templateUrl: './src/event/view/event.explore.html',
       controller: 'EventExplore',
