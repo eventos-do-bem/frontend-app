@@ -12,11 +12,25 @@ export default function EventConfig($stateProvider) {
       controllerAs: 'ctrl'
     })
     .state('event.explore', {
-      url: '/explore?instituicao',
+      url: '/explore?categoria?instituicao',
       authenticate: false,
       templateUrl: './src/event/view/event.explore.html',
       controller: 'EventExplore',
-      controllerAs: 'ctrl'
+      controllerAs: 'ctrl',
+      resolve: {
+        categories: (CategoryService) => {
+          return CategoryService.findAll()
+        },
+        category: (CategoryService, $stateParams) => {
+          return $stateParams.categoria ? CategoryService.findById($stateParams.categoria) : null
+        },
+        institutions: (InstitutionService) => {
+          return InstitutionService.findAll()
+        },
+        institution: (InstitutionService, $stateParams) => {
+          return $stateParams.instituicao ? InstitutionService.findById($stateParams.instituicao) : null
+        }
+      }
     })
     .state('event.report', {
       url: '/:uuid/relatorio',

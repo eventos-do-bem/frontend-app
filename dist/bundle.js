@@ -3197,11 +3197,25 @@ function EventConfig($stateProvider) {
     controller: 'EventStart',
     controllerAs: 'ctrl'
   }).state('event.explore', {
-    url: '/explore?instituicao',
+    url: '/explore?categoria?instituicao',
     authenticate: false,
     templateUrl: './src/event/view/event.explore.html',
     controller: 'EventExplore',
-    controllerAs: 'ctrl'
+    controllerAs: 'ctrl',
+    resolve: {
+      categories: function categories(CategoryService) {
+        return CategoryService.findAll();
+      },
+      category: function category(CategoryService, $stateParams) {
+        return $stateParams.categoria ? CategoryService.findById($stateParams.categoria) : null;
+      },
+      institutions: function institutions(InstitutionService) {
+        return InstitutionService.findAll();
+      },
+      institution: function institution(InstitutionService, $stateParams) {
+        return $stateParams.instituicao ? InstitutionService.findById($stateParams.instituicao) : null;
+      }
+    }
   }).state('event.report', {
     url: '/:uuid/relatorio',
     authenticate: false,
@@ -3229,14 +3243,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var EventExplore = function () {
-  function EventExplore($stateParams, CategoryService, EventService, StorageService) {
+  function EventExplore(EventService, categories, category, institutions, institution, StorageService) {
     var _this = this;
 
     _classCallCheck(this, EventExplore);
 
-    this.stateParams = $stateParams;
-    // this.activityAreaService = ActivityAreaService
-    this.categoryService = CategoryService;
     this.eventService = EventService;
     this.profile = StorageService.getItem('profile');
     this.modelOptions = {
@@ -3247,71 +3258,43 @@ var EventExplore = function () {
       }
     };
     this.isOpen = false;
-    this.pendings = 0;
     this.pagination = { current_page: 1 };
-    this.getEvents();
-    this.getCategories();
+    this.query = {};
     this.search = function () {
       return _this.getSearch(_this.query);
     };
+    this.categories = categories.data.values;
+    this.query.category = category ? category.data : category;
+    this.institutions = institutions.data.values;
+    this.query.institution = institution ? institution.data : institution;
+    this.search();
   }
 
   _createClass(EventExplore, [{
-    key: 'getCategories',
-    value: function getCategories() {
-      var _this2 = this;
-
-      this.categoryService.findAll().then(function (response) {
-        _this2.categories = response.data.values;
-        // if ($stateParams.categoria) {
-        //   this.event.categorie_uuid = { slug: $stateParams.categoria }
-        // }
-      });
-    }
-  }, {
-    key: 'getEvents',
-    value: function getEvents() {
-      var _this3 = this;
-
-      this.eventService.findAll({
-        page: this.pagination.current_page
-      }).then(function (response) {
-        _this3.pagination = response.data.meta.pagination;
-        _this3.events = response.data.values;
-      });
-    }
-  }, {
     key: 'changePage',
     value: function changePage() {
-      this.getEvents();
+      this.search();
     }
   }, {
     key: 'getSearch',
     value: function getSearch(data) {
-      var _this4 = this;
+      var _this2 = this;
 
       data = angular.copy(data);
-      if (data.categorie_uuid) {
-        data.categorie_uuid = data.categorie_uuid.uuid;
-      }
+      if (data.category) data.category = data.category.uuid;
+      if (data.institution) data.institution = data.institution.slug;
+      data.page = this.pagination.current_page;
       this.eventService.search(data).then(function (response) {
-        _this4.pagination = response.data.meta.pagination;
-        _this4.events = response.data.values;
+        _this2.pagination = response.data.meta.pagination;
+        _this2.events = response.data.values;
       });
     }
-    // getActivityAreas() {
-    //   this.activityAreaService.findAll()
-    //     .then(response => {
-    //       this.area_activities = response.data.values
-    //     })
-    // }
-
   }]);
 
   return EventExplore;
 }();
 
-EventExplore.$inject = ['$stateParams', 'CategoryService', 'EventService', 'StorageService'];
+EventExplore.$inject = ['EventService', 'categories', 'category', 'institutions', 'institution', 'StorageService'];
 
 exports.default = EventExplore;
 
@@ -4003,7 +3986,6 @@ var EventService = function (_CommonService) {
       if (user) {
         _get(EventService.prototype.__proto__ || Object.getPrototypeOf(EventService.prototype), 'setParams', this).call(this, user);
       }
-      console.log(this.config);
       return this.$http.get(this.url + this.route, this.config);
     }
   }, {

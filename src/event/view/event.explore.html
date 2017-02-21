@@ -18,7 +18,7 @@
       <div class="col-md-12">
         <h1 class="text-center">Inspire-se e descubra eventos fantásticos para apoiar.</h1>
         <form class="row" name="search" novalidate>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="input-group transparent">
               <span class="input-group-addon">
                 <i class="fa fa-search" aria-hidden="true"></i>
@@ -26,10 +26,18 @@
               <input type="text" class="form-control" data-ng-model="ctrl.query.search" data-ng-change="ctrl.search()" data-ng-model-options="ctrl.modelOptions" placeholder="Digite para encontrar um evento...">
             </div>
           </div>
-          <div class="col-md-6">
-            <div data-ng-class="{'input-group transparent': ctrl.query.categorie_uuid}">
-              <input type="text" name="categorie_uuid" data-ng-model="ctrl.query.categorie_uuid" typeahead-on-select="ctrl.search()" placeholder="Selecione uma categoria" uib-typeahead="item as item.name for item in ctrl.categories | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control">
-              <span data-ng-show="ctrl.query.categorie_uuid" data-ng-class="{'input-group-addon': ctrl.query.categorie_uuid}" data-ng-click="ctrl.query.categorie_uuid = undefined">
+          <div class="col-md-4">
+            <div data-ng-class="{'input-group transparent': ctrl.query.category}">
+              <input type="text" name="category" data-ng-model="ctrl.query.category" typeahead-on-select="ctrl.search()" placeholder="Selecione uma categoria" uib-typeahead="item as item.name for item in ctrl.categories | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control">
+              <span data-ng-show="ctrl.query.category" data-ng-class="{'input-group-addon': ctrl.query.category}" data-ng-click="ctrl.query.category = undefined; ctrl.search()">
+                <i class="fa fa-close" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div data-ng-class="{'input-group transparent': ctrl.query.institution}">
+              <input type="text" name="institution" data-ng-model="ctrl.query.institution" typeahead-on-select="ctrl.search()" placeholder="Selecione uma instituição" uib-typeahead="item as item.name for item in ctrl.institutions | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control">
+              <span data-ng-show="ctrl.query.institution" data-ng-class="{'input-group-addon': ctrl.query.institution}" data-ng-click="ctrl.query.institution = undefined; ctrl.search()">
                 <i class="fa fa-close" aria-hidden="true"></i>
               </span>
             </div>

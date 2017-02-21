@@ -1,3 +1,55 @@
+/* fonts */
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2.5rem;
+}
+h3 {
+  font-size: 2.1rem;
+}
+h4 {
+  font-size: 1.7rem;
+}
+h5 {
+  font-size: 1.5rem;
+}
+h6 {
+  font-size: 1.3rem;
+}
+p,
+a,
+label,
+table th,
+table td,
+ol,
+ul,
+li {
+  font-size: 1.4rem;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+label,
+table th,
+table td,
+ol,
+ul,
+li {
+  line-height: 1.3;
+}
+.explore .thumbnail .caption h4 {
+  height: 6.63rem;
+  -moz-line-clamp: 3;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  display: -moz-box;
+}
 a {
   color: #0ea4f1;
 }
