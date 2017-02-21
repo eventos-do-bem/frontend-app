@@ -55,7 +55,6 @@ export default class EventService extends CommonService {
     if (user) {
       super.setParams(user)
     }
-    console.log(this.config)
     return this.$http.get(this.url + this.route, this.config)
   }
   saveReport(id, data, progress) {

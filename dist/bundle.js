@@ -4003,7 +4003,6 @@ var EventService = function (_CommonService) {
       if (user) {
         _get(EventService.prototype.__proto__ || Object.getPrototypeOf(EventService.prototype), 'setParams', this).call(this, user);
       }
-      console.log(this.config);
       return this.$http.get(this.url + this.route, this.config);
     }
   }, {
