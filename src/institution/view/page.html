@@ -12,11 +12,11 @@
   <section class="content container">
     <div class="row">
       <div class="col-md-8">
-        <p class="description" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.propose)"></p>
+        <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.propose)"></p>
         <div data-ng-show="ctrl.institution.video" class="video-container">
           <iframe data-ng-src="{{ctrl.institution.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
-        <p class="description" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.impact)"></p>
+        <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.impact)"></p>
         <div class="text-center">
           <h2>Gostou?</h2>
           <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-lg btn-warning">
