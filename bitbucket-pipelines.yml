@@ -6,7 +6,7 @@
 image: node:6.9.2
 
 pipelines:
-  custom: # Pipelines that are triggered manually
+  custom:
     deploy-to-staging:
       - step:
         script: 
