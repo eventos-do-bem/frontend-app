@@ -1,5 +1,4 @@
 node_modules/
 assets/less/
 .vscode/
-dist/bundle.js
-dist/bundle.min.js
+dist/*
