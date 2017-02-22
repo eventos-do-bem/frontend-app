@@ -98,6 +98,12 @@ form input[type="file"] {
   background: url(../assets/icons/svgs/boleto-pendente.svg) no-repeat top left;
   background-size: contain;
 }
+.icon.expired::before {
+  display: block;
+  padding: 3px;
+  content: "\f071";
+  font-size: 1.8rem;
+}
 blockquote {
   margin: 0;
   padding-left: 70px;
@@ -627,11 +633,12 @@ header .navbar-toggle {
   z-index: 4;
 }
 header .navbar .navbar-brand {
-  background-image: url('images/logo.png');
-  /*background-image: url('images/logo-alta-evb.svg');*/
+  /*background-image: url('images/logo.png');*/
+  background-image: url('./images/evb-logo.svg');
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 15px 150px;
+  padding: 20px 150px;
 }
 .navbar-nav {
   margin: 0;
