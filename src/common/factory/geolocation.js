@@ -26,9 +26,10 @@ export default class GeoLocationFactory {
     )
   }
   getAddress(coords) {
-    let gmap = 'http://maps.googleapis.com/maps/api/geocode/json'
+    let gmap = 'https://maps.googleapis.com/maps/api/geocode/json'
     let config = {
       params: {
+        HTTP_X_FORWARDED_PROTO: 'https',
         latlng: `${coords.latitude},${coords.longitude}`,
         sensor: false
       }

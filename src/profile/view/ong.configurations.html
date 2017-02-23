@@ -24,19 +24,19 @@
     </div>
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':ongConfigurations.bank_account.$invalid && ongConfigurations.bank_account.$dirty}">
-        <label for="" class="control-label">Conta para depósito bancário</label>
-        <input type="text" name="bank_account" id="bank_account" class="form-control" data-ng-model="ctrl.profile.institution.bank_account" uib-popover="As alterações deste campo serão submetidas à análise da plataforma." popover-placement="bottom" popover-trigger="focus" required>
+        <label for="" class="control-label">Banco, agência e conta corrente da Organização</label>
+        <input type="text" name="bank_account" id="bank_account" class="form-control" data-ng-model="ctrl.profile.institution.bank_account" placeholder="Ex.: Banco - Agência - Conta corrente" uib-popover="As alterações deste campo serão submetidas à análise da plataforma." popover-placement="bottom" popover-trigger="focus" required>
         <div class="help-block" data-ng-messages="ongConfigurations.bank_account.$error">
-          <p class="text-danger" ng-message="required">A conta para depósito é obrigatória.</p>
+          <p class="text-danger" ng-message="required">Banco - Agência - Conta corrente são obrigatórios para o depósito.</p>
         </div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':ongConfigurations.address.$invalid && ongConfigurations.address.$dirty}">
-        <label for="" class="control-label">Endereço da organização</label>
-        <input type="text" name="address" id="address" class="form-control" data-ng-model="ctrl.profile.institution.address" required>
+        <label for="" class="control-label">Endereço, cidade e CEP da Organização</label>
+        <input type="text" name="address" id="address" class="form-control" data-ng-model="ctrl.profile.institution.address" placeholder="Ex.: Endereço, Cidade - UF, CEP" required>
         <div class="help-block" data-ng-messages="ongConfigurations.address.$error">
-          <p class="text-danger" ng-message="required">O endereço é obrigatório.</p>
+          <p class="text-danger" ng-message="required">Endereço, cidade e CEP são obrigatórios.</p>
         </div>
       </div>
     </div>
@@ -108,7 +108,7 @@
       <div class="form-group" data-ng-class="{'has-error':userConfigurations.avatar.$invalid && userConfigurations.avatar.$dirty}">
         <label for="foto" class="control-label">Foto</label>
         <file style="display: block" ng-model="ctrl.profile.avatar" progress="ctrl.progress">
-          <span data-ng-bind="ctrl.profile.avatar.name || 'Faça upload de sua foto de perfil'"></span>
+          <span data-ng-bind="ctrl.profile.avatar.name || 'Faça upload do logo da ONG'"></span>
         </file>
       </div>
     </div>
