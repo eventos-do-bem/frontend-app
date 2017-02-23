@@ -7,11 +7,12 @@
       <img data-ng-src="{{ctrl.user.avatar.medium}}" class="avatar img-responsive img-circle" alt="">
     </div>
     <div style="margin: 0 auto; width: 450px;">
-      <h4 class="text-center">Escreva o valor que deseja apoiar para a campanha do <span data-ng-bind="ctrl.user.name"></span></h4>
+      <h4 class="text-center">Legal da sua parte apoiar a campanha do <span data-ng-bind="ctrl.user.name"></span></h4>
       <form name="donate" novalidate data-ng-submit="ctrl.buildBillet(ctrl.donate)">
         <div class="row">
           <div class="col-sm-6 col-sm-offset-3">
             <div class="form-group" data-ng-class="{'has-error':donate.amount.$invalid && donate.amount.$dirty}">
+              <label for="amount" class="control-label">Digite o valor que deseja doar</label>
               <input type="text" name="amount" id="amount" class="form-control" format-currency="ctrl.amountOptions" variable-options="true" data-ng-model="ctrl.donate.amount" required>
             </div>
           </div>
@@ -23,7 +24,7 @@
         <p class="text-center">Ao gerar o boleto, o organizador já está contando com o seu apoio. <br> Pague até a data de vencimento pela internet, casas lotéricas, caixas eletrônicos ou agência bancária.</p>
         <p class="text-center">Escreva uma mensagem de apoio para o <span data-ng-bind="ctrl.user.name"></span> que assim que o boleo for pago aparecerá na página da campanha!</p>
         <div class="form-group" data-ng-class="{'has-error':donate.message.$invalid && donate.message.$dirty}">
-          <count-down-element model="ctrl.donate.message" max="250">
+          <count-down-element model="donate.message.$viewValue" max="250">
             <textarea name="message" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="250" placeholder="Parabenize com sua mensagem de apoio :)" required></textarea>
           </count-down-element>
         </div>

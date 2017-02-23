@@ -1,8 +1,9 @@
 export default class OngPage {
-  constructor(profile,InstitutionService,$rootScope,Regex,StorageService,ProfileService) {
+  constructor(profile,InstitutionService,$rootScope,$anchorScroll,Regex,StorageService,ProfileService) {
     this.profile = profile.data
     this.service = InstitutionService
     this.rootScope = $rootScope
+    this.anchorScroll = $anchorScroll
     this.storage = StorageService
     this.profileService = ProfileService
     this.urlPattern = Regex.URL
@@ -39,6 +40,7 @@ export default class OngPage {
               message: 'Página oficial salva com sucesso! :)'
             }
           })
+          this.anchorScroll('body')
         },
         error => {
           this.rootScope.$broadcast('alert', {
@@ -46,9 +48,10 @@ export default class OngPage {
             icon: 'fa-exclamation',
             message: error.data
           })
+          this.anchorScroll('body')
         }
       )
   }
 }
 
-OngPage.$inject = ['profile','InstitutionService','$rootScope','Regex','StorageService','ProfileService']
+OngPage.$inject = ['profile','InstitutionService','$rootScope','$anchorScroll','Regex','StorageService','ProfileService']
