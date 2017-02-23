@@ -19,7 +19,7 @@ pipelines:
            - npm install
            - npm run prod
            - aws --version
-           - aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read --exclude ".git" --exclude ".config" --exclude ".npm" --exclude "node_modules"
+           - aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*" --exclude "node_modules/*"
            - aws configure set preview.cloudfront true
            - aws cloudfront create-invalidation --distribution-id E2GGIDEF1PPNTQ --paths "/*"
     deploy-to-production:
@@ -34,7 +34,7 @@ pipelines:
            - npm install
            - npm run prod
            - aws --version
-           - aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend-production --acl public-read --exclude ".git" --exclude ".config" --exclude ".npm" --exclude "node_modules"
+           - aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*" --exclude "node_modules/*"
            - aws configure set preview.cloudfront true
            - aws cloudfront create-invalidation --distribution-id E1CX7CDU68AMAR --paths "/*"
   branches:
@@ -50,7 +50,7 @@ pipelines:
            - npm install
            - npm run prod
            - aws --version
-           - aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read --exclude ".git" --exclude ".config" --exclude ".npm" --exclude "node_modules"
+           - aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*" --exclude "node_modules/*"
            - aws configure set preview.cloudfront true
            - aws cloudfront create-invalidation --distribution-id E2GGIDEF1PPNTQ --paths "/*"
     production:
@@ -65,6 +65,6 @@ pipelines:
            - npm install
            - npm run prod
            - aws --version
-           - aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend-production --acl public-read --exclude ".git" --exclude ".config" --exclude ".npm" --exclude "node_modules"
+           - aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend-production --acl public-read --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*" --exclude "node_modules/*"
            - aws configure set preview.cloudfront true
            - aws cloudfront create-invalidation --distribution-id E1CX7CDU68AMAR --paths "/*"
