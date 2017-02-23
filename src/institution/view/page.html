@@ -31,9 +31,12 @@
         <div class="panel panel-default">
           <div class="panel-heading text-center">
             <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-block btn-success">
-              Crie aqui seu evento do bem <br> e ajude essa causa
+              Crie aqui seu evento do bem e ajude a <br> <span data-ng-bind="ctrl.institution.name"></span>
             </a>
-            <br><br>
+            <a ui-sref="event.explore({instituicao: ctrl.institution.slug})" class="btn btn-block btn-primary">
+              Explore os eventos que apoiam a <br> <span data-ng-bind="ctrl.institution.name"></span>
+            </a>
+            <br>
             <!--<a class="btn btn-block btn-default">
               Contribuir mensamente
             </a>-->

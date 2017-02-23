@@ -5,7 +5,7 @@
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
-        <th style="width: 40px">#</th>
+        <!--<th style="width: 40px">#</th>-->
         <th style="width: 50px">Status</th>
         <th>Nome</th>
         <th data-ng-show="ctrl.profile.type == 'user'">E-mail</th>
@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       <tr data-ng-repeat="item in ctrl.donors" data-ng-class="{success: item.status == 'Autorizado', primary: item.status == 'Em processamento', danger: item.status == 'Cancelado' || item.status == 'Expirado'}">
-        <td data-ng-bind="$index + 1"></td>
+        <!--<td data-ng-bind="$index + 1"></td>-->
         <td>
           <i class="icon" uib-tooltip="{{item.status}}" data-ng-class="{'pending': item.status == 'Em processamento', 'check': item.status == 'Autorizado', 'cancel': item.status == 'Cancelado', 'fa expired': item.status == 'Expirado'}"></i>
         </td>

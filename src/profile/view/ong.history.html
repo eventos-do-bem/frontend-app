@@ -1,6 +1,11 @@
-<h3 class="well">
-  Campanhas encerradas
-</h3>
+<div class="well">
+  <h3>Eventos do bem encerrados</h3>
+  <h4>
+    Nesta seção você terá o histórico de todos os eventos do bem realizados para a sua Organização.
+    <br>
+    Desta forma, será possível visualizar tanto relatórios financeiros quanto o relatório de impacto social que sua Organização elaborou para cada evento do bem.
+  </h4>
+</div>
 <h4 class="alert alert-info" role="alert" data-ng-show="ctrl.events.length == 0">
   Você não possui nenhum evento do bem encerrado.
 </h4>
@@ -8,7 +13,7 @@
   <ul class="media-list">
     <li class="media" data-ng-repeat="item in ctrl.events">
       <div class="media-left">
-        <img class="media-object img-circle" src="assets/images/avatar.jpg" alt="Avatar">
+        <img class="media-object img-circle" data-ng-src="{{item.user.avatar.medium}}" alt="{{item.user.name}}">
       </div>
       <div class="media-body">
         <div class="row">

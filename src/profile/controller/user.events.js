@@ -1,11 +1,12 @@
 export default class UserEvents {
-  constructor($scope, $rootScope, ProfileService) {
+  constructor($scope, $rootScope, $state, ProfileService) {
     this.rootScope = $rootScope
     this.service = ProfileService
     this.rootScope.$broadcast('alert', {type: 'alert-info', icon: 'fa-info-circle', message: { message: `Veja nosso <a href="https://drive.google.com/open?id=0B5mOKvkRV-iYMHZxX1pLdUMtcXM" target="_blank">KIT</a> para bombar suas campanhas!` }})
     this.pagination = { current_page: 1 }
     // this.pagination_closed = { current_page: 1 }
     this.getEvents()
+    this.go = $state.go.bind($state)
     // this.getEventsClosed()
   }
   getEvents() {
@@ -40,4 +41,4 @@ export default class UserEvents {
   // }
 }
 
-UserEvents.$inject = ['$scope','$rootScope','ProfileService']
+UserEvents.$inject = ['$scope','$rootScope','$state','ProfileService']

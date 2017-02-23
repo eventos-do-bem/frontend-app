@@ -3,7 +3,7 @@
 </h3>
 <form name="ongConfigurations" novalidate data-ng-submit="ctrl.saveOng(ctrl.profile.institution)">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':ongConfigurations.name.$invalid && ongConfigurations.name.$dirty}">
         <label for="" class="control-label">Nome da organização</label>
         <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.institution.name" required autofocus>
@@ -12,6 +12,18 @@
         </div>
       </div>
     </div>
+    <div class="col-md-6">
+      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.phone.$invalid && ongConfigurations.phone.$dirty}">
+        <label for="" class="control-label">Telefone</label>
+        <input type="text" name="phone" id="phone" class="form-control" mask="99 9?9999 9999" data-ng-model="ctrl.profile.institution.phone" required>
+        <div class="help-block" data-ng-messages="ongConfigurations.phone.$error">
+          <p class="text-danger" ng-message="required">O telefone é obrigatório.</p>
+          <p class="text-danger" ng-message="mask">O telefone deve ser um número válido.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':ongConfigurations.cnpj.$invalid && ongConfigurations.cnpj.$dirty}">
         <label for="" class="control-label">CNPJ da organização</label>
@@ -31,6 +43,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="row">
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':ongConfigurations.address.$invalid && ongConfigurations.address.$dirty}">
         <label for="" class="control-label">Endereço, cidade e CEP da Organização</label>
@@ -55,29 +69,34 @@
         </p>
       </div>
     </div>
+  </div>
+  <div class="row">
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.phone.$invalid && ongConfigurations.phone.$dirty}">
-        <label for="" class="control-label">Telefone</label>
-        <input type="text" name="phone" id="phone" class="form-control" mask="99 9?9999 9999" data-ng-model="ctrl.profile.institution.phone" required>
-        <div class="help-block" data-ng-messages="ongConfigurations.phone.$error">
-          <p class="text-danger" ng-message="required">O telefone é obrigatório.</p>
-          <p class="text-danger" ng-message="mask">O telefone deve ser um número válido.</p>
+      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.facebook.$invalid && ongConfigurations.facebook.$dirty}">
+        <label for="" class="control-label">Facebook da Organização</label>
+        <input type="text" name="facebook" id="facebook" class="form-control" data-ng-model="ctrl.profile.institution.facebook" data-ng-pattern="ctrl.urlPattern" required>
+        <div class="help-block" data-ng-messages="ongConfigurations.facebook.$error">
+          <p class="text-danger" ng-message="required">O facebook é obrigatório.</p>
+          <p class="text-danger" ng-message="pattern">O facebook deve ser um endereço válido.</p>
         </div>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.facebook.$invalid && ongConfigurations.facebook.$dirty}">
-        <label for="" class="control-label">Facebook da organização</label>
-        <input type="text" name="facebook" id="facebook" class="form-control" data-ng-model="ctrl.profile.institution.facebook" data-ng-pattern="ctrl.urlPattern" required>
-        <div class="help-block" data-ng-messages="ongConfigurations.facebook.$error">
-          <p class="text-danger" ng-message="required">O facebook é obrigatório.</p>
-          <p class="text-danger" ng-message="mask">Utilize um endereço de página de facebook válido.</p>
+      <div class="form-group" data-ng-class="{'has-error':ongConfigurations.website.$invalid && ongConfigurations.website.$dirty}">
+        <label for="" class="control-label">Website da Organização</label>
+        <input type="text" name="website" id="website" class="form-control" data-ng-model="ctrl.profile.institution.website" data-ng-pattern="ctrl.urlPattern">
+        <div class="help-block" data-ng-messages="ongConfigurations.website.$error">
+          <p class="text-danger" ng-message="pattern">O website deve ser um endereço válido.</p>
         </div>
       </div>
     </div>
   </div>
-  <div class="navbar text-center">
-    <button class="btn btn-success btn-horizontal-large" type="submit" data-ng-disabled="ongConfigurations.$invalid">Salvar</button>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="navbar text-center">
+        <button class="btn btn-success btn-horizontal-large" type="submit" data-ng-disabled="ongConfigurations.$invalid">Salvar</button>
+      </div>
+    </div>
   </div>
 </form>
 <hr>
@@ -134,7 +153,11 @@
       </div>
     </div>
   </div>
-  <div class="navbar text-center">
-    <button class="btn btn-success btn-horizontal-large" type="submit" data-ng-disabled="userConfigurations.$invalid">Salvar</button>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="navbar text-center">
+        <button class="btn btn-success btn-horizontal-large" type="submit" data-ng-disabled="userConfigurations.$invalid">Salvar</button>
+      </div>
+    </div>
   </div>
 </form>

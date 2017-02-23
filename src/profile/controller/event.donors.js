@@ -17,7 +17,7 @@ export default class EventDonors {
       .then(
         response => {
           event = response.data
-          event.progress = (event.total_receive / event.goal) * 100
+          event.progress = Math.round((event.total_receive / event.goal) * 100)
           this.getPayments()
           this.event = event
         }
@@ -25,7 +25,8 @@ export default class EventDonors {
   }
   getPayments() {
     this.profileService.getEventPayments(this.uuid, {
-      page: this.pagination.current_page
+      page: this.pagination.current_page,
+      updated_at: 'DESC'
     }).then(
       response => {
         this.pagination = response.data.meta.pagination

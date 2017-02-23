@@ -20,13 +20,15 @@ export default class OngEvents {
       this.pendings = response.data.values.filter(event => {
         return (event.needReport == true)
       })
-      this.rootScope.$broadcast('alert', {
-        type: 'alert-warning',
-        icon: 'fa-warning',
-        message: {
-          message: `Você tem ${this.pendings.length} relatórios pendentes.`
-        }
-      })
+      if (this.pendings.length > 0) {
+        this.rootScope.$broadcast('alert', {
+          type: 'alert-warning',
+          icon: 'fa-warning',
+          message: {
+            message: `Você tem ${this.pendings.length} relatórios pendentes.`
+          }
+        })
+      }
     })
   }
   changePage() {

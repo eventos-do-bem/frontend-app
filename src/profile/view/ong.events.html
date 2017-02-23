@@ -1,6 +1,11 @@
-<h3 class="well">
-  Relatórios
-</h3>
+<div class="well">
+  <h3>Seus eventos do bem</h3>
+  <h4>
+    Nesta área você terá o controle dos eventos do bem que foram criados para a sua Organização, terá acesso às doações realizadas e relatórios financeiros de cada campanha.
+    <br>
+    Também é por aqui que você deverá submeter os relatórios de impacto social gerados pela angariação de cada evento do bem criado em prol da sua Organização.
+  </h4>
+</div>
 <h4 class="alert alert-info" role="alert" data-ng-show="ctrl.events.length == 0">
 	Você ainda não tem eventos cadastrados.
 </h4>
@@ -8,12 +13,16 @@
   <ul class="media-list">
     <li class="media" data-ng-repeat="item in ctrl.events">
       <div class="media-left">
-        <img class="media-object img-circle" data-ng-src="{{item.user.avatar.medium}}" alt="{{item.user.name}}">
+        <a ui-sref="event.slug({slug: item.slug})">
+          <img class="media-object img-circle" data-ng-src="{{item.user.avatar.medium}}" alt="{{item.user.name}}">
+        </a>
       </div>
       <div class="media-body">
         <div class="row">
           <div class="col-md-8">
-            <h4 class="media-heading" data-ng-bind="item.name"></h4>
+            <h4 class="media-heading">
+              <a ui-sref="event.slug({slug: item.slug})" data-ng-bind="item.name"></a>
+            </h4>
             <p>Organizador: <span data-ng-bind="item.user.name"></span></p>
             <p>
               <i class="fa fa-star-o"></i>

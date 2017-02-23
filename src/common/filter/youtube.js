@@ -5,9 +5,6 @@ export default function youtubeFilter($sce) {
       let match = url.match(regExp)
       let id = (match && match[2].length == 11) ? match[2] : false
       return `https://www.youtube.com/embed/${id}`
-      // let videoLink = val,
-      //     watch = val.indexOf('?v=') + 3
-      // return $sce.getTrustedResourceUrl(`https://www.youtube.com/embed/${val.substring(watch, videoLink.length)}`)
     }
   }
 }
