@@ -179,6 +179,8 @@ export default class DonateEvent {
       templateUrl: './../src/donate/view/donate.billet.html',
       controller: 'DonateBillet',
       controllerAs: 'ctrl',
+      backdrop: 'static',
+      keyboard: false,
       resolve: {
         data: () => {
           return {
@@ -195,7 +197,7 @@ export default class DonateEvent {
       let billet = response.data.iugu_url.replace('?bs=true','.pdf')
       let printBillet = this.window.open(billet, '_self')
     }, error => {
-      this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
+      if (error != 'cancel') this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
     })
   }
   open(item) {

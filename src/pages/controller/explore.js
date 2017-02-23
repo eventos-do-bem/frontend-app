@@ -1,8 +1,10 @@
 class Explore {
-  constructor(ActivityAreaService,InstitutionService,StorageService) {
+  constructor(ActivityAreaService,InstitutionService,StorageService,$anchorScroll,$location) {
     this.activityAreaService = ActivityAreaService
     this.institutionService = InstitutionService
     this.profile = StorageService.getItem('profile')
+    this.anchorScroll = $anchorScroll
+    this.location = $location
     this.modelOptions = {
       updateOn: 'default blur',
       debounce: {
@@ -11,24 +13,28 @@ class Explore {
       }
     }
     this.isOpen = false
-    this.getInstitutions()
+    this.pagination = { current_page: 1 }
+    this.query = {}
     this.getActivityAreas()
     this.search = () => this.getSearch(this.query)
+    this.search()
   }
-  getInstitutions() {
-    this.institutionService.findAll()
-      .then(response => {
-        this.institutions = response.data.values
-        // console.log(this.institutions)
-      })
+  changePage() {
+    this.search()
+    this.location.hash('form')
+    this.anchorScroll()
   }
   getSearch(data) {
     data = angular.copy(data)
     if (data.area_activity_uuid) {
       data.area_activity_uuid = data.area_activity_uuid.uuid
     }
+    data.page = this.pagination.current_page
     this.institutionService.search(data)
-      .then(response => this.institutions = response.data.values)
+      .then(response => {
+        this.pagination = response.data.meta.pagination
+        this.institutions = response.data.values
+      })
   }
   getActivityAreas() {
     this.activityAreaService.findAll()
@@ -36,6 +42,6 @@ class Explore {
   }
 }
 
-Explore.$inject = ['ActivityAreaService','InstitutionService','StorageService']
+Explore.$inject = ['ActivityAreaService','InstitutionService','StorageService','$anchorScroll','$location']
 
 export default Explore

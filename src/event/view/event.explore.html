@@ -17,7 +17,7 @@
     <div class="row search">
       <div class="col-md-12">
         <h1 class="text-center">Inspire-se e descubra eventos fantásticos para apoiar.</h1>
-        <form class="row" name="search" novalidate>
+        <form id="form" class="row" name="search" novalidate>
           <div class="col-md-4">
             <div class="input-group transparent">
               <span class="input-group-addon">
@@ -27,9 +27,9 @@
             </div>
           </div>
           <div class="col-md-4">
-            <div data-ng-class="{'input-group transparent': ctrl.query.category}">
-              <input type="text" name="category" data-ng-model="ctrl.query.category" typeahead-on-select="ctrl.search()" placeholder="Selecione uma categoria" uib-typeahead="item as item.name for item in ctrl.categories | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control">
-              <span data-ng-show="ctrl.query.category" data-ng-class="{'input-group-addon': ctrl.query.category}" data-ng-click="ctrl.query.category = undefined; ctrl.search()">
+            <div data-ng-class="{'input-group transparent': ctrl.query.categorie}">
+              <input type="text" name="categorie" data-ng-model="ctrl.query.categorie" typeahead-on-select="ctrl.search()" placeholder="Selecione uma categoria" uib-typeahead="item as item.name for item in ctrl.categories | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-show-hint="true" typeahead-min-length="0" class="form-control">
+              <span data-ng-show="ctrl.query.categorie" data-ng-class="{'input-group-addon': ctrl.query.categorie}" data-ng-click="ctrl.query.categorie = undefined; ctrl.search()">
                 <i class="fa fa-close" aria-hidden="true"></i>
               </span>
             </div>
@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row" data-ng-show="ctrl.pagination.total_pages > 1">
       <div class="col-md-12">
         <div class="text-center">
           <ul uib-pagination

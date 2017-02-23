@@ -21,7 +21,7 @@ export default function EventConfig($stateProvider) {
         categories: (CategoryService) => {
           return CategoryService.findAll()
         },
-        category: (CategoryService, $stateParams) => {
+        categorie: (CategoryService, $stateParams) => {
           return $stateParams.categoria ? CategoryService.findById($stateParams.categoria) : null
         },
         institutions: (InstitutionService) => {
