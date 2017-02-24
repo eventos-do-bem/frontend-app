@@ -3,7 +3,6 @@ export default class Home {
     let categories = ['fazer um jantar','fazer um aniversário','fazer uma corrida','dar uma festa'],
         length = 4,
         count = 0
-    this.video = 'https://www.youtube.com/embed/4sFrChvvW5I?autoplay=1'
     $interval(() => {
       count++
       if (count >= length) count = 0
