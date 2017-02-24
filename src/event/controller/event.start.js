@@ -116,10 +116,22 @@ export default class EventStart {
     date = date.split('/')
     date = new Date(`${date[2]}-${date[1]}-${date[0]}`)
     if (!field.$error.mask && field.$viewValue) {
-      let valid = (
-        this.validation.dateMinByDays(date, 22, 'future') &&
+      let validMin = false,
+          validMax = false,
+          valid = false
+      validMin = this.validation.dateMinByDays(date, 25, 'future')
+      validMax = this.validation.dateMaxByDays(date, 90, 'future')
+      valid = (
+        this.validation.dateMinByDays(date, 25, 'future') &&
         this.validation.dateMaxByDays(date, 90, 'future')
       )
+
+      this.errorDateMin = date.setDate(date.getDate() + 25)
+      console.log(this.errorDateMin)
+      console.log('validMin')
+      this.errorDateMax = date.setDate(date.getDate() + 90)
+      // field.$setValidity('end_date_min', !validMin)
+      // field.$setValidity('end_date_max', !validMax)
       field.$setValidity('end_date', valid)
     }
   }
@@ -131,10 +143,16 @@ export default class EventStart {
         dateCurrent = new Date(),
         timeDiff = dateEnd - dateCurrent,
         diffDays = parseInt(timeDiff / (1000 * 3600 * 24)),
-        valid = (diffDays >= 22 && diffDays <= 90) ? true : false
-      field.$setValidity('end_date', valid)
-    } else {
-      field.$setValidity('end_date', false)
+        validMin = (diffDays >= 25) ? true : false,
+        validMax = (diffDays <= 90) ? true : false,
+        dateMin = new Date(),
+        dateMax = new Date(),
+        errorDateMin = new Date(dateMin.setDate(dateMin.getDate() + 26)),
+        errorDateMax = new Date(dateMax.setDate(dateMax.getDate() + 91))
+      this.errorDateMin = this.filter('date')(errorDateMin, 'longDate')
+      this.errorDateMax = this.filter('date')(errorDateMax, 'longDate')
+      field.$setValidity('end_date_min', validMin)
+      field.$setValidity('end_date_max', validMax)
     }
   }
   save(start, event) {

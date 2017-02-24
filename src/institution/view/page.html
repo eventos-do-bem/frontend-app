@@ -4,8 +4,10 @@
   </div>
   <section class="cover-content container">
     <div class="row">
-      <div class="col-md-12">
-        <h1 class="text-center">Apoie a <span data-ng-bind="ctrl.institution.name"></span></h1>
+      <div class="col-md-8">
+        <h1 class="text-left">
+          Apoie a Organização : <span data-ng-bind="ctrl.institution.name"></span>
+        </h1>
       </div>
     </div>
   </section>
@@ -33,10 +35,6 @@
             <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-block btn-success">
               Crie aqui seu evento do bem e ajude a <br> <span data-ng-bind="ctrl.institution.name"></span>
             </a>
-            <a ui-sref="event.explore({instituicao: ctrl.institution.slug})" class="btn btn-block btn-primary">
-              Explore os eventos que apoiam a <br> <span data-ng-bind="ctrl.institution.name"></span>
-            </a>
-            <br>
             <!--<a class="btn btn-block btn-default">
               Contribuir mensamente
             </a>-->
@@ -51,6 +49,11 @@
             <h4 data-ng-show="ctrl.institution.website">Website:</h4>
             <p><a data-ng-href="{{ctrl.institution.website}}" target="_blank" data-ng-bind="ctrl.institution.website"></a></p>
           </div>
+        </div>
+        <div>
+            <a ui-sref="event.explore({instituicao: ctrl.institution.slug})" class="btn btn-block btn-default">
+              Explore os eventos que apoiam a <br> <span data-ng-bind="ctrl.institution.name"></span>
+            </a>
         </div>
         <div class="well birthday" data-ng-show="!ctrl.profile || ctrl.profile.type == 'user'">
           <header>

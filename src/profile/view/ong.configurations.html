@@ -1,6 +1,9 @@
-<h3 class="well">
-  Configurações
-</h3>
+<div class="well">
+  <h3>Configurações da sua conta</h3>
+  <h4>
+    Preencha os dados necessários para que o botão "Salvar" fique habilitado e você prossiga.
+  </h4>
+</div>
 <form name="ongConfigurations" novalidate data-ng-submit="ctrl.saveOng(ctrl.profile.institution)">
   <div class="row">
     <div class="col-md-6">
@@ -30,16 +33,16 @@
         <input type="text" name="cnpj" id="cnpj" class="form-control" mask="99.999.999/9999-99" clean="true" data-ng-model="ctrl.profile.institution.cnpj" required>
         <div class="help-block" data-ng-messages="ongConfigurations.cnpj.$error">
           <p class="text-danger" ng-message="mask">O CNPJ deve ser válido.</p>
-          <p class="text-danger" ng-message="required">O CNPJ da organização é obrigatório.</p>
+          <p class="text-danger" ng-message="required">Para receber apoio é necessário que a Organização tenha CNPJ.</p>
         </div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':ongConfigurations.bank_account.$invalid && ongConfigurations.bank_account.$dirty}">
         <label for="" class="control-label">Banco, agência e conta corrente da Organização</label>
-        <input type="text" name="bank_account" id="bank_account" class="form-control" data-ng-model="ctrl.profile.institution.bank_account" placeholder="Ex.: Banco - Agência - Conta corrente" uib-popover="As alterações deste campo serão submetidas à análise da plataforma." popover-placement="bottom" popover-trigger="focus" required>
+        <input type="text" name="bank_account" id="bank_account" class="form-control" data-ng-model="ctrl.profile.institution.bank_account" placeholder="Ex.: Banco - Agência - Conta corrente" uib-popover="As alterações deste campo serão submetidas à análise da plataforma." popover-placement="left" popover-trigger="focus" required>
         <div class="help-block" data-ng-messages="ongConfigurations.bank_account.$error">
-          <p class="text-danger" ng-message="required">Banco - Agência - Conta corrente são obrigatórios para o depósito.</p>
+          <p class="text-danger" ng-message="required">Estes dados são obrigatórios para o depósito das doações.</p>
         </div>
       </div>
     </div>
@@ -50,14 +53,14 @@
         <label for="" class="control-label">Endereço, cidade e CEP da Organização</label>
         <input type="text" name="address" id="address" class="form-control" data-ng-model="ctrl.profile.institution.address" placeholder="Ex.: Endereço, Cidade - UF, CEP" required>
         <div class="help-block" data-ng-messages="ongConfigurations.address.$error">
-          <p class="text-danger" ng-message="required">Endereço, cidade e CEP são obrigatórios.</p>
+          <p class="text-danger" ng-message="required">Informações obrigatórias.</p>
         </div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="form-group">
         <label for="" class="control-label">Busque seu endereço a partir da sua posição atual</label>
-        <button type="button" class="btn btn-primary btn-block" data-ng-disabled="!ctrl.locationSupport" data-ng-click="ctrl.findAddressByPosition()" uib-popover="Para buscar sua localização automaticamente você precisa permitir compartilhar sua localização, mas você pode digitar manualmente no campo ao lado." popover-placement="bottom" popover-trigger="mouseenter">
+        <button type="button" class="btn btn-primary btn-block" data-ng-disabled="!ctrl.locationSupport" data-ng-click="ctrl.findAddressByPosition()" uib-popover="Para buscar sua localização automaticamente você precisa permitir compartilhar sua localização, mas você pode digitar manualmente no campo ao lado." popover-placement="left" popover-trigger="mouseenter">
           <i class="fa fa-map-marker"></i>
           Buscar localização atual
         </button>
@@ -102,6 +105,16 @@
 <hr>
 <form name="userConfigurations" enctype="multipart/form-data" novalidate data-ng-submit="ctrl.saveUser(ctrl.profile)">
   <div class="row">
+    <div class="col-md-12">
+      <div class="form-group" data-ng-class="{'has-error':userConfigurations.avatar.$invalid && userConfigurations.avatar.$dirty}">
+        <!--<label for="foto" class="control-label">Foto</label>-->
+        <file style="display: block" ng-model="ctrl.profile.avatar" progress="ctrl.progress">
+          <span data-ng-bind="ctrl.profile.avatar.name || 'Faça upload do logo da ONG'"></span>
+        </file>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':userConfigurations.name.$invalid && userConfigurations.name.$dirty}">
         <label for="" class="control-label">Nome do responsável</label>
@@ -119,16 +132,6 @@
           <p data-ng-message="required" class="text-danger">O email é obrigatório.</p>
           <p data-ng-message="email" class="text-danger">Seu email deve ser um email válido.</p>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="form-group" data-ng-class="{'has-error':userConfigurations.avatar.$invalid && userConfigurations.avatar.$dirty}">
-        <label for="foto" class="control-label">Foto</label>
-        <file style="display: block" ng-model="ctrl.profile.avatar" progress="ctrl.progress">
-          <span data-ng-bind="ctrl.profile.avatar.name || 'Faça upload do logo da ONG'"></span>
-        </file>
       </div>
     </div>
   </div>

@@ -302,6 +302,9 @@ dl dd:last-child {
 }
 
 /* profile */
+.profile .well > h4 {
+  font-weight: 300;
+}
 .profile figure.avatar img {
   border: 2px solid #ccc;
 }
@@ -341,6 +344,9 @@ dl dd:last-child {
 .profile .media-list > .media .media-body .col-md-8,
 .profile .media-list > .media .media-body .col-md-4 {
   margin-top: 25px;
+}
+.profile .media-list > .media .media-body .media-heading {
+  margin-bottom: 5%;
 }
 .profile .media-list > .media .media-body .media-heading a {
   color: #000;
@@ -460,10 +466,16 @@ dl dd:last-child {
   margin-top: -250px;
   padding: 0 5rem 0 5rem;
 }
-
 .institution .cover-content h1 {
+  padding-top: 10px;
+  display: table-cell;
   color: #fff;
-  font-size: 4rem;
+  font-size: 3.4rem;
+  height: 9rem;
+  max-height: 9rem;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .campaign .cover-content h2,
 .campaign .cover-content h3 {
@@ -534,10 +546,7 @@ dl dd:last-child {
 .report #map .path_estado {
   stroke: #0074DB;
 }
-.report .amazonia {
-  /*fill: #000000;*/
-}
-/* /report*/
+/* /report */
 
 /* start */
 .start {
@@ -566,8 +575,6 @@ file button {
 .thumbnail .caption {
   padding: 20px;
   font-size: 2rem;
-}
-.thumbnail .caption {
 }
 /* /thumbnail */
 
@@ -1057,9 +1064,6 @@ figure.avatar img {
 
 /* /get-inspired */
 
-.proven-impact .impact {
-  /*display: table;*/
-}
 .proven-impact .text,
 .proven-impact .image {
   display: table-cell;
@@ -1149,9 +1153,6 @@ figure.avatar img {
 .icons .animals {
   /*background-image: url('../assets/icons/pngs/animal.png');*/
   background-image: url('../assets/icons/svgs/causa-animal.svg');
-}
-.home section.portfolio {
-  /*margin-bottom: 400px;*/
 }
 .portfolio {
   text-align: center;
@@ -1471,7 +1472,7 @@ cursor: pointer;
   height: 100%;
   min-width: 315px;
   border-radius: 10px;
-  -webkit-perspective: 500;
+  /*-webkit-perspective: 500;*/
 }
 .creditcard .card {
   width: 100%;
