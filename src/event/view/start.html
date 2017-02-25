@@ -150,15 +150,16 @@
               <input type="text" name="end_date" id="end_date" mask="39/19/2999" class="form-control" data-ng-model="ctrl.event.end_date" data-ng-model-options="{debounce: 600}" data-ng-change="ctrl.checkEndDate(start.end_date, ctrl.event.end_date)" aria-describedby="endDateHelpBlock" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('end')" popover-placement="right" popover-trigger="focus" required>
               <div id="endDateHelpBlock" class="help-block" data-ng-show="start.end_date.$dirty" data-ng-messages="start.end_date.$error">
                 <p data-ng-message="required" class="text-danger">
-                  Campo término do evento é obrigatório.
+                  Data de término do evento é obrigatória.
+                </p>
+                <p data-ng-message="mask" class="text-danger">
+                  Data de término deve ser uma data válida.
                 </p>
                 <p data-ng-message="end_date_min" class="text-danger">
-                  Devido a nossa política de mínimo de 25 dias para garantir um melhor
-                  resultado das campanhas a data mínima de término do seu evb deve ser dia <span data-ng-bind="ctrl.errorDateMin"></span>
+                  Data mínima de término deve ser dia <span data-ng-bind="ctrl.errorDateMin"></span>
                 </p>
                 <p data-ng-message="end_date_max" class="text-danger">
-                  Devido a nossa política de máximo de 90 dias para garantir um melhor
-                  resultado das campanhas a data máxima de término do seu evb deve ser dia <span data-ng-bind="ctrl.errorDateMax"></span>
+                  Data máxima de término deve ser dia <span data-ng-bind="ctrl.errorDateMax"></span>
                 </p>
               </div>
             </div>

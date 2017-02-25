@@ -85,7 +85,7 @@ export default class EventStart {
       },
       end: {
         title: 'Data limite',
-        text: 'Todas as nossas campanhas tem no mínimo 22 dias, pois é o prazo necessário para você mobilizar seus amigos. Mesmo que uma data específica de um evento esteja há poucos dias da data de criação de seu evento do bem, fique tranquilo que a maioria das campanhas batem a meta depois de sua data chave.'
+        text: 'Todas as nossas campanhas tem no mínimo 25 e máximo 90 dias, pois é o prazo necessário para você mobilizar seus amigos. Mesmo que uma data específica de um evento esteja há poucos dias da data de criação de seu evento do bem, fique tranquilo que a maioria das campanhas batem a meta depois de sua data chave.'
       },
       description: {
         title: 'Descrição da campanha',
@@ -144,13 +144,13 @@ export default class EventStart {
         timeDiff = dateEnd - dateCurrent,
         diffDays = parseInt(timeDiff / (1000 * 3600 * 24)),
         validMin = (diffDays >= 25) ? true : false,
-        validMax = (diffDays <= 90) ? true : false,
+        validMax = (diffDays <= 89) ? true : false,
         dateMin = new Date(),
         dateMax = new Date(),
         errorDateMin = new Date(dateMin.setDate(dateMin.getDate() + 26)),
-        errorDateMax = new Date(dateMax.setDate(dateMax.getDate() + 91))
-      this.errorDateMin = this.filter('date')(errorDateMin, 'longDate')
-      this.errorDateMax = this.filter('date')(errorDateMax, 'longDate')
+        errorDateMax = new Date(dateMax.setDate(dateMax.getDate() + 90))
+      this.errorDateMin = this.filter('date')(errorDateMin, 'dd/MM/yyyy')
+      this.errorDateMax = this.filter('date')(errorDateMax, 'dd/MM/yyyy')
       field.$setValidity('end_date_min', validMin)
       field.$setValidity('end_date_max', validMax)
     }
