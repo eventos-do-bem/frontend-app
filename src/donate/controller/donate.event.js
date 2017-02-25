@@ -109,6 +109,8 @@ export default class DonateEvent {
       templateUrl: './../src/donate/view/donate.card.success.html',
       controller: 'DonateCardSuccess',
       controllerAs: 'ctrl',
+      backdrop: 'static',
+      keyboard: false,
       resolve: {
         data: () => {
           return {

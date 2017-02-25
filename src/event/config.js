@@ -9,7 +9,12 @@ export default function EventConfig($stateProvider) {
       authenticate: true,
       templateUrl: './src/event/view/start.html',
       controller: 'EventStart',
-      controllerAs: 'ctrl'
+      controllerAs: 'ctrl',
+      resolve: {
+        profile: (ProfileService) => {
+          return ProfileService.me()
+        }
+      }
     })
     .state('event.explore', {
       url: '/explore?categoria?instituicao',

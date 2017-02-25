@@ -59,9 +59,9 @@
           <count-down-element model="start.name.$viewValue" max="60">
             <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.event.name" placeholder="Digite o nome do evento aqui" data-ng-maxlength="60" aria-describedby="nameHelpBlock" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('name')" popover-placement="right" popover-trigger="focus" required autofocus>
           </count-down-element>
-          <div id="nameHelpBlock" class="help-block" data-ng-show="start.name.$error">
-            <p data-ng-show="start.name.$error.required" class="text-danger">Nome do evento é obrigatório.</p>
-            <p data-ng-show="start.name.$error.maxlength" class="text-danger">Só é possível informar nome do evento de no máximo 60 caracteres.</p>
+          <div id="nameHelpBlock" class="help-block" data-ng-show="start.name.$dirty" data-ng-messages="start.name.$error">
+            <p data-ng-message="required" class="text-danger">Nome do evento é obrigatório.</p>
+            <p data-ng-message="maxlength" class="text-danger">Só é possível informar nome do evento de no máximo 60 caracteres.</p>
           </div>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.institution_uuid.$invalid && start.institution_uuid.$dirty}">
@@ -147,8 +147,8 @@
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.end_date.$invalid && start.end_date.$dirty}">
               <label for="end_date" class="control-label">Término</label>
-              <input type="text" name="end_date" id="end_date" mask="39/19/2999" class="form-control" data-ng-model="ctrl.event.end_date" data-ng-model-options="{debounce: 1000}" data-ng-change="ctrl.checkEndDate(start.end_date, ctrl.event.end_date)" aria-describedby="endDateHelpBlock" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('end')" popover-placement="right" popover-trigger="focus" required>
-              <div id="endDateHelpBlock" class="help-block" data-ng-messages="start.end_date.$error">
+              <input type="text" name="end_date" id="end_date" mask="39/19/2999" class="form-control" data-ng-model="ctrl.event.end_date" data-ng-model-options="{debounce: 600}" data-ng-change="ctrl.checkEndDate(start.end_date, ctrl.event.end_date)" aria-describedby="endDateHelpBlock" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('end')" popover-placement="right" popover-trigger="focus" required>
+              <div id="endDateHelpBlock" class="help-block" data-ng-show="start.end_date.$dirty" data-ng-messages="start.end_date.$error">
                 <p data-ng-message="required" class="text-danger">
                   Campo término do evento é obrigatório.
                 </p>

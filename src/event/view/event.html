@@ -50,7 +50,7 @@
               </div>
             </li>
           </ul>
-          <div class="text-center">
+          <div class="text-center" data-ng-show="ctrl.pagination.total_pages > 1">
             <ul uib-pagination
                 total-items="ctrl.pagination.total"
                 ng-model="ctrl.pagination.current_page"

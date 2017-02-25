@@ -407,6 +407,11 @@ dl dd:last-child {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.event.explore .thumbnail .caption h3 {
+  /*height: 2.3rem;*/
+  -moz-line-clamp: 2;
+  -webkit-line-clamp: 2;
+}
 .explore .thumbnail .caption h3 {
   /*height: 2.3rem;*/
   -moz-line-clamp: 1;

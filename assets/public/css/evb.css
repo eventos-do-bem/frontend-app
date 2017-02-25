@@ -43,6 +43,13 @@ ul,
 li {
   line-height: 1.3;
 }
+.event.explore .thumbnail .caption h3 {
+  height: 5.460000000000001rem;
+  -moz-line-clamp: 2;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  display: -moz-box;
+}
 .explore .thumbnail .caption h4 {
   height: 6.63rem;
   -moz-line-clamp: 3;

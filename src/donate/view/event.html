@@ -142,7 +142,7 @@
               <div class="col-md-3">
                 <div class="form-group" data-ng-class="{'has-error':donate.card_cvc.$invalid && donate.card_cvc.$dirty}">
                   <label for="card_cvc" class="control-label">Código</label>
-                  <input type="number" name="card_cvc" id="card_cvc" class="form-control" data-ng-model="ctrl.donate.card_cvc" maxlength="3" data-ng-blur="ctrl.onValidate(donate)" uib-popover-template="'myPopoverCardTemplate.html'" popover-placement="right" popover-trigger="focus" required>
+                  <input type="text" name="card_cvc" id="card_cvc" class="form-control" data-ng-model="ctrl.donate.card_cvc" maxlength="3" data-ng-blur="ctrl.onValidate(donate)" uib-popover-template="'myPopoverCardTemplate.html'" popover-placement="right" popover-trigger="focus" required>
                 </div>
               </div>
             </div>

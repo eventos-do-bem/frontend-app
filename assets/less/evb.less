@@ -52,10 +52,15 @@ p, a, label, table th, table td, ol, ul, li {
 }
 
 .limit-lines(@size; @height; @lines) {
-  @heightVal: ((@size * @height) * 3);
+  @heightVal: ((@size * @height) * @lines);
   height: ~"@{heightVal}rem";
   -moz-line-clamp: @lines;
   -webkit-line-clamp: @lines;
+}
+.event.explore .thumbnail .caption h3 {
+  .limit-lines(@font-size-h3, @line-height-geral, 2);
+  display: -webkit-box;
+  display: -moz-box;  
 }
 .explore .thumbnail .caption h4 {
   .limit-lines(@font-size-h4, @line-height-geral, 3);
