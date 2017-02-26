@@ -20,8 +20,8 @@ script:
     - if [ "$TRAVIS_BRANCH" = "master" ]; then aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read --exclude "package.json" --exclude ".travis.yml" --exclude "bitbucket-pipelines.yml" --exclude "docker-local.sh" --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*" --exclude "node_modules/*"; fi
     - if [ "$TRAVIS_BRANCH" = "production" ]; then aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend-production --acl public-read --exclude "package.json" --exclude ".travis.yml" --exclude "bitbucket-pipelines.yml" --exclude "docker-local.sh" --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*" --exclude "node_modules/*"; fi
     - aws configure set preview.cloudfront true
-    - if [ "$TRAVIS_BRANCH" = "master" ]; aws cloudfront create-invalidation --distribution-id E2GGIDEF1PPNTQ --paths "/*"; fi
-    - if [ "$TRAVIS_BRANCH" = "production" ]; aws cloudfront create-invalidation --distribution-id E1CX7CDU68AMAR --paths "/*"; fi
+    - if [ "$TRAVIS_BRANCH" = "master" ]; then aws cloudfront create-invalidation --distribution-id E2GGIDEF1PPNTQ --paths "/*"; fi
+    - if [ "$TRAVIS_BRANCH" = "production" ]; then aws cloudfront create-invalidation --distribution-id E1CX7CDU68AMAR --paths "/*"; fi
 notifications:
     email:
         on_failure: always
