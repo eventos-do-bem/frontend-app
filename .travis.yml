@@ -15,24 +15,11 @@ install:
     - "mkdir dist"
     - "aws --version"
 script: 
-    - "npm install"
-    - "npm run prod"
-deploy:
-    provider: s3
-    access_key_id: $AWS_ACCESS_KEY_ID # declared in Travis repo settings
-    secret_access_key: $AWS_SECRET_ACCESS_KEY
-    region: $AWS_DEFAULT_REGION
-    bucket: eventosdobem-frontend
-    skip_cleanup: true
-    acl: public_read
-    detect_encoding: true
-    # Set the Cache-Control header.
-    cache_control: "max-age=21600"
+    - npm install
+    - npm run prod
+    - aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read --exclude "bitbucket-pipelines.yml" --exclude "docker-local.sh" --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*" --exclude "node_modules/*"
+    - aws configure set preview.cloudfront true
+    - aws cloudfront create-invalidation --distribution-id E2GGIDEF1PPNTQ --paths "/*"
 notifications:
     email:
         on_failure: always
-after_deploy:
-  # Allow `awscli` to make requests to CloudFront.
-  - aws configure set preview.cloudfront true
-  # Invalidate every object in the targeted distribution.
-  - aws cloudfront create-invalidation --distribution-id E2GGIDEF1PPNTQ --paths "/*"
