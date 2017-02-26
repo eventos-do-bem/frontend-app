@@ -1,0 +1,39 @@
+language: node_js
+node_js:
+    - "6.9.2"
+cache: 
+  - apt
+  - pip
+install:
+    - "sudo apt-get update"
+    - "sudo apt-get install python"
+    - "python --version"
+    - "sudo apt-get -y install python-dev"
+    - "apt-get -y install python-pip"
+    - "pip install --user awscli"
+    - "pip --help"
+    - "mkdir dist"
+    - "aws --version"
+script: 
+    - "npm install"
+    - "npm run prod"
+deploy:
+    provider: s3
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    region: $AWS_DEFAULT_REGION
+    bucket: eventosdobem-frontend
+    skip_cleanup: true
+    local-dir: output
+    acl: public_read
+    detect_encoding: true
+    # Set the Cache-Control header.
+    cache_control: "max-age=21600"
+notifications:
+    email:
+        on_failure: always
+after_deploy:
+  # Allow `awscli` to make requests to CloudFront.
+  - aws configure set preview.cloudfront true
+  # Invalidate every object in the targeted distribution.
+  - aws cloudfront create-invalidation --distribution-id E1CX7CDU68AMAR --paths "/*"
