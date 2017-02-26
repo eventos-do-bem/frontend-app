@@ -9,7 +9,7 @@ install:
     - "sudo apt-get install python"
     - "python --version"
     - "sudo apt-get -y install python-dev"
-    - "apt-get -y install python-pip"
+    - "sudo apt-get -y install python-pip"
     - "pip install --user awscli"
     - "pip --help"
     - "mkdir dist"
@@ -36,4 +36,4 @@ after_deploy:
   # Allow `awscli` to make requests to CloudFront.
   - aws configure set preview.cloudfront true
   # Invalidate every object in the targeted distribution.
-  - aws cloudfront create-invalidation --distribution-id E1CX7CDU68AMAR --paths "/*"
+  - aws cloudfront create-invalidation --distribution-id E2GGIDEF1PPNTQ --paths "/*"
