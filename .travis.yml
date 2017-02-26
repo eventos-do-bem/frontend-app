@@ -24,7 +24,6 @@ deploy:
     region: $AWS_DEFAULT_REGION
     bucket: eventosdobem-frontend
     skip_cleanup: true
-    local-dir: output
     acl: public_read
     detect_encoding: true
     # Set the Cache-Control header.
