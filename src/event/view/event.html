@@ -37,7 +37,7 @@
           <h3>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
           <ul class="media-list">
             <li class="media" data-ng-repeat="item in ctrl.event.messages.values">
-              <div class="media-left media-left-coment avatar avatar-circle">
+              <div class="media-left avatar ">
                 <a>
                   <img data-ng-show="item.user" class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
                   <img data-ng-show="!item.user" class="media-object img-circle" data-ng-src="/assets/images/avatars/small/avatar.svg" alt="Anônimo">
