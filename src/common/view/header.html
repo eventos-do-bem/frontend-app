@@ -31,7 +31,9 @@
           <ul class="nav navbar-nav navbar-right" uib-dropdown is-open="status.isopen">
             <li class="dropdown">
               <a class="photo" uib-dropdown-toggle>
-                <img data-ng-src="{{ctrl.profile.avatar.small}}" class="avatar img-circle" alt="">
+                <figure class="avatar-circle">
+                  <img data-ng-src="{{ctrl.profile.avatar.small}}" alt="">
+                </figure>
                 {{ctrl.profile.name}} <span class="caret"></span>
               </a>
             </li>
