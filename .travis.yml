@@ -1,27 +1,37 @@
 language: node_js
 node_js:
-    - "6.9.2"
-cache: 
+- 6.9.2
+cache:
   directories:
-    - node_modules
+  - node_modules
 install:
-    - "sudo apt-get update"
-    - "sudo apt-get install python"
-    - "python --version"
-    - "sudo apt-get -y install python-dev"
-    - "sudo apt-get -y install python-pip"
-    - "pip install --user awscli"
-    - "pip --help"
-    - "mkdir dist"
-    - "aws --version"
-script: 
-    - npm install
-    - npm run prod
-    - if [ "$TRAVIS_BRANCH" = "master" ]; then aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend --acl public-read --exclude "package.json" --exclude ".travis.yml" --exclude "bitbucket-pipelines.yml" --exclude "docker-local.sh" --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*" --exclude "node_modules/*"; fi
-    - if [ "$TRAVIS_BRANCH" = "production" ]; then aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend-production --acl public-read --exclude "package.json" --exclude ".travis.yml" --exclude "bitbucket-pipelines.yml" --exclude "docker-local.sh" --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*" --exclude "node_modules/*"; fi
-    - aws configure set preview.cloudfront true
-    - if [ "$TRAVIS_BRANCH" = "master" ]; then aws cloudfront create-invalidation --distribution-id E2GGIDEF1PPNTQ --paths "/*"; fi
-    - if [ "$TRAVIS_BRANCH" = "production" ]; then aws cloudfront create-invalidation --distribution-id E1CX7CDU68AMAR --paths "/*"; fi
+- sudo apt-get update
+- sudo apt-get install python
+- python --version
+- sudo apt-get -y install python-dev
+- sudo apt-get -y install python-pip
+- pip install --user awscli
+- pip --help
+- mkdir dist
+- aws --version
+script:
+- npm install
+- npm run prod
+- if [ "$TRAVIS_BRANCH" = "master" ]; then aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend
+  --acl public-read --exclude "package.json" --exclude ".travis.yml" --exclude "bitbucket-pipelines.yml"
+  --exclude "docker-local.sh" --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*"
+  --exclude "node_modules/*"; fi
+- if [ "$TRAVIS_BRANCH" = "production" ]; then aws --region sa-east-1 s3 sync . s3://eventosdobem-frontend-production
+  --acl public-read --exclude "package.json" --exclude ".travis.yml" --exclude "bitbucket-pipelines.yml"
+  --exclude "docker-local.sh" --exclude ".git/*" --exclude ".config/*" --exclude ".npm/*"
+  --exclude "node_modules/*"; fi
+- aws configure set preview.cloudfront true
+- if [ "$TRAVIS_BRANCH" = "master" ]; then aws cloudfront create-invalidation --distribution-id
+  E2GGIDEF1PPNTQ --paths "/*"; fi
+- if [ "$TRAVIS_BRANCH" = "production" ]; then aws cloudfront create-invalidation
+  --distribution-id E1CX7CDU68AMAR --paths "/*"; fi
 notifications:
-    email:
-        on_failure: always
+  email:
+    on_failure: always
+  slack:
+    secure: bAALgC3IX11a3LxKS+stkI0Jtl7GHsTk4GjP/eQ08ghJ+AbXtKnjxVlZ4OiDRgxeqWsXuQvHUxBEctiNrXdNX3s0NFqzri1kOLdpUn9yw4QrbXPDav9H7oL2WEgaS8uEcsaiY4Xhqzj9paMqhMwxQPl3lddhvu+6CsiQzUFjgDt+xqvqn1higYnjBsy6tqlFb90eTALmDNVMrW+PJMNdp5Or4egGuEdnU235RM9Uu3Jikjd0l4h0sbNSDGAhcRHuEyVbzyni77HI1+oj2+de/VCD/6kAhNNwUWxbHTJcx+AgEdYxR2Mc3Xkl1Zmf3Q5BxHjo4kgahvfO+elimadmnHI14LSSKoP0dFkMuGrPzt9HRucVyF78j1iw47ccdOcthC9UWCAP6p9UyX3YFxYdlmQioDxwZdpM0rcD8VgudFkkDHq4iy6u1AriDO/bALQ0RR9RX4CfF0yi7VkBLnOpJLs8QkSUGUCq1bEsRhbVbhyZMrQ+FJmoaKn7m2OoKVoBUJ9dU1HwUMlD1Tu1xz+ISpn45MddAdsk4rKxczYug3b/Uyh/r6lAVDgKyHZ576p1QwDy/5WD5r5mZcP9U9hpdkoYM5R7hBRWRCTvVOuGNCcrGmW1HNTcHmBOJLZElGLNOqafB5BLNB7p1APGS1o3dFZd5vihOzcmpvpl/sR+HuY=
