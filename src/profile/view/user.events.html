@@ -9,7 +9,9 @@
     <li class="media" data-ng-repeat="item in ctrl.events">
       <div class="media-left">
         <a ui-sref="event.slug({slug: item.slug})">
-          <img class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
+        <figure class="media-object avatar-circle">
+          <img  data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
+        </figure>
         </a>
       </div>
       <div class="media-body">
