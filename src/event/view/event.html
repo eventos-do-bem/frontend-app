@@ -5,7 +5,9 @@
   <section class="cover-content container">
     <div class="row">
       <div class="col-md-2">
-        <img data-ng-src="{{ctrl.event.user.avatar.medium}}" class="avatar img-responsive img-circle" alt="">
+        <figure class="avatar img-responsive img-circle avatar-circle">
+          <img data-ng-src="{{ctrl.event.user.avatar.medium}}" alt="">
+        </figure>
       </div>
       <div class="col-md-10">
         <h2 data-ng-bind="ctrl.event.user.name"></h2>
@@ -22,8 +24,8 @@
         </div>
         <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.event.description)"></p>
         <!--<div>
-          <div class="fb-share-button" 
-            data-href="/evento/{{ctrl.event.slug}}" 
+          <div class="fb-share-button"
+            data-href="/evento/{{ctrl.event.slug}}"
             data-layout="button_count">
           </div>
           <script src="https://apis.google.com/js/platform.js" async defer>

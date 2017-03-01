@@ -14,7 +14,9 @@
     <li class="media" data-ng-repeat="item in ctrl.events">
       <div class="media-left">
         <a ui-sref="event.slug({slug: item.slug})">
-          <img class="media-object img-circle" data-ng-src="{{item.user.avatar.medium}}" alt="{{item.user.name}}">
+          <figure class="media-object img-circle avatar-circle">
+            <img data-ng-src="{{item.user.avatar.medium}}" alt="{{item.user.name}}">
+          </figure>
         </a>
       </div>
       <div class="media-body">
@@ -38,7 +40,7 @@
             </a>
             <br>
             <p class="text-success text-center">
-              Prazo máximo: 
+              Prazo máximo:
               <span data-ng-bind="item.dateStartSubmissionReport | date: 'dd/MM/yyyy'"></span>
               <br>
               <a ui-sref="event.slug({slug: item.slug})">Veja a página</a>
