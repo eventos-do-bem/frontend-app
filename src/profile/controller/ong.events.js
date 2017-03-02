@@ -16,16 +16,22 @@ export default class OngEvents {
       this.events = response.data.values.map(event => {
         event.dateStartSubmissionReport = new Date(event.dateStartSubmissionReport)
         return event
-      })
-      this.pendings = response.data.values.filter(event => {
-        return (event.needReport == true)
-      })
-      if (this.pendings.length > 0) {
+      })      
+    })
+
+    this.service.getEvents({
+      onlyEnabledToReceiveReport: true,
+      total: true
+    }).then(response => {
+      // console.log(response)
+      this.pendings = response.data.total
+      
+      if (this.pendings > 0) {
         this.rootScope.$broadcast('alert', {
           type: 'alert-warning',
           icon: 'fa-warning',
           message: {
-            message: `Você tem ${this.pendings.length} relatórios pendentes.`
+            message: `Você tem ${this.pendings} relatórios pendentes.`
           }
         })
       }
