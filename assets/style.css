@@ -1726,3 +1726,7 @@ footer li a:hover {
   height: 100%;
   object-fit: cover;
 }
+
+p.help-text-donate {
+  margin-top: 10px;
+}

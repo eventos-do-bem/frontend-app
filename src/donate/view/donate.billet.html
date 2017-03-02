@@ -22,10 +22,10 @@
           <input type="text" name="amount" id="amount" class="form-control" data-ng-model="ctrl.donate.amount" required>
         </div>-->
         <p class="text-center">Ao gerar o boleto, o organizador já está contando com o seu apoio. <br> Pague até a data de vencimento pela internet, casas lotéricas, caixas eletrônicos ou agência bancária.</p>
-        <p class="text-center">Escreva uma mensagem de apoio para o <span data-ng-bind="ctrl.user.name"></span> que assim que o boleo for pago aparecerá na página da campanha!</p>
+        <p class="text-center">Escreva uma mensagem de apoio para o <span data-ng-bind="ctrl.user.name"></span> que assim que o boleto for pago aparecerá na página da campanha!</p>
         <div class="form-group" data-ng-class="{'has-error':donate.message.$invalid && donate.message.$dirty}">
-          <count-down-element model="donate.message.$viewValue" max="250">
-            <textarea name="message" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="250" placeholder="Parabenize com sua mensagem de apoio :)" required></textarea>
+          <count-down-element model="donate.message.$viewValue" max="165">
+            <textarea name="message" rows="5" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="165" placeholder="Parabenize com sua mensagem de apoio :)" required></textarea>
           </count-down-element>
         </div>
         <div class="checkbox">
