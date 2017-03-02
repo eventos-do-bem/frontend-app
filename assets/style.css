@@ -542,15 +542,19 @@ dl dd:last-child {
 }
 .campaign .content .media-object {
   width: 60px;
-  border: 1px solid #ccc;
+    border: 1px solid #ccc;
+    min-height: 60px;
+    object-fit: cover;
+    left: 0px;
+    top: 0px;
+    object-fit: cover;
 }
+
 .gap-top {
   margin-top: 1.8rem;
 }
 /* /campaign */
-.media-left-coment{
-  padding-left: 70px;
-}
+
 h4.media-heading{
   font-weight: 600;
 }
@@ -1461,12 +1465,7 @@ cursor: pointer;
 /* /.typeahead-popup > .dropdown-menu */
 
 /* .card */
-.donate-card-success .media {
-  margin: 10px 0 30px;
-}
-.donate-card-success .media-left {
-  padding-right: 30px;
-}
+
 .donate-card-success .media-body {
   vertical-align: middle;
 }
@@ -1494,6 +1493,7 @@ cursor: pointer;
   border-radius: 10px;
   /*-webkit-perspective: 500;*/
 }
+
 .creditcard .card {
   width: 100%;
   height: 100%;
@@ -1602,6 +1602,11 @@ cursor: pointer;
   left: 85%;
   font-size: 1.6rem;
   color: #fff;
+}
+
+.avatar-sucess{
+    width: 90px;
+    border: 1px solid #ccc;
 }
 /* /creditcard */
 
