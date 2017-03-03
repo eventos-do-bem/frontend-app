@@ -4,10 +4,12 @@
   </button>
   <div class="panel profile">
     <div style="margin: 0 auto; width: 250px;">
-      <img data-ng-src="{{ctrl.user.avatar.medium}}" class="avatar img-responsive img-circle" alt="">
+      <figure class=" avatar image-responsive avatar-circle">
+      <img data-ng-src="{{ctrl.user.avatar.medium}}"  alt="">
+      </figure>
     </div>
     <div style="margin: 0 auto; width: 450px;">
-      <h4 class="text-center">Legal da sua parte apoiar a campanha do <span data-ng-bind="ctrl.user.name"></span></h4>
+      <h4 class="text-center">Obrigado por apoiar a campanha de <span data-ng-bind="ctrl.user.name"></span></h4>
       <form name="donate" novalidate data-ng-submit="ctrl.buildBillet(ctrl.donate)">
         <div class="row">
           <div class="col-sm-6 col-sm-offset-3">
