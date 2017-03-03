@@ -9,6 +9,7 @@ export default class UserConfigurations {
   }
   load(profile) {
     profile = angular.copy(profile)
+    delete profile.phone
     delete profile.avatar
     profile.birthdate = new Date(profile.birthdate)
     profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy')
