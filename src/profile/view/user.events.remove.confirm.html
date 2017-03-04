@@ -1,0 +1,20 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <h2 class="text-center">
+        Tem certeza que deseja excluir o evento
+      </h2>
+      <h2 class="text-center">
+        "<span data-ng-bind="ctrl.event.name"></span>"?
+      </h2>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-ng-click="ctrl.cancel()">
+    Não
+  </button>
+  <button type="button" class="btn btn-danger" data-ng-click="ctrl.ok()">
+    Sim
+  </button>
+</div>

@@ -1,7 +1,9 @@
 export default class UserConfigurations {
-  constructor($filter, $rootScope, StorageService, ProfileService, ValidationFactory, profile) {
+  constructor($filter, $rootScope, $location, $anchorScroll, StorageService, ProfileService, ValidationFactory, profile) {
     this.filter = $filter
     this.rootScope = $rootScope
+    this.location = $location
+    this.anchorScroll = $anchorScroll
     this.storage = StorageService
     this.service = ProfileService
     this.validation = ValidationFactory
@@ -9,6 +11,7 @@ export default class UserConfigurations {
   }
   load(profile) {
     profile = angular.copy(profile)
+    delete profile.phone
     delete profile.avatar
     profile.birthdate = new Date(profile.birthdate)
     profile.birthdate = this.filter('date')(profile.birthdate.setDate(profile.birthdate.getDate() + 1), 'dd/MM/yyyy')
@@ -39,12 +42,16 @@ export default class UserConfigurations {
         this.profile = response.data
         this.load(this.profile)
         this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: { message: 'Dados alterados com sucesso!' }})
+        this.location.hash('body')
+        this.anchorScroll()
       },
       error => {
         this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
+        this.location.hash('body')
+        this.anchorScroll()
       }
     )
   }
 }
 
-UserConfigurations.$inject = ['$filter', '$rootScope', 'StorageService', 'ProfileService', 'ValidationFactory', 'profile']
+UserConfigurations.$inject = ['$filter', '$rootScope', '$location', '$anchorScroll', 'StorageService', 'ProfileService', 'ValidationFactory', 'profile']

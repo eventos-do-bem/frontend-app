@@ -202,6 +202,9 @@ blockquote .name {
   border-right-color: #eee;
 }
 
+.form-control[disabled] {
+  background-color: #eee !important;
+}
 .form-control.same-btn-large {
   height: 44px;
 }

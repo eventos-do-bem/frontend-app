@@ -13,6 +13,65 @@ export default function EventConfig($stateProvider) {
       resolve: {
         profile: (ProfileService) => {
           return ProfileService.me()
+        },
+        institutions: (InstitutionService) => {
+          return InstitutionService.findAll()
+            .then(response => {
+              return response.data.values
+            })
+        },
+        categories: (CategoryService) => {
+          return CategoryService.findAll()
+            .then(response => {
+              return response.data.values
+            })
+        },
+        event: () => {
+          return {}
+        }
+      }
+    })
+    .state('event.edit', {
+      url: '/alterar/:slug',
+      authenticate: true,
+      templateUrl: './src/event/view/start.html',
+      controller: 'EventStart',
+      controllerAs: 'ctrl',
+      resolve: {
+        profile: (ProfileService) => {
+          return ProfileService.me()
+        },
+        institutions: (InstitutionService) => {
+          return InstitutionService.findAll()
+            .then(response => {
+              return response.data.values
+            })
+        },
+        categories: (CategoryService) => {
+          return CategoryService.findAll()
+            .then(response => {
+              return response.data.values
+            })
+        },
+        event: (EventService, $stateParams, $filter) => {
+          if ($stateParams.slug) {
+            return EventService.findById($stateParams.slug)
+              .then(response => {
+                let event = angular.copy(response.data)
+                delete event.slug
+                delete event.cover
+                event.end_date = $filter('date')(new Date(event.ends), 'dd/MM/yyyy')
+                event.goal_amount = event.goal
+                event.video = event.videos.values[0].url
+                event.categorie_uuid = event.categories.values[0]
+                event.institution_uuid = event.institution.uuid
+                event.temp = {
+                  state: event.cities.values[0].state
+                }
+                event.citie = event.cities.values[0]
+                return event
+              })
+          }
         }
       }
     })

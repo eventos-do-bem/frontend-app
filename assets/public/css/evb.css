@@ -161,6 +161,11 @@ a:hover {
   color: #fff;
   background-color: #3a93d0;
 }
+.h-gap-4 {
+  content: ' ';
+  display: block;
+  height: 4px;
+}
 .faq article hr {
   background-color: #ff1e00;
 }
@@ -185,6 +190,7 @@ a:hover {
 .ta-toolbar.btn-group-justified .btn-group .btn {
   padding: 6px 8px;
 }
+.profile .media-list .btn-group-justified .btn,
 .start .ta-toolbar.btn-group-justified .btn-group .btn {
   padding: 6px 6px;
 }

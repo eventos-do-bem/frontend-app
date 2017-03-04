@@ -66,16 +66,18 @@
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.institution_uuid.$invalid && start.institution_uuid.$dirty}">
           <label for="institution_uuid" class="control-label">Escolha a causa que irá ajudar</label>
-          <input type="text" name="institution_uuid" data-ng-model="ctrl.event.institution_uuid" placeholder="Encontre uma causa" uib-typeahead="item.uuid as item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-input-formatter="ctrl.formatLabel($model)" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('institution')" popover-placement="right" popover-trigger="focus" required>
+          <input type="text" name="institution_uuid" data-ng-model="ctrl.event.institution_uuid" placeholder="Encontre uma causa" data-ng-disabled="ctrl.event.hasAnyDonate" uib-typeahead="item.uuid as item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-input-formatter="ctrl.selectInstitution($model)" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('institution')" popover-placement="right" popover-trigger="focus" required>
           <p data-ng-show="start.institution_uuid.$invalid && start.institution_uuid.$dirty && start.institution_uuid.$touched" class="text-danger">Escolha uma causa</p>
+          <p data-ng-show="ctrl.event.hasAnyDonate" class="text-warning">Este campo não pode ser alterado, pois este evento já possui doação.</p>
+          <p>Não tem causa? <a target="_blank" ui-sref="pages.explore">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a target="_blank" ui-sref="pages.contact">Entre em contato</a></p>
         </div>
-        <p>Não tem causa? <a target="_blank" ui-sref="pages.explore">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a target="_blank" ui-sref="pages.contact">Entre em contato</a></p>
         <div class="form-group" data-ng-class="{'has-error':start.categorie_uuid.$invalid && start.categorie_uuid.$dirty}">
           <label for="categorie_uuid" class="control-label">Categoria do Evento do Bem</label>
-          <select ng-options="item.uuid as item.name for item in ctrl.categories track by item.slug" name="categorie_uuid" id="categorie_uuid" class="form-control" data-ng-model="ctrl.event.categorie_uuid" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('category')" popover-placement="right" popover-trigger="focus" required>
+          <select ng-options="item as item.name for item in ctrl.categories track by item.slug" name="categorie_uuid" id="categorie_uuid" class="form-control" data-ng-model="ctrl.event.categorie_uuid" data-ng-change="ctrl.selectCategory(ctrl.event.categorie_uuid)" data-ng-disabled="ctrl.event.hasAnyDonate" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('category')" popover-placement="right" popover-trigger="focus" required>
             <option value="">Selecione</option>
           </select>
           <p data-ng-show="start.categorie_uuid.$invalid && start.categorie_uuid.$touched" class="text-danger">Escolha uma categoria</p>
+          <p data-ng-show="ctrl.event.hasAnyDonate" class="text-warning">Este campo não pode ser alterado, pois este evento já possui doação.</p>
         </div>
         <div class="row">
           <div class="col-md-6">
@@ -88,7 +90,7 @@
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.citie.$invalid && start.citie.$dirty}">
               <label for="citie" class="control-label">Selecione sua Cidade</label>
-              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" aria-describedby="citieHelpBlock" autocomplete="off" required>
+              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item as item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" aria-describedby="citieHelpBlock" autocomplete="off" required>
               <div id="citieHelpBlock" class="help-block" data-ng-show="start.citie.$error && start.citie.$touched">
                 <p data-ng-show="start.citie.$error.required" class="text-danger">Informe a cidade que este evento irá ocorrer.</p>
               </div>
@@ -129,12 +131,13 @@
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.goal_amount.$invalid && start.goal_amount.$dirty, 'has-error': start.goal_amount.$dirty && ctrl.event.goal_amount < 100}">
               <label for="goal_amount" class="control-label">Meta</label>
-              <input type="text" name="goal_amount" id="goal_amount" class="form-control" format-currency="ctrl.amountOptions" variable-options="true" data-ng-model="ctrl.event.goal_amount" aria-describedby="goalAmountHelpBlock" placeholder="Digite o valor" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus" required>
+              <input type="text" name="goal_amount" id="goal_amount" class="form-control" format-currency="ctrl.amountOptions" variable-options="true" data-ng-model="ctrl.event.goal_amount" data-ng-disabled="ctrl.event.hasAnyDonate" aria-describedby="goalAmountHelpBlock" placeholder="Digite o valor" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('goal')" popover-placement="right" popover-trigger="focus" required>
               <div id="goalAmountHelpBlock" class="help-block" data-ng-show="start.goal_amount.$error && start.goal_amount.$touched">
                 <p data-ng-show="start.goal_amount.$error.required" class="text-danger">
                   A meta do evento deve ser maior que <span data-ng-bind="100.00 | currency: 'R$ '"></span>
                 </p>
               </div>
+              <p data-ng-show="ctrl.event.hasAnyDonate" class="text-warning">Este campo não pode ser alterado, pois este evento já possui doação.</p>
               <!--Informe o valor do evento, deverá ser um valor maior que R$ 100.00-->
               <!--<div class="checkbox">
                 <label>

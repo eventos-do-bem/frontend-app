@@ -1,5 +1,5 @@
 export default class EventStart {
-  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, Regex, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory) {
+  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, Regex, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory, institutions, categories, event) {
     this.rootScope = $rootScope
     this.state = $state
     this.window = $window
@@ -7,12 +7,18 @@ export default class EventStart {
     this.location = $location
     this.anchorScroll = $anchorScroll
     this.service = EventService
+    this.institutionService = InstitutionService
+    this.institutions = institutions
+    this.categories = categories
+    this.event = event
     this.locationService = LocationService
     this.validation = ValidationFactory
     this.urlPattern = Regex.URL
-    this.event = {
-      categorie_uuid: null
-    }
+    // this.event = {
+    //   categorie_uuid: null
+    // }
+    this.temp = event.temp
+    delete event.temp
     this.amountOptions = {
       aSign: 'R$ ',
       aSep: '.',
@@ -21,7 +27,31 @@ export default class EventStart {
       lZero: 'deny',
       aPad: true
     }
-
+    if ($stateParams.causa) {
+      this.event.institution_uuid = $stateParams.causa
+    }
+    if ($stateParams.categoria) {
+      this.event.categorie_uuid = { slug: $stateParams.categoria }
+    }
+    // console.log($stateParams)
+    // if ($stateParams.slug) {
+    //   this.service.findById($stateParams.slug)
+    //     .then(response => {
+    //       let event = angular.copy(response.data)
+    //       console.log(event)
+    //       delete event.cover
+    //       event.end_date = null
+    //       event.goal_amount = event.goal
+    //       event.video = event.videos.values[0].url
+    //       event.categorie_uuid = event.categories.values[0]
+    //       event.institution_uuid = event.institution.uuid
+    //       this.temp.state = event.cities.values[0].state
+    //       event.citie = event.cities.values[0]
+    //       this.event = event
+    //       this.event.end_date = this.filter('date')(new Date(event.ends), 'dd/MM/yyyy')
+    //       console.log(this.form)
+    //     })
+    // }
     if ($stateParams.meta) {
       this.event.goal_amount = $stateParams.meta
     }
@@ -35,28 +65,28 @@ export default class EventStart {
     this.locationService.getStates()
       .then(response => this.states = response.data.values)
 
-    InstitutionService.findAll()
-      .then(response => {
-        this.institutions = response.data.values
-        if ($stateParams.causa) {
-          this.event.institution_uuid = $stateParams.causa
-        }
-        this.formatLabel = function(model) {
-          let len = this.institutions.length
-          for (var i = 0; i < len; i++) {
-            if (model === this.institutions[i].uuid) {
-              return this.institutions[i].name
-            }
-          }
-        }
-      })
-    CategoryService.findAll()
-      .then(response => {
-        this.categories = response.data.values
-        if ($stateParams.categoria) {
-          this.event.categorie_uuid = { slug: $stateParams.categoria }
-        }
-      })
+    // InstitutionService.findAll()
+    //   .then(response => {
+    //     this.institutions = response.data.values
+    //     if ($stateParams.causa) {
+    //       this.event.institution_uuid = $stateParams.causa
+    //     }
+    //     this.formatLabel = function(model) {
+    //       let len = this.institutions.length
+    //       for (var i = 0; i < len; i++) {
+    //         if (model === this.institutions[i].uuid) {
+    //           return this.institutions[i].name
+    //         }
+    //       }
+    //     }
+    //   })
+    // CategoryService.findAll()
+    //   .then(response => {
+    //     this.categories = response.data.values
+    //     if ($stateParams.categoria) {
+    //       this.event.categorie_uuid = { slug: $stateParams.categoria }
+    //     }
+    //   })
 
     this.popovers = {
       name: {
@@ -97,6 +127,26 @@ export default class EventStart {
       }
     }
   }
+  selectInstitution(institution) {
+    if (institution) {
+      let len = this.institutions.length
+      for (var i = 0; i < len; i++) {
+        if (institution === this.institutions[i].uuid) {
+          return this.institutions[i].name
+        }
+      }
+    }
+  }
+  selectCategory(category) {
+    if (category) {
+      let len = this.categories.length
+      for (var i = 0; i < len; i++) {
+        if (category.uuid === this.categories[i].uuid) {
+          return this.categories[i].uuid
+        }
+      }
+    }
+  }
   getCities(state, city) {
     return this.locationService.getCities(state, city)
       .then(response => {
@@ -127,8 +177,6 @@ export default class EventStart {
       )
 
       this.errorDateMin = date.setDate(date.getDate() + 25)
-      console.log(this.errorDateMin)
-      console.log('validMin')
       this.errorDateMax = date.setDate(date.getDate() + 90)
       // field.$setValidity('end_date_min', !validMin)
       // field.$setValidity('end_date_max', !validMax)
@@ -139,23 +187,30 @@ export default class EventStart {
     if (!field.$error.mask && field.$viewValue) {
       let end_date = end.split('/')
       end_date = `${end_date[2]}-${end_date[1]}-${end_date[0]}`
-      let dateEnd = new Date(end_date),
-        dateCurrent = new Date(),
+      let dateEnd = new Date(end_date)
+      if (dateEnd == 'Invalid Date') {
+        field.$setValidity('mask', false)
+      } else {
+        let dateCurrent = this.event.uuid ? new Date(this.event.created_at) : new Date(),
         timeDiff = dateEnd - dateCurrent,
         diffDays = parseInt(timeDiff / (1000 * 3600 * 24)),
         validMin = (diffDays >= 25) ? true : false,
         validMax = (diffDays <= 89) ? true : false,
-        dateMin = new Date(),
-        dateMax = new Date(),
+        dateMin = this.event.uuid ? new Date(this.event.created_at) : new Date(),
+        dateMax = this.event.uuid ? new Date(this.event.created_at) : new Date(),
         errorDateMin = new Date(dateMin.setDate(dateMin.getDate() + 26)),
         errorDateMax = new Date(dateMax.setDate(dateMax.getDate() + 90))
-      this.errorDateMin = this.filter('date')(errorDateMin, 'dd/MM/yyyy')
-      this.errorDateMax = this.filter('date')(errorDateMax, 'dd/MM/yyyy')
-      field.$setValidity('end_date_min', validMin)
-      field.$setValidity('end_date_max', validMax)
+        this.errorDateMin = this.filter('date')(errorDateMin, 'dd/MM/yyyy')
+        this.errorDateMax = this.filter('date')(errorDateMax, 'dd/MM/yyyy')
+        field.$setValidity('end_date_min', validMin)
+        field.$setValidity('end_date_max', validMax)
+      }
     }
   }
   save(start, event) {
+    event = angular.copy(event)
+    // start.end_date.$setValidity('end_date', false)
+    this.checkEndDate(start.end_date, event.end_date)
     if (start.$invalid) {
       angular.forEach(start.$error, field => {
         angular.forEach(field, errorField => {
@@ -166,8 +221,11 @@ export default class EventStart {
       if (event.video && event.video.trim().indexOf('http') != 0) {
         event.video = 'http://' + event.video
       }
+      event.citie = event.citie.name
+      event.categorie_uuid = event.categorie_uuid.uuid
       // event.goal_amount = parseInt(event.goal_amount)
-      this.service.save(event, progress => this.progress = progress)
+      let method = event.uuid ? 'update' : 'save'
+      this.service[method](event, progress => this.progress = progress)
         .then(
           response => {
             this.state.go('event.slug', {slug: response.data.slug})
@@ -203,4 +261,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'Regex', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService','ValidationFactory']
+EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'Regex', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService','ValidationFactory','institutions','categories','event']

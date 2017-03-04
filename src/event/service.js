@@ -33,6 +33,15 @@ export default class EventService extends CommonService {
     console.log(data)
     return super.postWithFile(data, progress)
   }
+  update(data, progress) {
+    super.setRoute('events/' + data.uuid + '/edit')
+    console.log(data)
+    return super.postWithFile(data, progress)
+  }
+  remove(id) {
+    super.setRoute('events')
+    return super.remove(id)
+  }
   getReport(id) {
     super.setRoute(`events/${id}/report`)
     return this.$http.get(this.url + this.route)
