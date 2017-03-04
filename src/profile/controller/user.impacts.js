@@ -6,7 +6,7 @@ export default class UserImpacts {
   }
   getEvents() {
     this.service.getEvents({
-      withReport: true,
+      withReportOrClosed: true,
       page: this.pagination.current_page
     }).then(response => {
       this.pagination = response.data.meta.pagination

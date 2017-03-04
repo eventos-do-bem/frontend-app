@@ -15,7 +15,7 @@ export default class UserEvents {
   }
   getEvents() {
     this.service.getEvents({
-      withoutReport: true,
+      opened: true,
       page: this.pagination.current_page
     }).then(response => {
       this.pagination = response.data.meta.pagination
