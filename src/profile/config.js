@@ -61,6 +61,15 @@ export default function ProfileConfig($stateProvider) {
       resolve: {
       }
     })
+    .state('profile.user.donations', {
+      url: '/doacoes',
+      authenticate: true,
+      templateUrl: './src/profile/view/user.donations.html',
+      controller: 'UserDonations',
+      controllerAs: 'ctrl',
+      resolve: {
+      }
+    })
     // .state('profile.user.report', {
     //   url: '/eventos/:uuid/relatorio',
     //   authenticate: true,
