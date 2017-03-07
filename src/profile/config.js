@@ -100,6 +100,15 @@ export default function ProfileConfig($stateProvider) {
       resolve: {
       }
     })
+    .state('profile.ong.donations', {
+      url: '/doacoes',
+      authenticate: true,
+      templateUrl: './src/profile/view/ong.donations.html',
+      controller: 'OngDonations',
+      controllerAs: 'ctrl',
+      resolve: {
+      }
+    })
     .state('profile.ong.configurations', {
       url: '/configuracoes',
       authenticate: true,

@@ -18,6 +18,7 @@ import ProfileChange            from './controller/change.js'
 import UserEventsRemoveConfirm  from './controller/user.events.remove.confirm.js'
 import UserEventsRemoveDenied   from './controller/user.events.remove.denied.js'
 import UserDonations            from './controller/user.donations.js'
+import OngDonations             from './controller/ong.donations.js'
 
 
 export default angular
@@ -42,3 +43,4 @@ export default angular
   .controller('UserEventsRemoveConfirm', UserEventsRemoveConfirm)
   .controller('UserEventsRemoveDenied', UserEventsRemoveDenied)
   .controller('UserDonations', UserDonations)
+  .controller('OngDonations', OngDonations)
