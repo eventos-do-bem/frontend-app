@@ -1,5 +1,8 @@
 /* Extra small devices */
 @media (max-width: 768px) {
+  main {
+    margin-bottom: 550px;
+  }
   .portfolio h1 {
     width: 100%;
   }
