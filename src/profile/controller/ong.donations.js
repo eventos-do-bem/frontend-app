@@ -1,11 +1,21 @@
 export default class OngDonations {
-  constructor(ProfileService, StorageService) {
+  constructor(ProfileService, InstitutionService, StorageService) {
     this.profileService = ProfileService
+    this.institutionService = InstitutionService
     this.storage = StorageService
     this.pagination = { current_page: 1 }
     this.profile = this.storage.getItem('profile')
     this.getPayments()
+    this.getStatistics()
     this.total = 0
+  }
+  getStatistics() {
+    this.institutionService.getStatistics()
+      .then(response => {
+        let statistics = response.data
+        this.statistics = statistics
+        this.statistics.total = parseFloat(statistics.totalDirectDonationReceived) + parseFloat(statistics.totalSubscriptionDonationReceiveD)
+      })
   }
   getPayments() {
     this.profileService.getPayments({
@@ -14,11 +24,6 @@ export default class OngDonations {
     }).then(
       response => {
         this.pagination = response.data.meta.pagination
-        console.log(response.data.values)
-        this.total = response.data.values.reduce((previousValue, currentValue) => {
-          return {amount: previousValue.amount + currentValue.amount}
-        })
-        console.log(this.total)
         this.donations = response.data.values.map(donation => {
           if (donation.iugu_url) {
             donation.iugu_url = donation.iugu_url.replace('?bs=true','.pdf')
@@ -33,4 +38,4 @@ export default class OngDonations {
   }
 }
 
-OngDonations.$inject = ['ProfileService','StorageService']
+OngDonations.$inject = ['ProfileService', 'InstitutionService', 'StorageService']

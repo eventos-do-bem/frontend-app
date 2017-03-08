@@ -28,11 +28,13 @@
             <span data-ng-bind="item.occurrence.institution.name"></span>
           </span>
           <span data-ng-show="item.institution">
-            <span data-ng-bind="item.institution.user.name"></span> / 
             <span data-ng-bind="item.institution.name"></span>
           </span>
         </td>
-        <td data-ng-bind="item.recurrence ? 'Campanha recorrente' : 'Doação pontual'"></td>
+        <td>
+          <span data-ng-show="item.occurrence">Evento do bem</span>
+          <span data-ng-show="item.institution" data-ng-bind="item.recurrence ? 'Campanha recorrente' : 'Doação pontual'"></span>
+        </td>
         <td class="text-center">
           <i class="fa" uib-tooltip="{{item.method_human}}" data-ng-class="{'fa-credit-card': item.method == 'credit_card', 'fa-barcode': item.method == 'boleto'}"></i>
         </td>

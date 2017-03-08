@@ -104,6 +104,18 @@ form input[type="file"] {
   content: "\f071";
   font-size: 1.8rem;
 }
+.icon.refresh::before {
+  display: block;
+  padding: 3px;
+  content: "\f021";
+  font-size: 1.8rem;
+}
+.icon.arrow-circle-right::before {
+  display: block;
+  padding: 3px;
+  content: "\f0a9";
+  font-size: 1.8rem;
+}
 blockquote {
   margin: 0;
   padding-left: 70px;
@@ -555,6 +567,9 @@ dl dd:last-child {
 
 .gap-top {
   margin-top: 1.8rem;
+}
+.gap-top-5 {
+  margin-top: 5rem;
 }
 /* /campaign */
 
