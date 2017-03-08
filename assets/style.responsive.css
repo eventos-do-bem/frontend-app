@@ -112,6 +112,20 @@
     width: 50%;
   }
   /* /talk-ballon */
+  /* donate-impulse */
+  .modal-donate {
+    padding-top: 30px;
+  }
+  .panel.profile.donate-impulse .avatar {
+    margin-top: -160px;
+  }
+  .panel.profile.donate-impulse .btn-group-justified > .btn-group {
+    padding: 0 2px;
+  }
+  .panel.profile.donate-impulse .btn-group-justified > .btn-group > .btn {
+    padding: 6px;
+  }
+  /* /donate-impulse */
 }
 
 /* Small devices */

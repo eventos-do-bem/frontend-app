@@ -11,6 +11,8 @@ export default class Page {
     this.profile = this.storage.getItem('profile')
     if (this.profile && this.profile.type == 'user') {
       this.getProfile()
+    } else {
+      this.profile = {}
     }
     if ($stateParams.slug) {
       this.findInstitution($stateParams.slug)
@@ -20,6 +22,7 @@ export default class Page {
     this.profileService.me()
       .then(
         response => {
+          this.profile = response.data
           let {name, birthdate, email, type} = response.data
           this.profile.birthdate = this.filter('date')(birthdate, 'dd/MM/yyyy'),
           this.birthday = {
@@ -39,6 +42,26 @@ export default class Page {
   }
   getTrustHtml(html) {
     return this.sce.trustAsHtml(html)
+  }
+  donate(institution) {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/donate/view/donate.impulse.html',
+      controller: 'DonateImpulse',
+      controllerAs: 'ctrl',
+      // size: 'sm',
+      windowClass: 'modal-donate',
+      backdrop: 'static',
+      // keyboard: false,
+      resolve: {
+        institution: institution,
+        profile: this.profile
+      }
+    })
+    modalInstance.result.then(response => {
+      console.log(response)
+    }, error => {
+      console.error(error)
+    })
   }
   validateDate(field, date) {
     date = date.split('/')

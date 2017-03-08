@@ -988,7 +988,19 @@ figure.avatar img {
 .panel.profile .questions p {
   margin-left: 20px;
 }
-
+.panel.profile.donate-impulse {
+  /*width: 250px;*/
+}
+.panel.profile.donate-impulse .avatar {
+  margin-top: -170px;
+  border: 6px solid #fff;
+}
+.panel.profile.donate-impulse .btn-group-justified > .btn-group {
+  padding: 0 5px;
+}
+.panel.profile.donate-impulse .btn-group-justified > .btn-group > .btn {
+  border-radius: 0;
+}
 /* how-it-works */
 .how-it-works h1,
 .how-it-works .timeline + h4 {
