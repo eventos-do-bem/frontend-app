@@ -35,9 +35,9 @@
             <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-block btn-success">
               Crie aqui seu evento do bem e ajude a <br> <span data-ng-bind="ctrl.institution.name"></span>
             </a>
-            <!--<a class="btn btn-block btn-default">
-              Contribuir mensamente
-            </a>-->
+            <a class="btn btn-block btn-default" data-ng-show="ctrl.profile.type != 'ong'" data-ng-click="ctrl.donate(ctrl.institution)">
+              Doar para esta Organização
+            </a>
           </div>
           <div class="panel-body">
             <h4>Nome:</h4>

@@ -29,7 +29,6 @@ export default class OngReport {
     this.service.getReport(id)
       .then(
         response => {
-          console.log(response.data)
           this.report = response.data
           delete this.report.picture1
           delete this.report.picture2
@@ -50,7 +49,6 @@ export default class OngReport {
     this.service.saveReport(id, data, progress => {
       this.progress = progress
     }).then(response => {
-      console.log(response)
       this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: feedbackMessage})
     }, error => {
       console.error(error.data)

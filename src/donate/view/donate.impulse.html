@@ -1,0 +1,177 @@
+<script type="text/ng-template" id="myPopoverCardTemplate.html">
+  <div style="padding: 0 20%; text-align: center">
+    <img src="/assets/images/cards/back_card.svg" class="img-responsive" alt="Verso do cartão">
+  </div>
+  <small>Os 3 últimos números no verso do seu cartão.</small>
+</script>
+<div class="modal-body">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-ng-click="ctrl.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="panel profile donate-impulse">
+    <div style="margin: 0 auto; width: 250px;">
+      <figure class="avatar image-responsive avatar-circle">
+      <img data-ng-src="{{ctrl.institution.user.avatar.medium}}"  alt="">
+      </figure>
+    </div>
+    <div style="margin: 0 auto; width: 100%;">
+      <form name="donate" novalidate data-ng-submit="ctrl.buildBillet(ctrl.donate)">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <h2 class="text-center" data-ng-show="ctrl.step != 'finish'">
+              Doe agora para a Organização
+              <br>
+              <span data-ng-bind="ctrl.institution.name"></span>
+            </h2>
+            <div data-ng-switch="ctrl.step">
+              <div data-ng-switch-when="amount" data-ng-class="{fadeIn: ctrl.step == 'amount', fadeOut: ctrl.step != 'amount'}" class="donate-impulse-step">
+                <h3 class="text-center">
+                  Escolha ou digite o valor de sua doação:
+                </h3>
+                <div class="btn-group btn-group-justified" role="group" aria-label="Sugestões">
+                  <div class="btn-group">
+                    <button class="btn btn-default" data-ng-click="ctrl.suggest(100)">
+                      R$ 100,00
+                    </button>
+                  </div>
+                  <div class="btn-group">
+                    <button class="btn btn-default" data-ng-click="ctrl.suggest(50)">
+                      R$ 50,00
+                    </button>
+                  </div>
+                  <div class="btn-group">
+                    <button class="btn btn-default" data-ng-click="ctrl.suggest(30)">
+                      R$ 30,00
+                    </button>
+                  </div>
+                </div>
+                <div class="form-group gap-top" data-ng-class="{'has-error':donate.amount.$invalid && donate.amount.$dirty}">
+                  <input type="text" name="amount" id="amount" class="form-control" format-currency="ctrl.amountOptions" variable-options="true" data-ng-model="ctrl.donate.amount" placeholder="Doe outro valor" required>
+                  <div data-ng-show="donate.amount.$dirty" data-ng-messages="donate.amount.$error">
+                    <p data-ng-message="required" class="text-danger">Você precisa informar um valor</p>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-block btn-success" data-ng-disabled="donate.amount.$invalid" data-ng-click="ctrl.chooseCard()">Doar por Cartão de crédito</button>
+                <button type="button" class="btn btn-block btn-default" data-ng-disabled="donate.amount.$invalid" data-ng-click="ctrl.chooseBillet()">Doar por Boleto</button>
+              </div>
+              <div data-ng-switch-when="perfil" data-ng-class="{fadeIn: ctrl.step == 'perfil', fadeOut: ctrl.step != 'perfil'}" class="donate-impulse-step">
+                <div class="form-group" data-ng-class="{'has-error':donate.name.$invalid && donate.name.$dirty}">
+                  <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.donate.name" placeholder="Nome completo" required>
+                  <div data-ng-show="donate.name.$dirty" data-ng-messages="donate.name.$error">
+                    <p data-ng-message="required" class="text-danger">Informe seu nome completo</p>
+                  </div>
+                </div>
+                <div class="form-group" data-ng-class="{'has-error':donate.email.$invalid && donate.email.$dirty}">
+                  <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.donate.email" placeholder="E-mail ativo" required>
+                  <div data-ng-show="donate.email.$dirty" data-ng-messages="donate.email.$error">
+                    <p data-ng-message="required" class="text-danger">Informe seu email</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-6" data-ng-class="{'has-error':donate.document.$invalid && donate.document.$dirty}">
+                    <input type="text" name="document" id="document" class="form-control" mask="999.999.999-99" clean="true" data-ng-model="ctrl.donate.document" placeholder="CPF" required>
+                    <div data-ng-show="donate.document.$dirty" data-ng-messages="donate.document.$error">
+                      <p data-ng-message="required" class="text-danger">Informe seu CPF</p>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6" data-ng-class="{'has-error':donate.birthdate.$invalid && donate.birthdate.$dirty}">
+                    <input type="text" name="birthdate" id="birthdate" class="form-control" mask="39/19/2999" data-ng-model="ctrl.donate.birthdate" placeholder="Nascimento" required>
+                    <div data-ng-show="donate.birthdate.$dirty" data-ng-messages="donate.birthdate.$error">
+                      <p data-ng-message="required" class="text-danger">Informe seu nascimento</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div data-ng-show="ctrl.choose == 'billet'">
+                      <button type="button" class="btn btn-block btn-success" data-ng-disabled="donate.$invalid" data-ng-click="ctrl.checkoutBillet()">
+                        Doar <span data-ng-bind="ctrl.donate.amount | currency: 'R$ '" ></span>
+                      </button>
+                      <p class="text-center help-text-donate">
+                        <i class="fa fa-lock"></i> Fácil, rápido e com segurança <br>
+                        Ao apoiar, você concorda com os <br> <a ui-sref="pages.terms">Termos de Uso</a> e <a ui-sref="pages.policies">Política de privacidade</a>
+                      </p>
+                    </div>
+                    <button type="button" class="btn btn-block btn-success" data-ng-show="ctrl.choose == 'card'" data-ng-disabled="donate.$invalid" data-ng-click="ctrl.goToCard()">Prosseguir para dados do cartão</button>
+                    <button type="button" class="btn btn-block btn-default" data-ng-click="ctrl.goToAmount()">
+                      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                      Voltar
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div data-ng-switch-when="credit_card" data-ng-class="{fadeIn: ctrl.step == 'credit_card', fadeOut: ctrl.step != 'credit_card'}" class="donate-impulse-step">
+                <div class="form-group" data-ng-class="{'has-error':donate.card_number.$invalid && donate.card_number.$dirty}">
+                  <label for="card_month" class="control-label">Número do seu cartão</label>
+                  <input type="text" name="card_number" id="card_number" class="form-control" mask="9999-9999-9999-9999" clean="true" data-ng-model="ctrl.donate.card_number" required>
+                  <div data-ng-show="donate.card_number.$dirty" data-ng-messages="donate.card_number.$error">
+                    <p data-ng-message="required" class="text-danger">Informe o número do cartão</p>
+                  </div>
+                </div>
+                <div class="form-group" data-ng-class="{'has-error':donate.card_name.$invalid && donate.card_name.$dirty}">
+                  <label for="card_month" class="control-label">Nome como está escrito no cartão</label>
+                  <input type="text" name="card_name" id="card_name" class="form-control" data-ng-model="ctrl.donate.card_name" required>
+                  <div data-ng-show="donate.card_name.$dirty" data-ng-messages="donate.card_name.$error">
+                    <p data-ng-message="required" class="text-danger">Informe seu nome como está escrito no cartão</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-9">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group" data-ng-class="{'has-error':donate.card_month.$invalid && donate.card_month.$dirty || donate.year.$invalid && donate.card_year.$dirty}">
+                          <label for="card_month" class="control-label">Validade</label>
+                          <select ng-options="item for item in ctrl.months" name="card_month" id="card_month" class="form-control" data-ng-model="ctrl.donate.card_month" data-ng-focus="ctrl.onFocus('card_month')" data-ng-blur="ctrl.onValidate(donate)" required>
+                            <option value="">Mês</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group" data-ng-class="{'has-error':donate.card_year.$invalid && donate.card_year.$dirty || donate.year.$invalid && donate.year.$dirty}">
+                          <label for="card_year" class="control-label">Validade</label>
+                          <select ng-options="item for item in ctrl.years" name="card_year" id="card_year" class="form-control" data-ng-model="ctrl.donate.card_year" data-ng-focus="ctrl.onFocus('card_year')" data-ng-blur="ctrl.onValidate(donate)" required>
+                            <option value="">Ano</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group" data-ng-class="{'has-error':donate.card_cvc.$invalid && donate.card_cvc.$dirty}">
+                      <label for="card_cvc" class="control-label">Código</label>
+                      <input type="text" name="card_cvc" id="card_cvc" class="form-control" data-ng-model="ctrl.donate.card_cvc" maxlength="3" data-ng-blur="ctrl.onValidate(donate)" uib-popover-template="'myPopoverCardTemplate.html'" popover-placement="right" popover-trigger="focus" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <button type="button" class="btn btn-block btn-success" data-ng-click="ctrl.checkoutCard()" data-ng-disabled="donate.$invalid">
+                      Doar <span data-ng-bind="ctrl.donate.amount | currency: 'R$ '" ></span>
+                    </button>
+                    <p class="text-center help-text-donate">
+                      <i class="fa fa-lock"></i> Fácil, rápido e com segurança <br>
+                      Ao apoiar, você concorda com os <br> <a ui-sref="pages.terms">Termos de Uso</a> e <a ui-sref="pages.policies">Política de privacidade</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div data-ng-switch-when="finish" data-ng-class="{fadeIn: ctrl.step == 'finish', fadeOut: ctrl.step != 'finish'}" class="donate-impulse-step">
+                <h3 class="text-center text-success">
+                  Obrigado <span data-ng-bind="ctrl.donate.name"></span>!
+                  <br>
+                  Ao contribuir com esta organização iremos melhorar ainda mais o mundo!
+                  <br>
+                  Você participou disso!
+                </h3>
+                <h4 class="text-center">
+                  Sua doação para a organização de <span data-ng-bind="ctrl.institution.user.name"></span> está sendo processada, <strong>enviaremos a confirmação para o seu email cadastrado informando a aprovação de pagamento do seu cartão.</strong>
+                </h4>
+                <button type="button" class="btn btn-block btn-success" data-ng-click="ctrl.close()">Voltar para a página da Organização</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

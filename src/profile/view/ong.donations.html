@@ -1,0 +1,92 @@
+<div class="well">
+  <h3>Doações diretas para sua Organização</h3>
+  <h4>
+    Na página oficial de sua organização você pode também angariar doações esporádicas (doações pontuais) e criar uma campanha de doadores recorrentes para receber doações. Nesta área você irá acompanhar o relatório financeiro destas doações diretas.
+  </h4>
+</div>
+<h2>
+  Total:
+  <span class="text-primary">
+    <span data-ng-bind="ctrl.statistics.total | currency"></span>
+    angariados
+  </span>
+</h2>
+<h3>
+  Doações recorrentes:
+  <span class="text-primary">
+    <span data-ng-bind="ctrl.statistics.totalHumanSubscriptionDonationReceiveD"></span>
+    angariados
+  </span>
+</h3>
+<h4>
+  Doações recorrentes:
+  <span data-ng-bind="ctrl.statistics.countSubscriptionDonationReceiveD"></span>
+  doadores
+</h4>
+<h3>
+  Doações pontuais:
+  <span class="text-primary">
+    <span data-ng-bind="ctrl.statistics.totalHumanDirectDonationReceived"></span>
+    angariados
+  </span>
+</h3>
+<h4>
+  Doações pontuais:
+  <span data-ng-bind="ctrl.statistics.countDirectDonationReceived"></span>
+  doadores
+</h4>
+<!--<form class="form-inline navbar">
+  <div class="form-group">
+    <label for="filter">Filtrar:</label>
+    <select name="filter" id="filter" class="form-control" data-ng-model="ctrl.donateFilter">
+      <option value="">Todos os tipos de doações</option>
+      <option value="true">Recorrentes</option>
+      <option value="false">Pontuais</option>
+    </select>
+  </div>
+</form>-->
+<div class="table-responsive gap-top-5">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th style="width: 50px">Status</th>
+        <th>Tipo</th>
+        <th>Nome</th>
+        <th style="width: 30px">Método</th>
+        <th>Valor</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="item in ctrl.donations" data-ng-class="{success: item.status == 'Autorizado', primary: item.status == 'Em processamento', danger: item.status == 'Cancelado' || item.status == 'Expirado'}">
+        <td>
+          <i class="icon" uib-tooltip="{{item.status}}" data-ng-class="{'pending': item.status == 'Em processamento', 'check': item.status == 'Autorizado', 'cancel': item.status == 'Cancelado', 'fa expired': item.status == 'Expirado'}"></i>
+        </td>
+        <td>
+          <i class="icon" uib-tooltip="{{item.recurrent ? 'Doação recorrente' : 'Doação pontual'}}" data-ng-class="{'fa arrow-circle-right': !item.recurrent, 'fa refresh': item.recurrent}"></i>
+        </td>
+        <td data-ng-bind="item.user.name"></td>
+        <td class="text-center">
+          <i class="fa" uib-tooltip="{{item.method_human}}" data-ng-class="{'fa-credit-card': item.method == 'credit_card', 'fa-barcode': item.method == 'boleto'}"></i>
+        </td>
+        <td class="text-right" data-ng-bind="item.amount_human"></td>
+        <td data-ng-bind="item.updated_at | date: 'dd/MM/yyyy'"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="text-center" data-ng-show="ctrl.pagination.total_pages > 1">
+  <ul uib-pagination
+      total-items="ctrl.pagination.total"
+      ng-model="ctrl.pagination.current_page"
+      max-size="ctrl.pagination.per_page"
+      class="pagination-sm"
+      previous-text="Anterior"
+      next-text="Próxima"
+      first-text="Primeira"
+      last-text="Última"
+      boundary-links="true"
+      num-pages="ctrl.pagination.total_pages"
+      data-ng-change="ctrl.changePage()">
+  </ul>
+</div>

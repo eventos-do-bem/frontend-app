@@ -6,7 +6,6 @@ export default class ProfileChange {
       ProfileService.me()
         .then(
           response => {
-            console.log(response)
             this.me = response.data
             this.profile = response.data
           },

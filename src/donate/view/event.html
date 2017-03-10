@@ -37,6 +37,11 @@
             </p>
           </div>
         </div>
+        <!--<div class="row">
+          <div class="col-md-12">
+            <p data-ng-show="donate.document.$invalid" class="text-danger">Preencha os dados do usuário</p>
+          </div>
+        </div>-->
         <div class="flags row">
           <div class="col-md-6">
             <p>
@@ -129,7 +134,7 @@
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="form-group" data-ng-class="{'has-error':donate.card_year.$ && donate.card_year.$dirty || donate.year.$invalid && donate.year.$dirty}">
+                    <div class="form-group" data-ng-class="{'has-error':donate.card_year.$invalid && donate.card_year.$dirty || donate.year.$invalid && donate.year.$dirty}">
                       <label for="card_year" class="control-label">Validade</label>
                       <select ng-options="item for item in ctrl.years" name="card_year" id="card_year" class="form-control" data-ng-model="ctrl.donate.card_year" data-ng-focus="ctrl.onFocus('card_year')" data-ng-blur="ctrl.onValidate(donate)" required>
                         <option value="">Ano</option>

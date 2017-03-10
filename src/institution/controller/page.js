@@ -1,7 +1,11 @@
 export default class Page {
-  constructor($filter, $stateParams, $sce, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService) {
+  constructor($rootScope, $filter, $stateParams, $sce, $uibModal, $location, $anchorScroll, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService) {
+    this.rootScope = $rootScope
     this.filter = $filter
+    this.location = $location
+    this.anchorScroll = $anchorScroll
     this.sce = $sce
+    this.modal = $uibModal
     this.service = InstitutionService
     this.profileService = ProfileService
     this.notification = NotificationService
@@ -10,6 +14,8 @@ export default class Page {
     this.profile = this.storage.getItem('profile')
     if (this.profile && this.profile.type == 'user') {
       this.getProfile()
+    } else {
+      this.donateProfile = {}
     }
     if ($stateParams.slug) {
       this.findInstitution($stateParams.slug)
@@ -19,6 +25,8 @@ export default class Page {
     this.profileService.me()
       .then(
         response => {
+          this.profile = response.data
+          this.donateProfile = angular.copy(response.data)
           let {name, birthdate, email, type} = response.data
           this.profile.birthdate = this.filter('date')(birthdate, 'dd/MM/yyyy'),
           this.birthday = {
@@ -38,6 +46,28 @@ export default class Page {
   }
   getTrustHtml(html) {
     return this.sce.trustAsHtml(html)
+  }
+  donate(institution) {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/donate/view/donate.impulse.html',
+      controller: 'DonateImpulse',
+      controllerAs: 'ctrl',
+      windowClass: 'modal-donate',
+      resolve: {
+        institution: institution,
+        donate: this.donateProfile
+      }
+    })
+    modalInstance.result.then(response => {
+      this.rootScope.$broadcast('alert-clear')
+      if (response && response.errors) {
+        this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: response})
+        this.location.hash('body')
+        this.anchorScroll()
+      }
+    // }, error => {
+    //   console.log(error)
+    })
   }
   validateDate(field, date) {
     date = date.split('/')
@@ -73,4 +103,4 @@ export default class Page {
   }
 }
 
-Page.$inject = ['$filter','$stateParams', '$sce','InstitutionService','ProfileService','NotificationService','ValidationFactory','StorageService']
+Page.$inject = ['$rootScope','$filter','$stateParams', '$sce', '$uibModal', '$location', '$anchorScroll','InstitutionService','ProfileService','NotificationService','ValidationFactory','StorageService']

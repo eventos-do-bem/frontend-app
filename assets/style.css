@@ -104,6 +104,18 @@ form input[type="file"] {
   content: "\f071";
   font-size: 1.8rem;
 }
+.icon.refresh::before {
+  display: block;
+  padding: 3px;
+  content: "\f021";
+  font-size: 1.8rem;
+}
+.icon.arrow-circle-right::before {
+  display: block;
+  padding: 3px;
+  content: "\f0a9";
+  font-size: 1.8rem;
+}
 blockquote {
   margin: 0;
   padding-left: 70px;
@@ -556,6 +568,9 @@ dl dd:last-child {
 .gap-top {
   margin-top: 1.8rem;
 }
+.gap-top-5 {
+  margin-top: 5rem;
+}
 /* /campaign */
 
 h4.media-heading{
@@ -973,7 +988,49 @@ figure.avatar img {
 .panel.profile .questions p {
   margin-left: 20px;
 }
-
+.panel.profile.donate-impulse {
+  /*width: 250px;*/
+}
+.panel.profile.donate-impulse .avatar {
+  margin-top: -170px;
+  border: 6px solid #fff;
+}
+.panel.profile.donate-impulse .btn-group-justified > .btn-group {
+  padding: 0 5px;
+}
+.panel.profile.donate-impulse .btn-group-justified > .btn-group > .btn {
+  border-radius: 0;
+}
+.panel.profile.donate-impulse .donate-impulse-step {
+	-webkit-animation-duration: 1s; 
+	animation-duration: 1s; 
+	-webkit-animation-fill-mode: both; 
+	animation-fill-mode: both; 
+}
+@-webkit-keyframes fadeIn { 
+	0% {opacity: 0;} 
+	100% {opacity: 1;} 
+} 
+@-webkit-keyframes fadeOut { 
+	0% {opacity: 1;} 
+	100% {opacity: 0;} 
+} 
+@keyframes fadeIn { 
+	0% {opacity: 0;} 
+	100% {opacity: 1;} 
+} 
+@keyframes fadeOut { 
+	0% {opacity: 0;} 
+	100% {opacity: 1;} 
+} 
+.fadeIn {
+	-webkit-animation-name: fadeIn; 
+	animation-name: fadeIn; 
+}
+.fadeOut {
+	-webkit-animation-name: fadeOut;
+	animation-name: fadeOut;
+}
 /* how-it-works */
 .how-it-works h1,
 .how-it-works .timeline + h4 {

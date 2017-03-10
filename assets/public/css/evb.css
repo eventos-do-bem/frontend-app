@@ -273,6 +273,26 @@ a:hover {
   background-color: #fb5b5d;
   border-color: #f34754;
 }
+.btn-edit {
+  background-color: rgba(3, 142, 7, 0.53);
+  border: 1px solid rgba(60, 118, 61, 0.28);
+  color: white;
+}
+.btn-edit:hover {
+  background-color: #5fbc55;
+  border-color: #5fbc55;
+  color: white;
+}
+.btn-excluir-evb {
+  background-color: #dbd5d5;
+  color: #444;
+  border: rgba(204, 204, 204, 0.24) 1px solid;
+}
+.btn-excluir-evb:hover {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: #444;
+}
 .add-icon {
   background-position: 10px center;
   background-repeat: no-repeat;

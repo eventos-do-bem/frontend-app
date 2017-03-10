@@ -35,6 +35,13 @@ export default class ProfileService extends CommonService {
     }
     return super.findAll()
   }
+  getPayments(params) {
+    super.setRoute(`users/me/payments`)
+    if (params != undefined) {
+      super.setParams(params)
+    }
+    return super.findAll()
+  }
   change(data, progress) {
     let fd = new FormData()
     angular.forEach(data, (value, key) => {

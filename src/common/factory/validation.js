@@ -4,7 +4,6 @@ export default class ValidationFactory {
   dateDaysDiff(start, end, time) {
     let diff = start - end,
       daysDiff = diff / (1000 * 60 * 60 * 24)
-    console.log(daysDiff)
     return daysDiff
   }
   dateMaxByDays(date, days, time = 'past') {
