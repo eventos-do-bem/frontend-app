@@ -1,12 +1,17 @@
 export default class DonateImpulse {
-  constructor($uibModalInstance, $window, institution, donate, DonateService, StorageService) {
+  constructor($uibModalInstance, $window, institution, donate, ProfileService, DonateService, StorageService) {
     this.instance = $uibModalInstance
     this.window = $window
+    this.profileService = ProfileService
     this.donateService = DonateService
     this.institution = institution
     this.step = 'amount'
-    this.donate = donate
     this.logged = StorageService.getItem('token')
+    this.donate = donate ? this.donate = donate : this.donate = {}
+    // this.donate = donate ? this.donate = donate : this.donate = {}
+    if (this.logged) {
+      this.getProfile()
+    }
     this.amountOptions = {
       aSign: 'R$ ',
       aSep: '.',
@@ -20,6 +25,23 @@ export default class DonateImpulse {
     let today = new Date()
     let curYear = today.getFullYear()
     for (let y = curYear; y <= curYear + 10; y++) this.years.push(y)
+  }
+  getProfile() {
+    this.profileService.me()
+      .then(
+        response => {
+          this.donate = angular.copy(response.data)
+          let {name, birthdate, email, type, document} = this.donate
+          this.donate.birthdate = new Date(birthdate)
+          // this.donate = {
+          //   name: name,
+          //   birthdate: this.filter('date')(birthdate, 'dd/MM/yyyy'),
+          //   email: email,
+          //   document: document,
+          //   type: type
+          // }
+        }
+      )
   }
   suggest(amount) {
     this.donate.amount = amount
@@ -96,10 +118,12 @@ export default class DonateImpulse {
       .then(
         response => this.step = 'finish',
         error => {
-          if (error.data.errors) {
+          if (error.data && error.data.errors) {
             for (let key in error.data.errors) {
               delete this.donate[key]
             }
+          } else {
+            this.donate = {}
           }
           this.instance.close(error.data)
         }
@@ -111,4 +135,4 @@ export default class DonateImpulse {
   }
 }
 
-DonateImpulse.$inject = ['$uibModalInstance', '$window', 'institution', 'donate', 'DonateService', 'StorageService']
+DonateImpulse.$inject = ['$uibModalInstance', '$window', 'institution', 'donate', 'ProfileService', 'DonateService', 'StorageService']

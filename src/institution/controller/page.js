@@ -59,13 +59,14 @@ export default class Page {
       }
     })
     modalInstance.result.then(response => {
-      this.donateProfile = response
       this.rootScope.$broadcast('alert-clear')
       if (response && response.errors) {
         this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: response})
         this.location.hash('body')
         this.anchorScroll()
-      } 
+      }
+    // }, error => {
+    //   console.log(error)
     })
   }
   validateDate(field, date) {

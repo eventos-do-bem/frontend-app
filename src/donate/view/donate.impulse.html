@@ -5,7 +5,7 @@
   <small>Os 3 últimos números no verso do seu cartão.</small>
 </script>
 <div class="modal-body">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-ng-click="ctrl.instance.close()">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-ng-click="ctrl.close()">
     <span aria-hidden="true">&times;</span>
   </button>
   <div class="panel profile donate-impulse">
@@ -24,7 +24,7 @@
               <span data-ng-bind="ctrl.institution.name"></span>
             </h2>
             <div data-ng-switch="ctrl.step">
-              <div data-ng-switch-when="amount">
+              <div data-ng-switch-when="amount" data-ng-class="{fadeIn: ctrl.step == 'amount', fadeOut: ctrl.step != 'amount'}" class="donate-impulse-step">
                 <h3 class="text-center">
                   Escolha ou digite o valor de sua doação:
                 </h3>
@@ -54,7 +54,7 @@
                 <button type="button" class="btn btn-block btn-success" data-ng-disabled="donate.amount.$invalid" data-ng-click="ctrl.chooseCard()">Doar por Cartão de crédito</button>
                 <button type="button" class="btn btn-block btn-default" data-ng-disabled="donate.amount.$invalid" data-ng-click="ctrl.chooseBillet()">Doar por Boleto</button>
               </div>
-              <div data-ng-switch-when="perfil">
+              <div data-ng-switch-when="perfil" data-ng-class="{fadeIn: ctrl.step == 'perfil', fadeOut: ctrl.step != 'perfil'}" class="donate-impulse-step">
                 <div class="form-group" data-ng-class="{'has-error':donate.name.$invalid && donate.name.$dirty}">
                   <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.donate.name" placeholder="Nome completo" required>
                   <div data-ng-show="donate.name.$dirty" data-ng-messages="donate.name.$error">
@@ -100,7 +100,7 @@
                   </div>
                 </div>
               </div>
-              <div data-ng-switch-when="credit_card">
+              <div data-ng-switch-when="credit_card" data-ng-class="{fadeIn: ctrl.step == 'credit_card', fadeOut: ctrl.step != 'credit_card'}" class="donate-impulse-step">
                 <div class="form-group" data-ng-class="{'has-error':donate.card_number.$invalid && donate.card_number.$dirty}">
                   <label for="card_month" class="control-label">Número do seu cartão</label>
                   <input type="text" name="card_number" id="card_number" class="form-control" mask="9999-9999-9999-9999" clean="true" data-ng-model="ctrl.donate.card_number" required>
@@ -155,7 +155,7 @@
                   </div>
                 </div>
               </div>
-              <div data-ng-switch-when="finish">
+              <div data-ng-switch-when="finish" data-ng-class="{fadeIn: ctrl.step == 'finish', fadeOut: ctrl.step != 'finish'}" class="donate-impulse-step">
                 <h3 class="text-center text-success">
                   Obrigado <span data-ng-bind="ctrl.donate.name"></span>!
                   <br>

@@ -1001,6 +1001,36 @@ figure.avatar img {
 .panel.profile.donate-impulse .btn-group-justified > .btn-group > .btn {
   border-radius: 0;
 }
+.panel.profile.donate-impulse .donate-impulse-step {
+	-webkit-animation-duration: 1s; 
+	animation-duration: 1s; 
+	-webkit-animation-fill-mode: both; 
+	animation-fill-mode: both; 
+}
+@-webkit-keyframes fadeIn { 
+	0% {opacity: 0;} 
+	100% {opacity: 1;} 
+} 
+@-webkit-keyframes fadeOut { 
+	0% {opacity: 1;} 
+	100% {opacity: 0;} 
+} 
+@keyframes fadeIn { 
+	0% {opacity: 0;} 
+	100% {opacity: 1;} 
+} 
+@keyframes fadeOut { 
+	0% {opacity: 0;} 
+	100% {opacity: 1;} 
+} 
+.fadeIn {
+	-webkit-animation-name: fadeIn; 
+	animation-name: fadeIn; 
+}
+.fadeOut {
+	-webkit-animation-name: fadeOut;
+	animation-name: fadeOut;
+}
 /* how-it-works */
 .how-it-works h1,
 .how-it-works .timeline + h4 {
