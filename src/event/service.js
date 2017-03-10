@@ -30,12 +30,10 @@ export default class EventService extends CommonService {
   }
   save(data, progress) {
     super.setRoute('events/create')
-    console.log(data)
     return super.postWithFile(data, progress)
   }
   update(data, progress) {
     super.setRoute('events/' + data.uuid + '/edit')
-    console.log(data)
     return super.postWithFile(data, progress)
   }
   remove(id) {

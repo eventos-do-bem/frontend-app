@@ -1,12 +1,12 @@
 export default class DonateImpulse {
-  constructor($uibModalInstance, institution, profile, ProfileService, DonateService, StorageService) {
+  constructor($uibModalInstance, $window, institution, donate, DonateService, StorageService) {
     this.instance = $uibModalInstance
+    this.window = $window
     this.donateService = DonateService
     this.institution = institution
     this.step = 'amount'
-    this.profile = profile
-    this.donate = this.profile
-    // this.logged = StorageService.getItem('token')
+    this.donate = donate
+    this.logged = StorageService.getItem('token')
     this.amountOptions = {
       aSign: 'R$ ',
       aSep: '.',
@@ -15,14 +15,7 @@ export default class DonateImpulse {
       lZero: 'deny',
       aPad: true
     }
-    this.months = []
-    for (let m = 1; m <= 12; m++) {
-      if (m <= 9) {
-        this.months.push(`0${m}`)
-      } else {
-        this.months.push(m)
-      }
-    }
+    this.months = ['01','02','03','04','05','06','07','08','09','10','11','12']
     this.years = []
     let today = new Date()
     let curYear = today.getFullYear()
@@ -34,39 +27,88 @@ export default class DonateImpulse {
   goToAmount() {
     this.step = 'amount'
   }
+  goToCard() {
+    this.step = 'credit_card'
+  }
   chooseCard() {
+    this.choose = 'card'
     if (!(this.donate.name && this.donate.email && this.donate.document && this.donate.email)) {
       this.step = 'perfil'
     } else {
       this.step = 'credit_card'
     }
   }
-  goToCard() {
-    this.step = 'credit_card'
-  }
   chooseBillet() {
+    this.choose = 'billet'
     if (!(this.donate.name && this.donate.email && this.donate.document && this.donate.email)) {
       this.step = 'perfil'
     } else {
-      this.step = 'finish'
+      this.checkoutBillet()
     }
   }
+  checkoutBillet() {
+    let donate = angular.copy(this.donate)
+    if (this.logged) {
+      delete donate.name
+      delete donate.email
+      delete donate.birthdate
+      if (!this.missingDoc) {
+        delete donate.document
+      }
+    } else {
+      donate.document = donate.document.replace(/\-|\./g, '')
+    }
+    donate.is_anonymous = false
+    let method = (this.logged) ? 'printLoggedBillet' : 'printPublicBillet'
+    this.donateService[method](this.institution.uuid, donate)
+      .then(
+        response => {
+          let billet = response.data.iugu_url.replace('?bs=true','.pdf')
+          this.window.open(billet, '_self')
+        },
+        error => {
+          if (error.data.errors) {
+            for (let key in error.data.errors) {
+              delete this.donate[key]
+            }
+          }
+          this.instance.close(error.data)
+        }
+      )
+  }
   checkoutCard() {
-    this.step = 'finish'
+    let donate = angular.copy(this.donate)
+    if (this.logged) {
+      delete donate.name
+      delete donate.email
+      delete donate.birthdate
+      if (!this.missingDoc) {
+        delete donate.document
+      }
+    } else {
+      donate.document = donate.document.replace(/\-|\./g, '')
+    }
+    donate.card_number = donate.card_number.replace(/\-/g, '')
+    donate.card_validate = `${donate.card_month}/${donate.card_year}`
+    donate.is_anonymous = false
+    let method = (this.logged) ? 'payLogged' : 'payPublic'
+    this.donateService[method](this.institution.uuid, donate)
+      .then(
+        response => this.step = 'finish',
+        error => {
+          if (error.data.errors) {
+            for (let key in error.data.errors) {
+              delete this.donate[key]
+            }
+          }
+          this.instance.close(error.data)
+        }
+      )
   }
-  finish(donate) {
-    this.instance.close(donate)
-    // let method = (this.logged) ? 'printLoggedBillet' : 'printPublicBillet'
-    // // this.donate.amount = parseInt(this.donate.amount)
-    // this.donateService[method](this.uuid, this.donate)
-    //   .then(
-    //     response => this.instance.close({uuid: this.uuid, data: response.data}),
-    //     error => this.instance.dismiss(error.data)
-    //   )
-  }
-  cancel() {
-    this.instance.dismiss('cancel')
+  close() {
+    this.donate = {}
+    this.instance.close()
   }
 }
 
-DonateImpulse.$inject = ['$uibModalInstance', 'institution', 'profile', 'ProfileService', 'DonateService', 'StorageService']
+DonateImpulse.$inject = ['$uibModalInstance', '$window', 'institution', 'donate', 'DonateService', 'StorageService']

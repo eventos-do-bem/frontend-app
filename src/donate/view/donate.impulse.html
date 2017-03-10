@@ -5,9 +5,9 @@
   <small>Os 3 últimos números no verso do seu cartão.</small>
 </script>
 <div class="modal-body">
-  <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close" data-ng-click="ctrl.cancel()">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-ng-click="ctrl.instance.close()">
     <span aria-hidden="true">&times;</span>
-  </button>-->
+  </button>
   <div class="panel profile donate-impulse">
     <div style="margin: 0 auto; width: 250px;">
       <figure class="avatar image-responsive avatar-circle">
@@ -17,8 +17,8 @@
     <div style="margin: 0 auto; width: 100%;">
       <form name="donate" novalidate data-ng-submit="ctrl.buildBillet(ctrl.donate)">
         <div class="row">
-          <div class="col-sm-8 col-sm-offset-2">
-            <h2 class="text-center">
+          <div class="col-sm-10 col-sm-offset-1">
+            <h2 class="text-center" data-ng-show="ctrl.step != 'finish'">
               Doe agora para a Organização
               <br>
               <span data-ng-bind="ctrl.institution.name"></span>
@@ -81,11 +81,24 @@
                     </div>
                   </div>
                 </div>
-                <button type="button" class="btn btn-block btn-success" data-ng-disabled="donate.$invalid" data-ng-click="ctrl.goToCard()">Prosseguir para dados do cartão</button>
-                <button type="button" class="btn btn-block btn-default" data-ng-click="ctrl.goToAmount()">
-                  <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                  Voltar
-                </button>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div data-ng-show="ctrl.choose == 'billet'">
+                      <button type="button" class="btn btn-block btn-success" data-ng-disabled="donate.$invalid" data-ng-click="ctrl.checkoutBillet()">
+                        Doar <span data-ng-bind="ctrl.donate.amount | currency: 'R$ '" ></span>
+                      </button>
+                      <p class="text-center help-text-donate">
+                        <i class="fa fa-lock"></i> Fácil, rápido e com segurança <br>
+                        Ao apoiar, você concorda com os <br> <a ui-sref="pages.terms">Termos de Uso</a> e <a ui-sref="pages.policies">Política de privacidade</a>
+                      </p>
+                    </div>
+                    <button type="button" class="btn btn-block btn-success" data-ng-show="ctrl.choose == 'card'" data-ng-disabled="donate.$invalid" data-ng-click="ctrl.goToCard()">Prosseguir para dados do cartão</button>
+                    <button type="button" class="btn btn-block btn-default" data-ng-click="ctrl.goToAmount()">
+                      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                      Voltar
+                    </button>
+                  </div>
+                </div>
               </div>
               <div data-ng-switch-when="credit_card">
                 <div class="form-group" data-ng-class="{'has-error':donate.card_number.$invalid && donate.card_number.$dirty}">
@@ -133,7 +146,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <button type="button" class="btn btn-block btn-success" data-ng-click="ctrl.checkoutCard()" data-ng-disabled="donate.$invalid">
-                      Apoiar com <span data-ng-bind="ctrl.donate.amount || 0 | currency: 'R$ '" ></span>
+                      Doar <span data-ng-bind="ctrl.donate.amount | currency: 'R$ '" ></span>
                     </button>
                     <p class="text-center help-text-donate">
                       <i class="fa fa-lock"></i> Fácil, rápido e com segurança <br>
@@ -143,7 +156,17 @@
                 </div>
               </div>
               <div data-ng-switch-when="finish">
-                <button type="button" class="btn btn-block btn-success" data-ng-disabled="donate.amount.$invalid" data-ng-click="ctrl.finish(ctrl.donate)">Finalizar</button>
+                <h3 class="text-center text-success">
+                  Obrigado <span data-ng-bind="ctrl.donate.name"></span>!
+                  <br>
+                  Ao contribuir com esta organização iremos melhorar ainda mais o mundo!
+                  <br>
+                  Você participou disso!
+                </h3>
+                <h4 class="text-center">
+                  Sua doação para a organização de <span data-ng-bind="ctrl.institution.user.name"></span> está sendo processada, <strong>enviaremos a confirmação para o seu email cadastrado informando a aprovação de pagamento do seu cartão.</strong>
+                </h4>
+                <button type="button" class="btn btn-block btn-success" data-ng-click="ctrl.close()">Voltar para a página da Organização</button>
               </div>
             </div>
           </div>

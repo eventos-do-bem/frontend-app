@@ -9,7 +9,6 @@ export default class ConfirmationSubscribe {
   subscribeConfirm(uuid) {
     this.notificationService.subscribeConfirm(uuid)
       .then(response => {
-        console.log(response)
         this.confirmation = true
       })
   }

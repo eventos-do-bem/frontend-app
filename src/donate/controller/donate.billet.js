@@ -18,7 +18,6 @@ export default class DonateBillet {
   }
   buildBillet() {
     let method = (this.logged) ? 'printLoggedBillet' : 'printPublicBillet'
-    // this.donate.amount = parseInt(this.donate.amount)
     this.donateService[method](this.uuid, this.donate)
       .then(
         response => this.instance.close({uuid: this.uuid, data: response.data}),
