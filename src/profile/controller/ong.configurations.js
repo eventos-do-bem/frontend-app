@@ -67,6 +67,12 @@ export default class OngConfigurations {
   }
   saveOng(institution) {
     institution = angular.copy(institution)
+    if (institution.facebook.trim().indexOf('http') != 0) {
+      institution.facebook = 'http://' + institution.facebook
+    }
+    if (institution.website.trim().indexOf('http') != 0) {
+      institution.website = 'http://' + institution.website
+    }
     this.institutionService.update(institution)
       .then(
         response => {
