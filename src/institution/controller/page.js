@@ -1,5 +1,5 @@
 export default class Page {
-  constructor($rootScope, $filter, $stateParams, $sce, $uibModal, $location, $anchorScroll, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService) {
+  constructor($rootScope, $filter, $stateParams, $sce, $uibModal, $location, $anchorScroll, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService, FacebookService) {
     this.rootScope = $rootScope
     this.filter = $filter
     this.location = $location
@@ -11,6 +11,7 @@ export default class Page {
     this.notification = NotificationService
     this.validation = ValidationFactory
     this.storage = StorageService
+    this.facebook = FacebookService
     this.profile = this.storage.getItem('profile')
     if (this.profile && this.profile.type == 'user') {
       this.getProfile()
@@ -21,6 +22,28 @@ export default class Page {
       this.findInstitution($stateParams.slug)
     }
   }
+  share() {
+    /**
+     * Ainda sem picture até definirmos qual imagem irá aparecer na publicação
+     * Opções: logo da EVB, cover da instituição, imagem de perfil
+     * No caso de cover ou perfil, verificar se será a cover padrão ou upada pelo user
+     */
+    this.facebook.share({
+      href: this.location.absUrl(),
+      title: this.institution.name,
+      caption: this.institution.mission,
+      description: this.institution.propose
+    })
+  }
+  // shareOpenGraph() {
+  //   this.facebook.shareOpenGraph({
+  //     'og:url': 'https://frontend.eventosdobem.com/#/instituicao/seek-ong',
+  //     'og:site_name': '',
+  //     'og:title': 'Seek ONG',
+  //     'og:description': 'Seek ONG - Description',
+  //     'og:image': 'https://www.eventosdobem.com.br/assets/images/logo.png'
+  //   })
+  // }
   getProfile() {
     this.profileService.me()
       .then(
@@ -103,4 +126,4 @@ export default class Page {
   }
 }
 
-Page.$inject = ['$rootScope','$filter','$stateParams', '$sce', '$uibModal', '$location', '$anchorScroll','InstitutionService','ProfileService','NotificationService','ValidationFactory','StorageService']
+Page.$inject = ['$rootScope','$filter','$stateParams', '$sce', '$uibModal', '$location', '$anchorScroll','InstitutionService','ProfileService','NotificationService','ValidationFactory','StorageService','FacebookService']

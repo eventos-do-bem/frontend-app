@@ -33,6 +33,12 @@
           </script>
           <div class="g-plus" data-action="share" data-annotation="none" data-height="22" data-href="/evento/{{ctrl.event.slug}}"></div>
         </div>-->
+        <div>
+          <button type="button" class="btn btn-xs btn-share" data-ng-click="ctrl.share()" data-ng-disabled="!ctrl.event.name">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+            Compartilhar
+          </button>
+        </div>
         <div data-ng-show="ctrl.event.messages.values.length > 0">
           <h3>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
           <ul class="media-list">

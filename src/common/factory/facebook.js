@@ -102,6 +102,24 @@ export default class FacebookFactory {
       return this.addCallbackToPromise(deferred, callback)
     })
   }
+  ui() {
+    let uiArgs = arguments
+
+    return this.init().then(FB => {
+      let deferred = this.$q.defer(),
+          args = Array.prototype.slice.call(uiArgs),
+          callback
+      
+      if (typeof args[args.length - 1] === 'function') {
+        callback = args.pop()
+      }
+      args.push(angular.bind(deferred, this.handleResponse))
+
+      FB.ui.apply(FB, args)
+
+      return this.addCallbackToPromise(deferred, callback)
+    })
+  }
   api() {
     let apiArgs = arguments
 

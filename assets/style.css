@@ -988,9 +988,9 @@ figure.avatar img {
 .panel.profile .questions p {
   margin-left: 20px;
 }
-.panel.profile.donate-impulse {
-  /*width: 250px;*/
-}
+/*.panel.profile.donate-impulse {
+  width: 250px;
+}*/
 .panel.profile.donate-impulse .avatar {
   margin-top: -170px;
   border: 6px solid #fff;
