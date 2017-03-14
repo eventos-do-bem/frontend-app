@@ -270,4 +270,7 @@
     margin: 90px auto;
     width: 520px;
   }
+  .modal-facebook-email .modal-dialog {
+    width: 450px;    
+  }
 }

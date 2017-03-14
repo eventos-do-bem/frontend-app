@@ -1,0 +1,27 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+      <h2 class="text-center">Confirme seu email.</h2>
+      <h5 class="text-center gap-top">
+        Antes de finalizarmos seu cadastro,
+        <br>
+        precisamos <strong>atualizar seu email para o que você acessa frequentemente.</strong>
+        Para assim você receber informações como recibos de suas doações e <strong>avisos importantes</strong> relativos à suas campanhas.
+      </h5>
+      <form name="registerFacebookEmail" novalidate>
+        <div class="form-group" data-ng-class="{'has-error':registerFacebookEmail.email.$invalid && registerFacebookEmail.email.$dirty}">
+          <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="E-mail ativo" required>
+          <div data-ng-show="registerFacebookEmail.email.$dirty" data-ng-messages="registerFacebookEmail.email.$error">
+            <p data-ng-message="required" class="text-danger">Informe seu email</p>
+            <p data-ng-message="email" class="text-danger">Informe um email válido</p>
+          </div>
+        </div>
+        <div class="form-buttons form-buttons-center">
+          <button type="button" class="btn btn-primary" data-ng-click="ctrl.ok()" data-ng-disabled="registerFacebookEmail.$invalid">
+            Confirmar email
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
