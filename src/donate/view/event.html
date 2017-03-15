@@ -192,7 +192,7 @@
             <h4>Dúvidas frequentes</h4>
             <div class="questions" data-ng-repeat="item in ctrl.questions" data-ng-init="item.active = ($index == 0) ? true : false">
               <h5 data-ng-click="ctrl.open(item)">
-                <i class="glyphicon" data-ng-class="{'glyphicon-chevron-right': item.active, 'glyphicon-chevron-down': !item.active}"></i>
+                <i class="fa" data-ng-class="{'fa-angle-down': item.active, 'fa-angle-right': !item.active}"></i>
                 <span data-ng-bind="item.question"></span>
               </h5>
               <p data-ng-show="item.active" data-ng-bind="item.answer"></p>

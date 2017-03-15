@@ -21,7 +21,8 @@ export default class DonateEvent {
       aDec: ',',
       mDec: '2',
       lZero: 'deny',
-      aPad: true
+      aPad: true,
+      vMin: '0.00'
     }
 
     if (!this.stateParams.slug) {

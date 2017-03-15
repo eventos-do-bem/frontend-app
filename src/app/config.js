@@ -26,7 +26,7 @@ export default function AppConfig($httpProvider, envServiceProvider, $provide, $
         contenttype: "application/json",
         token: "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg",
         fbAppId: "922781867788493",
-        fbVersion: "v2.2"
+        fbVersion: "v2.6"
         // fbAppId: "813381015395246"
       },
       production: {
@@ -36,7 +36,7 @@ export default function AppConfig($httpProvider, envServiceProvider, $provide, $
         contenttype: "application/json",
         token: "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg",
         fbAppId: "813381015395246",
-        fbVersion: "v2.2"
+        fbVersion: "v2.6"
       }
       // anotherStage: { 
       // 	customVar: 'lorem', 

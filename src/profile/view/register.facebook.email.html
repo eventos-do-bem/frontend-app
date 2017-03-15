@@ -1,0 +1,34 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-12">
+      <h4 class="text-center">
+        Você tem acesso frequente
+        <br> ao email <span class="text-primary" data-ng-bind="ctrl.email"></span> ?
+      </h4>
+      <p class="text-center gap-top">
+        Fique tranquilo que utilizaremos seu email com prudência :)
+        <br>
+        Esse dado é importante para enviarmos recibos de doações e informações sobre suas campanhas.
+      </p>
+      <h5 class="text-center gap-top">
+        Digite seu email ativo ou redigite o email
+        <span data-ng-bind="ctrl.email"></span>
+        para confirmar.
+      </h5>
+      <form name="registerFacebookEmail" class="row" novalidate>
+        <div class="form-group col-md-10 col-md-offset-1" data-ng-class="{'has-error':registerFacebookEmail.email.$invalid && registerFacebookEmail.email.$dirty}">
+          <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.user.email" placeholder="E-mail ativo" required>
+          <div data-ng-show="registerFacebookEmail.email.$dirty" data-ng-messages="registerFacebookEmail.email.$error">
+            <p data-ng-message="required" class="text-danger">Informe seu email</p>
+            <p data-ng-message="email" class="text-danger">Informe um email válido</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-primary" data-ng-click="ctrl.ok()" data-ng-disabled="registerFacebookEmail.$invalid">
+            Confirmar email
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

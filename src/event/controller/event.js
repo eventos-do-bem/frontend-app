@@ -1,10 +1,12 @@
 export default class Event {
-  constructor($rootScope, $state, $sce, $stateParams, $uibModal, EventService, StorageService) {
+  constructor($rootScope, $state, $sce, $stateParams, $location, $uibModal, EventService, StorageService, FacebookService) {
     this.rootScope = $rootScope
     this.state = $state
     this.sce = $sce
+    this.location = $location
     this.modal = $uibModal
     this.service = EventService
+    this.facebook = FacebookService
     this.profile = StorageService.getItem('profile')
     this.event = {}
     if ($stateParams.slug) {
@@ -13,6 +15,17 @@ export default class Event {
     }
     this.pagination = { current_page: 1 }
   }
+  share() {
+    let picture = (this.event.cover.medium.indexOf('http') > -1) ? this.event.cover.medium : `https://www.eventosdobem.com.br${this.event.cover.medium}`
+    this.facebook.share({
+      href: this.location.absUrl(),
+      title: this.event.name,
+      picture: picture,
+      description: `Participe da campanha de: ${this.event.user.name}`,
+      caption: `Projeto apoiado: ${this.event.institution.name}`
+    })
+  }
+
   getMessages(id, params = null) {
     let method = (this.profile) ? 'getMessages' : 'getMessagesPublic'
     params.page = this.pagination.current_page
@@ -72,4 +85,4 @@ export default class Event {
   }
 }
 
-Event.$inject = ['$rootScope','$state', '$sce','$stateParams','$uibModal','EventService','StorageService']
+Event.$inject = ['$rootScope','$state', '$sce','$stateParams','$location','$uibModal','EventService','StorageService','FacebookService']

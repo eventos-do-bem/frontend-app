@@ -1,8 +1,9 @@
 export default class ProfileRegister {
-  constructor($stateParams, $state, $filter, $timeout, Regex, ActivityAreaService, ProfileService, ValidationFactory, LastStateUnloggedService) {
+  constructor($stateParams, $state, $filter, $timeout, $uibModal, Regex, ActivityAreaService, ProfileService, ValidationFactory, LastStateUnloggedService) {
     this.activityAreaService = ActivityAreaService
     this.service = ProfileService
     this.timeout = $timeout
+    this.modal = $uibModal
     this.validation = ValidationFactory
     this.lastStateUnloggedService = LastStateUnloggedService
     // this.rootScope = $rootScope
@@ -74,9 +75,25 @@ export default class ProfileRegister {
   }
   registerFacebook() {
     this.service.registerFacebook(response => {
-      this.registerUser(response)
+      this.registerFacebookEmail(response)
     })
   }
+  registerFacebookEmail(data) {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/profile/view/register.facebook.email.html',
+      controller: 'RegisterFacebookEmail',
+      controllerAs: 'ctrl',
+      windowClass: 'modal-facebook-email',
+      backdrop: 'static',
+      keyboard: false,
+      resolve: {
+        user: data
+      }
+    })
+    modalInstance.result.then(user => {
+      this.registerUser(user)
+    })
+  } 
   checkOfAge(age) {
     let date = new Date(),
       timeDiff = date - age,
@@ -157,4 +174,4 @@ export default class ProfileRegister {
   }
 }
 
-ProfileRegister.$inject = ['$stateParams', '$state', '$filter', '$timeout', 'Regex', 'ActivityAreaService', 'ProfileService', 'ValidationFactory', 'LastStateUnloggedService']
+ProfileRegister.$inject = ['$stateParams', '$state', '$filter', '$timeout', '$uibModal', 'Regex', 'ActivityAreaService', 'ProfileService', 'ValidationFactory', 'LastStateUnloggedService']

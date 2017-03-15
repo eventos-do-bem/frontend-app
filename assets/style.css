@@ -988,9 +988,9 @@ figure.avatar img {
 .panel.profile .questions p {
   margin-left: 20px;
 }
-.panel.profile.donate-impulse {
-  /*width: 250px;*/
-}
+/*.panel.profile.donate-impulse {
+  width: 250px;
+}*/
 .panel.profile.donate-impulse .avatar {
   margin-top: -170px;
   border: 6px solid #fff;
@@ -1682,6 +1682,9 @@ form[name="donate"] {
 }
 .donate .flags i.fa-barcode {
   margin-left: 25px;
+}
+.donate textarea[name="message"] {
+  height: 100px;
 }
 /* /donate */
 

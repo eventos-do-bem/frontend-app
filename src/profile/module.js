@@ -1,6 +1,7 @@
 import Config                   from './config.js'
 import ProfileService           from './service.js'
 import ProfileRegister          from './controller/register.js'
+import RegisterFacebookEmail    from './controller/register.facebook.email.js';
 import ProfileConfirmation      from './controller/confirmation.js'
 import ProfileUser              from './controller/user.js'
 import ProfileOng               from './controller/ong.js'
@@ -26,6 +27,7 @@ export default angular
   .config(Config)
   .service('ProfileService', ProfileService)
   .controller('ProfileRegister', ProfileRegister)
+  .controller('RegisterFacebookEmail', RegisterFacebookEmail)
   .controller('ProfileConfirmation', ProfileConfirmation)
   .controller('ProfileUser', ProfileUser)
   .controller('ProfileOng', ProfileOng)
