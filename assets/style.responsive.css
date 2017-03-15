@@ -271,6 +271,9 @@
     width: 520px;
   }
   .modal-facebook-email .modal-dialog {
-    width: 450px;    
+    width: 450px;
+  }
+  .modal-facebook-email .modal-dialog h4 {
+    font-weight: 700;
   }
 }

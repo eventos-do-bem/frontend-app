@@ -21,8 +21,8 @@ export default class Event {
       href: this.location.absUrl(),
       title: this.event.name,
       picture: picture,
-      description: `Projeto apoiado: ${this.event.institution.name}`,
-      caption: `Participe da campanha de: ${this.event.user.name}`
+      description: `Participe da campanha de: ${this.event.user.name}`,
+      caption: `Projeto apoiado: ${this.event.institution.name}`
     })
   }
 
