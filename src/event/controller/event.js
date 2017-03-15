@@ -16,11 +16,13 @@ export default class Event {
     this.pagination = { current_page: 1 }
   }
   share() {
+    let picture = (this.event.cover.medium.indexOf('http') > -1) ? this.event.cover.medium : `https://www.eventosdobem.com.br${this.event.cover.medium}`
     this.facebook.share({
       href: this.location.absUrl(),
       title: this.event.name,
+      picture: picture,
       description: `Projeto apoiado: ${this.event.institution.name}`,
-      caption: `Organizador: ${this.event.user.name}`
+      caption: `Participe da campanha de: ${this.event.user.name}`
     })
   }
 
