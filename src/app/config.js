@@ -27,7 +27,6 @@ export default function AppConfig($httpProvider, envServiceProvider, $provide, $
         token: "0IphXRqJZe9wkMYQJJBp2X0TsVjQyg",
         fbAppId: "922781867788493",
         fbVersion: "v2.6"
-        // fbAppId: "813381015395246"
       },
       production: {
         apiUrl: 'https://prod.eventosdobem.com/api/',
