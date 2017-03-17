@@ -1,24 +1,27 @@
-<h3 class="well">
-  Campanhas
-</h3>
-<h4 class="alert alert-info" role="alert" data-ng-show="ctrl.events.length == 0">
-	Você ainda não tem eventos cadastrados.
-</h4>
+<div class="well">
+  <h3>
+  Campanhas ativas
+  </h3>
+  <h4> Nesta aba você pode acessar os eventos do bem que você criou e que estão ativos. Você também poderá acompanhar relatórios financeiros e agradecer todo mundo que apoiou suas campanhas.</h4>
+  <h4 class="alert alert-info" role="alert" data-ng-show="ctrl.events.length == 0">
+  Você ainda não tem eventos cadastrados.
+  </h4>
+</div>
 <div data-ng-show="ctrl.events.length > 0">
   <ul class="media-list">
     <li class="media" data-ng-repeat="item in ctrl.events">
       <div class="media-left">
         <a ui-sref="event.slug({slug: item.slug})">
-        <figure class="media-object avatar-circle">
-          <img  data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
-        </figure>
+          <figure class="media-object avatar-circle">
+            <img  data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
+          </figure>
         </a>
       </div>
       <div class="media-body">
         <div class="row">
           <div class="col-md-8">
             <h4 class="media-heading">
-              <a ui-sref="event.slug({slug: item.slug})" data-ng-bind="item.name"></a>
+            <a ui-sref="event.slug({slug: item.slug})" data-ng-bind="item.name"></a>
             </h4>
           </div>
           <div class="col-md-4">
@@ -29,14 +32,14 @@
             <div class="btn-group btn-group-justified" role="group" aria-label="Ações">
               <div class="btn-group">
                 <button class="btn btn-edit" data-ng-click="ctrl.go('event.edit',{slug: item.slug})">
-                  <i class="fa fa-pencil-square-o"></i>
-                  Editar
+                <i class="fa fa-pencil-square-o"></i>
+                Editar
                 </button>
               </div>
               <div class="btn-group">
                 <button class="btn btn-excluir-evb" data-ng-click="ctrl.remove(item)">
-                  <i class="fa fa-trash"></i>
-                  Excluir
+                <i class="fa fa-trash"></i>
+                Excluir
                 </button>
               </div>
             </div>
@@ -47,23 +50,22 @@
   </ul>
   <div class="text-center">
     <ul uib-pagination
-        total-items="ctrl.pagination.total"
-        ng-model="ctrl.pagination.current_page"
-        max-size="ctrl.pagination.per_page"
-        class="pagination-sm"
-        previous-text="Anterior"
-        next-text="Próxima"
-        first-text="Primeira"
-        last-text="Última"
-        boundary-links="true"
-        num-pages="ctrl.pagination.total_pages"
-        data-ng-change="ctrl.changePage()">
+      total-items="ctrl.pagination.total"
+      ng-model="ctrl.pagination.current_page"
+      max-size="ctrl.pagination.per_page"
+      class="pagination-sm"
+      previous-text="Anterior"
+      next-text="Próxima"
+      first-text="Primeira"
+      last-text="Última"
+      boundary-links="true"
+      num-pages="ctrl.pagination.total_pages"
+      data-ng-change="ctrl.changePage()">
     </ul>
   </div>
 </div>
-
 <!--<h3 class="well">
-  Campanhas encerradas
+Campanhas encerradas
 </h3>
 <ul class="media-list">
   <li class="media" data-ng-repeat="item in ctrl.events_closed">
@@ -92,16 +94,16 @@
 </ul>
 <div class="text-center">
   <ul uib-pagination
-      total-items="ctrl.pagination_closed.total"
-      ng-model="ctrl.pagination_closed.current_page"
-      max-size="ctrl.pagination_closed.per_page"
-      class="pagination-sm"
-      previous-text="Anterior"
-      next-text="Próxima"
-      first-text="Primeira"
-      last-text="Última"
-      boundary-links="true"
-      num-pages="ctrl.pagination_closed.total_pages"
-      data-ng-change="ctrl.changePageClosed()">
+    total-items="ctrl.pagination_closed.total"
+    ng-model="ctrl.pagination_closed.current_page"
+    max-size="ctrl.pagination_closed.per_page"
+    class="pagination-sm"
+    previous-text="Anterior"
+    next-text="Próxima"
+    first-text="Primeira"
+    last-text="Última"
+    boundary-links="true"
+    num-pages="ctrl.pagination_closed.total_pages"
+    data-ng-change="ctrl.changePageClosed()">
   </ul>
 </div>-->
