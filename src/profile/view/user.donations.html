@@ -18,7 +18,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr data-ng-repeat="item in ctrl.donations" data-ng-class="{success: item.status == 'Autorizado', primary: item.status == 'Em processamento', danger: item.status == 'Cancelado' || item.status == 'Expirado'}">
+      <tr>
+        <td colspan="7" data-ng-show="ctrl.donations.length == 0">
+          <div class="text-danger text-center">Você ainda não efetivou nenhuma doação</div>
+        </td>
+      </tr>
+      <tr data-ng-repeat="item in ctrl.donations" data-ng-show="ctrl.donations.length > 0" data-ng-class="{success: item.status == 'Autorizado', primary: item.status == 'Em processamento', danger: item.status == 'Cancelado' || item.status == 'Expirado'}">
         <td>
           <i class="icon" uib-tooltip="{{item.status}}" data-ng-class="{'pending': item.status == 'Em processamento', 'check': item.status == 'Autorizado', 'cancel': item.status == 'Cancelado', 'fa expired': item.status == 'Expirado'}"></i>
         </td>
