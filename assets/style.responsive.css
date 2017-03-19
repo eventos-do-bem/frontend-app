@@ -270,6 +270,17 @@
     margin: 90px auto;
     width: 520px;
   }
+  .modal-birthday .modal-dialog {
+    margin: 60px auto;
+    width: 400px;
+  }
+  .modal-birthday .modal-body form {
+    margin: 0 40px;
+  }
+  .modal-share .modal-dialog {
+    margin: 60px auto;
+    width: 400px;
+  }
   .modal-facebook-email .modal-dialog {
     width: 450px;
   }

@@ -1,10 +1,11 @@
 export default class Event {
-  constructor($rootScope, $state, $sce, $stateParams, $location, $uibModal, EventService, StorageService, FacebookService) {
+  constructor($rootScope, $state, $sce, $stateParams, $location, $uibModal, $timeout, EventService, StorageService, FacebookService) {
     this.rootScope = $rootScope
     this.state = $state
     this.sce = $sce
     this.location = $location
     this.modal = $uibModal
+    this.timeout = $timeout
     this.service = EventService
     this.facebook = FacebookService
     this.profile = StorageService.getItem('profile')
@@ -14,6 +15,24 @@ export default class Event {
       this.getEvent($stateParams.slug)
     }
     this.pagination = { current_page: 1 }
+    this.rootScope.timeout = this.timeout(() => {
+      this.openShare()
+    }, 25000)
+
+  }
+  openShare() {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/event/view/remember.share.html',
+      controller: 'RememberShare',
+      controllerAs: 'ctrl',
+      windowClass: 'modal-share',
+      resolve: {
+        user: this.event.user
+      }
+    })
+    modalInstance.result.then(response => {
+      this.share()
+    })
   }
   share() {
     let picture = (this.event.cover.medium.indexOf('http') > -1) ? this.event.cover.medium : `https://www.eventosdobem.com.br${this.event.cover.medium}`
@@ -85,4 +104,4 @@ export default class Event {
   }
 }
 
-Event.$inject = ['$rootScope','$state', '$sce','$stateParams','$location','$uibModal','EventService','StorageService','FacebookService']
+Event.$inject = ['$rootScope','$state', '$sce','$stateParams','$location','$uibModal','$timeout','EventService','StorageService','FacebookService']

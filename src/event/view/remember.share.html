@@ -1,0 +1,22 @@
+<div class="modal-body">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-ng-click="ctrl.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div>
+    <h3 class="text-center" style="font-weight: 700">
+      Ajude esta corrente do bem!
+    </h3>
+    <h5 class="text-center" style="margin: 2rem">
+      Ao compartilhar o evento do bem de <span data-ng-bind="ctrl.user.name"></span> no facebook você aumenta a divulgação e o potencial de angariação de recursos da campanha.
+    </h5>
+    <div class="text-center">
+      <button type="button" class="btn btn-xs btn-share" data-ng-click="ctrl.share()">
+        <i class="fa fa-facebook" aria-hidden="true"></i>
+        Compartilhe no facebook
+      </button>
+      <br>
+      <br>
+      <a href="javascript:void(0)" data-ng-click="ctrl.close()">não, obrigado</a>
+    </div>
+  </div>
+</div>

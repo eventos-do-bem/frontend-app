@@ -620,6 +620,24 @@ file button {
 .modal-content {
   border-radius: 0px;
 }
+.modal-birthday h5 {
+  font-weight: 600;
+}
+.modal-header-image {
+  margin: 0 auto;
+  margin-top: -70px;
+  width: 125px;
+  height: 125px;
+  text-align: center;
+  background: #f1f1f1;
+  border: 6px solid #fff;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.modal-header-image > .fa {
+  font-size: 4rem;
+  line-height: 110px;
+}
 /* /modal */
 
 /* input-group transparent */
