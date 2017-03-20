@@ -1,17 +1,25 @@
 export default class Header {
-  constructor($scope, $state, $window, StorageService) {
+  constructor($rootScope, $scope, $state, $window, StorageService, ProfileService) {
+    this.rootScope = $rootScope
+    this.storage = StorageService
+    this.profileService = ProfileService
     this.brand = 'Eventos do Bem'
     this.profile = StorageService.getItem('profile')
     this.navbarCollapsed = true
+    this.toggleLoggedAnotherUser()
     $scope.$on('profile.change', () => {
       this.profile = StorageService.getItem('profile')
+      this.toggleLoggedAnotherUser()
       this.addMenuLogged()
     })
     $scope.$on('auth.logout', () => {
-      StorageService.removeItem('rememberme')
-      StorageService.removeItem('token')
-      StorageService.removeItem('profile')
+      this.storage.removeItem('rememberme')
+      this.storage.removeItem('token')
+      this.storage.removeItem('original_token')
+      this.storage.removeItem('profile')
+      this.storage.removeItem('original_profile')
       this.profile = null
+      this.toggleLoggedAnotherUser()
     })
 
     this.dropDownMenu = {
@@ -55,6 +63,19 @@ export default class Header {
       }
     }
   }
+  toggleLoggedAnotherUser() {
+    this.loggedAsAnotherUser = this.storage.getItem('original_profile')
+  }
+  logoutAsAnotherUser() {
+    let originalToken = this.storage.getItem('original_token'),
+        originalProfile = this.storage.getItem('original_profile')
+    this.storage.setItem('token', originalToken)
+    this.storage.setItem('profile', originalProfile)
+    this.rootScope.$broadcast('profile.change')
+    this.storage.removeItem('original_token')
+    this.storage.removeItem('original_profile')
+    this.toggleLoggedAnotherUser()
+  }
 }
 
-Header.$inject = ['$scope', '$state', '$window', 'StorageService']
+Header.$inject = ['$rootScope','$scope', '$state', '$window', 'StorageService', 'ProfileService']
