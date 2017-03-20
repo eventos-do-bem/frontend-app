@@ -24,6 +24,11 @@
         <li>
           <a ui-sref="pages.explore">Explore novas causas</a>
         </li>
+        <li data-ng-show="ctrl.loggedAsAnotherUser">
+          <a class="" data-ng-click="ctrl.logoutAsAnotherUser()">
+           [ Voltar sessão ]
+          </a>
+        </li>
         <li data-ng-show="!ctrl.profile" data-ng-repeat="item in ctrl.dropDownMenu.nologged">
           <a ui-sref="{{item.url}}">{{item.label}}</a>
         </li>

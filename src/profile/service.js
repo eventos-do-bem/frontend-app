@@ -76,6 +76,14 @@ export default class ProfileService extends CommonService {
   getProfile() {
     return this.storage.getItem('profile')
   }
+  getAccessLoginAnotherUser() {
+    let profile = this.storage.getItem('profile')
+    if (profile) {
+      return (profile.permissions['administration.global'] || profile.permissions['administration.users.login']) ? true : false
+    } else {
+      return false
+    }
+  }
   registerFacebook(callback) {
     return this.facebookService.auth(callback)
   }

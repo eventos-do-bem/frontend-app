@@ -1,5 +1,5 @@
 export default class Page {
-  constructor($rootScope, $filter, $stateParams, $sce, $uibModal, $timeout, $location, $anchorScroll, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService, FacebookService) {
+  constructor($rootScope, $filter, $stateParams, $sce, $uibModal, $timeout, $location, $anchorScroll, InstitutionService, ProfileService, AuthService, NotificationService, ValidationFactory, StorageService, FacebookService) {
     this.rootScope = $rootScope
     this.filter = $filter
     this.location = $location
@@ -9,10 +9,12 @@ export default class Page {
     this.timeout = $timeout
     this.service = InstitutionService
     this.profileService = ProfileService
+    this.authService = AuthService
     this.notification = NotificationService
     this.validation = ValidationFactory
     this.storage = StorageService
     this.facebook = FacebookService
+    this.accessLoginAnotherUser = this.profileService.getAccessLoginAnotherUser()
     this.profile = this.storage.getItem('profile')
     if (this.profile && this.profile.type == 'user') {
       this.getProfile()
@@ -27,6 +29,13 @@ export default class Page {
         this.rememberBirthday()
       }, 25000)
     }
+  }
+  loginAsCreator(uuid) {
+    this.authService.loginAnotherUser(uuid)
+      .then(response => {
+        this.profile = this.profileService.setProfile(response.data)
+        this.accessLoginAnotherUser = this.profileService.getAccessLoginAnotherUser()
+      })
   }
   share() {
     /**
@@ -148,4 +157,4 @@ export default class Page {
   }
 }
 
-Page.$inject = ['$rootScope','$filter','$stateParams', '$sce', '$uibModal', '$timeout', '$location', '$anchorScroll','InstitutionService','ProfileService','NotificationService','ValidationFactory','StorageService','FacebookService']
+Page.$inject = ['$rootScope','$filter','$stateParams', '$sce', '$uibModal', '$timeout', '$location', '$anchorScroll','InstitutionService','ProfileService','AuthService','NotificationService','ValidationFactory','StorageService','FacebookService']

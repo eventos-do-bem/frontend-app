@@ -1,5 +1,5 @@
 export default class Event {
-  constructor($rootScope, $state, $sce, $stateParams, $location, $uibModal, $timeout, EventService, StorageService, FacebookService) {
+  constructor($rootScope, $state, $sce, $stateParams, $location, $uibModal, $timeout, EventService, StorageService, FacebookService, AuthService, ProfileService) {
     this.rootScope = $rootScope
     this.state = $state
     this.sce = $sce
@@ -8,7 +8,10 @@ export default class Event {
     this.timeout = $timeout
     this.service = EventService
     this.facebook = FacebookService
+    this.authService = AuthService
+    this.profileService = ProfileService
     this.profile = StorageService.getItem('profile')
+    this.accessLoginAnotherUser = this.profileService.getAccessLoginAnotherUser()
     this.event = {}
     if ($stateParams.slug) {
       this.slug = $stateParams.slug
@@ -19,6 +22,13 @@ export default class Event {
       this.openShare()
     }, 25000)
 
+  }
+  loginAsCreator(uuid) {
+    this.authService.loginAnotherUser(uuid)
+      .then(response => {
+        this.profile = this.profileService.setProfile(response.data)
+        this.accessLoginAnotherUser = this.profileService.getAccessLoginAnotherUser()
+      })
   }
   openShare() {
     let modalInstance = this.modal.open({
@@ -104,4 +114,4 @@ export default class Event {
   }
 }
 
-Event.$inject = ['$rootScope','$state', '$sce','$stateParams','$location','$uibModal','$timeout','EventService','StorageService','FacebookService']
+Event.$inject = ['$rootScope','$state', '$sce','$stateParams','$location','$uibModal','$timeout','EventService','StorageService','FacebookService','AuthService','ProfileService']

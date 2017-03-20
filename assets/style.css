@@ -447,6 +447,14 @@ dl dd:last-child {
 /* /explore */
 
 /* campaign/institution */
+.campaign .login-another-user,
+.institution .login-another-user {
+  position: absolute;
+  width: 100%;
+  padding: 20px;
+  text-align: right;
+  z-index: 999;
+}
 .campaign .cover,
 .institution .cover {
   height: 300px;

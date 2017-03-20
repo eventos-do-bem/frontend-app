@@ -1,5 +1,10 @@
 <div class="campaign">
   <div class="row cover">
+    <div class="login-another-user" data-ng-show="ctrl.accessLoginAnotherUser">
+      <button class="btn btn-warning" data-ng-disabled="!ctrl.event.uuid" data-ng-click="ctrl.loginAsCreator(ctrl.event.uuid)">
+        Efetuar login
+      </button>
+    </div>
     <div class="image-cover" style="background: url({{ctrl.event.cover.original}}); background-size: cover;"></div>
   </div>
   <section class="cover-content container">
@@ -23,16 +28,6 @@
           <iframe data-ng-src="{{ctrl.event.videos.values[0].url | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
         <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.event.description)"></p>
-        <!--<div>
-          <div class="fb-share-button"
-            data-href="/evento/{{ctrl.event.slug}}"
-            data-layout="button_count">
-          </div>
-          <script src="https://apis.google.com/js/platform.js" async defer>
-            {lang: 'pt-BR'}
-          </script>
-          <div class="g-plus" data-action="share" data-annotation="none" data-height="22" data-href="/evento/{{ctrl.event.slug}}"></div>
-        </div>-->
         <div>
           <button type="button" class="btn btn-xs btn-share" data-ng-click="ctrl.share()" data-ng-disabled="!ctrl.event.name">
             <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -47,9 +42,7 @@
                 <a>
                   <img data-ng-show="item.user" class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
                   <img data-ng-show="!item.user" class="media-object img-circle" data-ng-src="/assets/images/avatars/small/avatar.svg" alt="Anônimo">
-
                 </a>
-
               </div>
               <div class="media-body">
                 <h4 class="media-heading">
@@ -121,10 +114,6 @@
               <a href="{{ctrl.event.institution.website}}">{{ctrl.event.institution.website}}</a>
               <a data-ng-show="!ctrl.event.institution.website" ui-sref="institution({slug: ctrl.event.institution.slug})">{{ctrl.event.institution.name}}</a>
             </p>
-            <!--<p>
-              <i class="fa fa-question"></i>
-              Em caso de dúvida, entre em contato com o <a href="">organizador</a>.
-            </p>-->
           </div>
         </div>
       </div>
