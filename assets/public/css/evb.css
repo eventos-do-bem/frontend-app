@@ -125,7 +125,8 @@ a:hover {
 .alert-danger {
   background-color: #f25e5e;
 }
-.has-error .control-label {
+.has-error .control-label,
+.has-error .help-block {
   color: #f25e5e;
 }
 .ta-root.focussed > .ta-scroll-window.form-control {

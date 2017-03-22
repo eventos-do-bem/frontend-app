@@ -1,9 +1,10 @@
 import CommonService  from './../common/service/common.js'
 
 export default class AuthService extends CommonService {
-  constructor($http, FacebookService, envService) {
+  constructor($http, FacebookService, StorageService, envService) {
     super($http, envService)
     this.facebookService = FacebookService
+    this.storage = StorageService
   }
   loginUser(data) {
     data = this.setDataToken(data)
@@ -17,6 +18,14 @@ export default class AuthService extends CommonService {
   }
   loginFacebook(callback) {
     return this.facebookService.auth(callback)
+  }
+  loginAnotherUser(uuid) {
+    let originalToken = this.storage.getItem('token'),
+        originalProfile = this.storage.getItem('profile')
+    this.storage.setItem('original_token', originalToken)
+    this.storage.setItem('original_profile', originalProfile)
+    this.setRoute('auth/login/' + uuid)
+    return this.$http.get(this.url + this.route, this.config)
   }
   disconnectFacebook(callback) {
     return this.facebookService.disconnect(response => callback(response))
@@ -41,4 +50,4 @@ export default class AuthService extends CommonService {
   }
 }
 
-AuthService.$inject = ['$http','FacebookService','envService']
+AuthService.$inject = ['$http','FacebookService','StorageService','envService']

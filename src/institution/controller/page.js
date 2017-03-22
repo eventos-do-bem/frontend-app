@@ -1,17 +1,20 @@
 export default class Page {
-  constructor($rootScope, $filter, $stateParams, $sce, $uibModal, $location, $anchorScroll, InstitutionService, ProfileService, NotificationService, ValidationFactory, StorageService, FacebookService) {
+  constructor($rootScope, $filter, $stateParams, $sce, $uibModal, $timeout, $location, $anchorScroll, InstitutionService, ProfileService, AuthService, NotificationService, ValidationFactory, StorageService, FacebookService) {
     this.rootScope = $rootScope
     this.filter = $filter
     this.location = $location
     this.anchorScroll = $anchorScroll
     this.sce = $sce
     this.modal = $uibModal
+    this.timeout = $timeout
     this.service = InstitutionService
     this.profileService = ProfileService
+    this.authService = AuthService
     this.notification = NotificationService
     this.validation = ValidationFactory
     this.storage = StorageService
     this.facebook = FacebookService
+    this.accessLoginAnotherUser = this.profileService.getAccessLoginAnotherUser()
     this.profile = this.storage.getItem('profile')
     if (this.profile && this.profile.type == 'user') {
       this.getProfile()
@@ -21,6 +24,18 @@ export default class Page {
     if ($stateParams.slug) {
       this.findInstitution($stateParams.slug)
     }
+    if (!this.profile || this.profile.type == 'user') {
+      this.rootScope.timeout = this.timeout(() => {
+        this.rememberBirthday()
+      }, 25000)
+    }
+  }
+  loginAsCreator(uuid) {
+    this.authService.loginAnotherUser(uuid)
+      .then(response => {
+        this.profile = this.profileService.setProfile(response.data)
+        this.accessLoginAnotherUser = this.profileService.getAccessLoginAnotherUser()
+      })
   }
   share() {
     /**
@@ -35,15 +50,6 @@ export default class Page {
       description: this.institution.propose
     })
   }
-  // shareOpenGraph() {
-  //   this.facebook.shareOpenGraph({
-  //     'og:url': 'https://frontend.eventosdobem.com/#/instituicao/seek-ong',
-  //     'og:site_name': '',
-  //     'og:title': 'Seek ONG',
-  //     'og:description': 'Seek ONG - Description',
-  //     'og:image': 'https://www.eventosdobem.com.br/assets/images/logo.png'
-  //   })
-  // }
   getProfile() {
     this.profileService.me()
       .then(
@@ -92,6 +98,31 @@ export default class Page {
     //   console.log(error)
     })
   }
+  rememberBirthday() {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/institution/view/remember.birthday.html',
+      controller: 'RememberBirthday',
+      controllerAs: 'ctrl',
+      windowClass: 'modal-birthday',
+      resolve: {
+        birthday: this.birthday
+      }
+    })
+    modalInstance.result.then(birthday => {
+      birthday.institution_uuid = this.institution.uuid
+      this.notification.subscribe(birthday)
+        .then(response => {
+          this.rootScope.$broadcast('alert-clear')
+          this.rootScope.$broadcast('alert', {
+            type: 'alert-success',
+            icon: 'fa-hourglass-half',
+            message: { message: 'Seu aniversário está quase cadastrado, verifique sua caixa de e-mail para confirmar e concluir sua assinatura.' }
+          })
+          this.location.hash('body')
+          this.anchorScroll()
+        })
+      })
+  }
   validateDate(field, date) {
     date = date.split('/')
     date = new Date(`${date[2]}-${date[1]}-${date[0]}`)
@@ -126,4 +157,4 @@ export default class Page {
   }
 }
 
-Page.$inject = ['$rootScope','$filter','$stateParams', '$sce', '$uibModal', '$location', '$anchorScroll','InstitutionService','ProfileService','NotificationService','ValidationFactory','StorageService','FacebookService']
+Page.$inject = ['$rootScope','$filter','$stateParams', '$sce', '$uibModal', '$timeout', '$location', '$anchorScroll','InstitutionService','ProfileService','AuthService','NotificationService','ValidationFactory','StorageService','FacebookService']

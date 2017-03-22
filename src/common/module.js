@@ -11,6 +11,7 @@ import GeoLocationFactory   from './factory/geolocation.js'
 import ValidationFactory    from './factory/validation.js'
 import FixedOnScroll        from './directive/fixedOnScroll.js'
 import FormatCurrency       from './directive/formatCurrency.js'
+import ImageCrop            from './directive/img-crop.js'
 import File                 from './component/file/file.js'
 import Map                  from './component/map/map.js'
 import Header               from './controller/header.js'
@@ -39,3 +40,4 @@ export default angular
   .service('NotificationService', NotificationService)
   .directive('fixedOnScroll', FixedOnScroll.directiveFactory)
   .directive('formatCurrency', FormatCurrency.directiveFactory)
+  .directive('imageCrop', ImageCrop.imageCrop)
