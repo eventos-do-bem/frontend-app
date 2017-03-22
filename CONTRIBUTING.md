@@ -14,7 +14,7 @@
 | - | - |
 | `npm install` ou `npm i` | Instala os pacotes do projeto, necessários para desenvolvimento. |
 | `npm run vendor:build` | Concatena e minifica os arquivos de libs externas usadas no projeto. Necessário antes do comando `npm start`.  |
-| `npm start`  | Usado para desenvolvimento, concatena e minifica os arquivos vendor e bundle. A cada alteração ele executa novamente o build (apenas de arquivos do projeto (`bundle[.min].js`)). |
+| `npm start`  | Usado para desenvolvimento, ele concatena e minifica o arquivo bundle. A cada alteração ele executa novamente o build (apenas de arquivos do projeto para (`bundle[.min].js`)). |
 | `npm run prod` | Executa as tarefas de concatenação e minificação dos arquivos do projeto, libs externas e estilos (usado no travis-ci para deploy). |
 
 ### **`npm run prod` pode ser usado antes do commit/push no repositório (branch `master`) para verificação de integridade nos arquivos gerados.**
@@ -90,6 +90,6 @@ git flow hotfix finish bugfix_x
 
 ---
 
-Qualquer dúvida entrar em contato "Gui Seek" <guiseek@gmail.com>
+Qualquer dúvida entrar em contato "Guilherme" <<guilherme@eventosdobem.com.br>>
 
 Desde já agradeço a colaboração : )
