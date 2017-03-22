@@ -2,46 +2,62 @@
   "name": "eventos-do-bem",
   "version": "1.0.0",
   "description": "Eventos do Bem",
-  "main": "main.js",
+  "main": "app.js",
   "scripts": {
     "start": "npm-run-all -p live-server dev",
     "live-server": "live-server --host=localhost --port=8000",
-    "dev": "npm-run-all -p app:sequential style:sequential",
+    "dev": "npm-run-all -p style:watch app:watch",
     "prod": "npm-run-all -p app:build vendor:build style:minify",
-    "app:build": "npm-run-all -s -c app:concat app:minify",
-    "app:sequential": "npm-run-all -s -c app:watch app:minify",
-    "app:concat": "browserify ./bootstrap.js -o ./dist/bundle.js -t [ babelify ] -v -x=angular -x=angular-animate -x=angular-aria -x=angular-messages -x=angular-mocks -x=angular-ui-router -x=textangular/dist/textAngular-sanitize -x=angular-i18n/pt-br -x=bootstrap -x=angular-ui-bootstrap -x=ng-mask -x=angular-environment -x=textangular",
-    "app:minify": "uglifyjs ./dist/bundle.js -o ./dist/bundle.min.js",
-    "app:watch": "watchify ./bootstrap.js -o ./dist/bundle.js -t [ babelify ] -v -x=angular -x=angular-animate -x=angular-aria -x=angular-messages -x=angular-mocks -x=angular-ui-router -x=textangular/dist/textAngular-sanitize -x=angular-i18n/pt-br -x=bootstrap -x=angular-ui-bootstrap -x=ng-mask -x=angular-environment -x=textangular",
-    "style:sequential": "npm-run-all -s -c style:less style:minify",
-    "style:less": "catw -c 'lessc -' 'assets/less/*.less' -o assets/public/css/evb.css -v",
-    "style:minify": "lessc --clean-css assets/public/css/evb.css assets/public/css/evb.min.css",
-    "vendor:build": "npm-run-all -s -c vendor:concat vendor:minify",
-    "vendor:concat": "browserify -o ./dist/vendor.js -v -r angular -r angular-animate -r angular-aria -r angular-messages -r angular-mocks -r angular-ui-router -r textangular/dist/textAngular-sanitize -r angular-i18n/pt-br -r bootstrap -r angular-ui-bootstrap -r ng-mask -r angular-environment -r textangular",
-    "vendor:minify": "uglifyjs ./dist/vendor.js -o ./dist/vendor.min.js"
+    "app:watch": "simplifyify 'app.js' --outfile 'dist/bundle.js' --bundle --minify --watch",
+    "app:build": "simplifyify 'app.js' --outfile 'dist/bundle.js' --bundle --minify",
+    "vendor:build": "simplifyify 'vendor.js' --outfile 'dist/vendor.js' --exclude 'src/**' --bundle --minify",
+    "style:watch": "catw -c 'lessc -' 'assets/less/*.less' -o assets/public/css/evb.css -v",
+    "style:minify": "lessc --clean-css assets/public/css/evb.css assets/public/css/evb.min.css"
   },
-  "babel": {
-    "plugins": [
-      "transform-object-rest-spread"
-    ],
-    "presets": [
-      "es2015"
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ],
+          "plugins": [
+            "transform-object-rest-spread"
+          ]
+        }
+      ],
+      [
+        "uglifyify",
+        {
+          "mangle": false,
+          "compress": {
+            "sequences": true,
+            "dead_code": true,
+            "booleans": true,
+            "conditionals": true,
+            "if_return": false,
+            "drop_console": false,
+            "keep_fnames": true
+          },
+          "output": {
+            "comments": false
+          }
+        }
+      ]
     ]
   },
   "author": "Gui Seek <guiseek@gmail.com>",
   "devDependencies": {
-    "babel-cli": "6.7.5",
     "babel-plugin-transform-object-rest-spread": "6.6.5",
     "babel-preset-es2015": "6.6.0",
     "babelify": "7.2.0",
-    "browserify": "13.0.0",
     "catw": "1.0.1",
     "less": "2.7.1",
     "less-plugin-clean-css": "1.5.1",
     "live-server": "0.9.2",
-    "uglify-js": "2.6.2",
-    "watchify": "3.7.0",
-    "npm-run-all": "1.7.0"
+    "npm-run-all": "1.7.0",
+    "simplifyify": "^3.2.1"
   },
   "dependencies": {
     "angular": "1.5.8",
