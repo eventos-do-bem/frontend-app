@@ -3,7 +3,7 @@
 	<h5 class="text-muted">Campanha: <span data-ng-bind="ctrl.event.name"></span></h5>
 	<h5 class="text-muted">Organizador: <span data-ng-bind="ctrl.event.user.name"></span></h5>
 </div>
-<form name="report" data-ng-submit="ctrl.save(ctrl.event.uuid, ctrl.report, false)">
+<form name="report" enctype="multipart/form-data" novalidate data-ng-submit="ctrl.save(ctrl.event.uuid, ctrl.report, false)">
 	<div class="well">
 		<h3>Fase 1</h3>
 		<div class="form-group">
@@ -14,7 +14,7 @@
 				<div class="col-md-3">
 					<div class="input-group">
 						<div class="input-group-addon">R$</div>
-						<input type="text" class="form-control" id="valuePerBenefited" data-ng-model="ctrl.report.valuePerBenefited" uib-popover="Texto do popover e etc." popover-placement="right">
+						<input type="text" class="form-control" id="valuePerBenefited" format-currency="ctrl.currency.FORMAT" variable-options="true" data-ng-model="ctrl.report.valuePerBenefited" uib-popover="Você terá calcular a média de valor que gasta por cada pessoa/animal que beneficia que sua organização beneficiará com esse evento do bem" popover-placement="right">
 					</div>
 				</div>
 			</div>
@@ -103,7 +103,7 @@
 		</count-down-element>
 		<div class="row margin-top-20">
 			<div class="col-sm-4">
-				<file style="display: block" ng-model="ctrl.report.picture4">
+				<file style="display: block" ng-model="ctrl.report.picture4" progress="ctrl.progress">
 					<span data-ng-bind="ctrl.report.picture4.name || 'Fotografia do beneficiário'"></span>
 				</file>
 				<!--<button type="button" class="btn btn-default">
@@ -112,9 +112,16 @@
         </button>-->
 			</div>
 			<div class="col-sm-8">
-				<div class="input-group">
-					<span class="input-group-addon">Vídeo do Youtube</span>
-					<input type="text" name="video" id="video" class="form-control same-btn-large" data-ng-model="ctrl.report.video" placeholder="Essa parte é opcional">
+				<div class="form-group" data-ng-class="{'has-error':report.video.$invalid && report.video.$dirty}">
+					<div class="input-group">
+						<span class="input-group-addon">Vídeo (URL do Youtube)</span>
+						<input type="text" name="video" id="video" class="form-control same-btn-large" data-ng-model="ctrl.report.video" data-ng-pattern="ctrl.regex.URL" placeholder="Essa parte é opcional">
+					</div>
+					<div class="help-block" data-ng-messages="report.video.$error">
+						<p class="text-danger" data-ng-message="pattern">
+							O vídeo deve ser uma URL válida.
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -137,3 +144,8 @@
 		</div>
 	</div>
 </form>
+
+<image-crop ng-model="ctrl.report.picture1"></image-crop>
+<image-crop ng-model="ctrl.report.picture2"></image-crop>
+<image-crop ng-model="ctrl.report.picture3"></image-crop>
+<image-crop ng-model="ctrl.report.picture4"></image-crop>
