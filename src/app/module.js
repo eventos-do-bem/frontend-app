@@ -59,4 +59,15 @@ angular
   .constant('Regex', {
     URL: /^(((http)s?):\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/?|[\/?]\S+)$/i
   })
+  .constant('Currency', {
+    FORMAT: {
+      // aSign: 'R$ ',
+      aSep: '.',
+      aDec: ',',
+      mDec: '2',
+      lZero: 'deny',
+      aPad: true,
+      vMin: '0.00'
+    }
+  })
   .run(Run)

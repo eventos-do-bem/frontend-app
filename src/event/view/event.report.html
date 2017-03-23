@@ -33,7 +33,7 @@
               Valor Angariado: <span class="text-primary" data-ng-bind="ctrl.report.occurrence.total_receive_human"></span> reais
             </h4>
             <h4>
-              Site do projeto: <a target="_blank" href="{{ctrl.report.institution.website}}" class="text-primary" data-ng-bind="ctrl.report.institution.website"></a>
+              Site do Projeto: <a target="_blank" href="{{ctrl.report.institution.website}}" class="text-primary" data-ng-bind="ctrl.report.institution.website"></a>
             </h4>
             <h4>
               Causa: <a ui-sref="institution({slug: ctrl.report.institution.slug})" data-ng-bind="ctrl.report.institution.name"></a>
@@ -42,10 +42,22 @@
         </div>
       </div>
       <div class="col-md-2">
-        <p class="text-center">Causa beneficiada</p>
-        <div>
-          <img data-ng-repeat="i in ctrl.getRepeat(8) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+        <h4 class="text-center">Causa beneficiada</h4>
+        <div data-ng-switch="ctrl.report.benefitType" class="text-center benefit-cause">
+          <img data-ng-switch-when="children" style="margin: 4px;" data-ng-repeat="i in ctrl.getRepeat(6) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          <img data-ng-switch-when="young" style="margin: 4px;" data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          <img data-ng-switch-when="people" style="margin: 4px;" data-ng-repeat="i in ctrl.getRepeat(8) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          <img data-ng-switch-when="families" style="margin: 4px;" data-ng-repeat="i in ctrl.getRepeat(2) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          <img data-ng-switch-when="elderly" style="margin: 4px;" data-ng-repeat="i in ctrl.getRepeat(8) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          <img data-ng-switch-when="animals" style="margin: 4px;" data-ng-repeat="i in ctrl.getRepeat(4) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          <img data-ng-switch-when="dogs" style="margin: 4px;" data-ng-repeat="i in ctrl.getRepeat(3) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          <img data-ng-switch-when="cats" style="margin: 4px;" data-ng-repeat="i in ctrl.getRepeat(3) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
+          <img data-ng-switch-when="trees" style="margin: 4px;" data-ng-repeat="i in ctrl.getRepeat(6) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
         </div>
+        <h4 class="text-center">
+          <span data-ng-bind="ctrl.report.numberImpacted"></span>
+          <span data-ng-bind="ctrl.benefit[ctrl.report.benefitType]"></span>
+        </h4>
         <!--<div data-ng-switch="ctrl.report.benefitType" class="text-center">
           <div data-ng-switch-when="children">
             <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
@@ -80,13 +92,31 @@
     <div class="row">
       <div class="col-md-12">
         <h2 class="text-center">
-          Este projeto ajudou <span data-ng-bind="ctrl.report.institution.user.name"></span>.
-          <span></span>
+          ESSE PROJETO AJUDOU A ORGANIZAÇÃO <span data-ng-bind="ctrl.report.institution.name"></span>
         </h2>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
+    <div class="row history gap-top">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="text-center" data-ng-bind="ctrl.report.title"></h2>
+          </div>
+        </div>
+        <div class="row gap-top">
+          <div class="col-md-4">
+            <figure>
+              <img class="img-responsive img-thumbnail" data-ng-src="{{ctrl.report.picture4.medium}}" alt="">
+            </figure>
+          </div>
+          <div class="col-md-8">
+            <p data-ng-bind="ctrl.report.history"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row gap-top-5">
+      <div class="col-md-8 col-md-offset-2">
         <h3 class="text-center">
           Lista dos participantes do Evento do Bem
           <span></span>
@@ -111,16 +141,16 @@
             <i class="fa fa-exclamation"></i>
             Nenhum comentário de doação encontrado :(
           </p>
-          <table class="table table-bordered" data-ng-show="ctrl.report.messages.values.length > 0">
+          <table class="table table-striped" data-ng-show="ctrl.report.messages.values.length > 0">
             <thead>
               <tr>
                 <th>Doador</th>
-                <th>Mensagens</th>
+                <th>Mensagem</th>
               </tr>
             </thead>
             <tbody>
               <tr data-ng-repeat="item in ctrl.report.messages.values">
-                <td>
+                <td class="text-primary">
                   <span data-ng-show="item.user" data-ng-bind="item.user.name"></span>
                   <span data-ng-show="!item.user">Anônimo</span>
                 </td>

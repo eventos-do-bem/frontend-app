@@ -148,10 +148,6 @@ blockquote .name {
   padding: 85px 130px;
 }
 
-.report .carousel .carousel-inner {
-  padding: 40px 130px;
-}
-
 .loading {
   position: fixed;
   top: 0;
@@ -591,6 +587,28 @@ h4.media-heading{
 }
 .report #map .path_estado {
   stroke: #0074DB;
+}
+.report .carousel-control {
+  margin-top: -15%;
+  opacity: 1;
+  color: #000;
+}
+.report .carousel-control:hover {
+  color: #000;
+}
+.report .carousel .carousel-inner {
+  padding: 40px 100px;
+}
+.report .benefit-cause img svg path.color {
+  fill: blue;
+  
+}
+.report .row.history p {
+  font-size: 2rem;
+  font-weight: 300;
+}
+.report table thead tr {
+  background-color: rgba(128, 128, 128, 0.13);
 }
 /* /report */
 
