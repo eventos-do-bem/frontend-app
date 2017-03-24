@@ -1,8 +1,10 @@
 export default class OngReport {
-  constructor($rootScope, EventService, $stateParams, $uibModal, Currency, Regex) {
+  constructor($rootScope, EventService, $stateParams, $uibModal, $location, $anchorScroll, Currency, Regex) {
     this.rootScope = $rootScope
     this.service = EventService
     this.modal = $uibModal
+    this.location = $location
+    this.anchorScroll = $anchorScroll
     this.currency = Currency
     this.regex = Regex
     this.report = {}
@@ -64,11 +66,14 @@ export default class OngReport {
         })
       }
       this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: { message: feedbackMessage }})
+      this.location.hash('body')
+      this.anchorScroll()
     }, error => {
-      console.error(error.data)
       this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
+      this.location.hash('body')
+      this.anchorScroll()
     })
   }
 }
 
-OngReport.$inject = ['$rootScope','EventService','$stateParams','$uibModal','Currency','Regex']
+OngReport.$inject = ['$rootScope','EventService','$stateParams','$uibModal', '$location', '$anchorScroll','Currency','Regex']

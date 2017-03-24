@@ -126,6 +126,17 @@
     padding: 6px;
   }
   /* /donate-impulse */
+  /* report */
+  .report .carousel-control.left {
+    left: 0;
+  }
+  .report .carousel-control.right {
+    right: 0;
+  }
+  .report .carousel .carousel-inner {
+    padding: 40px 40px;
+  }
+  /* /report */
 }
 
 /* Small devices */

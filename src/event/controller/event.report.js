@@ -63,7 +63,11 @@ class EventReport {
             this.state.go('home')
           }
         },
-        error => console.error(error)
+        error => {
+          this.state.go('pages.not-found', {seeking: 'relatório social'})
+          console.error(error)
+
+        }
       )
   }
   authorizeReport() {

@@ -1,0 +1,18 @@
+<div class="not-found">
+  <h1 class="text-center text-muted">Ooops... <span>:(</span></h1>
+
+  <p>Erro 404. Sinto muito, esta página não foi encontrada.</p>
+  <p data-ng-show="ctrl.seeking">
+    Você buscava por: <strong data-ng-bind="ctrl.seeking"></strong>
+  </p>
+  <p>Isto pode ter acontecido por:</p>
+  <ul>
+    <li>um erro de digitação;</li>
+    <li>um link desatualizado.</li>
+  </ul>
+  <p>Você pode:</p>
+  <ul>
+    <li>voltar para a <a ui-sref="home">página inicial</a>;</li>
+    <li>avisar os <a ui-sref="pages.contact">desenvolvedores</a> sobre este erro.</li>
+  </ul>
+</div>
