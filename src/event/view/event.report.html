@@ -5,29 +5,32 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h1 class="text-center" data-ng-bind="ctrl.report.occurrence.user.name"></h2>
+        <h1 class="text-center" data-ng-bind="ctrl.report.occurrence.name"></h2>
         <p class="text-center">
           Ajudando: <span data-ng-bind="ctrl.report.institution.name"></span>
+        </p>
+        <p class="text-center">
+          Organizado por <span data-ng-bind="ctrl.report.occurrence.user.name"></span>
         </p>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2">
-        <p class="text-center">Localização do Projeto</p>
+      <div class="col-md-2 col-md-offset-1">
+        <h4 class="text-center">Localização do Projeto</h4>
         <map highlighted="ctrl.report.occurrence.location.state"></map>
-        <p class="text-center">
+        <h4 class="text-center">
           <span class="text-primary">Cidade:</span> <span data-ng-bind="ctrl.report.occurrence.location.citie"></span>
-        </p>
+        </h4>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-6">
         <div style="height: auto">
           <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
             <div uib-slide ng-repeat="slide in ctrl.slides track by slide.id" index="slide.id">
-              <img ng-src="{{slide.image}}" style="margin:auto;">
+              <img class="img-responsive img-thumbnail" ng-src="{{slide.image}}" style="margin:auto;">
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row gap-top">
           <div class="col-md-12 text-center">
             <h4>
               Valor Angariado: <span class="text-primary" data-ng-bind="ctrl.report.occurrence.total_receive_human"></span> reais
@@ -58,42 +61,6 @@
           <span data-ng-bind="ctrl.report.numberImpacted"></span>
           <span data-ng-bind="ctrl.benefit[ctrl.report.benefitType]"></span>
         </h4>
-        <!--<div data-ng-switch="ctrl.report.benefitType" class="text-center">
-          <div data-ng-switch-when="children">
-            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
-          </div>
-          <div data-ng-switch-when="young">
-            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
-          </div>
-          <div data-ng-switch-when="people">
-            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
-          </div>
-          <div data-ng-switch-when="families">
-            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
-          </div>
-          <div data-ng-switch-when="elderly">
-            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
-          </div>
-          <div data-ng-switch-when="animals">
-            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
-          </div>
-          <div data-ng-switch-when="dogs">
-            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
-          </div>
-          <div data-ng-switch-when="cats">
-            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
-          </div>
-          <div data-ng-switch-when="trees">
-            <img data-ng-repeat="i in ctrl.getRepeat(9) track by $index" data-ng-src="assets/icons/svgs/{{ctrl.report.benefitType}}.svg" alt="">
-          </div>
-        </div>-->
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <h2 class="text-center">
-          ESSE PROJETO AJUDOU A ORGANIZAÇÃO <span data-ng-bind="ctrl.report.institution.name"></span>
-        </h2>
       </div>
     </div>
     <div class="row history gap-top">

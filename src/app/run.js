@@ -20,6 +20,7 @@ export default function run($rootScope, $window, $location, $state, $timeout, $a
       case 'auth.login': $rootScope.background = 'auth-login'; break;
       case 'auth.forgot': $rootScope.background = 'auth-login'; break;
       case 'auth.recovery': $rootScope.background = 'auth-login'; break;
+      case 'pages.not-found': $rootScope.background = 'auth-login'; break;
       default: $rootScope.background = null;
     }
     // $location.hash('body')

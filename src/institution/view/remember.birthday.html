@@ -26,7 +26,7 @@
       <div class="form-group" data-ng-class="{'has-error':birthday.birthdate.$invalid && birthday.birthdate.$dirty}">
         <input type="text" name="birthdate" id="birthdate" class="form-control" mask="39/19/2999" data-ng-model="ctrl.birthday.birthdate" data-ng-change="ctrl.validateDate(birthday.birthdate, ctrl.birthday.birthdate)" data-ng-disabled="ctrl.profile.birthdate" placeholder="Data de aniversário" required>
         <div class="help-block" data-ng-show="birthday.birthdate.$dirty" data-ng-messages="birthday.birthdate.$error">
-          <p data-ng-message="required">Seu email é obrigatório.</p>
+          <p data-ng-message="required">Seu aniversário é obrigatório.</p>
           <p data-ng-message="age">Você deve ter mais de 18 anos.</p>
         </div>
       </div>
