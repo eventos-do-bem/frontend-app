@@ -8,7 +8,8 @@ export default function PagesConfig($stateProvider) {
     .state('pages.not-found', {
       url: '/nao-encontrada',
       params: {
-        seeking: null
+        seeking: null,
+        message: null
       },
       authenticate: false,
       templateUrl: './src/pages/view/not-found.html',

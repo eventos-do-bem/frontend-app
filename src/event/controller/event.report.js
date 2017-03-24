@@ -64,8 +64,7 @@ class EventReport {
           }
         },
         error => {
-          this.state.go('pages.not-found', {seeking: 'relatório social'})
-          console.error(error)
+          this.state.go('pages.not-found', {seeking: 'relatório social', message: error.data.message})
 
         }
       )
