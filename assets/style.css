@@ -1299,22 +1299,26 @@ figure.avatar img {
   font-weight: 300;
   cursor: pointer;
 }
-.icons h3 object {
+.icons h3 svg {
   width: 48px;
   margin: -13px 0px;
   cursor: pointer;
 }
 .icons .humans.active {
   color: #9060c3;
+  fill: #9060c3;
 }
 .icons .health.active {
   color: #3b94d0;
+  fill: #3b94d0;
 }
 .icons .education.active {
   color: #f25d61;
+  fill: #f25d61;
 }
 .icons .habitation.active {
   color: #179b48;
+  fill: #179b48;
 }
 .icons .animals {
   /*background-image: url('../assets/icons/pngs/animal.png');*/
