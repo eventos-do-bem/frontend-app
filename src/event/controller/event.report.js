@@ -13,6 +13,17 @@ class EventReport {
     this.pagination = { current_page: 1 }
     this.modal = $uibModal
     this.rootScope = $rootScope
+    this.benefit = {
+      children: 'crianças',
+      young: 'jovens',
+      people: 'pessoas',
+      families: 'familias',
+      elderly: 'idosos',
+      animals: 'animais',
+      dogs: 'cachorros',
+      cats: 'gatos',
+      trees: 'árvores'
+    }
   }
   getRepeat(num) {
     return new Array(num)
@@ -31,10 +42,8 @@ class EventReport {
     this.service[method](id)
       .then(
         response => {
-          // console.log(response.data)
           if (response.data) {
             this.report = response.data
-            // console.log(this.report.occurrence)
             if (this.report.messages.contains) {
               this.getMessages(this.uuid, {})
             }
@@ -54,7 +63,10 @@ class EventReport {
             this.state.go('home')
           }
         },
-        error => console.error(error)
+        error => {
+          this.state.go('pages.not-found', {seeking: 'relatório social', message: error.data.message})
+
+        }
       )
   }
   authorizeReport() {
@@ -69,10 +81,8 @@ class EventReport {
       }
     })
     modalInstance.result.then(response => {
-      console.log('ok',response)
       this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.status})
     }, error => {
-      console.error('no',error)
       this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
     })
   }

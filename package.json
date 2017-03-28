@@ -8,7 +8,7 @@
     "live-server": "live-server --host=localhost --port=8000",
     "dev": "npm-run-all -p style:watch app:watch",
     "prod": "npm-run-all -p app:build vendor:build style:minify",
-    "app:watch": "simplifyify 'app.js' --outfile 'dist/bundle.js' --bundle --minify --watch",
+    "app:watch": "simplifyify 'app.js' --outfile 'dist/bundle.js' --bundle --minify --watch --debug",
     "app:build": "simplifyify 'app.js' --outfile 'dist/bundle.js' --bundle --minify",
     "vendor:build": "simplifyify 'vendor.js' --outfile 'dist/vendor.js' --exclude 'src/**' --bundle --minify",
     "style:watch": "catw -c 'lessc -' 'assets/less/*.less' -o assets/public/css/evb.css -v",

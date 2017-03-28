@@ -15,7 +15,11 @@ function dataURItoBlob(dataURI) {
 class ImageCrop {
   constructor($scope) {
     this.restrict = 'E';
-    this.scope = {ngModel: '='};
+    this.scope = {
+      ngModel: '=',
+      areaType: '@?',
+      resultImageSize: '@?'
+    };
     this.lastModified = null;
     this.fileName = '';
     this.template = `
@@ -24,25 +28,30 @@ class ImageCrop {
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Cortar imagem</h4>
+            <h4 class="modal-title">Escolha a melhor parte da imagem</h4>
           </div>
           <div class="modal-body">
             <div class="cropArea">
-              <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+              <img-crop image="myImage" area-type="{{areaType}}" result-image="myCroppedImage" result-image-size="resultImageSize"></img-crop>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" ng-click="crop()">Salvar foto do perfil</button>
+            <button type="button" class="btn btn-success" ng-click="crop()">
+              <i class="fa fa-crop" aria-hidden="true"></i>
+              Recortar
+            </button>
           </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        </div>
+      </div>
+    </div>
     `
   }
 
   link($scope) {
-    $scope.myImage='';
-    $scope.myCroppedImage='';
+    $scope.myImage = '';
+    $scope.myCroppedImage = '';
+    $scope.areaType = ($scope.areaType) ? $scope.areaType : 'circle';
+    $scope.resultImageSize = ($scope.resultImageSize) ? $scope.resultImageSize : '200';
 
     let reader = new FileReader();
 

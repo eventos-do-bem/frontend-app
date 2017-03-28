@@ -68,6 +68,22 @@ export default class EventService extends CommonService {
     super.setRoute(`events/${id}/report/submit`)
     return super.postWithFile(data, progress)
   }
+  // saveReport(id, data, progress) {
+  //   let fd = new FormData()
+  //   angular.forEach(data, (value, key) => {
+  //     fd.append(key, value)
+  //   })
+  //   this.setRoute(`events/${id}/report/submit`)
+  //   return this.$http({
+  //     method: 'POST',
+  //     url: this.url + this.route,
+  //     data: fd,
+  //     headers: {'Content-Type': undefined},
+  //     uploadEventHandlers: {
+  //       progress: e => progress(e)
+  //     }
+  //   })
+  // }
   authorizeReport(id, data) {
     super.setRoute(`reports/${id}`)
     return this.$http.put(this.url + this.route, data)

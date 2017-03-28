@@ -148,10 +148,6 @@ blockquote .name {
   padding: 85px 130px;
 }
 
-.report .carousel .carousel-inner {
-  padding: 40px 130px;
-}
-
 .loading {
   position: fixed;
   top: 0;
@@ -585,12 +581,42 @@ h4.media-heading{
   font-weight: 600;
 }
 /* report */
-.report .row:first-child p {
-  font-size: 3rem;
+.report .container .row:first-child p {
+  font-size: 2.3rem;
   font-weight: 300;
 }
 .report #map .path_estado {
   stroke: #0074DB;
+}
+.report .carousel {
+  position: relative !important;
+}
+.report .carousel-control {
+  opacity: 1;
+  color: #000;
+}
+.report .carousel-control:hover {
+  color: #000;
+}
+.report .carousel-control.left {
+  left: 25px;
+}
+.report .carousel-control.right {
+  right: 25px;
+}
+.report .carousel .carousel-inner {
+  padding: 0px 100px;
+}
+.report .row.history p {
+  font-size: 2rem;
+  font-weight: 300;
+}
+.report table {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.report table thead tr {
+  background-color: rgba(128, 128, 128, 0.13);
 }
 /* /report */
 
@@ -795,6 +821,36 @@ header .navbar .navbar-profile .avatar-circle {
 .event .media .media-left .media-object {
   width: 80px;
 }
+
+/* not-found */
+.not-found {
+  max-width: 500px;
+  padding: 20px 60px 30px;
+  margin: 20px auto 20px;
+  color: #777;
+  background-color: #fff;
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(102,102,102,1);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(102,102,102,1);
+  box-shadow: 0px 0px 6px 0px rgba(102,102,102,1);
+  border-radius: 4px;
+}
+.not-found h1 {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 3rem;
+}
+.not-found h1 > span {
+  color: #ccc;
+}
+.not-found ul {
+  margin: 2rem 0;
+}
+.not-found p,
+.not-found li,
+.not-found a {
+  font-size: 2rem;
+}
+/* /not-found */
 
 /* timeline */
 .timeline {

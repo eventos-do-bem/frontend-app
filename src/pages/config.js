@@ -5,6 +5,17 @@ export default function PagesConfig($stateProvider) {
       authenticate: false,
       templateUrl: './src/pages/view/pages.html'
     })
+    .state('pages.not-found', {
+      url: '/nao-encontrada',
+      params: {
+        seeking: null,
+        message: null
+      },
+      authenticate: false,
+      templateUrl: './src/pages/view/not-found.html',
+      controller: 'NotFound',
+      controllerAs: 'ctrl'
+    })
     .state('pages.about', {
       url: '/quem-somos',
       authenticate: false,

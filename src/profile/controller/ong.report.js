@@ -1,7 +1,13 @@
 export default class OngReport {
-  constructor($rootScope, EventService, $stateParams) {
+  constructor($rootScope, EventService, $stateParams, $uibModal, $location, $anchorScroll, Currency, Regex) {
     this.rootScope = $rootScope
     this.service = EventService
+    this.modal = $uibModal
+    this.location = $location
+    this.anchorScroll = $anchorScroll
+    this.currency = Currency
+    this.regex = Regex
+    this.report = {}
     if ($stateParams.uuid) {
       this.getEvent($stateParams.uuid)
       this.getReport($stateParams.uuid)
@@ -38,22 +44,36 @@ export default class OngReport {
         error => console.error(error)
       )
   }
-  save(id, data, submission) {
+  save(id, report, submission) {
+    if (report.video && report.video.trim().indexOf('http') != 0) {
+      report.video = 'http://' + report.video
+    }
     let feedbackMessage
     if (submission) {
-      data.submission = true
+      report.submission = true
       feedbackMessage = 'Seu relatório foi enviado para aprovação, aguarde e se estiver tudo correto, será publicado.'
     } else {
       feedbackMessage = 'Seu relatório foi salvo, e permanece em progresso, assim que concluído, submeta para avaliação.'
     }
-    this.service.saveReport(id, data, progress => {
+    this.service.saveReport(id, report, progress => {
       this.progress = progress
     }).then(response => {
-      this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: feedbackMessage})
+      if (submission) {
+        this.modal.open({
+          templateUrl: './../src/profile/view/ong.report.submit.html',
+          controller: 'OngReportSubmit',
+          controllerAs: 'ctrl'
+        })
+      }
+      this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: { message: feedbackMessage }})
+      this.location.hash('body')
+      this.anchorScroll()
     }, error => {
-      console.error(error.data)
+      this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
+      this.location.hash('body')
+      this.anchorScroll()
     })
   }
 }
 
-OngReport.$inject = ['$rootScope','EventService','$stateParams']
+OngReport.$inject = ['$rootScope','EventService','$stateParams','$uibModal', '$location', '$anchorScroll','Currency','Regex']
