@@ -35,16 +35,22 @@
             <a ui-sref="profile.ong.donors({uuid: item.uuid})" class="btn btn-primary btn-block">
               Relatório de doações
             </a>
-            <a ui-sref="profile.ong.report({uuid: item.uuid})" data-ng-show="item.enabledToReceiveReport" class="btn btn-success btn-block btn-waiting">
+            <button ui-sref="profile.ong.report({uuid: item.uuid})" data-ng-disabled="!item.enabledToReceiveReport" class="btn btn-success btn-block btn-waiting">
               Submeter relatório
-            </a>
-            <br>
-            <p class="text-success text-center">
-              Prazo máximo:
-              <span data-ng-bind="item.dateStartSubmissionReport | date: 'dd/MM/yyyy'"></span>
               <br>
+              <small>
+                <strong>
+                  Data inicial:
+                  <span data-ng-bind="item.dateStartSubmissionReport | date: 'dd/MM/yyyy'"></span>
+                </strong>
+              </small>
+            </button>
+            <a ui-sref="event.slug({slug: item.slug})" class="btn btn-warning btn-block">
+              Ver página do evento
+            </a>
+            <!--<p class="text-success text-center">
               <a ui-sref="event.slug({slug: item.slug})">Veja a página</a>
-            </p>
+            </p>-->
           </div>
         </div>
       </div>
