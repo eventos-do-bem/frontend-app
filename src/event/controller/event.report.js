@@ -59,8 +59,8 @@ class EventReport {
             if (!this.report.authorized_on && (this.profile.permissions['administration.global'] || this.profile.permissions.authorize_report)) {
               this.authorize_report = true
             }
-          } else {
-            this.state.go('home')
+          // } else {
+          //   this.state.go('home')
           }
         },
         error => {

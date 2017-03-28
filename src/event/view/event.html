@@ -73,11 +73,12 @@
       <div class="col-md-4" fixed-on-scroll offset="250" top="70">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <a data-ng-disabled="ctrl.event.closed" ui-sref="donate.event({slug: ctrl.event.slug})" class="btn btn-lg btn-block btn-success">
+            <button type="button" data-ng-disabled="ctrl.event.closed" ui-sref="donate.event({slug: ctrl.event.slug})" class="btn btn-lg btn-block btn-success" uib-popover="Prazo limite para doações esgotado :(" popover-trigger="mouseenter" popover-enable="ctrl.event.closed">
               Doe agora
               <br>
               <small>e ajude a mudar o mundo</small>
-            </a>
+            </button>
+            <br>
             <button type="button" class="btn btn-lg btn-block btn-default" data-ng-click="ctrl.seeWhatHappens(ctrl.event)">
               <span data-ng-show="!ctrl.event.report">Veja o que acontecerá depois</span>
               <span data-ng-show="ctrl.event.report">Veja o impacto social</span>

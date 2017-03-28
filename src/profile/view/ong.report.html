@@ -2,6 +2,7 @@
 	<h3>Relatório pendente</h3>
 	<h5 class="text-muted">Campanha: <span data-ng-bind="ctrl.event.name"></span></h5>
 	<h5 class="text-muted">Organizador: <span data-ng-bind="ctrl.event.user.name"></span></h5>
+  <a class="btn btn-success" ui-sref="event.report({uuid: ctrl.event.uuid})">Ver página do relatório</a>
 </div>
 <form name="report" enctype="multipart/form-data" novalidate data-ng-submit="ctrl.save(ctrl.event.uuid, ctrl.report, false)">
 	<div class="well">
@@ -125,11 +126,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="row margin-top-10">
+		<!--<div class="row margin-top-10">
 			<div class="col-md-12">
 				<p class="text-muted">Veja nosso <a href="#">ebook</a> com mais dicas de como elaborar um relatório de sucesso!</p>
 			</div>
-		</div>
+		</div>-->
 		<div class="row">
 			<div class="col-md-12">
 				<div class="form-buttons form-buttons-right">
