@@ -159,7 +159,10 @@
             <div class="row">
               <div class="col-md-3" data-ng-repeat="impact in ctrl.impacts">
                 <h3 class="{{impact.id}}" data-ng-class="{active: impact.active}" data-ng-click="ctrl.loadImpact($index, $event)">
-                  <object type="image/svg+xml" ng-attr-data="{{impact.icon}}"></object>
+                  <!--<object type="image/svg+xml" ng-attr-data="{{impact.icon}}"></object>-->
+                  <svg viewBox="0 0 119 107">
+                    <use xlink:href="{{impact.icon + '#' + impact.id}}"></use>
+                  </svg>
                   {{impact.label}}
                 </h3>
               </div>
