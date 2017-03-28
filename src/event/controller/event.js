@@ -73,7 +73,6 @@ export default class Event {
           event.ends = new Date(event.ends)
           event.progress = Math.floor((event.total_receive / event.goal) * 100)
           this.event = event
-          console.log(this.event)
           if (this.event.messages.contains) {
             this.getMessages(this.slug, {})
           }
