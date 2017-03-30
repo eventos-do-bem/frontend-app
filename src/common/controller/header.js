@@ -1,6 +1,7 @@
 export default class Header {
   constructor($rootScope, $scope, $state, $window, StorageService, ProfileService) {
     this.rootScope = $rootScope
+    this.state = $state
     this.storage = StorageService
     this.profileService = ProfileService
     this.brand = 'Eventos do Bem'
@@ -75,6 +76,7 @@ export default class Header {
     this.storage.removeItem('original_token')
     this.storage.removeItem('original_profile')
     this.toggleLoggedAnotherUser()
+    this.state.go('home')
   }
 }
 
