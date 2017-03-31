@@ -1,5 +1,12 @@
 export default class AppController {
-  constructor(envService, FacebookFactory) {
+  constructor(envService, FacebookFactory, StorageService, ZendeskWidget) {
+    if (StorageService.getItem('profile')) {
+      let profile = StorageService.getItem('profile')
+      ZendeskWidget.identify({
+        name: profile.name,
+        email: profile.email
+      })
+    }
     FacebookFactory.init({
       appId: envService.read('fbAppId'),
       version: envService.read('fbVersion'),
@@ -8,4 +15,4 @@ export default class AppController {
   }
 }
 
-AppController.$inject = ['envService','FacebookFactory']
+AppController.$inject = ['envService','FacebookFactory','StorageService','ZendeskWidget']
