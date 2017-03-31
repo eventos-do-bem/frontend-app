@@ -1,4 +1,4 @@
-export default function AppConfig($httpProvider, envServiceProvider, $provide, $urlRouterProvider, $sceDelegateProvider) {
+export default function AppConfig($httpProvider, envServiceProvider, $provide, $urlRouterProvider, $sceDelegateProvider, ZendeskWidgetProvider) {
   // set the domains and variables for each environment
   envServiceProvider.config({
     domains: {
@@ -47,6 +47,10 @@ export default function AppConfig($httpProvider, envServiceProvider, $provide, $
   // run the environment check, so the comprobation is made 
   // before controllers and services are built 
   envServiceProvider.check()
+
+  ZendeskWidgetProvider.init({
+    accountUrl: 'help-eventosdobem.zendesk.com'
+  });
 
   $provide.decorator('taOptions', ['$delegate', function(taOptions) {
     taOptions.toolbar = [
