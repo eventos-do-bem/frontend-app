@@ -48,6 +48,14 @@ class EventReport {
               this.getMessages(this.uuid, {})
             }
             this.slides = []
+            // if (this.report.picture1.thumb == '/assets/images/reports/pictures/thumb/missing.jpg') {
+            //   this.slides = [
+            //     {
+            //       id: 1,
+            //       image: '/assets/images/report-default-image-1.jpg'
+            //     }
+            //   ]
+            // }
             let x, picture
             for (x = 0; x < 3; x++) {
               picture = `picture${x + 1}`
@@ -59,8 +67,6 @@ class EventReport {
             if (!this.report.authorized_on && (this.profile.permissions['administration.global'] || this.profile.permissions.authorize_report)) {
               this.authorize_report = true
             }
-          // } else {
-          //   this.state.go('home')
           }
         },
         error => {
