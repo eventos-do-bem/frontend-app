@@ -48,9 +48,19 @@ export default function AppConfig($httpProvider, envServiceProvider, $provide, $
   // before controllers and services are built 
   envServiceProvider.check()
 
+  window.zESettings = {
+    webWidget: {
+      color: { theme: '#EF3C49' }
+    }
+  }
   ZendeskWidgetProvider.init({
-    accountUrl: 'help-eventosdobem.zendesk.com'
-  });
+    // color: { theme: '#EF3C49' },
+    accountUrl: 'help-eventosdobem.zendesk.com',
+    beforePageLoad: function(zE) {
+      zE.setLocale('pt-BR')
+      // zE.setTheme('#EF3C49')
+    }
+  })
 
   $provide.decorator('taOptions', ['$delegate', function(taOptions) {
     taOptions.toolbar = [
