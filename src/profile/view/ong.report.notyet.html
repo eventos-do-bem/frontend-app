@@ -1,0 +1,18 @@
+<div class="modal-body">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="ctrl.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <h3 class="fw-300 text-center">
+        O evento do bem
+        <br>
+        "<strong data-ng-bind="ctrl.event.name"></strong>"
+        <br>
+        ainda não está finalizado.
+        <br>
+        Portanto, a possibilidade de submeter relatório de impacto social só estará ativada dia <strong data-ng-bind="ctrl.event.dateStartSubmissionReport | date: 'dd/MM/yyyy'"></strong>, 5 dias após a finalização da campanha.
+      </h3>
+    </div>
+  </div>
+</div>

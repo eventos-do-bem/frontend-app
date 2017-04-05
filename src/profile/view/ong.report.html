@@ -15,14 +15,14 @@
 				<div class="col-md-3">
 					<div class="input-group">
 						<div class="input-group-addon">R$</div>
-						<input type="text" class="form-control" id="valuePerBenefited" format-currency="ctrl.currency.FORMAT" variable-options="true" data-ng-model="ctrl.report.valuePerBenefited" uib-popover="Você terá calcular a média de valor que gasta por cada pessoa/animal que beneficia que sua organização beneficiará com esse evento do bem" popover-placement="right">
+						<input type="text" class="form-control" id="valuePerBenefited" format-currency="ctrl.currency.FORMAT" variable-options="true" data-ng-model="ctrl.report.valuePerBenefited" uib-popover="Você terá calcular a média de valor que gasta por cada pessoa/animal que beneficia que sua organização beneficiará com esse evento do bem" popover-placement="right" popover-trigger="focus">
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="form-group">
 			<div class="row">
-				<div class="col-sm-8">
+				<div class="col-sm-12">
 					<label for="benefitType" class="control-label text-muted">
             Qual é o tipo de beneficiário que você ajuda?
           </label>
@@ -30,13 +30,13 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-8">
+		<div class="row margin-top-20">
+			<div class="col-sm-12">
 				<p class="text-muted">Coloque 3 fotos de boa qualidade sobre o projeto que está sendo apoiado.</p>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-8">
+		<div class="row margin-top-10">
+			<div class="col-md-10 col-md-offset-1">
 				<div class="row">
 					<div class="col-sm-4">
 						<file ng-model="ctrl.report.picture1" class="btn-block">
@@ -56,16 +56,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="row margin-top-10">
+		<!--<div class="row margin-top-10">
 			<div class="col-sm-8">
 				<label class="text-muted">
           <input type="checkbox" name="default" data-ng-model="ctrl.report.defaultReport">
           Usar estas informações como padrão para outros relatórios
         </label>
 			</div>
-		</div>
-		<div class="row margin-top-10">
-			<div class="col-sm-8">
+		</div>-->
+		<div class="row margin-top-20">
+			<div class="col-sm-12">
 				<div class="form-group">
 					<label for="messageOrganizer" class="text-muted">
             Escreva uma mensagem agradecendo o organizador que está fazendo o evento do bem para a sua organização
@@ -80,6 +80,7 @@
 			<div class="col-sm-12">
 				<div class="form-buttons form-buttons-right">
 					<button type="submit" class="btn btn-horizontal-large btn-success">Salvar</button>
+					<!--<a class="btn btn-success" ui-sref="event.report({uuid: ctrl.event.uuid})">Ver página do relatório</a>-->
 				</div>
 			</div>
 		</div>

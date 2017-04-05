@@ -13,27 +13,35 @@
   <ul class="media-list">
     <li class="media" data-ng-repeat="item in ctrl.events">
       <div class="media-left">
-        <img class="media-object img-circle" data-ng-src="{{item.user.avatar.medium}}" alt="{{item.user.name}}">
+        <a ui-sref="event.slug({slug: item.slug})">
+          <figure class="media-object img-circle avatar-circle">
+            <img data-ng-src="{{item.user.avatar.medium}}" alt="{{item.user.name}}">
+          </figure>
+        </a>
       </div>
       <div class="media-body">
         <div class="row">
           <div class="col-md-8">
-            <h4 class="media-heading" data-ng-bind="item.name"></h4>
-            <p>Organizado por: <span data-ng-bind="item.user.name"></span></p>
+            <h4 class="media-heading">
+              <a ui-sref="event.slug({slug: item.slug})" data-ng-bind="item.name"></a>
+            </h4>
+            <p>Organizador: <span data-ng-bind="item.user.name"></span></p>
             <p>
               <i class="fa fa-star-o"></i>
-              Projeto apoiado por: <span data-ng-bind="item.institution.name"></span>
+              Projeto apoiado: <span data-ng-bind="item.institution.name"></span>
             </p>
           </div>
           <div class="col-md-4">
-            <a ui-sref="event.report({uuid: item.slug})" class="btn btn-primary btn-block">
-              Ver relatório social
-            </a>
-            <br>
             <p class="text-primary text-center">
               Finalizado em:
               <span data-ng-bind="item.ends | date: 'dd/MM/yyyy'"></span>
             </p>
+            <a ui-sref="profile.ong.donors({uuid: item.uuid})" class="btn btn-primary btn-block">
+              Relatório de doações
+            </a>
+            <a ui-sref="event.report({uuid: item.slug})" class="btn btn-success btn-block">
+              Relatório social
+            </a>
           </div>
         </div>
       </div>
