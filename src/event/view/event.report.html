@@ -26,7 +26,10 @@
         <div style="height: auto">
           <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
             <div uib-slide ng-repeat="slide in ctrl.slides track by slide.id" index="slide.id">
-              <img class="img-responsive img-thumbnail" ng-src="{{slide.image}}" style="margin:auto;">
+              <div data-ng-show="slide.video" class="video-container">
+                <iframe data-ng-src="{{slide.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
+              </div>
+              <img class="img-responsive img-thumbnail" data-ng-show="slide.image" ng-src="{{slide.image}}" style="margin:auto;">
             </div>
           </div>
         </div>
@@ -72,7 +75,7 @@
         </div>
         <div class="row gap-top">
           <div class="col-md-4">
-            <figure>
+            <figure data-ng-show="ctrl.report.picture4.medium != '/assets/images/reports/pictures/medium/picture4.jpg'">
               <img class="img-responsive img-thumbnail" data-ng-src="{{ctrl.report.picture4.medium}}" alt="">
             </figure>
           </div>
