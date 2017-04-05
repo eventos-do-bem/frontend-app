@@ -48,20 +48,20 @@ class EventReport {
               this.getMessages(this.uuid, {})
             }
             this.slides = []
-            // if (this.report.picture1.thumb == '/assets/images/reports/pictures/thumb/missing.jpg') {
-            //   this.slides = [
-            //     {
-            //       id: 1,
-            //       image: '/assets/images/report-default-image-1.jpg'
-            //     }
-            //   ]
-            // }
-            let x, picture
+            let x, picture, xInit = 0,
+                hasVideo = this.report.video.indexOf('http') > -1
+            if (hasVideo) {
+              this.slides.push({
+                id: 0,
+                video: this.report.video 
+              })
+              xInit = 1
+            }
             for (x = 0; x < 3; x++) {
               picture = `picture${x + 1}`
               this.slides.push({
-                id: x,
-                image: this.report[picture].original
+                id: x + xInit,
+                image: this.report[picture].medium
               })
             }
             if (!this.report.authorized_on && (this.profile.permissions['administration.global'] || this.profile.permissions.authorize_report)) {
