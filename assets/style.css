@@ -56,6 +56,18 @@ form label {
 form input[type="file"] {
   font-size: 1.4rem;
 }
+.fw-300 {
+  font-weight: 300;
+}
+.fw-400 {
+  font-weight: 400;
+}
+.fw-700 {
+  font-weight: 700;
+}
+.fw-900 {
+  font-weight: 900;
+}
 .satisfy {
   font-family: 'Satisfy', cursive;
 }
@@ -385,6 +397,9 @@ dl dd:last-child {
 }
 .form-buttons.form-buttons-right {
   text-align: right;
+  margin-left: 5px;
+}
+.form-buttons.form-buttons-right .btn {
   margin-left: 5px;
 }
 /* /form-buttons */

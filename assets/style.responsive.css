@@ -277,6 +277,9 @@
 }
 
 @media (min-width: 768px) {
+  .modal-default .modal-dialog {
+    width: 520px;
+  }
   .modal-donate .modal-dialog {
     margin: 90px auto;
     width: 520px;
