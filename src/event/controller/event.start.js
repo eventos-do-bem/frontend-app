@@ -32,27 +32,8 @@ export default class EventStart {
       this.event.institution_uuid = $stateParams.causa
     }
     if ($stateParams.categoria) {
-      this.event.categorie_uuid = { slug: $stateParams.categoria }
+      this.event.categorie_uuid = this.selectCategory($stateParams.categoria)
     }
-    // console.log($stateParams)
-    // if ($stateParams.slug) {
-    //   this.service.findById($stateParams.slug)
-    //     .then(response => {
-    //       let event = angular.copy(response.data)
-    //       console.log(event)
-    //       delete event.cover
-    //       event.end_date = null
-    //       event.goal_amount = event.goal
-    //       event.video = event.videos.values[0].url
-    //       event.categorie_uuid = event.categories.values[0]
-    //       event.institution_uuid = event.institution.uuid
-    //       this.temp.state = event.cities.values[0].state
-    //       event.citie = event.cities.values[0]
-    //       this.event = event
-    //       this.event.end_date = this.filter('date')(new Date(event.ends), 'dd/MM/yyyy')
-    //       console.log(this.form)
-    //     })
-    // }
     if ($stateParams.meta) {
       this.event.goal_amount = $stateParams.meta
     }
@@ -65,29 +46,6 @@ export default class EventStart {
     }
     this.locationService.getStates()
       .then(response => this.states = response.data.values)
-
-    // InstitutionService.findAll()
-    //   .then(response => {
-    //     this.institutions = response.data.values
-    //     if ($stateParams.causa) {
-    //       this.event.institution_uuid = $stateParams.causa
-    //     }
-    //     this.formatLabel = function(model) {
-    //       let len = this.institutions.length
-    //       for (var i = 0; i < len; i++) {
-    //         if (model === this.institutions[i].uuid) {
-    //           return this.institutions[i].name
-    //         }
-    //       }
-    //     }
-    //   })
-    // CategoryService.findAll()
-    //   .then(response => {
-    //     this.categories = response.data.values
-    //     if ($stateParams.categoria) {
-    //       this.event.categorie_uuid = { slug: $stateParams.categoria }
-    //     }
-    //   })
 
     this.popovers = {
       name: {
@@ -138,14 +96,9 @@ export default class EventStart {
       }
     }
   }
-  selectCategory(category) {
-    if (category) {
-      let len = this.categories.length
-      for (var i = 0; i < len; i++) {
-        if (category.uuid === this.categories[i].uuid) {
-          return this.categories[i].uuid
-        }
-      }
+  selectCategory(slug) {
+    if (slug) {
+      return this.categories.filter(c => slug === c.slug)[0].uuid
     }
   }
   getCities(state, city) {
@@ -209,8 +162,6 @@ export default class EventStart {
     }
   }
   save(start, event) {
-    event = angular.copy(event)
-    // start.end_date.$setValidity('end_date', false)
     this.checkEndDate(start.end_date, event.end_date)
     if (start.$invalid) {
       angular.forEach(start.$error, field => {
@@ -222,9 +173,6 @@ export default class EventStart {
       if (event.video && event.video.trim().indexOf('http') != 0) {
         event.video = 'http://' + event.video
       }
-      event.citie = event.citie.name
-      event.categorie_uuid = event.categorie_uuid.uuid
-      // event.goal_amount = parseInt(event.goal_amount)
       let method = event.uuid ? 'update' : 'save'
       this.service[method](event, progress => this.progress = progress)
         .then(
