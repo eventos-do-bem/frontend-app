@@ -62,7 +62,7 @@ export default function EventConfig($stateProvider) {
                 delete event.cover
                 event.end_date = $filter('date')(new Date(event.ends), 'dd/MM/yyyy')
                 event.goal_amount = event.goal
-                event.video = angular.isUndefined(event.videos.values[0]) ? null : event.videos.values[0].url
+                event.video = angular.isUndefined(event.videos.values[0]) ? '' : event.videos.values[0].url
                 event.categorie_uuid = event.categories.values[0].uuid
                 event.institution_uuid = event.institution.uuid
                 event.temp = {
