@@ -1,6 +1,7 @@
 export default class Header {
-  constructor($rootScope, $scope, $state, $window, StorageService, ProfileService) {
+  constructor($rootScope, $scope, $state, $window, StorageService, ProfileService, ZendeskWidget) {
     this.rootScope = $rootScope
+    this.state = $state
     this.storage = StorageService
     this.profileService = ProfileService
     this.brand = 'Eventos do Bem'
@@ -9,6 +10,10 @@ export default class Header {
     this.toggleLoggedAnotherUser()
     $scope.$on('profile.change', () => {
       this.profile = StorageService.getItem('profile')
+      ZendeskWidget.identify({
+        name: this.profile.name,
+        email: this.profile.email
+      })
       this.toggleLoggedAnotherUser()
       this.addMenuLogged()
     })
@@ -19,6 +24,10 @@ export default class Header {
       this.storage.removeItem('profile')
       this.storage.removeItem('original_profile')
       this.profile = null
+      ZendeskWidget.identify({
+        name: '',
+        email: ''
+      })
       this.toggleLoggedAnotherUser()
     })
 
@@ -75,7 +84,8 @@ export default class Header {
     this.storage.removeItem('original_token')
     this.storage.removeItem('original_profile')
     this.toggleLoggedAnotherUser()
+    this.state.go('home')
   }
 }
 
-Header.$inject = ['$rootScope','$scope', '$state', '$window', 'StorageService', 'ProfileService']
+Header.$inject = ['$rootScope','$scope','$state','$window','StorageService','ProfileService','ZendeskWidget']

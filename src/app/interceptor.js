@@ -2,7 +2,8 @@ export default function config($q, $window, $rootScope, $injector) {
   return {
     'request': (config) => {
       let envService = $injector.get('envService')
-      if (config.url.indexOf('.html') === -1) $rootScope.loading = true
+      // if (config.url.indexOf('.html') === -1) 
+      $rootScope.loading = true
       config.headers = config.headers || {}
       config['headers']['Accept'] = envService.accept
       // console.log($window.localStorage.getItem('token'))

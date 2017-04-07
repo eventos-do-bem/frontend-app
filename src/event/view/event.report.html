@@ -26,7 +26,10 @@
         <div style="height: auto">
           <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
             <div uib-slide ng-repeat="slide in ctrl.slides track by slide.id" index="slide.id">
-              <img class="img-responsive img-thumbnail" ng-src="{{slide.image}}" style="margin:auto;">
+              <div data-ng-show="slide.video" class="video-container">
+                <iframe data-ng-src="{{slide.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
+              </div>
+              <img class="img-responsive img-thumbnail" data-ng-show="slide.image" ng-src="{{slide.image}}" style="margin:auto;">
             </div>
           </div>
         </div>
@@ -67,17 +70,17 @@
       <div class="col-md-10 col-md-offset-1">
         <div class="row">
           <div class="col-md-12">
-            <h2 class="text-center" data-ng-bind="ctrl.report.title"></h2>
+            <h2 class="text-center" data-ng-bind="ctrl.report.title || 'O João aprendeu a escrever!'"></h2>
           </div>
         </div>
         <div class="row gap-top">
           <div class="col-md-4">
-            <figure>
+            <figure data-ng-show="ctrl.report.picture4.medium != '/assets/images/reports/pictures/medium/picture4.jpg'">
               <img class="img-responsive img-thumbnail" data-ng-src="{{ctrl.report.picture4.medium}}" alt="">
             </figure>
           </div>
           <div class="col-md-8">
-            <p data-ng-bind="ctrl.report.history"></p>
+            <p data-ng-bind="ctrl.report.history || 'Nessa parte você tem até 700 caracteres para explicar a história do João, o objetivo é que isso aproxime as pessoas que ajudaram a sua Organização do impacto social por ela gerada. Esse seria um exemplo no caso de uma Organização de educação para crianças, se foque na história do João, onde ele nasceu, quais as necessidades dele quando começou a ser atendido e o quais avanços que ele obteve com a ajuda da sua Organização. Histórias engraçadas também são legais! O importante é que seja uma história que fique na memória dos apoiadores e do Organizador deste evento do bem.'"></p>
           </div>
         </div>
       </div>

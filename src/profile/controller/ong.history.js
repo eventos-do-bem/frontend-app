@@ -15,14 +15,6 @@ export default class OngHistory {
         event.ends = new Date(event.ends)
         return event
       })
-      // this.pendings = response.data.values.filter(event => {
-      //   return (event.needReport == true)
-      // })
-      // this.rootScope.$broadcast('alert', {
-      //   type: 'alert-warning',
-      //   icon: 'fa-warning',
-      //   message: `Você tem ${this.pendings.length} relatórios pendentes.`
-      // })
     })
   }
   changePage() {

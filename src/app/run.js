@@ -1,4 +1,4 @@
-export default function run($rootScope, $window, $location, $state, $timeout, $anchorScroll, LastStateUnloggedService) {
+export default function run($rootScope, $window, $location, $state, $timeout, $anchorScroll, LastStateUnloggedService, ProfileService) {
   $anchorScroll.yOffset = 50
   $rootScope.$on("$stateChangeStart", (event, toState, toParams, fromState, fromParams) => {
     // if (toState.templateUrl) {
@@ -13,7 +13,6 @@ export default function run($rootScope, $window, $location, $state, $timeout, $a
     }
   })
   $rootScope.$on("$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) => {
-
     $rootScope.$broadcast('alert-clear')
     switch(toState.name) {
       case 'profile.register': $rootScope.background = 'auth-login'; break;
@@ -26,6 +25,9 @@ export default function run($rootScope, $window, $location, $state, $timeout, $a
     // $location.hash('body')
     $anchorScroll('body')
   })
+  if ($window.localStorage.getItem('token')) {
+    ProfileService.me()
+  }
 }
 
-run.$inject = ['$rootScope', '$window', '$location', '$state', '$timeout', '$anchorScroll','LastStateUnloggedService']
+run.$inject = ['$rootScope', '$window', '$location', '$state', '$timeout', '$anchorScroll','LastStateUnloggedService','ProfileService']

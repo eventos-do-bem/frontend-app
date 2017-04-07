@@ -56,6 +56,18 @@ form label {
 form input[type="file"] {
   font-size: 1.4rem;
 }
+.fw-300 {
+  font-weight: 300;
+}
+.fw-400 {
+  font-weight: 400;
+}
+.fw-700 {
+  font-weight: 700;
+}
+.fw-900 {
+  font-weight: 900;
+}
 .satisfy {
   font-family: 'Satisfy', cursive;
 }
@@ -385,6 +397,9 @@ dl dd:last-child {
 }
 .form-buttons.form-buttons-right {
   text-align: right;
+  margin-left: 5px;
+}
+.form-buttons.form-buttons-right .btn {
   margin-left: 5px;
 }
 /* /form-buttons */
@@ -1299,22 +1314,26 @@ figure.avatar img {
   font-weight: 300;
   cursor: pointer;
 }
-.icons h3 object {
+.icons h3 svg {
   width: 48px;
   margin: -13px 0px;
   cursor: pointer;
 }
 .icons .humans.active {
   color: #9060c3;
+  fill: #9060c3;
 }
 .icons .health.active {
   color: #3b94d0;
+  fill: #3b94d0;
 }
 .icons .education.active {
   color: #f25d61;
+  fill: #f25d61;
 }
 .icons .habitation.active {
   color: #179b48;
+  fill: #179b48;
 }
 .icons .animals {
   /*background-image: url('../assets/icons/pngs/animal.png');*/

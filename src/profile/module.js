@@ -14,6 +14,7 @@ import UserImpacts              from './controller/user.impacts.js'
 import OngEvents                from './controller/ong.events.js'
 import OngPage                  from './controller/ong.page.js'
 import OngReport                from './controller/ong.report.js'
+import OngReportNotYet          from './controller/ong.report.notyet.js'
 import OngReportSubmit          from './controller/ong.report.submit.js'
 import OngHistory               from './controller/ong.history.js'
 import ProfileChange            from './controller/change.js'
@@ -40,6 +41,7 @@ export default angular
   .controller('OngEvents', OngEvents)
   .controller('OngPage', OngPage)
   .controller('OngReport', OngReport)
+  .controller('OngReportNotYet', OngReportNotYet)
   .controller('OngReportSubmit', OngReportSubmit)
   .controller('OngHistory', OngHistory)
   .controller('ProfileChange', ProfileChange)

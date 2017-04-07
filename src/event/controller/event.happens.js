@@ -1,11 +1,11 @@
 export default class EventHappens {
-  constructor($uibModalInstance,data) {
+  constructor($uibModalInstance,user) {
     this.instance = $uibModalInstance
-    this.institution = data.institution
+    this.user = user
   }
   cancel() {
     this.instance.dismiss('cancel')
   }
 }
 
-EventHappens.$inject = ['$uibModalInstance','data']
+EventHappens.$inject = ['$uibModalInstance','user']

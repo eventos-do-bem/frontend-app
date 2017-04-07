@@ -1,6 +1,8 @@
 export default class OngEvents {
-  constructor($rootScope, ProfileService) {
+  constructor($rootScope, $uibModal, $state, ProfileService) {
     this.rootScope = $rootScope
+    this.modal = $uibModal
+    this.state = $state
     this.service = ProfileService
     this.pendings = 0
     this.pagination = { current_page: 1 }
@@ -40,6 +42,24 @@ export default class OngEvents {
   changePage() {
     this.getEvents()
   }
+  reportSubmit(event) {
+    if (!event.enabledToReceiveReport) {
+      this.canNotYetReportSubmit(event)
+    } else {
+      this.state.go('profile.ong.report', {uuid: event.uuid})
+    }
+  }
+  canNotYetReportSubmit(event) {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/profile/view/ong.report.notyet.html',
+      controller: 'OngReportNotYet',
+      controllerAs: 'ctrl',
+      windowClass: 'modal-default',
+      resolve: {
+        event: event
+      }
+    })
+  }
 }
 
-OngEvents.$inject = ['$rootScope','ProfileService']
+OngEvents.$inject = ['$rootScope','$uibModal','$state','ProfileService']

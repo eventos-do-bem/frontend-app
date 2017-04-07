@@ -54,17 +54,17 @@ export default class Home {
     this.impact = this.impacts[0]
   }
   loadImpact(index, event) {
-    let colors
-    this.icons = document.querySelectorAll('.proven-impact .icons object')
-    this.icons.forEach(icon => {
-      colors = icon.contentDocument.querySelectorAll('.color')
-      colors.forEach(color => color.style.fill = '#000000')
-    })
+    // let colors
+    // this.icons = document.querySelectorAll('.proven-impact .icons object')
+    // this.icons.forEach(icon => {
+    //   colors = icon.contentDocument.querySelectorAll('.color')
+    //   colors.forEach(color => color.style.fill = '#000000')
+    // })
     if (event) {
       let target = event.target
       target.classList.add('active')
-      colors = target.children[0].contentDocument.querySelectorAll('.color')
-      colors.forEach(color => color.style.fill = this.impacts[index].color)
+      // colors = target.children[0].contentDocument.querySelectorAll('.color')
+      // colors.forEach(color => color.style.fill = this.impacts[index].color)
     }
     this.impacts.map(impact => impact.active = false)
     this.impacts[index].active = true
