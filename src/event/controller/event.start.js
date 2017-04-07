@@ -99,13 +99,7 @@ export default class EventStart {
   selectCategory(slug) {
     if (slug) {
       return this.categories.filter(c => slug === c.slug)[0].uuid
-/*      let len = this.categories.length
-      for (var i = 0; i < len; i++) {
-        if (slug === this.categories[i].slug) {
-          return this.categories[i].uuid
-        }
-      }
-*/    }
+    }
   }
   getCities(state, city) {
     return this.locationService.getCities(state, city)
