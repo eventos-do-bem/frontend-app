@@ -73,7 +73,7 @@
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.categorie_uuid.$invalid && start.categorie_uuid.$dirty}">
           <label for="categorie_uuid" class="control-label">Categoria do Evento do Bem</label>
-          <select ng-options="item as item.name for item in ctrl.categories track by item.slug" name="categorie_uuid" id="categorie_uuid" class="form-control" data-ng-model="ctrl.event.categorie_uuid" data-ng-change="ctrl.selectCategory(ctrl.event.categorie_uuid)" data-ng-disabled="ctrl.event.hasAnyDonate" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('category')" popover-placement="right" popover-trigger="focus" required>
+          <select ng-options="item.uuid as item.name for item in ctrl.categories" name="categorie_uuid" id="categorie_uuid" class="form-control" data-ng-model="ctrl.event.categorie_uuid" data-ng-disabled="ctrl.event.hasAnyDonate" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('category')" popover-placement="right" popover-trigger="focus" required>
             <option value="">Selecione</option>
           </select>
           <p data-ng-show="start.categorie_uuid.$invalid && start.categorie_uuid.$touched" class="text-danger">Escolha uma categoria</p>
@@ -90,7 +90,7 @@
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':start.citie.$invalid && start.citie.$dirty}">
               <label for="citie" class="control-label">Selecione sua Cidade</label>
-              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item as item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" aria-describedby="citieHelpBlock" autocomplete="off" required>
+              <input type="text" name="citie" data-ng-model="ctrl.event.citie" data-ng-model-options="{debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item.name as item.name for item in ctrl.getCities(ctrl.temp.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" aria-describedby="citieHelpBlock" autocomplete="off" required>
               <div id="citieHelpBlock" class="help-block" data-ng-show="start.citie.$error && start.citie.$touched">
                 <p data-ng-show="start.citie.$error.required" class="text-danger">Informe a cidade que este evento irá ocorrer.</p>
               </div>

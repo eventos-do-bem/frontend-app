@@ -63,12 +63,12 @@ export default function EventConfig($stateProvider) {
                 event.end_date = $filter('date')(new Date(event.ends), 'dd/MM/yyyy')
                 event.goal_amount = event.goal
                 event.video = event.videos.values[0].url
-                event.categorie_uuid = event.categories.values[0]
+                event.categorie_uuid = event.categories.values[0].uuid
                 event.institution_uuid = event.institution.uuid
                 event.temp = {
                   state: event.cities.values[0].state
                 }
-                event.citie = event.cities.values[0]
+                event.citie = event.cities.values[0].name
                 return event
               })
           }
