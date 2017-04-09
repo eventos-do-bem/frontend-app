@@ -1,5 +1,8 @@
 export default class Header {
-  constructor($rootScope, $scope, $state, $window, StorageService, ProfileService, ZendeskWidget) {
+  constructor($rootScope, $scope, $state, $window, StorageService, ProfileService, TourService, ZendeskWidget) {
+    console.log(TourService)
+    let demoTour = TourService.getTourByName('demoTour')
+    demoTour.start()
     this.rootScope = $rootScope
     this.state = $state
     this.storage = StorageService
@@ -88,4 +91,4 @@ export default class Header {
   }
 }
 
-Header.$inject = ['$rootScope','$scope','$state','$window','StorageService','ProfileService','ZendeskWidget']
+Header.$inject = ['$rootScope','$scope','$state','$window','StorageService','ProfileService','uiTourService','ZendeskWidget']

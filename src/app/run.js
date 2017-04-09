@@ -1,5 +1,7 @@
-export default function run($rootScope, $window, $location, $state, $timeout, $anchorScroll, LastStateUnloggedService, ProfileService) {
+export default function run($rootScope, $window, $location, $state, $timeout, $anchorScroll, LastStateUnloggedService, ProfileService, TourService) {
   $anchorScroll.yOffset = 50
+//  console.log(TourService)
+//  TourService.createDetachedTour('ongDemoTour');
   $rootScope.$on("$stateChangeStart", (event, toState, toParams, fromState, fromParams) => {
     // if (toState.templateUrl) {
     //   ga('send', 'pageview', { page: toState.templateUrl })
@@ -30,4 +32,4 @@ export default function run($rootScope, $window, $location, $state, $timeout, $a
   }
 }
 
-run.$inject = ['$rootScope', '$window', '$location', '$state', '$timeout', '$anchorScroll','LastStateUnloggedService','ProfileService']
+run.$inject = ['$rootScope', '$window', '$location', '$state', '$timeout', '$anchorScroll','LastStateUnloggedService','ProfileService','uiTourService']

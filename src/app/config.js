@@ -1,4 +1,12 @@
-export default function AppConfig($httpProvider, envServiceProvider, $provide, $urlRouterProvider, $sceDelegateProvider, ZendeskWidgetProvider) {
+export default function AppConfig($httpProvider, envServiceProvider, $provide, $urlRouterProvider, $sceDelegateProvider, ZendeskWidgetProvider, TourConfigProvider) {
+  TourConfigProvider.set('scrollOffset', 50);
+
+  TourConfigProvider.set('onStart', function () {
+      console.log('Started Tour');
+  });
+  TourConfigProvider.set('onNext', function () {
+      console.log('Moving on...');
+  });
   // set the domains and variables for each environment
   envServiceProvider.config({
     domains: {

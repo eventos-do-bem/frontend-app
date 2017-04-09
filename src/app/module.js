@@ -23,6 +23,7 @@ angular
    'environment'
   ,'ui.bootstrap'
   ,'ui.router'
+  ,'bm.uiTour'
   ,'ngMask'
   ,'ngMessages'
   ,'ngSanitize'
