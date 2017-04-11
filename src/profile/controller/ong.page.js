@@ -1,13 +1,19 @@
 export default class OngPage {
-  constructor(profile,InstitutionService,$rootScope,$anchorScroll,Regex,StorageService,ProfileService) {
+  constructor(profile,InstitutionService,$rootScope,$anchorScroll,$timeout,Regex,StorageService,ProfileService,TourFactory) {
     this.profile = profile.data
     this.service = InstitutionService
     this.rootScope = $rootScope
     this.anchorScroll = $anchorScroll
+    this.timeout = $timeout
     this.storage = StorageService
     this.profileService = ProfileService
+    this.tour = TourFactory
     this.urlPattern = Regex.URL
     this.getInstitution(profile.data.institutions.uuid)
+  }
+  initTour() {
+    this.tour.init('ongPageTour')
+    this.tour.start(0)
   }
   getInstitution(id) {
     this.service.findById(id)
@@ -54,4 +60,4 @@ export default class OngPage {
   }
 }
 
-OngPage.$inject = ['profile','InstitutionService','$rootScope','$anchorScroll','Regex','StorageService','ProfileService']
+OngPage.$inject = ['profile','InstitutionService','$rootScope','$anchorScroll','$timeout','Regex','StorageService','ProfileService','TourFactory']
