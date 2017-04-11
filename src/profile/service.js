@@ -61,7 +61,7 @@ export default class ProfileService extends CommonService {
   setProfile(data) {
     this.storage.setItem('token', data.token)
     let profile = {}
-    let fields = ['name', 'institutions', 'email', 'type', 'avatar', 'permissions']
+    let fields = ['name', 'institutions', 'email', 'type', 'avatar', 'permissions', 'last_login']
     fields.map(name => {
       if (data.type == 'ong' && name == 'institutions') {
         profile.name = data[name].name

@@ -1,5 +1,7 @@
 export default class AppController {
   constructor(envService, FacebookFactory, StorageService, ZendeskWidget) {
+//    console.log(demoTour)
+//    TourService.createDetachedTour('detachedDemoTour');
     if (StorageService.getItem('profile')) {
       let profile = StorageService.getItem('profile')
       ZendeskWidget.identify({
