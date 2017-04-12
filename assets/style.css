@@ -150,8 +150,19 @@ blockquote .name {
   text-align: right;
 }
 .ui-tour-backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-  fill: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
+  fill: rgba(0, 0, 0, 0.3);
+  /*height: 100% !important;
+  top: 0px !important;
+  right: 0;
+  bottom: 0px !important;
+  left: 0;*/
+}
+/*.ui-tour-backdrop.ui-tour-backdrop-component-bottom {
+  height: 100vh !important;
+}*/
+.ui-tour-active-step {
+  z-index: 99999999;
 }
 .carousel {
   position: unset !important;
@@ -210,8 +221,16 @@ blockquote .name {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.ui-tour-popup.popover .popover-title {
+  padding: 8px 14px;
+  margin: 0;
+  font-size: 14px;
+  background-color: #eeeeee;
+  border-bottom: 1px solid #eae3e3;
+  border-radius: 5px 5px 0 0;
+}
 .ui-tour-popup.popover {
-  background-color: #fff;
+  background-color: #f7f7f7;
 }
 .popover.right {
   width: 100%;
@@ -344,7 +363,11 @@ dl dd:last-child {
   margin-bottom: 0;
   border-width: 0 0 1px 0;
 }
+.profile .list-group-item:first-child {
+  border-radius: 0;
+}
 .profile .list-group-item:last-child {
+  border-radius: 0;
   border-bottom: 0;
 }
 .profile .list-group-item a {
@@ -757,7 +780,7 @@ header .navbar .navbar-brand {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 20px 150px;
+  padding: 18px 150px;
 }
 .navbar-nav {
   margin: 0;

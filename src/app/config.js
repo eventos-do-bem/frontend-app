@@ -1,4 +1,4 @@
-export default function AppConfig($httpProvider, envServiceProvider, $provide, $urlRouterProvider, $sceDelegateProvider, ZendeskWidgetProvider) {
+export default function AppConfig($httpProvider, envServiceProvider, $provide, $urlRouterProvider, $sceDelegateProvider, ZendeskWidgetProvider, TourConfigProvider) {
   // set the domains and variables for each environment
   envServiceProvider.config({
     domains: {
@@ -86,6 +86,8 @@ export default function AppConfig($httpProvider, envServiceProvider, $provide, $
     "http://www.youtube.com/embed/**",
     "https://www.youtube.com/embed/**"
   ])
+
+  TourConfigProvider.enableNavigationInterceptors()
 
   $urlRouterProvider.otherwise('/#')
 }
