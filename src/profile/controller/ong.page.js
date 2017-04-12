@@ -13,7 +13,7 @@ export default class OngPage {
   }
   initTour() {
     this.tour.init('ongPageTour')
-    this.tour.start(0)
+    this.tour.start()
   }
   getInstitution(id) {
     this.service.findById(id)

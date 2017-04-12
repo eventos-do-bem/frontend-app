@@ -64,7 +64,6 @@
     "angular-animate": "1.5.8",
     "angular-aria": "1.5.8",
     "angular-environment": "^1.0.4",
-    "angular-hotkeys": "^1.7.0",
     "angular-i18n": "^1.5.8",
     "angular-messages": "1.5.8",
     "angular-mocks": "1.5.8",
@@ -74,10 +73,8 @@
     "angular-ui-tour": "^0.8.0",
     "angular-zendesk-widget": "^0.1.3",
     "bootstrap": "3.3.6",
-    "ez-ng": "^0.1.8",
     "ng-img-crop": "git+https://github.com/alexk111/ngImgCrop.git",
     "ng-mask": "3.1.1",
-    "ngSmoothScroll": "^2.0.1",
     "textangular": "^1.5.16"
   }
 }
