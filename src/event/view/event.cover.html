@@ -1,11 +1,16 @@
 <div class="campaign">
   <div class="row cover">
-    <div class="login-another-user" data-ng-show="ctrl.accessLoginAnotherUser">
-      <button class="btn btn-warning" data-ng-disabled="!ctrl.event.uuid" data-ng-click="ctrl.loginAsCreator(ctrl.event.uuid)">
-        Efetuar login
+    <!--<div class="login-another-user">
+      <button class="btn btn-default" data-ng-click="ctrl.move('.image-cover','up')">
+        <i class="fa fa-arrow-up"></i>
       </button>
-    </div>
-    <div class="image-cover" style="background: url({{ctrl.event.cover.original}}); background-size: cover;"></div>
+      <button class="btn btn-default" data-ng-click="ctrl.move('.image-cover','down')">
+        <i class="fa fa-arrow-down"></i>
+      </button>
+    </div>-->
+    <cover on-save="ctrl.save()" position="ctrl.event.position" selector=".image-cover" step="10">
+      <div class="image-cover" style="background: url({{ctrl.event.cover.original}}); background-size: cover;"></div>
+    </cover>
   </div>
   <section class="cover-content container">
     <div class="row">
@@ -65,7 +70,7 @@
                 last-text="Última"
                 boundary-links="true"
                 num-pages="ctrl.pagination.total_pages"
-                data-ng-change="ctrl.changePage()">
+                data-ng-change="ctrl.getMessages(ctrl.slug)">
             </ul>
           </div>
         </div>

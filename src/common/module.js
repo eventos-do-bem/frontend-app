@@ -14,6 +14,7 @@ import FixedOnScroll        from './directive/fixedOnScroll.js'
 import FormatCurrency       from './directive/formatCurrency.js'
 import ImageCrop            from './directive/img-crop.js'
 import File                 from './component/file/file.js'
+import Cover                from './component/cover/cover.js'
 import Map                  from './component/map/map.js'
 import Header               from './controller/header.js'
 import Footer               from './controller/footer.js'
@@ -22,7 +23,7 @@ import Hydrator             from './service/hydrator.js'
 import NotificationService  from './service/notification.js'
 
 export default angular
-  .module('common', ['file','map'])
+  .module('common', ['file','cover','map'])
   .service('CommonService', CommonService)
   .controller('Header', Header)
   .controller('Footer', Footer)
