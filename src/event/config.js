@@ -110,11 +110,11 @@ export default function EventConfig($stateProvider) {
       controller: 'Event',
       controllerAs: 'ctrl'
     })
-    .state('event.cover', {
-      url: '/cover/:slug',
+    .state('event.preview', {
+      url: '/visualizacao/:slug',
       authenticate: true,
-      templateUrl: './src/event/view/event.cover.html',
-      controller: 'EventCover',
+      templateUrl: './src/event/view/event.preview.html',
+      controller: 'EventPreview',
       controllerAs: 'ctrl'
     })
 }

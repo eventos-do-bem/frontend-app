@@ -35,13 +35,19 @@ let Component = {
     <div ng-transclude></div>
   `,
   controller: function($scope,$element,$attrs,$timeout,$parse) {
-    let ctrl = this
+    let ctrl = this,
+        regexContainsNumber = /[-]*[\d]+/g,
+        regexGetNumber = /[-]{0,1}[\d.]*[\d]+/g
 
-    let getPosition = () => {
-      ctrl.position = Number(ctrl.cover.style.backgroundPositionY.match(/[-]{0,1}[\d.]*[\d]+/g)[0])
+    let getInitPosition = () => {
+      let iY = ctrl.cover.style.backgroundPositionY
+      ctrl.position = (regexContainsNumber.test(iY)) ? Number(iY.match(regexGetNumber)[0]) : 0
     }
-    let move = pixels => {
-      ctrl.cover.style.backgroundPositionY = `${pixels}px`
+    let getPosition = () => {
+      ctrl.position = Number(ctrl.cover.style.backgroundPositionY.match(regexGetNumber)[0])
+    }
+    let move = takeOff => {
+      ctrl.cover.style.backgroundPositionY = `${takeOff}%`
       getPosition()
     }
     ctrl.up = () => {
@@ -55,7 +61,7 @@ let Component = {
     }
     ctrl.$postLink = () => {
       ctrl.cover = $element.find($attrs.selector)[0]
-      getPosition()
+      getInitPosition()
     }
     ctrl.$doCheck = () => {
       if (ctrl.position) move(ctrl.position)

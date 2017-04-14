@@ -45,7 +45,7 @@ export default class EventCover {
           event.ends = new Date(event.ends)
           event.progress = Math.floor((event.total_receive / event.goal) * 100)
           this.event = event
-          this.event.position = -50
+          this.event.cover_position = 0
           if (this.event.messages.contains) {
             this.getMessages(this.slug, {})
           }

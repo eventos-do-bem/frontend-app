@@ -61,7 +61,7 @@ export default class PagePreview {
       .then(response => {
         let institution = response.data
         this.institution = institution
-        this.institution.position = -50
+        this.institution.cover_position = 0
       })
   }
   getTrustHtml(html) {
