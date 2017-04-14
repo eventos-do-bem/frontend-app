@@ -1,0 +1,108 @@
+<div class="institution">
+  <div class="row cover">
+    <cover on-save="ctrl.save()" position="ctrl.institution.cover_position" selector=".image-cover" step="5">
+      <div class="image-cover" style="background: url({{ctrl.institution.cover.original}}); background-size: cover;"></div>
+    </cover>
+  </div>
+  <section class="cover-content container">
+    <div class="row">
+      <div class="col-md-8">
+        <h1 class="text-left">
+          Apoie a Organização : <span data-ng-bind="ctrl.institution.name"></span>
+        </h1>
+      </div>
+    </div>
+  </section>
+  <section class="content container">
+    <div class="row">
+      <div class="col-md-8">
+        <!--<div class="text-right">
+          <button type="button" class="btn btn-xs btn-share" data-ng-click="ctrl.share()" data-ng-disabled="!ctrl.institution">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+            Compartilhar
+          </button>
+        </div>-->
+        <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.propose)"></p>
+        <div data-ng-show="ctrl.institution.video" class="video-container">
+          <iframe data-ng-src="{{ctrl.institution.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.impact)"></p>
+        <div class="text-center">
+          <h2>Gostou?</h2>
+          <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-lg btn-warning">
+            Crie seu Evento do Bem
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <figure class="avatar">
+          <img data-ng-src="{{ctrl.institution.user.avatar.medium}}" class="img-responsive img-thumbnail" alt="">
+        </figure>
+        <div class="panel panel-default">
+          <div class="panel-heading text-center">
+            <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-block btn-success">
+              Crie aqui seu evento do bem e ajude a <br> <span data-ng-bind="ctrl.institution.name"></span>
+            </a>
+            <a class="btn btn-block btn-default" data-ng-show="ctrl.profile.type != 'ong'" data-ng-click="ctrl.donate(ctrl.institution)">
+              Doar para esta Organização
+            </a>
+          </div>
+          <div class="panel-body">
+            <h4>Nome:</h4>
+            <p data-ng-bind="ctrl.institution.name"></p>
+            <h4 data-ng-show="ctrl.institution.mission">Missão:</h4>
+            <p data-ng-bind="ctrl.institution.mission"></p>
+            <h4 data-ng-show="ctrl.institution.contact">Contato:</h4>
+            <p data-ng-bind="ctrl.institution.contact"></p>
+            <h4 data-ng-show="ctrl.institution.website">Website:</h4>
+            <p><a data-ng-href="{{ctrl.institution.website}}" target="_blank" data-ng-bind="ctrl.institution.website"></a></p>
+          </div>
+        </div>
+        <div>
+            <a ui-sref="event.explore({instituicao: ctrl.institution.slug})" class="btn btn-block btn-default">
+              Explore os eventos que apoiam a <br> <span data-ng-bind="ctrl.institution.name"></span>
+            </a>
+        </div>
+        <div class="well birthday" data-ng-show="!ctrl.profile || ctrl.profile.type == 'user'">
+          <header>
+            <i class="fa fa-birthday-cake"></i>
+            <h4>Gostei! Me lembre quando for meu aniversário!</h4>
+          </header>
+          <form name="birthday" data-ng-submit="ctrl.subscribe(ctrl.birthday)" novalidate>
+            <div class="form-group" data-ng-class="{'has-error':birthday.name.$invalid && birthday.name.$dirty}">
+              <label for="name">Nome completo</label>
+              <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.birthday.name" data-ng-disabled="ctrl.profile.name" placeholder="Digite seu nome aqui" required>
+            </div>
+            <div class="form-group" data-ng-class="{'has-error':birthday.birthdate.$invalid && birthday.birthdate.$dirty}">
+              <label for="birthdate">Data de Nascimento</label>
+              <input type="text" name="birthdate" id="birthdate" class="form-control" mask="39/19/2999" data-ng-model="ctrl.birthday.birthdate" data-ng-change="ctrl.validateDate(birthday.birthdate, ctrl.birthday.birthdate)" data-ng-disabled="ctrl.profile.birthdate" placeholder="Digite sua data de nascimento" required>
+            </div>
+            <div class="form-group" data-ng-class="{'has-error':birthday.email.$invalid && birthday.email.$dirty}">
+              <label for="email">E-mail</label>
+              <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.birthday.email" data-ng-disabled="ctrl.profile.email" placeholder="Digite seu email aqui" required>
+            </div>
+            <div class="form-group" data-ng-class="{'has-error':birthday.phone.$invalid && birthday.phone.$dirty}">
+              <label for="phone">Celular</label>
+              <input type="text" name="phone" id="phone" class="form-control" mask="99 9?9999 9999" data-ng-model="ctrl.birthday.phone" data-ng-disabled="ctrl.profile.phone" placeholder="Digite o número do seu celular (opcional)">
+            </div>
+            <!--<div class="checkbox">
+              <label>
+                <input type="checkbox" data-ng-model="ctrl.birthday.news">
+                Quero receber novidades e promoções da Eventos do Bem :)
+              </label>
+            </div>-->
+            <div class="form-buttons form-buttons-center">
+              <button class="btn btn-primary" type="submit" data-ng-disabled="birthday.$invalid">
+                Enviar
+              </button>
+            </div>
+            <p class="alert" data-ng-show="ctrl.response" data-ng-class="{'alert-info': ctrl.response.status, 'alert-danger': !ctrl.response.status}">
+              <i class="fa" data-ng-class="[ctrl.response.icon]"></i>
+              <span data-ng-bind="ctrl.response.message"></span>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
