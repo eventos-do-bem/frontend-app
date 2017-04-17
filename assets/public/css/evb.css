@@ -57,6 +57,18 @@ li {
   display: -webkit-box;
   display: -moz-box;
 }
+.progress-bar-danger {
+  background-color: #f25e5e;
+}
+.progress-bar-warning {
+  background-color: #ffcb00;
+}
+.progress-bar-info {
+  background-color: #0ea4f1;
+}
+.progress-bar-success {
+  background-color: #53c83d;
+}
 a {
   color: #0ea4f1;
 }

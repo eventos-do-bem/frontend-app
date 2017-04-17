@@ -484,6 +484,14 @@ dl dd:last-child {
   background-color: #fff;
   border: 1px solid #ccc;
 }
+.explore .thumbnail .progress {
+  margin-bottom: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background-color: #eaeaea;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
 /* /explore */
 
 /* campaign/institution */
