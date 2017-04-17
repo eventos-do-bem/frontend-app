@@ -1,5 +1,6 @@
 export default class EventStart {
-  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, Regex, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory, institutions, categories, event) {
+  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, Regex, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory, profile, institutions, categories, event) {
+    if (profile.data.type == 'ong') $state.go('faq.question', {questionId: 'quem-pode-criar-um-evento-do-bem'})
     this.rootScope = $rootScope
     this.state = $state
     this.window = $window
@@ -210,4 +211,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'Regex', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService','ValidationFactory','institutions','categories','event']
+EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'Regex', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService','ValidationFactory','profile','institutions','categories','event']
