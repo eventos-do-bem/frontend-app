@@ -34,7 +34,16 @@ class EventExplore {
     this.eventService.search(data)
       .then(response => {
         this.pagination = response.data.meta.pagination
-        this.events = response.data.values
+        this.events = response.data.values.map(event => {
+          event.progress = Math.floor((event.total_receive / event.goal) * 100)
+          switch(true) {
+            case (event.progress < 15): event.progress_type = 'danger'; break;
+            case (event.progress < 30): event.progress_type = 'warning'; break;
+            case (event.progress <= 60): event.progress_type = 'info'; break;
+            case (event.progress >= 60): event.progress_type = 'success'; break;
+          }
+          return event
+        })
       })
   }
 }
