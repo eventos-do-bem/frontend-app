@@ -1,4 +1,6 @@
-![Eventos do Bem Logo](assets/images/evb-logo.svg)
+# Contribuindo
+
+![Eventos do Bem Logo](https://rawgit.com/eventos-do-bem/frontend-app/master/assets/images/evb-logo.svg)
 
 ---
 
@@ -9,15 +11,13 @@
 
 ---
 
-# Contribuindo
-
 # GitHub
 
 Faça um *Fork* do [repositório](https://github.com/eventos-do-bem/frontend-app) para sua conta
 
 ## Clone seu repositório e acesse o diretório
 ```shell
-git clone https://github.com/YOUR_USERNAME/YOUR_FORK.git
+git clone https://github.com/YOUR_USERNAME/frontend-app.git
 cd frontend-app
 ```
 
@@ -26,8 +26,8 @@ cd frontend-app
 ### Liste os repositórios remotos configurados para seu fork
 ```shell
 git remote -v
-origin https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
-origin https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
+origin https://github.com/YOUR_USERNAME/frontend-app.git (fetch)
+origin https://github.com/YOUR_USERNAME/frontend-app.git (push)
 ```
 
 ### Especifique um novo repositório remoto como upstream que será sincronizado com o fork.
@@ -38,8 +38,8 @@ git remote add upstream https://github.com/eventos-do-bem/frontend-app.git
 ### Verifique o novo repositório upstream que você especificou para o seu fork.
 ```shell
 git remote -v
-origin https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
-origin https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
+origin https://github.com/YOUR_USERNAME/frontend-app.git (fetch)
+origin https://github.com/YOUR_USERNAME/frontend-app.git (push)
 upstream https://github.com/eventos-do-bem/frontend-app.git (fetch)
 upstream https://github.com/eventos-do-bem/frontend-app.git (push)
 ```
@@ -72,18 +72,16 @@ git fetch upstream
 Para codar uma feature, a partir da branch `master`:
 
 ```shell
-git checkout -b feature/minha-feature master
+git checkout -b feature/nova-feature master
 //codificação
 ```
 
 ou
 
 ```shell
-git flow feature start minha-feature
+git flow feature start nova-feature
 //codificação
 ```
-
----
 
 ### Colocar a feature na `master`:
 ```shell
@@ -94,8 +92,8 @@ Resolvido item x
 Resolvido item y
 "
 git checkout master
-git merge --no-ff feature/minha-feature
-git branch -d feature/minha-feature
+git merge --no-ff feature/nova-feature
+git branch -d feature/nova-feature
 ```
 
 **A flag `--no-ff` evita que informações de histórico da feature sejam perdidas.*
@@ -109,7 +107,7 @@ git commit -m "Título do commit (quebra de linha)
 Resolvido item x
 Resolvido item y
 "
-git flow feature finish minha-feature
+git flow feature finish nova-feature
 ```
 
 ---
@@ -129,8 +127,6 @@ ou
 git flow hotfix start bugfix_x
 //codificação
 ```
-
----
 
 ### Finalizando o hotfix
 
