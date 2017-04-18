@@ -1,7 +1,20 @@
-# Eventos do Bem
-https://www.eventosdobem.com.br
+![Eventos do Bem Logo](/assets/images/evb-logo.svg)
 
-A Eventos do Bem é uma plataforma de arrecadação de recursos P2P dedicada a ONGs, cujo objetivo é transformar eventos comemorativos e divertidos da vida das pessoas em motivação para campanhas de arrecadação voltadas a projetos socioambientais. Nós tratamos do problema do subdesenvolvimento da cultura de doação Brasil. Nossa solução é que, tendo como motivação eventos comemorativos pessoais dos mais diversos, como:
+---
+
+### Status
+| master | production | website |
+| - | - | - |
+| [![Master: Build Status](https://img.shields.io/travis/eventos-do-bem/frontend-app/master.svg)](https://travis-ci.org/eventos-do-bem/frontend-app/branches) | [![Production: Build Status](https://img.shields.io/travis/eventos-do-bem/frontend-app/production.svg)](https://travis-ci.org/eventos-do-bem/frontend-app/branches) | [![Website: Status]( https://img.shields.io/website-up-down-green-red/https/www.eventosdobem.com.br.svg)](https://www.eventosdobem.com.br) |
+
+---
+
+# [Eventos do Bem](https://www.eventosdobem.com.br)
+
+# Quem somos
+
+A eventos :heart: do bem é uma plataforma de arrecadação de recursos P2P dedicada a ONGs, cujo objetivo é transformar eventos comemorativos e divertidos da vida das pessoas em motivação para campanhas de arrecadação voltadas a projetos socioambientais. Nós tratamos do problema do subdesenvolvimento da cultura de doação Brasil. Nossa solução é que, tendo como motivação eventos comemorativos pessoais dos mais diversos, como:
+
 - Bodas de casamento
 - Aniversários
 - Formaturas
@@ -15,4 +28,4 @@ Se você é um desenvolvedor apaixonado por tecnologia e quer alinhar isso com c
 
 ## Guia de contribuição
 
-Link do [guia de contribuição](https://github.com/eventos-do-bem/frontend-app/blob/master/CONTRIBUTING.md). O open source pode ajudar a mudar o mundo, faça bom uso! : )
+[Guia de contribuição](https://github.com/eventos-do-bem/frontend-app/blob/master/CONTRIBUTING.md). O open source pode ajudar a mudar o :earth_americas:, faça bom uso! : )
