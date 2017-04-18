@@ -1,4 +1,4 @@
-![Eventos do Bem Logo](/assets/images/evb-logo.svg)
+![Eventos do Bem Logo](assets/images/evb-logo.svg)
 
 ---
 
@@ -11,13 +11,49 @@
 
 # Contribuindo
 
-## GitHub
+# GitHub
 
-- Faça um *Fork* do [repositório](https://github.com/eventos-do-bem/frontend-app)
+Faça um *Fork* do [repositório](https://github.com/eventos-do-bem/frontend-app) para sua conta
+
+## Clone seu repositório e acesse o diretório
+```shell
+git clone https://github.com/YOUR_USERNAME/YOUR_FORK.git
+cd frontend-app
+```
+
+## Configure o repositório remoto
+
+### Liste os repositórios remotos configurados para seu fork
+```shell
+git remote -v
+origin https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
+origin https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
+```
+
+### Especifique um novo repositório remoto como upstream que será sincronizado com o fork.
+```shell
+git remote add upstream https://github.com/eventos-do-bem/frontend-app.git
+```
+
+### Verifique o novo repositório upstream que você especificou para o seu fork.
+```shell
+git remote -v
+origin https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
+origin https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
+upstream https://github.com/eventos-do-bem/frontend-app.git (fetch)
+upstream https://github.com/eventos-do-bem/frontend-app.git (push)
+```
+
+### Mãos à Obra
 - Colabore com features ou hotfixes listadas nas [*issues*](https://github.com/eventos-do-bem/frontend-app/issues)
-- Devolva a colaboração para análise e aceitação : )
+- Faça pull request da colaboração em seu fork para análise e aceitação no repositório original : )
 
-### **Use as tarefas e boas práticas colocadas a seguir*:
+:exclamation: **Não esqueça de atualizar seu repositório em novas colaborações**:
+```shell
+git fetch upstream
+```
+
+---
 
 ## Tarefas úteis para desenvolvimento
 
@@ -25,7 +61,7 @@
 | - | - |
 | `npm install` ou `npm i` | Instala os pacotes do projeto necessários para desenvolvimento. |
 | `npm run vendor:build` | Concatena e minifica os arquivos de libs externas usadas no projeto. Necessário antes do comando `npm start`. |
-| `npm start`  | Usado para desenvolvimento, ele concatena e minifica o arquivo bundle. A cada alteração ele executa novamente o build (apenas de arquivos do projeto para (`bundle[.min].js`)). |
+| `npm start`  | Usado para desenvolvimento, ele concatena e minifica o arquivo bundle e estilos. A cada alteração é executado novamente o build. |
 | `npm run prod` | Executa as tarefas de concatenação e minificação dos arquivos do projeto, libs externas e estilos (usado no travis-ci para deploy). |
 
 ---

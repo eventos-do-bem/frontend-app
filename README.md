@@ -1,4 +1,4 @@
-![Eventos do Bem Logo](/assets/images/evb-logo.svg)
+![Eventos do Bem Logo](assets/images/evb-logo.svg)
 
 ---
 
