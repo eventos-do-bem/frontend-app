@@ -27,15 +27,45 @@
     <h3>Editar</h3>
     <form name="page" data-ng-submit="ctrl.save(ctrl.page)" novalidate>
       <div class="row">
-        <div class="col-md-4">
-          <file ng-model="ctrl.page.cover" progress="ctrl.progress">
-            <span data-ng-bind="ctrl.page.cover.name || 'Imagem da capa da página'"></span>
-          </file>
+        <div class="col-md-6">
+          <span style="display: inline-block"
+            tour-step
+            tour-step-order="1"
+            tour-step-title="2. Imagem da capa da página"
+            tour-step-content="Aqui você pode enviar uma imagem que será usada de capa na sua página oficial, escolha uma bonita que demonstre o trabalho da sua organização."
+            tour-step-placement="right"
+            tour-step-belongs-to="ongPageTour"
+          >
+            <file ng-model="ctrl.page.cover" progress="ctrl.progress">
+              <span data-ng-bind="ctrl.page.cover.name || 'Imagem da capa da página'"></span>
+            </file>
+          </span>
+          <a class="btn btn-warning only-icon" ui-sref="institution.preview({slug: ctrl.page.slug})"
+            tour-step
+            tour-step-order="2"
+            tour-step-title="3. Alterar posição da capa"
+            tour-step-content="Clique aqui e tenha uma pré-visualização da sua página oficial. <br> Nela você poderá alterar a posição de sua imagem de capa. Perceba que se a imagem não se mover ao subir ou descer, então você usou uma imagem na proporção correta para o tamanho de sua tela."
+            tour-step-placement="right"
+            tour-step-belongs-to="ongPageTour"
+            uib-tooltip="Pré-visualização da página e posicionamento da capa"
+            tooltip-placement="top"
+          >
+            <i class="glyphicon glyphicon-resize-vertical"></i>
+          </a>
         </div>
-        <div class="col-md-4">
-          <file ng-model="ctrl.page.avatar" progress="ctrl.progress">
-            <span data-ng-bind="ctrl.page.avatar.name || 'Imagem do perfil da página'"></span>
-          </file>
+        <div class="col-md-6">
+          <span style="display: inline-block"
+            tour-step
+            tour-step-order="3"
+            tour-step-title="4. Imagem do perfil da página"
+            tour-step-content="Aqui você pode enviar uma imagem que será usada de perfil na sua página oficial, geralmente é a logo da organização."
+            tour-step-placement="left"
+            tour-step-belongs-to="ongPageTour"
+          >
+            <file ng-model="ctrl.page.avatar" progress="ctrl.progress">
+              <span data-ng-bind="ctrl.page.avatar.name || 'Imagem do perfil da página'"></span>
+            </file>
+          </span>
         </div>
       </div>
       <h4>Missão:</h4>

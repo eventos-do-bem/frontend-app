@@ -1,32 +1,27 @@
-export default class EventCover {
-  constructor($state, $sce, $stateParams, $location, EventService, StorageService, FacebookService) {
-    this.state = $state
+export default class EventPreview {
+  constructor($rootScope, $sce, $stateParams, $location, $anchorScroll, EventService, StorageService) {
+    this.rootScope = $rootScope
     this.sce = $sce
     this.location = $location
+    this.anchorScroll = $anchorScroll
     this.service = EventService
-    this.facebook = FacebookService
     this.profile = StorageService.getItem('profile')
-    this.event = {}
     if ($stateParams.slug) {
       this.slug = $stateParams.slug
       this.getEvent($stateParams.slug)
     }
+    this.rootScope.$broadcast('alert', {
+      type: 'alert-info',
+      icon: 'fa-exclamation-triangle',
+      message: {
+        message: 'Veja que esta é uma página de visualização que só você tem acesso, desta forma, não compartilhe este endereço (URL)!<br>Os botões também estão desabilitados, sendo apenas para visualização.'
+      }
+    })
     this.pagination = { current_page: 1 }
   }
-  save() {
-    console.table(this.event)
+  getTrustHtml(html) {
+    return this.sce.trustAsHtml(html)
   }
-  share() {
-    let picture = (this.event.cover.medium.indexOf('http') > -1) ? this.event.cover.medium : `https://www.eventosdobem.com.br${this.event.cover.medium}`
-    this.facebook.share({
-      href: this.location.absUrl(),
-      title: this.event.name,
-      picture: picture,
-      description: `Participe da campanha de: ${this.event.user.name}`,
-      caption: `Projeto apoiado: ${this.event.institution.name}`
-    })
-  }
-
   getMessages(id, params = null) {
     let method = (this.profile) ? 'getMessages' : 'getMessagesPublic'
     params.page = this.pagination.current_page
@@ -40,36 +35,52 @@ export default class EventCover {
     this.service.findById(id)
       .then(
         response => {
-          let event
-          event = response.data
+          let event = angular.copy(response.data)
+          delete event.slug
           event.ends = new Date(event.ends)
           event.progress = Math.floor((event.total_receive / event.goal) * 100)
+          event.goal_amount = event.goal
+          event.video = angular.isUndefined(event.videos.values[0]) ? '' : event.videos.values[0].url
+          event.categorie_uuid = event.categories.values[0].uuid
+          event.institution_uuid = event.institution.uuid
+          event.citie = event.cities.values[0].name
           this.event = event
-          this.event.cover_position = 0
           if (this.event.messages.contains) {
             this.getMessages(this.slug, {})
           }
         }
       )
   }
-  getTrustHtml(html) {
-    return this.sce.trustAsHtml(html)
-  }
-  seeWhatHappens(event) {
-    if (event.report) {
-      this.state.go('event.report', {uuid: event.uuid})
-    } else {
-      let modalInstance = this.modal.open({
-        templateUrl: './../src/event/view/event.happens.html',
-        controller: 'EventHappens',
-        controllerAs: 'ctrl',
-        size: 'md',
-        resolve: {
-          user: event.user
-        }
-      })
-    }
+  save(event) {
+    let data = angular.copy(event)
+    delete data.cover
+    if (data.video == null) delete data.video
+    this.service.update(data, progress => this.progress = progress)
+      .then(
+        response => {
+          if (response.data.video == null) delete response.data.video
+          this.event = response.data
+          this.rootScope.$broadcast('alert', {
+            type: 'alert-success',
+            icon: 'fa-check',
+            message: {
+              message: 'A posição da capa de seu evento foi salva com sucesso! :)'
+            }
+          })
+          this.location.hash('body')
+          this.anchorScroll()
+        },
+        error => {
+          this.rootScope.$broadcast('alert', {
+            type: 'alert-danger',
+            icon: 'fa-exclamation',
+            message: error.data
+          })
+          this.location.hash('body')
+          this.anchorScroll()
+        }        
+      )
   }
 }
 
-EventCover.$inject = ['$state', '$sce','$stateParams','$location','EventService','StorageService','FacebookService']
+EventPreview.$inject = ['$rootScope','$sce','$stateParams', '$location', '$anchorScroll', 'EventService','StorageService']

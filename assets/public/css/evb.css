@@ -204,6 +204,9 @@ a:hover {
   padding: 10px 24px;
   border-width: 2px;
 }
+.btn.only-icon {
+  padding: 1rem 1.4rem;
+}
 .ta-toolbar.btn-group-justified .btn-group .btn {
   padding: 6px 8px;
 }

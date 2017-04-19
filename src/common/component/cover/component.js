@@ -8,8 +8,8 @@ let Component = {
     <style>
       .arrows {
         position: absolute;
-        width: 100%;
         padding: 20px;
+        left: 0px;
         z-index: 999;
       }
       .arrows .btn {
