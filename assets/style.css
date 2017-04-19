@@ -496,11 +496,12 @@ dl dd:last-child {
 
 /* campaign/institution */
 .campaign .login-another-user,
-.institution .login-another-user {
+.institution .login-another-user,
+.campaign .float-top-right,
+.institution .float-top-right {
   position: absolute;
-  width: 100%;
   padding: 20px;
-  text-align: right;
+  right: 0px;
   z-index: 999;
 }
 .campaign .cover,
