@@ -19,16 +19,12 @@
   <section class="content container">
     <div class="row">
       <div class="col-md-8">
-        <!--<div class="text-right">
-          <button type="button" class="btn btn-xs btn-share" data-ng-click="ctrl.share()" data-ng-disabled="!ctrl.institution">
-            <i class="fa fa-facebook" aria-hidden="true"></i>
-            Compartilhar
-          </button>
-        </div>-->
+        <h3 class="page-header">Proposta</h3>
         <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.propose)"></p>
         <div data-ng-show="ctrl.institution.video" class="video-container">
           <iframe data-ng-src="{{ctrl.institution.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
+        <h3 class="page-header">Impacto</h3>
         <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.impact)"></p>
         <div class="text-center">
           <h2>Gostou?</h2>

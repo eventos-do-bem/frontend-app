@@ -16,7 +16,7 @@
       tour-step
       tour-step-order="0"
       tour-step-title="1. Ver página oficial"
-      tour-step-content="Clique aqui e veja como é o layout de sua página, depois volte para preencher e completar sua página oficial."
+      tour-step-content="Clique aqui para visualizar o layout da sua página oficial e ver onde as informações que estamos pedindo irão ficar."
       tour-step-placement="right"
       tour-step-belongs-to="ongPageTour"
     >
@@ -32,7 +32,7 @@
             tour-step
             tour-step-order="1"
             tour-step-title="2. Imagem da capa da página"
-            tour-step-content="Aqui você pode enviar uma imagem que será usada de capa na sua página oficial, escolha uma bonita que demonstre o trabalho da sua organização."
+            tour-step-content="Envie uma imagem que demonstre o trabalho da sua Organização, para ficar de capa da sua página oficial. Se quiser pode ser a mesma imagem da capa da sua página do facebook. A dimensão ideal é 1920x380."
             tour-step-placement="right"
             tour-step-belongs-to="ongPageTour"
           >
@@ -54,33 +54,33 @@
           </a>
         </div>
         <div class="col-md-6">
-          <span style="display: inline-block"
-            tour-step
-            tour-step-order="3"
-            tour-step-title="4. Imagem do perfil da página"
-            tour-step-content="Aqui você pode enviar uma imagem que será usada de perfil na sua página oficial, geralmente é a logo da organização."
-            tour-step-placement="left"
-            tour-step-belongs-to="ongPageTour"
-          >
-            <file ng-model="ctrl.page.avatar" progress="ctrl.progress">
-              <span data-ng-bind="ctrl.page.avatar.name || 'Imagem do perfil da página'"></span>
-            </file>
-          </span>
+          <file ng-model="ctrl.page.avatar" progress="ctrl.progress">
+            <span data-ng-bind="ctrl.page.avatar.name || 'Imagem do logotipo da sua organização'"></span>
+          </file>
         </div>
       </div>
-      <h4>Missão:</h4>
-      <p class="text-muted">Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor.</p>
-      <div class="form-group" data-ng-class="{'has-error':page.mission.$invalid && page.mission.$dirty}">
-        <count-down-element model="page.mission.$viewValue" max="165">
-          <textarea rows="2" name="mission" class="form-control" data-ng-model="ctrl.page.mission" minlength="20" maxlength="165" aria-describedby="missionHelpBlock" required></textarea>
-        </count-down-element>
-        <div id="missionHelpBlock" class="help-block" data-ng-messages="page.mission.$error">
-          <p class="text-danger" data-ng-message="required">
-            É obrigatório informar um texto sobre missão da instituição.
-          </p>
-          <p class="text-danger" data-ng-message="minlength">
-            Texto da missão da instituição deverá ter mínimo 20 caracteres.
-          </p>
+      <div
+        tour-step
+        tour-step-order="3"
+        tour-step-title="4. Missão"
+        tour-step-content="Explique brevemente, em até 165 caracteres, o que a sua Organização faz."
+        tour-step-placement="top"
+        tour-step-belongs-to="ongPageTour"
+      >
+        <h4>Missão:</h4>
+        <p class="text-muted">Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor.</p>
+        <div class="form-group" data-ng-class="{'has-error':page.mission.$invalid && page.mission.$dirty}">
+          <count-down-element model="page.mission.$viewValue" max="165">
+            <textarea rows="2" name="mission" class="form-control" data-ng-model="ctrl.page.mission" minlength="20" maxlength="165" aria-describedby="missionHelpBlock" required></textarea>
+          </count-down-element>
+          <div id="missionHelpBlock" class="help-block" data-ng-messages="page.mission.$error">
+            <p class="text-danger" data-ng-message="required">
+              É obrigatório informar um texto sobre missão da instituição.
+            </p>
+            <p class="text-danger" data-ng-message="minlength">
+              Texto da missão da instituição deverá ter mínimo 20 caracteres.
+            </p>
+          </div>
         </div>
       </div>
       <h4>Proposta:</h4>
@@ -120,8 +120,13 @@
       <!--<div class="margin-top-10">
         <p>Veja nosso <a href="#">artigo</a> com mais dicas de como elaborar uma boa página de sua organização!</p>
       </div>-->
-      <div class="form-buttons form-buttons-center">
-        <button type="submit" class="btn btn-lg btn-large btn-success" data-ng-disabled="page.$invalid">Salvar</button>
+      <div class="form-buttons form-buttons-right">
+        <button type="submit" class="btn btn-lg btn-success" data-ng-disabled="page.$invalid">
+          Salvar
+        </button>
+        <button type="button" class="btn btn-lg btn-success btn-waiting" data-ng-click="ctrl.save(ctrl.page, true)" data-ng-disabled="page.$invalid">
+          Salvar e ver página oficial
+        </button>
       </div>
     </form>
   </div>

@@ -28,9 +28,10 @@ export default function run($rootScope, $window, $location, $state, $timeout, $a
       </div>
     </div>
   `)
-  uiTourService.createDetachedTour('ongTour', {backdrop: true, backdropZIndex: 999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
-  uiTourService.createDetachedTour('userTour', {backdrop: true, backdropZIndex: 999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
-  uiTourService.createDetachedTour('ongPageTour', {backdrop: true, backdropZIndex: 999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
+  uiTourService.createDetachedTour('ongTour', {backdrop: true, backdropZIndex: 99999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
+  uiTourService.createDetachedTour('userTour', {backdrop: true, backdropZIndex: 99999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
+  uiTourService.createDetachedTour('ongPageTour', {backdrop: true, backdropZIndex: 99999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
+  uiTourService.createDetachedTour('ongReportTour', {backdrop: true, backdropZIndex: 99999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
   $rootScope.$on("$stateChangeStart", (event, toState, toParams, fromState, fromParams) => {
     // if (toState.templateUrl) {
     //   ga('send', 'pageview', { page: toState.templateUrl })

@@ -1,5 +1,5 @@
 export default class OngReport {
-  constructor($rootScope, EventService, $stateParams, $uibModal, $location, $anchorScroll, Currency, Regex) {
+  constructor($rootScope, EventService, $stateParams, $uibModal, $location, $anchorScroll, Currency, Regex, TourFactory) {
     this.rootScope = $rootScope
     this.service = EventService
     this.modal = $uibModal
@@ -7,6 +7,7 @@ export default class OngReport {
     this.anchorScroll = $anchorScroll
     this.currency = Currency
     this.regex = Regex
+    this.tour = TourFactory
     this.report = {}
     if ($stateParams.uuid) {
       this.getEvent($stateParams.uuid)
@@ -23,6 +24,10 @@ export default class OngReport {
       {label: 'Gatos', value: 'cats'},
       {label: 'Árvores', value: 'trees'}
     ]
+  }
+  initTour() {
+    this.tour.init('ongReportTour')
+    this.tour.start()
   }
   getEvent(id) {
     this.service.findById(id)
@@ -76,4 +81,4 @@ export default class OngReport {
   }
 }
 
-OngReport.$inject = ['$rootScope','EventService','$stateParams','$uibModal', '$location', '$anchorScroll','Currency','Regex']
+OngReport.$inject = ['$rootScope','EventService','$stateParams','$uibModal', '$location', '$anchorScroll','Currency','Regex','TourFactory']

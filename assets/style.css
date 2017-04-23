@@ -152,6 +152,7 @@ blockquote .name {
 .ui-tour-backdrop {
   background-color: rgba(0, 0, 0, 0.3);
   fill: rgba(0, 0, 0, 0.3);
+  z-index: 2;
   /*height: 100% !important;
   top: 0px !important;
   right: 0;
@@ -591,6 +592,12 @@ dl dd:last-child {
   font-size: 1.7rem;
   color: #444;
 }
+.institution .content .page-header {
+  margin: 40px 0 0 0;
+}
+.institution .content .page-header:first-child {
+  margin: 0;
+}
 .institution .content .description {
   padding-top: 2%;
   padding-bottom: 2%;
@@ -857,7 +864,7 @@ header .navbar .navbar-profile .avatar-circle {
   bottom: 0px;
   font-size: 1.4rem;
   color: #999;
-  z-index: 3;
+  z-index: 2;
   opacity: .8;
   background-color: #fff;
 }
