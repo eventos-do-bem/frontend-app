@@ -1,152 +1,191 @@
-<div class="well">
-	<h3>Relatório pendente</h3>
-	<h5 class="text-muted">Campanha: <span data-ng-bind="ctrl.event.name"></span></h5>
-	<h5 class="text-muted">Organizador: <span data-ng-bind="ctrl.event.user.name"></span></h5>
-  <a class="btn btn-success" ui-sref="event.report({uuid: ctrl.event.uuid})">Ver página do relatório</a>
-</div>
-<form name="report" enctype="multipart/form-data" novalidate data-ng-submit="ctrl.save(ctrl.event.uuid, ctrl.report, false)">
+<div ui-tour>
 	<div class="well">
-		<h3>Fase 1</h3>
-		<div class="form-group">
-			<div class="row">
-				<label for="valuePerBenefited" class="col-sm-5 control-label text-muted">
-          Qual é o valor que você gasta para atender um beneficiário do projeto apoiado?
-        </label>
-				<div class="col-md-3">
-					<div class="input-group">
-						<div class="input-group-addon">R$</div>
-						<input type="text" class="form-control" id="valuePerBenefited" format-currency="ctrl.currency.FORMAT" variable-options="true" data-ng-model="ctrl.report.valuePerBenefited" uib-popover="Você terá calcular a média de valor que gasta por cada pessoa/animal que beneficia que sua organização beneficiará com esse evento do bem" popover-placement="right" popover-trigger="focus">
+    <button type="button" class="btn btn-success btn-waiting pull-right" data-ng-click="ctrl.initTour()">
+      <i class="fa fa-question-circle" aria-hidden="true"></i>
+      Quer ajuda?
+    </button>
+		<h3>
+			Relatório pendente
+		</h3>
+		<h4>
+			Esse é o relatório social pelo qual você deve demonstrar o impacto que os donativos do evento do bem realizado geraram para os beneficiados da sua Organização. O relatório social é de extrema importância para converter os doadores do evento em seus doadores recorrentes, portanto, dê prioridade na qualidade do texto e fotos requisitadas.
+		</h4>
+		<h5 class="text-muted">Campanha: <span data-ng-bind="ctrl.event.name"></span></h5>
+		<h5 class="text-muted">Organizador: <span data-ng-bind="ctrl.event.user.name"></span></h5>
+		<a class="btn btn-success" ui-sref="event.report({uuid: ctrl.event.uuid})"
+      tour-step
+      tour-step-order="0"
+      tour-step-title="1. Ver página do relatório"
+      tour-step-content="Antes de preencher o seu relatório, clique aqui e veja um rascunho padrão do seu relatório para entender um pouco mais do que é esperado no produto final."
+      tour-step-placement="right"
+      tour-step-belongs-to="ongReportTour"
+		>
+			Ver página do relatório
+		</a>
+	</div>
+	<form name="report" enctype="multipart/form-data" novalidate data-ng-submit="ctrl.save(ctrl.event.uuid, ctrl.report, false)">
+		<div class="well"
+      tour-step
+      tour-step-order="1"
+      tour-step-title="2. Fase 1"
+      tour-step-content="<p>O relatório é dividido em duas fases, na fase 1 precisamos de informações que você já possui:</p><ol><li>O valor por cada beneficiário</li><li>Fotos que ilustram o projeto</li><li>Tipo de beneficiário</li><li>Mensagem ao organizador</li></ol><p>Preenchendo esta fase, clique em salvar.</p>"
+      tour-step-placement="top"
+      tour-step-belongs-to="ongReportTour"
+		>
+			<h3>Fase 1</h3>
+			<div class="form-group">
+				<div class="row">
+					<label for="valuePerBenefited" class="col-sm-5 control-label text-muted">
+						Qual é o valor que você gasta para atender um beneficiário do projeto apoiado?
+					</label>
+					<div class="col-md-3">
+						<div class="input-group">
+							<div class="input-group-addon">R$</div>
+							<input type="text" class="form-control" id="valuePerBenefited" format-currency="ctrl.currency.FORMAT" variable-options="true" data-ng-model="ctrl.report.valuePerBenefited" uib-popover="Você terá calcular a média de valor que gasta por cada pessoa/animal que beneficia que sua organização beneficiará com esse evento do bem" popover-placement="right" popover-trigger="focus">
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="form-group">
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-12">
+						<label for="benefitType" class="control-label text-muted">
+							Qual é o tipo de beneficiário que você ajuda?
+						</label>
+						<select class="form-control" id="benefitType" data-ng-options="item.value as item.label for item in ctrl.benefit" data-ng-model="ctrl.report.benefitType"></select>
+					</div>
+				</div>
+			</div>
+			<div class="row margin-top-20">
+				<div class="col-sm-12">
+					<p class="text-muted">Coloque 3 fotos de boa qualidade sobre o projeto que está sendo apoiado.</p>
+				</div>
+			</div>
+			<div class="row margin-top-10">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="row">
+						<div class="col-sm-4">
+							<file ng-model="ctrl.report.picture1" class="btn-block">
+								<span data-ng-bind="ctrl.report.picture1.name || 'Foto 1'"></span>
+							</file>
+						</div>
+						<div class="col-sm-4">
+							<file ng-model="ctrl.report.picture2" class="btn-block">
+								<span data-ng-bind="ctrl.report.picture2.name || 'Foto 2'"></span>
+							</file>
+						</div>
+						<div class="col-sm-4">
+							<file ng-model="ctrl.report.picture3" class="btn-block">
+								<span data-ng-bind="ctrl.report.picture3.name || 'Foto 3'"></span>
+							</file>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--<div class="row margin-top-10">
+				<div class="col-sm-8">
+					<label class="text-muted">
+						<input type="checkbox" name="default" data-ng-model="ctrl.report.defaultReport">
+						Usar estas informações como padrão para outros relatórios
+					</label>
+				</div>
+			</div>-->
+			<div class="row margin-top-20">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label for="messageOrganizer" class="text-muted">
+							Escreva uma mensagem agradecendo o organizador que está fazendo o evento do bem para a sua organização
+						</label>
+						<count-down-element model="ctrl.report.messageOrganizer" max="900">
+							<textarea rows="6" class="form-control" id="messageOrganizer" data-ng-model="ctrl.report.messageOrganizer" maxlength="900"></textarea>
+						</count-down-element>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-sm-12">
-					<label for="benefitType" class="control-label text-muted">
-            Qual é o tipo de beneficiário que você ajuda?
-          </label>
-					<select class="form-control" id="benefitType" data-ng-options="item.value as item.label for item in ctrl.benefit" data-ng-model="ctrl.report.benefitType"></select>
-				</div>
-			</div>
-		</div>
-		<div class="row margin-top-20">
-			<div class="col-sm-12">
-				<p class="text-muted">Coloque 3 fotos de boa qualidade sobre o projeto que está sendo apoiado.</p>
-			</div>
-		</div>
-		<div class="row margin-top-10">
-			<div class="col-md-10 col-md-offset-1">
-				<div class="row">
-					<div class="col-sm-4">
-						<file ng-model="ctrl.report.picture1" class="btn-block">
-							<span data-ng-bind="ctrl.report.picture1.name || 'Foto 1'"></span>
-						</file>
-					</div>
-					<div class="col-sm-4">
-						<file ng-model="ctrl.report.picture2" class="btn-block">
-							<span data-ng-bind="ctrl.report.picture2.name || 'Foto 2'"></span>
-						</file>
-					</div>
-					<div class="col-sm-4">
-						<file ng-model="ctrl.report.picture3" class="btn-block">
-							<span data-ng-bind="ctrl.report.picture3.name || 'Foto 3'"></span>
-						</file>
+					<div class="form-buttons form-buttons-right">
+						<button type="submit" class="btn btn-horizontal-large btn-success">Salvar</button>
+						<!--<a class="btn btn-success" ui-sref="event.report({uuid: ctrl.event.uuid})">Ver página do relatório</a>-->
 					</div>
 				</div>
 			</div>
 		</div>
-		<!--<div class="row margin-top-10">
-			<div class="col-sm-8">
-				<label class="text-muted">
-          <input type="checkbox" name="default" data-ng-model="ctrl.report.defaultReport">
-          Usar estas informações como padrão para outros relatórios
-        </label>
+		<div class="well"
+      tour-step
+      tour-step-order="2"
+      tour-step-title="3. Fase 2"
+      tour-step-content="<p>A fase 2 serve para aproximar emocionalmente os doadores do evento do bem da sua organização. Para isso pedimos que você conte uma história de um ou mais beneficiados que foram apoiados pelo projeto, desenvolva o texto de modo a gerar uma conexão emocional com os doadores. É a melhor chance que você tem para transformá-los em recorrentes, então capriche!</p><p>Preenchendo esta fase, clique em salvar.</p>"
+      tour-step-placement="top"
+      tour-step-belongs-to="ongReportTour"
+		>
+			<h3>Fase 2</h3>
+			<p class="text-muted">
+				Histórias específicas são fundamentais para motivar os doadores dos eventos do bem a se aproximarem pelo seu impacto social
+				e se transformarem em doadores recorrentes da sua causa.
+				<br>
+				Escreva uma história de um beneficiário ajudado pelo seu projeto e coloque uma foto dele.
+			</p>
+			<div class="form-group">
+				<label for="title" class="control-label">
+					Título
+				</label>
+				<count-down-element model="ctrl.report.title" max="100">
+					<input type="text" name="title" id="title" class="form-control" data-ng-model="ctrl.report.title" placeholder="Ex. O João aprendeu a escrever!" maxlength="100">
+				</count-down-element>
 			</div>
-		</div>-->
-		<div class="row margin-top-20">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="messageOrganizer" class="text-muted">
-            Escreva uma mensagem agradecendo o organizador que está fazendo o evento do bem para a sua organização
-          </label>
-					<count-down-element model="ctrl.report.messageOrganizer" max="900">
-						<textarea rows="6" class="form-control" id="messageOrganizer" data-ng-model="ctrl.report.messageOrganizer" maxlength="900"></textarea>
-					</count-down-element>
+			<count-down-element model="ctrl.report.history" max="700">
+				<textarea rows="6" class="form-control" data-ng-model="ctrl.report.history" placeholder="Nessa parte você tem até 700 caracteres para explicar a história do beneficiado (como por exemplo 'o João'), o objetivo é que isso aproxime os doadores do impacto positivo gerado. Por exemplo, no caso de uma Organização de educação para crianças, se foque na história do 'João', onde ele nasceu, quais as necessidades dele quando começou a ser atendido e o quais avanços que ele obteve com a ajuda da sua Organização. Histórias engraçadas também são legais! O importante é que seja uma história que fique na memória dos apoiadores deste evento do bem, aproximando eles da sua causa." maxlength="700"></textarea>
+			</count-down-element>
+			<div class="row margin-top-20">
+				<div class="col-sm-4">
+					<file style="display: block" ng-model="ctrl.report.picture4" progress="ctrl.progress">
+						<span data-ng-bind="ctrl.report.picture4.name || 'Fotografia do beneficiário'"></span>
+					</file>
+					<!--<button type="button" class="btn btn-default">
+						<i class="fa fa-upload"></i>
+						Fotografia do beneficiário
+					</button>-->
 				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-buttons form-buttons-right">
-					<button type="submit" class="btn btn-horizontal-large btn-success">Salvar</button>
-					<!--<a class="btn btn-success" ui-sref="event.report({uuid: ctrl.event.uuid})">Ver página do relatório</a>-->
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="well">
-		<h3>Fase 2</h3>
-		<p class="text-muted">
-			Histórias específicas são fundamentais para motivar os doadores dos eventos do bem a se aproximarem pelo seu impacto social
-			e se transformarem em doadores recorrentes da sua causa.
-			<br> Escreva uma história de um beneficiário ajudado pelo seu projeto e coloque uma foto dele.
-		</p>
-		<div class="form-group">
-			<label for="title" class="control-label">
-        Título
-      </label>
-  		<count-down-element model="ctrl.report.title" max="100">
-	  		<input type="text" name="title" id="title" class="form-control" data-ng-model="ctrl.report.title" placeholder="O João aprendeu a escrever!" maxlength="100">
-  		</count-down-element>
-		</div>
-		<count-down-element model="ctrl.report.history" max="700">
-			<textarea rows="6" class="form-control" data-ng-model="ctrl.report.history" placeholder="Nessa parte você tem até 700 caracteres para explicar a história do João, o objetivo é que isso aproxime as pessoas que ajudaram a sua Organização do impacto social por ela gerada. Esse seria um exemplo no caso de uma Organização de educação para crianças, se foque na história do João, onde ele nasceu, quais as necessidades dele quando começou a ser atendido e o quais avanços que ele obteve com a ajuda da sua Organização. Histórias engraçadas também são legais! O importante é que seja uma história que fique na memória dos apoiadores e do Organizador deste evento do bem." maxlength="700"></textarea>
-		</count-down-element>
-		<div class="row margin-top-20">
-			<div class="col-sm-4">
-				<file style="display: block" ng-model="ctrl.report.picture4" progress="ctrl.progress">
-					<span data-ng-bind="ctrl.report.picture4.name || 'Fotografia do beneficiário'"></span>
-				</file>
-				<!--<button type="button" class="btn btn-default">
-          <i class="fa fa-upload"></i>
-          Fotografia do beneficiário
-        </button>-->
-			</div>
-			<div class="col-sm-8">
-				<div class="form-group" data-ng-class="{'has-error':report.video.$invalid && report.video.$dirty}">
-					<div class="input-group">
-						<span class="input-group-addon">Vídeo (URL do Youtube)</span>
-						<input type="text" name="video" id="video" class="form-control same-btn-large" data-ng-model="ctrl.report.video" data-ng-pattern="ctrl.regex.URL" placeholder="Essa parte é opcional">
-					</div>
-					<div class="help-block" data-ng-messages="report.video.$error">
-						<p class="text-danger" data-ng-message="pattern">
-							O vídeo deve ser uma URL válida.
-						</p>
+				<div class="col-sm-8">
+					<div class="form-group" data-ng-class="{'has-error':report.video.$invalid && report.video.$dirty}">
+						<div class="input-group">
+							<span class="input-group-addon">Vídeo (URL do Youtube)</span>
+							<input type="text" name="video" id="video" class="form-control same-btn-large" data-ng-model="ctrl.report.video" data-ng-pattern="ctrl.regex.URL" placeholder="Essa parte é opcional">
+						</div>
+						<div class="help-block" data-ng-messages="report.video.$error">
+							<p class="text-danger" data-ng-message="pattern">
+								O vídeo deve ser uma URL válida.
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!--<div class="row margin-top-10">
-			<div class="col-md-12">
-				<p class="text-muted">Veja nosso <a href="#">ebook</a> com mais dicas de como elaborar um relatório de sucesso!</p>
-			</div>
-		</div>-->
-		<div class="row">
-			<div class="col-md-12">
-				<div class="form-buttons form-buttons-right">
-					<button type="submit" class="btn btn-horizontal-large btn-success">Salvar</button>
+			<!--<div class="row margin-top-10">
+				<div class="col-md-12">
+					<p class="text-muted">Veja nosso <a href="#">ebook</a> com mais dicas de como elaborar um relatório de sucesso!</p>
+				</div>
+			</div>-->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-buttons form-buttons-right">
+						<button type="submit" class="btn btn-success">Salvar</button>
+						<button type="button" class="btn btn-success btn-waiting" data-ng-click="ctrl.save(ctrl.event.uuid, ctrl.report, true)"
+							tour-step
+							tour-step-order="3"
+							tour-step-title="4. Submeter relatório para avaliação"
+							tour-step-content="Após preencher as duas fases, seu relatório está completo e já pode ser submetido para a nossa avaliação."
+							tour-step-placement="top"
+							tour-step-belongs-to="ongReportTour"
+						>
+							Submeter relatório para avaliação
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<button type="button" class="btn btn-lg btn-success" data-ng-click="ctrl.save(ctrl.event.uuid, ctrl.report, true)">Submeter relatório para avaliação</button>
-			</div>
-		</div>
-	</div>
-</form>
-
+	</form>
+</div>
 <image-crop ng-model="ctrl.report.picture1" area-type="square" result-image-size="350"></image-crop>
 <image-crop ng-model="ctrl.report.picture2" area-type="square" result-image-size="350"></image-crop>
 <image-crop ng-model="ctrl.report.picture3" area-type="square" result-image-size="350"></image-crop>
