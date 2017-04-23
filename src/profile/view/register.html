@@ -180,7 +180,7 @@
     <div class="alert alert-danger" data-ng-show="ctrl.error">
       <strong>Ops...</strong>
       <ul>
-        <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind="e.join(', ')"></li>
+        <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind-html="e.join(', ')"></li>
       </ul>
     </div>
   </uib-tabset>
