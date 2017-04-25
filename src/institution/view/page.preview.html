@@ -6,7 +6,7 @@
         Voltar para edição
       </a>
     </div>
-    <cover on-save="ctrl.save(ctrl.institution)" position="ctrl.institution.cover_position" selector=".image-cover" step="5">
+    <cover on-save="ctrl.save(ctrl.institution)" position="ctrl.institution.cover_position" selector=".image-cover" step="5" show-controls="ctrl.institution.user.uuid == ctrl.profile.uuid">
       <div class="image-cover" style="background: url({{ctrl.institution.cover.original}}); background-size: cover;"></div>
     </cover>
   </div>
@@ -17,15 +17,22 @@
           Apoie a Organização : <span data-ng-bind="ctrl.institution.name"></span>
         </h1>
       </div>
+      <div class="col-md-4">
+        <figure class="avatar">
+          <img data-ng-src="{{ctrl.institution.user.avatar.medium}}" class="img-responsive img-thumbnail" alt="">
+        </figure>
+      </div>
     </div>
   </section>
   <section class="content container">
     <div class="row">
       <div class="col-md-8">
+        <h3 class="page-header">Proposta</h3>
         <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.propose)"></p>
         <div data-ng-show="ctrl.institution.video" class="video-container">
           <iframe data-ng-src="{{ctrl.institution.video | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
+        <h3 class="page-header">Impacto</h3>
         <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.impact)"></p>
         <div class="text-center">
           <h2>Gostou?</h2>
@@ -35,9 +42,9 @@
         </div>
       </div>
       <div class="col-md-4">
-        <figure class="avatar">
+        <!--<figure class="avatar">
           <img data-ng-src="{{ctrl.institution.user.avatar.medium}}" class="img-responsive img-thumbnail" alt="">
-        </figure>
+        </figure>-->
         <div class="panel panel-default">
           <div class="panel-heading text-center">
             <button class="btn btn-block btn-success" disabled="true">

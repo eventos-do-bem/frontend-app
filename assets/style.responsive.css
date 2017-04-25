@@ -249,6 +249,14 @@
     padding: 80px 200px;
   }
   /* /explore */
+  /* institution */
+  .campaign .cover,
+  .campaign .cover .image-cover,
+  .institution .cover,
+  .institution .cover .image-cover {
+    height: 300px;
+  }
+  /* /institution */
 }
 
 /* Extra large devices */
@@ -274,6 +282,14 @@
     padding: 80px 200px;
   }
   /* /explore */
+  /* institution */
+  .campaign .cover,
+  .campaign .cover .image-cover,
+  .institution .cover,
+  .institution .cover .image-cover {
+    height: 450px;
+  }
+  /* /institution */
 }
 
 @media (min-width: 768px) {
