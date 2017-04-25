@@ -129,7 +129,9 @@
           </div>
           <div data-ng-switch-when="2">
             <div data-ng-class="{'has-error':registerOng.name.$invalid && registerOng.name.$dirty}">
-              <input type="text" name="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Qual o seu nome?" aria-describedby="nameHelpBlock" required>
+              <count-down-element model="registerOng.name.$viewValue" max="60">
+                <input type="text" name="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Qual o seu nome?" aria-describedby="nameHelpBlock" maxlength="60" required>
+              </count-down-element>
               <div id="nameHelpBlock" class="help-block" data-ng-show="registerOng.name.$error && registerOng.name.$dirty">
                 <p data-ng-show="registerOng.name.$error.required" class="text-danger">O seu nome é obrigatório.</p>
               </div>
