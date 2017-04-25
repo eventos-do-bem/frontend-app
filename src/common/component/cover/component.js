@@ -2,6 +2,7 @@ let Component = {
   transclude: true,
   bindings: {
     position: '=',
+    showControls: '<?',
     onSave: '&'
   },
   template: `
@@ -21,7 +22,7 @@ let Component = {
         margin-top: 0px;
       }
     </style>
-    <div class="arrows">
+    <div class="arrows" data-ng-show="$ctrl.showControls">
       <button class="btn btn-warning" data-ng-click="$ctrl.up()" uib-tooltip="Subir" tooltip-placement="right">
         <i class="fa fa-arrow-up"></i>
       </button>
@@ -68,6 +69,7 @@ let Component = {
     }
     ctrl.$onInit = () => {
       ctrl.position = null
+      ctrl.showControls = false
       let step = Number($attrs.step)
       ctrl.stepUp = step * -1
       ctrl.stepDown = step 

@@ -543,6 +543,12 @@ dl dd:last-child {
   width: 100%;
   margin:2%;
 }
+.institution .cover-content figure.avatar {
+  position: absolute;
+  display: block;
+  margin-top: -50px;
+  padding: 0 5rem 0 5rem;  
+}
 .institution .content figure.avatar {
   position: absolute;
   display: block;

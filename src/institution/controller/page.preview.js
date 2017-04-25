@@ -1,11 +1,13 @@
 export default class PagePreview {
-  constructor($rootScope, $stateParams, $sce, $location, $anchorScroll, InstitutionService) {
+  constructor($rootScope, $stateParams, $sce, $location, $anchorScroll, InstitutionService, ProfileService) {
     this.rootScope = $rootScope
     this.sce = $sce
     this.location = $location
     this.anchorScroll = $anchorScroll
     this.service = InstitutionService
+    this.profileService = ProfileService
     if ($stateParams.slug) {
+      this.getProfile()
       this.findInstitution($stateParams.slug)
     }
     this.rootScope.$broadcast('alert', {
@@ -15,6 +17,9 @@ export default class PagePreview {
         message: 'Veja que esta é uma página de visualização que só você tem acesso, desta forma, não compartilhe este endereço (URL)!<br>Os botões e formulários também estão desabilitados, sendo apenas para visualização.'
       }
     })
+  }
+  getProfile() {
+    this.profileService.me().then(response => this.profile = response.data)
   }
   findInstitution(slug) {
     this.service.findById(slug)
@@ -55,4 +60,4 @@ export default class PagePreview {
   }
 }
 
-PagePreview.$inject = ['$rootScope','$stateParams', '$sce', '$location', '$anchorScroll','InstitutionService']
+PagePreview.$inject = ['$rootScope','$stateParams', '$sce', '$location', '$anchorScroll','InstitutionService','ProfileService']

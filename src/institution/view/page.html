@@ -14,6 +14,11 @@
           Apoie a Organização : <span data-ng-bind="ctrl.institution.name"></span>
         </h1>
       </div>
+      <div class="col-md-4">
+        <figure class="avatar">
+          <img data-ng-src="{{ctrl.institution.user.avatar.medium}}" class="img-responsive img-thumbnail" alt="">
+        </figure>
+      </div>
     </div>
   </section>
   <section class="content container">
@@ -34,9 +39,9 @@
         </div>
       </div>
       <div class="col-md-4">
-        <figure class="avatar">
+        <!--<figure class="avatar">
           <img data-ng-src="{{ctrl.institution.user.avatar.medium}}" class="img-responsive img-thumbnail" alt="">
-        </figure>
+        </figure>-->
         <div class="panel panel-default">
           <div class="panel-heading text-center">
             <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-block btn-success">
