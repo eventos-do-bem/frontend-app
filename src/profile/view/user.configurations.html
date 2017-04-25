@@ -9,13 +9,22 @@
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.name.$invalid && configurations.name.$dirty}">
         <label for="" class="control-label">Nome</label>
-        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Nome completo" required autofocus>
+        <count-down-element model="configurations.name.$viewValue" max="60">
+          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Nome completo" maxlength="60" required autofocus>
+        </count-down-element>
+        <div class="help-block" data-ng-messages="configurations.name.$error">
+          <p class="text-danger" ng-message="required">O seu nome é obrigatório.</p>
+        </div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':configurations.email.$invalid && configurations.email.$dirty}">
         <label for="" class="control-label">E-mail</label>
         <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Endereço de e-mail do usuário" required>
+        <div class="help-block" data-ng-messages="configurations.email.$error">
+          <p data-ng-message="required" class="text-danger">O email é obrigatório.</p>
+          <p data-ng-message="email" class="text-danger">Seu email deve ser um email válido.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -33,6 +42,10 @@
       <div class="form-group" data-ng-class="{'has-error':configurations.password.$invalid && configurations.password.$dirty}">
         <label for="password" class="control-label">Senha atual</label>
         <input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" data-ng-readonly="ctrl.profile.needpassword" placeholder="Senha" minlength="6" maxlength="10">
+        <div class="help-block" data-ng-messages="configurations.password.$error">
+          <p data-ng-message="required" class="text-danger">A senha é obrigatória.</p>
+          <p data-ng-message="minlength" class="text-danger">Sua senha deve ter entre 6 e 10 caracteres.</p>
+        </div>
       </div>
     </div>
     <div class="col-md-6">
@@ -50,6 +63,10 @@
       <div class="form-group" data-ng-class="{'has-error':configurations.birthdate.$invalid && configurations.birthdate.$dirty}">
         <label for="birthdate" class="control-label">Data de nascimento</label>
         <input type="text" name="birthdate" id="birthdate" class="form-control" mask="39/19/2999" data-ng-model="ctrl.profile.birthdate" data-ng-change="ctrl.validateDate(configurations.birthdate, ctrl.profile.birthdate)" placeholder="Data de nascimento" required>
+        <div class="help-block" data-ng-messages="configurations.birthdate.$error">
+          <p data-ng-message="required" class="text-danger">Data de nascimento é obrigatória.</p>
+          <p data-ng-message="birthdate" class="text-danger">Permitido somente maiores de 18 anos.</p>
+        </div>
       </div>
     </div>
     <div class="col-md-6">

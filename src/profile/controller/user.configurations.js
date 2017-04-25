@@ -19,14 +19,13 @@ export default class UserConfigurations {
     this.profile = profile
   }
   validateDate(field, date) {
-    date = date.split('/')
-    date = new Date(`${date[2]}-${date[1]}-${date[0]}`)
-    if (!field.$error.mask) {
-      let valid = (
-        this.validation.dateMinByYears(date, 0) &&
-        this.validation.dateMaxByYears(date, 121)
-      )
-      field.$setValidity('age', valid)
+    if (!field.$error.mask && date) {
+      date = date.split('/')
+      date = new Date(`${date[2]}-${date[1]}-${date[0]}`)
+      let valid = this.validation.dateMinByYears(date, 18)
+      field.$setValidity('birthdate', valid)
+    } else {
+      field.$setValidity('birthdate', false)
     }
   }
   save(profile) {

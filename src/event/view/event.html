@@ -53,7 +53,7 @@
               </div>
             </li>
           </ul>
-          <div class="text-center" data-ng-show="ctrl.pagination.total_pages > 1">
+          <div class="text-center" data-ng-show="ctrl.pagination.total_pages > 0">
             <ul uib-pagination
                 total-items="ctrl.pagination.total"
                 ng-model="ctrl.pagination.current_page"
@@ -65,7 +65,7 @@
                 last-text="Última"
                 boundary-links="true"
                 num-pages="ctrl.pagination.total_pages"
-                data-ng-change="ctrl.changePage()">
+                data-ng-change="ctrl.getMessages(ctrl.slug, {})">
             </ul>
           </div>
         </div>

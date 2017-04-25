@@ -9,9 +9,12 @@
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':ongConfigurations.name.$invalid && ongConfigurations.name.$dirty}">
         <label for="" class="control-label">Nome da organização</label>
-        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.institution.name" required autofocus>
+        <count-down-element model="ongConfigurations.name.$viewValue" max="50">
+          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.institution.name" required minlength="5" maxlength="50" autofocus>
+        </count-down-element>
         <div class="help-block" data-ng-messages="ongConfigurations.name.$error">
           <p class="text-danger" ng-message="required">O nome da organização é obrigatório.</p>
+          <p class="text-danger" ng-message="minlength">O nome da organização deve ter no mínimo 5 e máximo 50 letras.</p>
         </div>
       </div>
     </div>
@@ -118,7 +121,9 @@
     <div class="col-md-6">
       <div class="form-group" data-ng-class="{'has-error':userConfigurations.name.$invalid && userConfigurations.name.$dirty}">
         <label for="" class="control-label">Nome do responsável</label>
-        <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" required>
+        <count-down-element model="userConfigurations.name.$viewValue" max="60">
+          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" maxlength="60" required>
+        </count-down-element>
         <div class="help-block" data-ng-messages="userConfigurations.name.$error">
           <p class="text-danger" ng-message="required">O nome do responsável é obrigatório.</p>
         </div>
