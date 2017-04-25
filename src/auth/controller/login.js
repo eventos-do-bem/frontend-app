@@ -1,16 +1,13 @@
 export default class AuthLogin {
-  constructor($rootScope, $state, AuthService, StorageService, ProfileService, LastStateUnloggedService) {
+  constructor($state, AuthService, ProfileService, LastStateUnloggedService) {
+    this.state = $state
     this.service = AuthService
-    this.storage = StorageService
     this.profileService = ProfileService
     this.lastStateUnloggedService = LastStateUnloggedService
-    this.$rootScope = $rootScope
-    this.state = $state
     this.masterProfile = {}
     this.showPassword = false
     this.typeInputPassword = 'password'
-    this.method = 'loginUser'
-    // this.profile = angular.copy(this.masterProfile)
+    this.profile = angular.copy(this.masterProfile)
   }
   toggleShowPassword() {
     this.typeInputPassword = this.showPassword ? 'text' : 'password'
@@ -20,28 +17,19 @@ export default class AuthLogin {
       this.login(response)
     })
   }
-  changeMethod(method) {
-    this.profile = angular.copy(this.masterProfile)
-    this.method = method
-  }
   login(profile) {
     profile = (profile) ? angular.copy(profile) : angular.copy(this.profile)
-    this.service[this.method](profile)
+    this.service.loginUser(profile)
       .then(
         response => this.loginSuccess(response),
-        response => {
-          this.loginError(response)
-        }
+        response => this.loginError(response)
       )
   }
   loginSuccess(response) {
-    // this.storage.setItem('token', response.data.token)
     let profile = this.profileService.setProfile(response.data)
-    // this.storage.setItem('profile', profile)
-    // this.$rootScope.$broadcast('profile.change')
     if (this.lastStateUnloggedService.getName()) {
-      let name = this.lastStateUnloggedService.getName()
-      let params = this.lastStateUnloggedService.getParams()
+      let name = this.lastStateUnloggedService.getName(),
+          params = this.lastStateUnloggedService.getParams()
       this.lastStateUnloggedService.clear()
       this.state.go(name, params)
     } else {
@@ -52,6 +40,7 @@ export default class AuthLogin {
     }
   }
   loginError(response) {
+    this.profile = angular.copy(this.masterProfile)
     this.error = {}
     if (response.data.errors) {
       this.error = response.data
@@ -65,4 +54,4 @@ export default class AuthLogin {
   }
 }
 
-AuthLogin.$inject = ['$rootScope', '$state', 'AuthService', 'StorageService', 'ProfileService', 'LastStateUnloggedService']
+AuthLogin.$inject = ['$state', 'AuthService', 'ProfileService', 'LastStateUnloggedService']
