@@ -1,98 +1,115 @@
-<div class="well">
-  <h3>Configurações</h3>
-  <h4>
-    Complete com seus dados atualizados para recerber informações importantes como recibos de suas doações e eventos do bem.
-  </h4>
-</div>
-<form name="configurations" enctype="multipart/form-data" novalidate data-ng-submit="ctrl.save(ctrl.profile)">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.name.$invalid && configurations.name.$dirty}">
-        <label for="" class="control-label">Nome</label>
-        <count-down-element model="configurations.name.$viewValue" max="60">
-          <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Nome completo" maxlength="60" required autofocus>
-        </count-down-element>
-        <div class="help-block" data-ng-messages="configurations.name.$error">
-          <p class="text-danger" ng-message="required">O seu nome é obrigatório.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.email.$invalid && configurations.email.$dirty}">
-        <label for="" class="control-label">E-mail</label>
-        <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Endereço de e-mail do usuário" required>
-        <div class="help-block" data-ng-messages="configurations.email.$error">
-          <p data-ng-message="required" class="text-danger">O email é obrigatório.</p>
-          <p data-ng-message="email" class="text-danger">Seu email deve ser um email válido.</p>
-        </div>
-      </div>
-    </div>
+<div ui-tour>
+  <div class="well">
+    <h3>Configurações</h3>
+    <h4>
+      Complete com seus dados atualizados para recerber informações importantes como recibos de suas doações e eventos do bem.
+    </h4>
   </div>
-  <!--<div class="row" data-ng-show="ctrl.profile.needpassword">
-    <div class="col-md-12">
-      <p class="alert alert-warning alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        Por ter usado o login social, você não tem uma senha cadastrada caso queira acessar sem login social.
-        <a data-ng-click="ctrl.setPassword()">Cadastre uma senha</a>.
-      </p>
-    </div>
-  </div>-->
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.password.$invalid && configurations.password.$dirty}">
-        <label for="password" class="control-label">Senha atual</label>
-        <input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" data-ng-readonly="ctrl.profile.needpassword" placeholder="Senha" minlength="6" maxlength="10">
-        <div class="help-block" data-ng-messages="configurations.password.$error">
-          <p data-ng-message="required" class="text-danger">A senha é obrigatória.</p>
-          <p data-ng-message="minlength" class="text-danger">Sua senha deve ter entre 6 e 10 caracteres.</p>
+  <form name="configurations" enctype="multipart/form-data" novalidate data-ng-submit="ctrl.save(ctrl.profile)">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group" data-ng-class="{'has-error':configurations.name.$invalid && configurations.name.$dirty}">
+          <label for="" class="control-label">Nome</label>
+          <count-down-element model="configurations.name.$viewValue" max="60">
+            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Nome completo" maxlength="60" required autofocus>
+          </count-down-element>
+          <div class="help-block" data-ng-messages="configurations.name.$error">
+            <p class="text-danger" ng-message="required">O seu nome é obrigatório.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group" data-ng-class="{'has-error':configurations.email.$invalid && configurations.email.$dirty}">
+          <label for="" class="control-label">E-mail</label>
+          <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Endereço de e-mail do usuário" required>
+          <div class="help-block" data-ng-messages="configurations.email.$error">
+            <p data-ng-message="required" class="text-danger">O email é obrigatório.</p>
+            <p data-ng-message="email" class="text-danger">Seu email deve ser um email válido.</p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.new_password.$invalid && configurations.new_password.$dirty}">
-        <label for="new_password" class="control-label">Nova senha</label>
-        <input type="password" name="new_password" id="new_password" class="form-control" data-ng-model="ctrl.profile.new_password" data-ng-required="ctrl.profile.password" placeholder="Nova senha" minlength="6" maxlength="10">
-        <p data-ng-show="ctrl.profile.needpassword" class="text-warning">
-          Por ter usado o login social, você não tem uma senha cadastrada caso queira acessar sem login social. Cadastre uma senha.
+    <!--<div class="row" data-ng-show="ctrl.profile.needpassword">
+      <div class="col-md-12">
+        <p class="alert alert-warning alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          Por ter usado o login social, você não tem uma senha cadastrada caso queira acessar sem login social.
+          <a data-ng-click="ctrl.setPassword()">Cadastre uma senha</a>.
         </p>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.birthdate.$invalid && configurations.birthdate.$dirty}">
-        <label for="birthdate" class="control-label">Data de nascimento</label>
-        <input type="text" name="birthdate" id="birthdate" class="form-control" mask="39/19/2999" data-ng-model="ctrl.profile.birthdate" data-ng-change="ctrl.validateDate(configurations.birthdate, ctrl.profile.birthdate)" placeholder="Data de nascimento" required>
-        <div class="help-block" data-ng-messages="configurations.birthdate.$error">
-          <p data-ng-message="required" class="text-danger">Data de nascimento é obrigatória.</p>
-          <p data-ng-message="birthdate" class="text-danger">Permitido somente maiores de 18 anos.</p>
+    </div>-->
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group" data-ng-class="{'has-error':configurations.password.$invalid && configurations.password.$dirty}">
+          <label for="password" class="control-label">Senha atual</label>
+          <input type="password" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" data-ng-readonly="ctrl.profile.needpassword" placeholder="Senha" minlength="6" maxlength="10">
+          <div class="help-block" data-ng-messages="configurations.password.$error">
+            <p data-ng-message="required" class="text-danger">A senha é obrigatória.</p>
+            <p data-ng-message="minlength" class="text-danger">Sua senha deve ter entre 6 e 10 caracteres.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group" data-ng-class="{'has-error':configurations.new_password.$invalid}">
+          <div
+            tour-step
+            tour-step-order="0"
+            tour-step-title="Cadastre uma senha"
+            tour-step-content="<p>Provavelmente você realizou seu cadastro em uma doação, portanto ainda não tem uma senha cadastrada.</p><p>Cadastre uma senha agora para seus próximos acessos!</p>"
+            tour-step-placement="left"
+            tour-step-belongs-to="userConfigTour"
+          >
+            <label for="new_password" class="control-label">Nova senha</label>
+            <input type="password" name="new_password" id="new_password" class="form-control" data-ng-model="ctrl.profile.new_password" data-ng-required="ctrl.profile.password" placeholder="Nova senha" minlength="6" maxlength="10">
+          </div>
+          <div data-ng-show="ctrl.profile.needpassword">
+            <p class="text-warning">
+              <i class="fa fa-exclamation"></i>
+              Você não tem uma senha cadastrada, cadastre uma agora!
+            </p>
+            <p class="text-warning">
+              <i class="fa fa-question"></i>
+              Caso tenha usado login social, você ainda poderá usa-lo.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="form-group" data-ng-class="{'has-error':configurations.avatar.$invalid && configurations.avatar.$dirty}">
-        <label for="foto" class="control-label">Foto</label>
-        <file style="display: block" ng-model="ctrl.profile.avatar" progress="ctrl.progress">
-          <span data-ng-bind="ctrl.profile.avatar.name || 'Faça upload de sua foto de perfil'"></span>
-        </file>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group" data-ng-class="{'has-error':configurations.birthdate.$invalid && configurations.birthdate.$dirty}">
+          <label for="birthdate" class="control-label">Data de nascimento</label>
+          <input type="text" name="birthdate" id="birthdate" class="form-control" mask="39/19/2999" data-ng-model="ctrl.profile.birthdate" data-ng-change="ctrl.validateDate(configurations.birthdate, ctrl.profile.birthdate)" placeholder="Data de nascimento" required>
+          <div class="help-block" data-ng-messages="configurations.birthdate.$error">
+            <p data-ng-message="required" class="text-danger">Data de nascimento é obrigatória.</p>
+            <p data-ng-message="birthdate" class="text-danger">Permitido somente maiores de 18 anos.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group" data-ng-class="{'has-error':configurations.avatar.$invalid && configurations.avatar.$dirty}">
+          <label for="foto" class="control-label">Foto</label>
+          <file style="display: block" ng-model="ctrl.profile.avatar" progress="ctrl.progress">
+            <span data-ng-bind="ctrl.profile.avatar.name || 'Faça upload de sua foto de perfil'"></span>
+          </file>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox" id="checkboxSuccess" value="option1">
-      Receber notícias do Eventos do Bem
-    </label>
-  </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox" id="checkboxSuccess" value="option1">
-      Receber relatórios das minhas campanhas
-    </label>
-  </div>
-  <div class="navbar text-center">
-    <button class="btn btn-success btn-horizontal-large" type="submit" data-ng-disabled="configurations.$invalid">Salvar</button>
-  </div>
-</form>
-
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" id="checkboxSuccess" value="option1">
+        Receber notícias do Eventos do Bem
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" id="checkboxSuccess" value="option1">
+        Receber relatórios das minhas campanhas
+      </label>
+    </div>
+    <div class="navbar text-center">
+      <button class="btn btn-success btn-horizontal-large" type="submit" data-ng-disabled="configurations.$invalid">Salvar</button>
+    </div>
+  </form>
+</div>
 <image-crop ng-model="ctrl.profile.avatar"></image-crop>

@@ -1,16 +1,25 @@
 export default class UserConfigurations {
-  constructor($filter, $rootScope, $location, $anchorScroll, StorageService, ProfileService, ValidationFactory, profile) {
+  constructor($filter, $rootScope, $location, $anchorScroll, $stateParams, StorageService, ProfileService, ValidationFactory, TourFactory, profile) {
     this.filter = $filter
     this.rootScope = $rootScope
     this.location = $location
     this.anchorScroll = $anchorScroll
+    this.stateParams = $stateParams
     this.storage = StorageService
     this.service = ProfileService
     this.validation = ValidationFactory
+    this.tour = TourFactory
     this.load(profile.data)
+  }
+  initTour() {
+    this.tour.init('userConfigTour')
+    this.tour.start()
   }
   load(profile) {
     profile = angular.copy(profile)
+    if (this.stateParams.novo && profile.needpassword) {
+      this.initTour()
+    }
     delete profile.phone
     delete profile.avatar
     profile.birthdate = new Date(profile.birthdate)
@@ -45,6 +54,8 @@ export default class UserConfigurations {
         this.anchorScroll()
       },
       error => {
+        this.profile.password = ''
+        this.profile.new_password = ''
         this.rootScope.$broadcast('alert', {type: 'alert-warning', icon: 'fa-exclamation', message: error.data})
         this.location.hash('body')
         this.anchorScroll()
@@ -53,4 +64,4 @@ export default class UserConfigurations {
   }
 }
 
-UserConfigurations.$inject = ['$filter', '$rootScope', '$location', '$anchorScroll', 'StorageService', 'ProfileService', 'ValidationFactory', 'profile']
+UserConfigurations.$inject = ['$filter', '$rootScope', '$location', '$anchorScroll', '$stateParams', 'StorageService', 'ProfileService', 'ValidationFactory', 'TourFactory', 'profile']

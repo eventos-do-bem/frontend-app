@@ -17,8 +17,11 @@ export default function ProfileConfig($stateProvider) {
       }
     })
     .state('profile.user.configurations', {
-      url: '/configuracoes',
+      url: '/configuracoes?novo',
       authenticate: true,
+      params: {
+        novo: null
+      },
       templateUrl: './src/profile/view/user.configurations.html',
       controller: 'UserConfigurations',
       controllerAs: 'ctrl',

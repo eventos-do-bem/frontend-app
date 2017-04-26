@@ -30,6 +30,7 @@ export default function run($rootScope, $window, $location, $state, $timeout, $a
   `)
   uiTourService.createDetachedTour('ongTour', {backdrop: true, backdropZIndex: 99999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
   uiTourService.createDetachedTour('userTour', {backdrop: true, backdropZIndex: 99999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
+  uiTourService.createDetachedTour('userConfigTour', {backdrop: true, backdropZIndex: 99999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
   uiTourService.createDetachedTour('ongPageTour', {backdrop: true, backdropZIndex: 99999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
   uiTourService.createDetachedTour('ongReportTour', {backdrop: true, backdropZIndex: 99999999999, appendToBody: true, useUiRouter: true, useHotkeys: true, templateUrl: 'tour-tpl.html'});
   $rootScope.$on("$stateChangeStart", (event, toState, toParams, fromState, fromParams) => {
