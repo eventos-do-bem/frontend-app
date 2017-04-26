@@ -1,6 +1,7 @@
 import angular              from 'angular'
 import uiRouter             from 'angular-ui-router'
 import uiBootstrap          from 'angular-ui-bootstrap'
+import uiTour               from 'angular-ui-tour'
 import environment          from 'angular-environment'
 import ngMask               from 'ng-mask'
 import ngMessages           from 'angular-messages'

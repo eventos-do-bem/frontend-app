@@ -56,18 +56,29 @@ p, a, label, table th, table td, ol, ul, li {
   height: ~"@{heightVal}rem";
   -moz-line-clamp: @lines;
   -webkit-line-clamp: @lines;
-}
-.event.explore .thumbnail .caption h3 {
-  .limit-lines(@font-size-h3, @line-height-geral, 2);
   display: -webkit-box;
   display: -moz-box;
+  word-wrap: break-word;
+  direction: ltr;
+}
+.explore .thumbnail .caption h3 {
+  .limit-lines(@font-size-h3, @line-height-geral, 1);
 }
 .explore .thumbnail .caption h4 {
   .limit-lines(@font-size-h4, @line-height-geral, 3);
-  display: -webkit-box;
-  display: -moz-box;
 }
-
+.progress-bar-danger {
+  background-color: @red;
+}
+.progress-bar-warning {
+  background-color: @yellow;
+}
+.progress-bar-info {
+  background-color: @blue;
+}
+.progress-bar-success {
+  background-color: @green;
+}
 a {
   color: @blue;
   &:focus, &:hover {
@@ -207,6 +218,9 @@ a {
 .btn {
   padding: @btn-padding;
   border-width: @btn-border;
+}
+.btn.only-icon {
+  padding: 1rem 1.4rem;
 }
 .ta-toolbar.btn-group-justified .btn-group .btn {
   padding: 6px 8px;

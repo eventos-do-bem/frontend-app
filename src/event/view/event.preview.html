@@ -1,11 +1,8 @@
 <div class="campaign">
   <div class="row cover">
-    <div class="login-another-user" data-ng-show="ctrl.accessLoginAnotherUser">
-      <button class="btn btn-warning" data-ng-disabled="!ctrl.event.uuid" data-ng-click="ctrl.loginAsCreator(ctrl.event.uuid)">
-        Efetuar login
-      </button>
-    </div>
-    <div class="image-cover" style="background: url({{ctrl.event.cover.original}}); background-size: cover; background-position-y: {{ctrl.event.cover_position}}%"></div>
+    <cover on-save="ctrl.save(ctrl.event)" position="ctrl.event.cover_position" selector=".image-cover" step="5">
+      <div class="image-cover" style="background: url({{ctrl.event.cover.original}}); background-size: cover;"></div>
+    </cover>
   </div>
   <section class="cover-content container">
     <div class="row">
@@ -28,12 +25,6 @@
           <iframe data-ng-src="{{ctrl.event.videos.values[0].url | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
         <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.event.description)"></p>
-        <div>
-          <button type="button" class="btn btn-xs btn-share" data-ng-click="ctrl.share()" data-ng-disabled="!ctrl.event.name">
-            <i class="fa fa-facebook" aria-hidden="true"></i>
-            Compartilhar
-          </button>
-        </div>
         <div data-ng-show="ctrl.event.messages.values.length > 0">
           <h3>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
           <ul class="media-list">
@@ -53,7 +44,7 @@
               </div>
             </li>
           </ul>
-          <div class="text-center" data-ng-show="ctrl.pagination.total_pages > 0">
+          <div class="text-center" data-ng-show="ctrl.pagination.total_pages > 1">
             <ul uib-pagination
                 total-items="ctrl.pagination.total"
                 ng-model="ctrl.pagination.current_page"
@@ -65,7 +56,7 @@
                 last-text="Última"
                 boundary-links="true"
                 num-pages="ctrl.pagination.total_pages"
-                data-ng-change="ctrl.getMessages(ctrl.slug, {})">
+                data-ng-change="ctrl.getMessages(ctrl.slug)">
             </ul>
           </div>
         </div>
@@ -73,13 +64,13 @@
       <div class="col-md-4" fixed-on-scroll offset="250" top="70">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <button type="button" data-ng-disabled="ctrl.event.closed" ui-sref="donate.event({slug: ctrl.event.slug})" class="btn btn-lg btn-block btn-success" uib-popover="Prazo limite para doações esgotado :(" popover-trigger="mouseenter" popover-enable="ctrl.event.closed">
+            <button type="button" disabled="true" class="btn btn-lg btn-block btn-success">
               Doe agora
               <br>
               <small>e ajude a mudar o mundo</small>
             </button>
             <br>
-            <button type="button" class="btn btn-lg btn-block btn-default" data-ng-click="ctrl.seeWhatHappens(ctrl.event)">
+            <button type="button" class="btn btn-lg btn-block btn-default" disabled="true">
               <span data-ng-show="!ctrl.event.report">Veja o que acontecerá depois</span>
               <span data-ng-show="ctrl.event.report">Veja o impacto social</span>
             </button>

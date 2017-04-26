@@ -4,6 +4,7 @@ import Event              from './controller/event.js'
 import EventStart         from './controller/event.start.js'
 import EventExplore       from './controller/event.explore.js'
 import EventReport        from './controller/event.report.js'
+import EventPreview       from './controller/event.preview.js'
 import EventHappens       from './controller/event.happens.js'
 import ReportAuthorize    from './controller/report.authorize.js'
 import RememberShare      from './controller/remember.share.js'
@@ -15,6 +16,7 @@ export default angular
   .controller('EventStart', EventStart)
   .controller('EventExplore', EventExplore)
   .controller('EventReport', EventReport)
+  .controller('EventPreview', EventPreview)
   .controller('EventHappens', EventHappens)
   .controller('ReportAuthorize', ReportAuthorize)
   .controller('RememberShare', RememberShare)

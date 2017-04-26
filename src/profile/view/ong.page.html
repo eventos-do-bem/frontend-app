@@ -1,86 +1,135 @@
-<div class="well">
-  <h3>
-    Página oficial da Organização : <span data-ng-bind="ctrl.page.name"></span>
-  </h3>
-  <h4>
-    É a página de captura de recursos para sua Organização Social, nela você aparecerá em nosso portfólio de causas, poderá captar eventos do bem e doações diretas dos visitantes e empresas parceiras.
-    <br>
-    Por isso, capriche na elaboração do conteúdo de sua página e a mantenha atualizada.
-  </h4>
-  <a class="btn btn-success" ui-sref="institution({slug: ctrl.page.slug})">Ver página oficial</a>
+<div ui-tour>
+  <div class="well">
+    <button type="button" class="btn btn-success btn-waiting pull-right" data-ng-click="ctrl.initTour()">
+      <i class="fa fa-question-circle" aria-hidden="true"></i>
+      Quer ajuda?
+    </button>
+    <h3>
+      Página oficial da Organização : <span data-ng-bind="ctrl.page.name"></span>
+    </h3>
+    <h4>
+      É a página de captura de recursos para sua Organização Social, nela você aparecerá em nosso portfólio de causas, poderá captar eventos do bem e doações diretas dos visitantes e empresas parceiras.
+      <br>
+      Por isso, capriche na elaboração do conteúdo de sua página e a mantenha atualizada.
+    </h4>
+    <a class="btn btn-success" ui-sref="institution.page({slug: ctrl.page.slug})"
+      tour-step
+      tour-step-order="0"
+      tour-step-title="1. Ver página oficial"
+      tour-step-content="Clique aqui para visualizar o layout da sua página oficial e ver onde as informações que estamos pedindo irão ficar."
+      tour-step-placement="right"
+      tour-step-belongs-to="ongPageTour"
+    >
+      Ver página oficial
+    </a>
+  </div>
+  <div class="well">
+    <h3>Editar</h3>
+    <form name="page" data-ng-submit="ctrl.save(ctrl.page)" novalidate>
+      <div class="row">
+        <div class="col-md-6">
+          <span style="display: inline-block"
+            tour-step
+            tour-step-order="1"
+            tour-step-title="2. Imagem da capa da página"
+            tour-step-content="Envie uma imagem que demonstre o trabalho da sua Organização, para ficar de capa da sua página oficial. Se quiser pode ser a mesma imagem da capa da sua página do facebook. A dimensão ideal é 1920x380."
+            tour-step-placement="right"
+            tour-step-belongs-to="ongPageTour"
+          >
+            <file ng-model="ctrl.page.cover" progress="ctrl.progress">
+              <span data-ng-bind="ctrl.page.cover.name || 'Imagem da capa da página'"></span>
+            </file>
+          </span>
+          <a class="btn btn-warning only-icon" ui-sref="institution.preview({slug: ctrl.page.slug})"
+            tour-step
+            tour-step-order="2"
+            tour-step-title="3. Alterar posição da capa"
+            tour-step-content="Clique aqui e tenha uma pré-visualização da sua página oficial. <br> Nela você poderá alterar a posição de sua imagem de capa. Perceba que se a imagem não se mover ao subir ou descer, então você usou uma imagem na proporção correta para o tamanho de sua tela."
+            tour-step-placement="right"
+            tour-step-belongs-to="ongPageTour"
+            uib-tooltip="Pré-visualização da página e posicionamento da capa"
+            tooltip-placement="top"
+          >
+            <i class="glyphicon glyphicon-resize-vertical"></i>
+          </a>
+        </div>
+        <div class="col-md-6">
+          <file ng-model="ctrl.page.avatar" progress="ctrl.progress">
+            <span data-ng-bind="ctrl.page.avatar.name || 'Imagem do logotipo da sua organização'"></span>
+          </file>
+        </div>
+      </div>
+      <div
+        tour-step
+        tour-step-order="3"
+        tour-step-title="4. Missão"
+        tour-step-content="Explique brevemente, em até 165 caracteres, o que a sua Organização faz."
+        tour-step-placement="top"
+        tour-step-belongs-to="ongPageTour"
+      >
+        <h4>Missão:</h4>
+        <p class="text-muted">Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor.</p>
+        <div class="form-group" data-ng-class="{'has-error':page.mission.$invalid && page.mission.$dirty}">
+          <count-down-element model="page.mission.$viewValue" max="165">
+            <textarea rows="2" name="mission" class="form-control" data-ng-model="ctrl.page.mission" minlength="20" maxlength="165" aria-describedby="missionHelpBlock" required></textarea>
+          </count-down-element>
+          <div id="missionHelpBlock" class="help-block" data-ng-messages="page.mission.$error">
+            <p class="text-danger" data-ng-message="required">
+              É obrigatório informar um texto sobre missão da instituição.
+            </p>
+            <p class="text-danger" data-ng-message="minlength">
+              Texto da missão da instituição deverá ter mínimo 20 caracteres.
+            </p>
+          </div>
+        </div>
+      </div>
+      <h4>Proposta:</h4>
+      <p class="text-muted">Coloque a proposta de seus apoiadores fazerem eventos do bem e transformarem seu apoio em impacto social para a causa da sua organização.</p>
+      <div class="form-group" data-ng-class="{'has-error':page.propose.$invalid && page.propose.$dirty}">
+        <div text-angular="text-angular" name="propose" data-ng-model="ctrl.page.propose" ta-disabled='disabled' data-ng-required="true"></div>
+        <!--<textarea rows="4" name="propose" class="form-control" data-ng-model="ctrl.page.propose" aria-describedby="proposeHelpBlock" required></textarea>-->
+        <div id="proposeHelpBlock" class="help-block" data-ng-messages="page.propose.$error">
+          <p class="text-danger" data-ng-message="required">
+            É obrigatório informar um texto sobre a proposta da instituição.
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label">
+          Link de seu vídeo institucional
+        </label>
+        <div class="input-group" data-ng-class="{'has-error':page.video.$invalid && page.video.$dirty}">
+          <div class="input-group-addon">Vídeo do Youtube</div>
+          <input type="text" class="form-control" name="video" data-ng-model="ctrl.page.video" data-ng-pattern="ctrl.urlPattern" placeholder="Essa parte é opcional" aria-describedby="videoHelpBlock">
+        </div>
+        <div id="videoHelpBlock" class="help-block" data-ng-messages="page.video.$error">
+          <p class="text-danger" data-ng-message="pattern">
+            O vídeo do YouTube deve ser uma URL válida.
+          </p>
+        </div>
+      </div>
+      <h4>Demonstre o impacto das doações:</h4>
+      <p class="text-muted">Explique rapidamente a importância da sua causa e coloque de forma bem concreta o que certos montantes de doações podem fazer de impacto, se as pessoa doarem para a sua organização.</p>
+      <div class="form-group" data-ng-class="{'has-error':page.impact.$invalid && page.impact.$dirty}">
+        <div text-angular="text-angular" name="impact" data-ng-model="ctrl.page.impact" ta-disabled='disabled' data-ng-required="true"></div>
+        <!--<textarea rows="6" name="impact" class="form-control" data-ng-model="ctrl.page.impact" aria-describedby="impactHelpBlock" required></textarea>-->
+        <div id="impactHelpBlock" class="help-block" data-ng-messages="page.impact.$error">
+          <p class="text-danger" data-ng-message="required">É obrigatório informar um texto sobre o impacto.</p>
+        </div>
+      </div>
+      <!--<div class="margin-top-10">
+        <p>Veja nosso <a href="#">artigo</a> com mais dicas de como elaborar uma boa página de sua organização!</p>
+      </div>-->
+      <div class="form-buttons form-buttons-right">
+        <button type="submit" class="btn btn-lg btn-success" data-ng-disabled="page.$invalid">
+          Salvar
+        </button>
+        <button type="button" class="btn btn-lg btn-success btn-waiting" data-ng-click="ctrl.save(ctrl.page, true)" data-ng-disabled="page.$invalid">
+          Salvar e ver página oficial
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
-<div class="well">
-  <h3>Editar</h3>
-  <form name="page" data-ng-submit="ctrl.save(ctrl.page)" novalidate>
-    <div class="row">
-      <div class="col-md-4">
-        <file ng-model="ctrl.page.cover" progress="ctrl.progress">
-          <span data-ng-bind="ctrl.page.cover.name || 'Imagem da capa da página'"></span>
-        </file>
-      </div>
-      <div class="col-md-4">
-        <file ng-model="ctrl.page.avatar" progress="ctrl.progress">
-          <span data-ng-bind="ctrl.page.avatar.name || 'Imagem do perfil da página'"></span>
-        </file>
-      </div>
-    </div>
-    <h4>Missão:</h4>
-    <p class="text-muted">Nos explique um pouquinho da missão da organização e como ela atua para fazer o mundo melhor.</p>
-    <div class="form-group" data-ng-class="{'has-error':page.mission.$invalid && page.mission.$dirty}">
-      <count-down-element model="page.mission.$viewValue" max="165">
-        <textarea rows="2" name="mission" class="form-control" data-ng-model="ctrl.page.mission" minlength="20" maxlength="165" aria-describedby="missionHelpBlock" required></textarea>
-      </count-down-element>
-      <div id="missionHelpBlock" class="help-block" data-ng-messages="page.mission.$error">
-        <p class="text-danger" data-ng-message="required">
-          É obrigatório informar um texto sobre missão da instituição.
-        </p>
-        <p class="text-danger" data-ng-message="minlength">
-          Texto da missão da instituição deverá ter mínimo 20 caracteres.
-        </p>
-      </div>
-    </div>
-    <h4>Proposta:</h4>
-    <p class="text-muted">Coloque a proposta de seus apoiadores fazerem eventos do bem e transformarem seu apoio em impacto social para a causa da sua organização.</p>
-    <div class="form-group" data-ng-class="{'has-error':page.propose.$invalid && page.propose.$dirty}">
-      <div text-angular="text-angular" name="propose" data-ng-model="ctrl.page.propose" ta-disabled='disabled' data-ng-required="true"></div>
-      <!--<textarea rows="4" name="propose" class="form-control" data-ng-model="ctrl.page.propose" aria-describedby="proposeHelpBlock" required></textarea>-->
-      <div id="proposeHelpBlock" class="help-block" data-ng-messages="page.propose.$error">
-        <p class="text-danger" data-ng-message="required">
-          É obrigatório informar um texto sobre a proposta da instituição.
-        </p>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label">
-        Link de seu vídeo institucional
-      </label>
-      <div class="input-group" data-ng-class="{'has-error':page.video.$invalid && page.video.$dirty}">
-        <div class="input-group-addon">Vídeo do Youtube</div>
-        <input type="text" class="form-control" name="video" data-ng-model="ctrl.page.video" data-ng-pattern="ctrl.urlPattern" placeholder="Essa parte é opcional" aria-describedby="videoHelpBlock">
-      </div>
-      <div id="videoHelpBlock" class="help-block" data-ng-messages="page.video.$error">
-        <p class="text-danger" data-ng-message="pattern">
-          O vídeo do YouTube deve ser uma URL válida.
-        </p>
-      </div>
-    </div>
-    <h4>Demonstre o impacto das doações:</h4>
-    <p class="text-muted">Explique rapidamente a importância da sua causa e coloque de forma bem concreta o que certos montantes de doações podem fazer de impacto, se as pessoa doarem para a sua organização.</p>
-    <div class="form-group" data-ng-class="{'has-error':page.impact.$invalid && page.impact.$dirty}">
-      <div text-angular="text-angular" name="impact" data-ng-model="ctrl.page.impact" ta-disabled='disabled' data-ng-required="true"></div>
-      <!--<textarea rows="6" name="impact" class="form-control" data-ng-model="ctrl.page.impact" aria-describedby="impactHelpBlock" required></textarea>-->
-      <div id="impactHelpBlock" class="help-block" data-ng-messages="page.impact.$error">
-        <p class="text-danger" data-ng-message="required">É obrigatório informar um texto sobre o impacto.</p>
-      </div>
-    </div>
-    <!--<div class="margin-top-10">
-      <p>Veja nosso <a href="#">artigo</a> com mais dicas de como elaborar uma boa página de sua organização!</p>
-    </div>-->
-    <div class="form-buttons form-buttons-center">
-      <button type="submit" class="btn btn-lg btn-large btn-success" data-ng-disabled="page.$invalid">Salvar</button>
-    </div>
-  </form>
-</div>
-
 
 <image-crop ng-model="ctrl.page.avatar"></image-crop>

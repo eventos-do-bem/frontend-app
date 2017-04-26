@@ -1,29 +1,20 @@
 <form name="login" class="form-signin" novalidate data-ng-submit="ctrl.login()">
-  <h2 class="text-center">Faça seu Login</h2>
-  <p class="text-center">Não tem conta? <a ui-sref="profile.register">faça seu registro!</a></p>
-  <uib-tabset active="activeForm" justified="true">
-    <uib-tab index="0" heading="Usuário" select="ctrl.changeMethod('loginUser')">
-      <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.loginFacebook()">
-        <i class="fa fa-facebook" aria-hidden="true"></i>
-        Login com o Facebook
-      </button>
-      <p class="or"></p>
-    </uib-tab>
-    <uib-tab index="1" heading="Sou uma Ong" select="ctrl.changeMethod('loginOng')">
-    </uib-tab>
-    <div class="alert alert-danger" data-ng-show="ctrl.error">
-      <strong>Ops...</strong>
-      <ul>
-        <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind="e.join(', ')"></li>
-      </ul>
-    </div>
-  </uib-tabset>
+  <h2 class="text-center">Login</h2>
+  <p class="text-center">Não tem conta? <a ui-sref="profile.register">faça seu cadastro!</a></p>
+  <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.loginFacebook()">
+    <i class="fa fa-facebook" aria-hidden="true"></i>
+    Login com o Facebook
+  </button>
+  <div class="alert alert-danger" data-ng-show="ctrl.error">
+    <strong>Ops...</strong>
+    <ul>
+      <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind-html="e.join(', ')"></li>
+    </ul>
+  </div>
+  <p class="or"></p>
   <div data-ng-class="{'has-error':login.email.$invalid && login.email.$dirty}">
     <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Qual email você se cadastrou?" aria-describedby="emailHelpBlock" data-ng-required="true">
     <div id="emailHelpBlock" class="help-block" data-ng-messages="login.email.$error">
-      <!--<p class="text-danger" data-ng-message="required">
-        O email é obrigatório.
-      </p>-->
       <p class="text-danger" data-ng-message="email">
         Seu email deve ser um email válido.
       </p>
@@ -32,9 +23,6 @@
   <div data-ng-class="{'has-error':login.password.$invalid && login.password.$dirty}">
     <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="E a senha?" minlength="6" maxlength="10" aria-describedby="passwordHelpBlock" data-ng-required="true">
     <div id="passwordHelpBlock" class="help-block" data-ng-messages="login.password.$error">
-      <!--<p class="text-danger" data-ng-message="required">
-        A senha é obrigatória.
-      </p>-->
       <p class="text-danger" data-ng-message="minlength">
         Sua senha deve ter entre 6 e 10 caracteres.
       </p>

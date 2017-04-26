@@ -1,39 +1,80 @@
-<div class="container">
+<div class="container" ui-tour>
   <div class="row">
     <aside class="col-md-3">
       <figure class="avatar avatar-circle">
         <img data-ng-src="{{ctrl.profile.avatar.medium}}" alt="">
       </figure>
       <div class="text-center">
-        <h4>{{ctrl.profile.name}}</h4>
+        <h4 data-ng-bind="ctrl.profile.name"></h4>
         <ul class="list-group">
-          <li class="list-group-item">
-            <a ui-sref="profile.ong.page" ui-sref-active="active">Página Oficial</a>
+          <li class="list-group-item"
+            tour-step
+            tour-step-order="5"
+            tour-step-title="5. Página oficial"
+            tour-step-content="A Página Oficial é a primeira coisa que você tem que preencher quando entrar em nossa plataforma! É com ela que sua Organização pode captar eventos do bem e ficará exposta em nosso portfólio de causas para serem apoiadas. <br> <a href='/#/perfil/ong/pagina'>Preencha sua página oficial agora</a>."
+            tour-step-placement="right"
+            tour-step-belongs-to="ongTour"
+          >
+            <a ui-sref="profile.ong.page" ui-sref-active="active">
+              Página Oficial
+            </a>
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item"
+            tour-step
+            tour-step-order="4"
+            tour-step-title="4. Seus eventos do bem"
+            tour-step-content="Acesso aos eventos do bem que foram criados para a sua Organização e estão ativos, logo, nesta área você pode acompanhar o relatório de doações realizadas em cada evento do bem que está ativo. Também é aqui que você deverá submeter o seu relatório social, com a prestação de contas do investimento das doações arrecadadas por cada evento do bem."
+            tour-step-placement="right"
+            tour-step-belongs-to="ongTour"
+          >
             <a ui-sref="profile.ong.events" ui-sref-active="active">
               Seus eventos do bem
               <span class="badge badge-danger" data-ng-bind="ctrl.onlyEnabledToReceiveReport"></span>
             </a>
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item"
+            tour-step
+            tour-step-order="3"
+            tour-step-title="3. Doações diretas"
+            tour-step-content="Acesso ao histórico de doações realizadas diretamente para a sua Organização, sem terem sido realizadas portanto em eventos do bem."
+            tour-step-placement="right"
+            tour-step-belongs-to="ongTour"
+          >
             <a ui-sref="profile.ong.donations" ui-sref-active="active">
               Doações diretas
             </a>
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item"
+            tour-step
+            tour-step-order="2"
+            tour-step-title="2. Histórico"
+            tour-step-content="Acesso ao histórico de todos os eventos do bem que foram criados para você e já estão finalizados. Aqui você também terá acesso ao relatório financeiro de doações arrecadadas e ao relatório de impacto social de cada evento do bem realizado em prol da sua causa."
+            tour-step-placement="right"
+            tour-step-belongs-to="ongTour"
+          >
             <a ui-sref="profile.ong.history" ui-sref-active="active">
               Histórico
             </a>
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item"
+            tour-step
+            tour-step-order="1"
+            tour-step-title="1. Configurações"
+            tour-step-content="Preencha com as informações da Organização social, endereço, email ativo, conta do banco para depósito, CNPJ entre outros. Preencha com prioridade e cuidado, pois <strong>os depósitos de doações somente ocorrerão se esta página estiver completa e atualizada.</strong>"
+            tour-step-placement="right"
+            tour-step-belongs-to="ongTour"
+          >
             <a ui-sref="profile.ong.configurations" ui-sref-active="active">Configurações</a>
           </li>
         </ul>
+        <button type="button" class="btn btn-success btn-waiting" data-ng-click="ctrl.initTour()">
+          <i class="fa fa-question-circle" aria-hidden="true"></i>
+          Quer ajuda?
+        </button>
       </div>
     </aside>
     <div class="col-md-9">
       <ui-view></ui-view>
     </div>
   </div>
-</div>
+</v>

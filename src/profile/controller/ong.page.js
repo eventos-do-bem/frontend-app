@@ -1,13 +1,20 @@
 export default class OngPage {
-  constructor(profile,InstitutionService,$rootScope,$anchorScroll,Regex,StorageService,ProfileService) {
+  constructor(profile,InstitutionService,$rootScope,$state,$anchorScroll,$timeout,Regex,StorageService,ProfileService,TourFactory) {
     this.profile = profile.data
     this.service = InstitutionService
     this.rootScope = $rootScope
+    this.state = $state
     this.anchorScroll = $anchorScroll
+    this.timeout = $timeout
     this.storage = StorageService
     this.profileService = ProfileService
+    this.tour = TourFactory
     this.urlPattern = Regex.URL
     this.getInstitution(profile.data.institutions.uuid)
+  }
+  initTour() {
+    this.tour.init('ongPageTour')
+    this.tour.start()
   }
   getInstitution(id) {
     this.service.findById(id)
@@ -18,7 +25,7 @@ export default class OngPage {
         this.page = response.data
       })
   }
-  save(data) {
+  save(data, redirect) {
     if (data.video && data.video.trim().indexOf('http') != 0) {
       data.video = 'http://' + data.video
     }
@@ -33,14 +40,18 @@ export default class OngPage {
           delete response.data.avatar
           this.page = response.data
           
-          this.rootScope.$broadcast('alert', {
-            type: 'alert-success',
-            icon: 'fa-check',
-            message: {
-              message: 'Página oficial salva com sucesso! :)'
-            }
-          })
-          this.anchorScroll('body')
+          if (!redirect) {
+            this.rootScope.$broadcast('alert', {
+              type: 'alert-success',
+              icon: 'fa-check',
+              message: {
+                message: 'Página oficial salva com sucesso! :)'
+              }
+            })
+            this.anchorScroll('body')
+          } else {
+            this.state.go('institution.page', {slug: data.slug})
+          }
         },
         error => {
           this.rootScope.$broadcast('alert', {
@@ -54,4 +65,4 @@ export default class OngPage {
   }
 }
 
-OngPage.$inject = ['profile','InstitutionService','$rootScope','$anchorScroll','Regex','StorageService','ProfileService']
+OngPage.$inject = ['profile','InstitutionService','$rootScope','$state','$anchorScroll','$timeout','Regex','StorageService','ProfileService','TourFactory']

@@ -16,7 +16,7 @@
   </div>
 </script>
 <div class="form-signin">
-  <h2 class="text-center">Registre-se</h2>
+  <h2 class="text-center">Cadastre-se</h2>
   <p class="text-center">Já tem conta? <a ui-sref="auth.login">faça seu login</a></p>
   <uib-tabset active="ctrl.activeForm" justified="true">
     <uib-tab index="0" heading="Usuário" select="ctrl.changeTab(ctrl.activeForm)">
@@ -129,7 +129,9 @@
           </div>
           <div data-ng-switch-when="2">
             <div data-ng-class="{'has-error':registerOng.name.$invalid && registerOng.name.$dirty}">
-              <input type="text" name="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Qual o seu nome?" aria-describedby="nameHelpBlock" required>
+              <count-down-element model="registerOng.name.$viewValue" max="60">
+                <input type="text" name="name" class="form-control" data-ng-model="ctrl.profile.name" placeholder="Qual o seu nome?" aria-describedby="nameHelpBlock" maxlength="60" required>
+              </count-down-element>
               <div id="nameHelpBlock" class="help-block" data-ng-show="registerOng.name.$error && registerOng.name.$dirty">
                 <p data-ng-show="registerOng.name.$error.required" class="text-danger">O seu nome é obrigatório.</p>
               </div>
@@ -180,7 +182,7 @@
     <div class="alert alert-danger" data-ng-show="ctrl.error">
       <strong>Ops...</strong>
       <ul>
-        <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind="e.join(', ')"></li>
+        <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind-html="e.join(', ')"></li>
       </ul>
     </div>
   </uib-tabset>

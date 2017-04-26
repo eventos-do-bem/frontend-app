@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ui-tour>
   <div class="row">
     <aside class="col-md-3">
       <figure class="avatar avatar-circle">
@@ -6,27 +6,52 @@
       </figure>
       <div class="text-center">
         <h4 data-ng-bind="ctrl.profile.name"></h4>
-<!--
-        <form name="avatar">
-                <i class="glyphicon glyphicon-camera"></i> edite sua foto
-            <file model="ctrl.profile.avatar">
-              <i class="glyphicon glyphicon-camera"></i> edite sua foto
-            </file>
-        </form>-->
         <ul class="list-group">
-          <li class="list-group-item">
+          <li class="list-group-item"
+            tour-step
+            tour-step-order="0"
+            tour-step-title="1. Campanhas ativas"
+            tour-step-content="Aqui aparecerão todos os eventos do bem que você criou, você poderá editar ou excluir seus eventos do bem e também poderá acompanhar seu relatório atualizado com todas as informações das doações realizadas para sua campanha até o momento."
+            tour-step-placement="right"
+            tour-step-belongs-to="userTour"
+          >
             <a ui-sref="profile.user.events" ui-sref-active="active">Campanhas ativas</a>
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item"
+            tour-step
+            tour-step-order="1"
+            tour-step-title="2. Meu impacto"
+            tour-step-content="Após a finalização de sua campanha, os apoiadores receberão um relatório de impacto social explicando onde as doações arrecadadas foram investidas, contendo fotos e histórias dos beneficiados pela Organização Social."
+            tour-step-placement="right"
+            tour-step-belongs-to="userTour"
+          >
             <a ui-sref="profile.user.impacts" ui-sref-active="active">Meu impacto</a>
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item"
+            tour-step
+            tour-step-order="2"
+            tour-step-title="3. Histórico de doações"
+            tour-step-content="Nesta área você tem o controle das transações realizadas e pode emitir comprovantes de todas as doações que você realizou na plataforma."
+            tour-step-placement="right"
+            tour-step-belongs-to="userTour"
+          >
             <a ui-sref="profile.user.donations" ui-sref-active="active">Histórico de doações</a>
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item"
+            tour-step
+            tour-step-order="3"
+            tour-step-title="4. Configurações"
+            tour-step-content="É muito importante que você atualize e complete as informações requisitadas, <strong>principalmente deixando o email atualizado e CPF correto</strong> para emitirmos comprovantes e avisos importantes de campanhas."
+            tour-step-placement="right"
+            tour-step-belongs-to="userTour"
+          >
             <a ui-sref="profile.user.configurations" ui-sref-active="active">Configurações</a>
           </li>
         </ul>
+        <button type="button" class="btn btn-success btn-waiting" data-ng-click="ctrl.initTour()">
+          <i class="fa fa-question-circle" aria-hidden="true"></i>
+          Quer ajuda?
+        </button>
       </div>
     </aside>
     <div class="col-md-9">

@@ -149,7 +149,22 @@ blockquote:before {
 blockquote .name {
   text-align: right;
 }
-
+.ui-tour-backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+  fill: rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  /*height: 100% !important;
+  top: 0px !important;
+  right: 0;
+  bottom: 0px !important;
+  left: 0;*/
+}
+/*.ui-tour-backdrop.ui-tour-backdrop-component-bottom {
+  height: 100vh !important;
+}*/
+.ui-tour-active-step {
+  z-index: 99999999;
+}
 .carousel {
   position: unset !important;
 }
@@ -206,6 +221,17 @@ blockquote .name {
   z-index: 1000;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.ui-tour-popup.popover .popover-title {
+  padding: 8px 14px;
+  margin: 0;
+  font-size: 14px;
+  background-color: #eeeeee;
+  border-bottom: 1px solid #eae3e3;
+  border-radius: 5px 5px 0 0;
+}
+.ui-tour-popup.popover {
+  background-color: #f7f7f7;
 }
 .popover.right {
   width: 100%;
@@ -338,7 +364,11 @@ dl dd:last-child {
   margin-bottom: 0;
   border-width: 0 0 1px 0;
 }
+.profile .list-group-item:first-child {
+  border-radius: 0;
+}
 .profile .list-group-item:last-child {
+  border-radius: 0;
   border-bottom: 0;
 }
 .profile .list-group-item a {
@@ -455,15 +485,24 @@ dl dd:last-child {
   background-color: #fff;
   border: 1px solid #ccc;
 }
+.explore .thumbnail .progress {
+  margin-bottom: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background-color: #eaeaea;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
 /* /explore */
 
 /* campaign/institution */
 .campaign .login-another-user,
-.institution .login-another-user {
+.institution .login-another-user,
+.campaign .float-top-right,
+.institution .float-top-right {
   position: absolute;
-  width: 100%;
   padding: 20px;
-  text-align: right;
+  right: 0px;
   z-index: 999;
 }
 .campaign .cover,
@@ -476,14 +515,14 @@ dl dd:last-child {
 .institution .cover > img {
   width: 100%;
 }
-.campaign .cover > .image-cover,
-.institution .cover > .image-cover {
+.campaign .cover .image-cover,
+.institution .cover .image-cover {
   width: 100%;
   max-width: 100%;
   height: 300px;
 }
-.campaign .cover > .image-cover:before,
-.institution .cover > .image-cover:before {
+.campaign .cover .image-cover:before,
+.institution .cover .image-cover:before {
   background: -webkit-linear-gradient(transparent, #000);
   background: linear-gradient(transparent, #000);
   content: '';
@@ -503,6 +542,12 @@ dl dd:last-child {
   border: 2px solid #ccc;
   width: 100%;
   margin:2%;
+}
+.institution .cover-content figure.avatar {
+  position: absolute;
+  display: block;
+  margin-top: -50px;
+  padding: 0 5rem 0 5rem;  
 }
 .institution .content figure.avatar {
   position: absolute;
@@ -552,6 +597,12 @@ dl dd:last-child {
   padding-bottom: 2%;
   font-size: 1.7rem;
   color: #444;
+}
+.institution .content .page-header {
+  margin: 40px 0 0 0;
+}
+.institution .content .page-header:first-child {
+  margin: 0;
 }
 .institution .content .description {
   padding-top: 2%;
@@ -751,7 +802,7 @@ header .navbar .navbar-brand {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 20px 150px;
+  padding: 18px 150px;
 }
 .navbar-nav {
   margin: 0;
@@ -819,7 +870,7 @@ header .navbar .navbar-profile .avatar-circle {
   bottom: 0px;
   font-size: 1.4rem;
   color: #999;
-  z-index: 3;
+  z-index: 2;
   opacity: .8;
   background-color: #fff;
 }
@@ -1436,7 +1487,7 @@ cursor: pointer;
   opacity: 0.7;
 }*/
 .form-signin .nav, .form-signin p {
-  margin: 15px 0 5px !important;
+  margin: 15px 0 15px !important;
 }
 .form-signin .alert li::first-letter {
   text-transform: uppercase;
@@ -1502,6 +1553,7 @@ cursor: pointer;
 .form-signin textarea.form-control {
   height: 100px;
 }
+.form-signin p,
 .form-signin .tab-pane p {
   padding-top: 0px;
   font-size: 1.6rem;
@@ -1518,12 +1570,14 @@ cursor: pointer;
   font-size: 1.4rem;
   text-align: left;
 }
+.form-signin p.or,
 .form-signin .tab-pane p.or {
   margin-bottom: -2rem !important;
   margin-top: 4rem !important;
   padding: 0;
   border-top: 1px solid #ccc;
 }
+.form-signin p.or:after,
 .form-signin .tab-pane p.or:after {
   content: 'ou';
   position: relative;
