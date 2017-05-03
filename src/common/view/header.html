@@ -46,7 +46,8 @@
                 <figure class="avatar-circle">
                   <img data-ng-src="{{ctrl.profile.avatar.small}}" alt="">
                 </figure>
-                {{ctrl.profile.name}} <span class="caret"></span>
+                <span class="inline-ellipsis" data-ng-bind="ctrl.profile.name"></span>
+                <span class="caret"></span>
               </a>
             </li>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">

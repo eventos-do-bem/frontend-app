@@ -44,10 +44,10 @@
         </figure>-->
         <div class="panel panel-default">
           <div class="panel-heading text-center">
-            <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-block btn-success">
+            <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-block btn-success inline-ellipsis">
               Crie aqui seu evento do bem e ajude a <br> <span data-ng-bind="ctrl.institution.name"></span>
             </a>
-            <a class="btn btn-block btn-default" data-ng-show="ctrl.profile.type != 'ong'" data-ng-click="ctrl.donate(ctrl.institution)">
+            <a class="btn btn-block btn-default inline-ellipsis" data-ng-show="ctrl.profile.type != 'ong'" data-ng-click="ctrl.donate(ctrl.institution)">
               Doar para esta Organização
             </a>
           </div>
@@ -63,7 +63,7 @@
           </div>
         </div>
         <div>
-            <a ui-sref="event.explore({instituicao: ctrl.institution.slug})" class="btn btn-block btn-default">
+            <a ui-sref="event.explore({instituicao: ctrl.institution.slug})" class="btn btn-block btn-default inline-ellipsis">
               Explore os eventos que apoiam a <br> <span data-ng-bind="ctrl.institution.name"></span>
             </a>
         </div>
