@@ -8,7 +8,7 @@
   <form name="donate" novalidate data-ng-submit="ctrl.save(ctrl.donate)">
     <div class="row">
       <div class="col-md-8">
-        <h3>Você está doando para a campanha de <span data-ng-bind="ctrl.event.institution.user.name"></span></h3>
+        <h3>Você está doando para a campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
         <h4>As seguintes informações são necessárias para enviarmos seu comprovante para o seu email, preencha com cuidado e revise os dados para a doação.</h4>
         <div class="row">
           <div class="form-group col-md-8" data-ng-class="{'has-error':donate.name.$invalid && donate.name.$dirty}">
