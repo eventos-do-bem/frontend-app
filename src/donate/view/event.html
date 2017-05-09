@@ -128,7 +128,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group" data-ng-class="{'has-error':donate.amount.$invalid && donate.amount.$dirty}">
-              <label for="amount" class="control-label">Digite o valor que deseja doar para a campanha de <span data-ng-bind="ctrl.event.institution.user.name"></span></label>
+              <label for="amount" class="control-label">Digite o valor que deseja doar para a campanha de <span data-ng-bind="ctrl.event.user.name"></span></label>
               <input type="text" name="amount" id="amount" class="form-control" format-currency="ctrl.amountOptions" variable-options="true" data-ng-model="ctrl.donate.amount" data-ng-focus="ctrl.onFocus('amount')" data-ng-blur="ctrl.onValidate(donate)" required>
             </div>
             <div class="form-group" data-ng-class="{'has-error':donate.card_number.$invalid && donate.card_number.$dirty}">
@@ -171,7 +171,7 @@
               <div class="col-md-12">
                 <div class="form-group" data-ng-class="{'has-error':donate.message.$invalid && donate.message.$dirty}">
                   <label for="message" class="control-label">
-                    Escreva uma mensagem de apoio para <span data-ng-bind="ctrl.event.institution.user.name"></span> que aparecerá em sua página de campanha!
+                    Escreva uma mensagem de apoio para <span data-ng-bind="ctrl.event.user.name"></span> que aparecerá em sua página de campanha!
                   </label>
                   <count-down-element model="donate.message.$viewValue" max="165">
                     <textarea name="message" id="message" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="165" placeholder="Escreva aqui uma mensagem de apoio e união a esta ação de melhora do mundo."></textarea>
