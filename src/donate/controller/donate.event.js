@@ -1,5 +1,5 @@
 export default class DonateEvent {
-  constructor($rootScope, $state, $stateParams, $window, $timeout, $anchorScroll, ProfileService, EventService, DonateService, $uibModal, CreditCardFactory) {
+  constructor($rootScope, $state, $stateParams, $window, $timeout, $anchorScroll, ProfileService, EventService, DonateService, $uibModal, CreditCardFactory, ValidationFactory) {
     this.rootScope = $rootScope
     this.state = $state
     this.stateParams = $stateParams
@@ -11,6 +11,7 @@ export default class DonateEvent {
     this.donateService = DonateService
     this.modal = $uibModal
     this.creditCard = CreditCardFactory
+    this.validation = ValidationFactory
     this.logged = this.window.localStorage.getItem('token')
     this.donate = {
       is_anonymous: false
@@ -85,6 +86,16 @@ export default class DonateEvent {
       {question: 'O que os outros podem ver do meu apoio?', answer: 'Como nossa política de transparência, a pessoa que criou o evento do bem poderá visualizar nome, email e valor do apoio. '},
       {question: 'Conseguirei ver o resultado do meu apoio à Organização?', answer: 'Sim! está é a melhor parte, a Organização social apoiada se dispõe a quantificar no que o seu apoio se transformou ( ex. apoio escolar para 30 crianças e etc.), você receberá esse retorno no seu email cadastrado na eventos do bem, por isso se certifique que o email que você se cadastrou está correto.'}
     ]
+  }
+  validateDate(field, date) {
+    if (!field.$error.mask && date) {
+      date = date.split('/')
+      date = new Date(`${date[2]}-${date[1]}-${date[0]}`)
+      let valid = this.validation.dateMinByYears(date, 18)
+      field.$setValidity('birthdate', valid)
+    } else {
+      field.$setValidity('birthdate', false)
+    }
   }
   donateCard() {
     let donate = angular.copy(this.donate)
@@ -232,4 +243,4 @@ export default class DonateEvent {
   }
 }
 
-DonateEvent.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$timeout', '$anchorScroll', 'ProfileService', 'EventService', 'DonateService', '$uibModal', 'CreditCardFactory']
+DonateEvent.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$timeout', '$anchorScroll', 'ProfileService', 'EventService', 'DonateService', '$uibModal', 'CreditCardFactory', 'ValidationFactory']

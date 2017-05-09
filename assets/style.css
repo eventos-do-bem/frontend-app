@@ -83,6 +83,12 @@ form input[type="file"] {
   margin: 2rem;
 }
 
+.inline-ellipsis {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .well {
   margin-top: 15px;
 }
@@ -809,9 +815,14 @@ header .navbar .navbar-brand {
 }
 .navbar-nav > li > a.photo {
   position: relative;
+  width: 150px;
+  text-align: center;
   padding-top: 15px;
-  /*padding-bottom: 10px;*/
+  padding-bottom: 10px;
   padding-left: 35px;
+}
+.navbar-nav > li > a.photo .inline-ellipsis {
+  max-width: 80px;
 }
 header .navbar .navbar-profile .avatar-circle {
   position: absolute;

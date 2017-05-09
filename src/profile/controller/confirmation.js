@@ -33,7 +33,7 @@ export default class ProfileConfirmation {
     // this.storage.setItem('profile', {name: name, email: email, type: type})
     // this.rootScope.$broadcast('profile.change')
     switch(this.profile.type) {
-      case 'user': this.state.go('profile.user.events'); break;
+      case 'user': this.state.go('profile.user.events', { novo: true }); break;
       case 'ong': this.state.go('profile.ong.events'); break;
     }
   }

@@ -8,24 +8,41 @@
   <form name="donate" novalidate data-ng-submit="ctrl.save(ctrl.donate)">
     <div class="row">
       <div class="col-md-8">
-        <h3>Você está doando para a campanha de <span data-ng-bind="ctrl.event.institution.user.name"></span></h3>
+        <h3>Você está doando para a campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
         <h4>As seguintes informações são necessárias para enviarmos seu comprovante para o seu email, preencha com cuidado e revise os dados para a doação.</h4>
         <div class="row">
           <div class="form-group col-md-8" data-ng-class="{'has-error':donate.name.$invalid && donate.name.$dirty}">
             <label for="name" class="control-label">Nome completo</label>
-            <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.donate.name" data-ng-disabled="ctrl.logged" data-ng-required="!ctrl.logged" autofocus>
+            <count-down-element model="donate.name.$viewValue" max="60">
+              <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.donate.name" data-ng-disabled="ctrl.logged" maxlength="60" data-ng-required="!ctrl.logged" autofocus>
+            </count-down-element>
+            <div class="help-block" data-ng-messages="donate.name.$error" data-ng-hide="!donate.name.$dirty">
+              <p class="text-danger" ng-message="required">O seu nome é obrigatório.</p>
+            </div>
           </div>
           <div class="form-group col-md-4" data-ng-class="{'has-error':donate.birthdate.$invalid && donate.birthdate.$dirty}">
             <label for="birthdate" class="control-label">Data de nascimento</label>
-            <input type="text" name="birthdate" id="birthdate" mask="39/19/2999" class="form-control" data-ng-model="ctrl.donate.birthdate" data-ng-disabled="ctrl.logged" data-ng-required="!ctrl.logged">
+            <input type="text" name="birthdate" id="birthdate" class="form-control" mask="39/19/2999" data-ng-model="ctrl.donate.birthdate" data-ng-change="ctrl.validateDate(donate.birthdate, ctrl.donate.birthdate)" data-ng-model-options="{debounce: 600}" data-ng-disabled="ctrl.logged" data-ng-required="!ctrl.logged">
+            <div class="help-block" data-ng-messages="donate.birthdate.$error" data-ng-hide="!donate.birthdate.$dirty">
+              <p data-ng-message="required" class="text-danger">Data de nascimento é obrigatória.</p>
+              <p data-ng-message="birthdate" class="text-danger">Permitido somente maiores de 18 anos.</p>
+            </div>
           </div>
           <div class="form-group col-md-6" data-ng-class="{'has-error':donate.email.$invalid && donate.email.$dirty}">
             <label for="email" class="control-label">E-mail</label>
-            <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.donate.email" data-ng-disabled="ctrl.logged" data-ng-required="!ctrl.logged">
+            <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.donate.email" data-ng-model-options="{debounce: 600}" data-ng-disabled="ctrl.logged" data-ng-required="!ctrl.logged">
+            <div class="help-block" data-ng-messages="donate.email.$error" data-ng-hide="!donate.email.$dirty">
+              <p data-ng-message="required" class="text-danger">O email é obrigatório.</p>
+              <p data-ng-message="email" class="text-danger">Seu email deve ser um email válido.</p>
+            </div>
           </div>
           <div class="form-group col-md-6" data-ng-class="{'has-error':donate.document.$invalid && donate.document.$dirty}">
             <label for="document" class="control-label">CPF</label>
-            <input type="text" name="document" id="document" mask="999.999.999-99" clean="true" class="form-control" data-ng-model="ctrl.donate.document" data-ng-disabled="ctrl.logged && !ctrl.missingDoc" data-ng-required="!ctrl.logged">
+            <input type="text" name="document" id="document" mask="999.999.999-99" clean="true" class="form-control" data-ng-model="ctrl.donate.document" data-ng-model-options="{debounce: 600}" data-ng-disabled="ctrl.logged && !ctrl.missingDoc" data-ng-required="!ctrl.logged">
+            <div class="help-block" data-ng-messages="donate.document.$error" data-ng-hide="!donate.document.$dirty">
+              <p data-ng-message="required" class="text-danger">O CPF é obrigatório.</p>
+              <p data-ng-message="mask" class="text-danger">Seu CPF deve ser um número válido.</p>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -156,9 +173,14 @@
                   <label for="message" class="control-label">
                     Escreva uma mensagem de apoio para <span data-ng-bind="ctrl.event.institution.user.name"></span> que aparecerá em sua página de campanha!
                   </label>
-                  <count-down-element model="ctrl.donate.message" max="165">
+                  <count-down-element model="donate.message.$viewValue" max="165">
                     <textarea name="message" id="message" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="165" placeholder="Escreva aqui uma mensagem de apoio e união a esta ação de melhora do mundo."></textarea>
                   </count-down-element>
+                  <div class="help-block" data-ng-messages="donate.message.$error" data-ng-hide="!donate.message.$dirty">
+                    <p data-ng-message="minlength" class="text-danger">Sua mensagem deve ter no mínimo 20 e máximo 165 letras.</p>
+                  </div>
+                </div>
+                <div class="form-group">
                   <div class="checkbox">
                     <label>
                       <input type="checkbox" data-ng-model="ctrl.donate.is_anonymous">
