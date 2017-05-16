@@ -38,16 +38,13 @@ export default class Page {
       })
   }
   share() {
-    /**
-     * Ainda sem picture até definirmos qual imagem irá aparecer na publicação
-     * Opções: logo da EVB, cover da instituição, imagem de perfil
-     * No caso de cover ou perfil, verificar se será a cover padrão ou upada pelo user
-     */
+    let picture = (this.institution.cover.medium.indexOf('http') > -1) ? this.institution.cover.medium : `https://www.eventosdobem.com.br${this.institution.cover.medium}`
     this.facebook.share({
       href: this.location.absUrl(),
       title: this.institution.name,
-      caption: this.institution.mission,
-      description: this.institution.propose
+      picture: picture,
+      description: this.institution.mission,
+      caption: `Responsável: ${this.institution.user.name}`
     })
   }
   getProfile() {

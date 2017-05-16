@@ -31,6 +31,12 @@
         </div>
         <h3 class="page-header">Impacto</h3>
         <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.institution.impact)"></p>
+        <div>
+          <button type="button" class="btn btn-xs btn-share" data-ng-click="ctrl.share()" data-ng-disabled="!ctrl.institution.name">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+            Compartilhar
+          </button>
+        </div>
         <div class="text-center">
           <h2>Gostou?</h2>
           <a ui-sref="event.start({causa: ctrl.institution.uuid})" class="btn btn-lg btn-warning">
