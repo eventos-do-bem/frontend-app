@@ -1,3 +1,17 @@
-import app      from './src/app/module.js'
+import app                  from './src/app/module.js'
+import common               from './src/common/module.js'
+import loading              from './src/common/component/loading/loading.js'
+import alert                from './src/common/component/alert/alert.js'
+import countdown            from './src/common/component/countdown/countdown.js'
+import facebook             from './src/common/component/facebook/facebook.js'
+import home                 from './src/home/module.js'
+import pages                from './src/pages/module.js'
+import faq                  from './src/faq/module.js'
+import event                from './src/event/module.js'
+import donate               from './src/donate/module.js'
+import auth                 from './src/auth/module.js'
+import profile              from './src/profile/module.js'
+import institution          from './src/institution/module.js'
+import confirmation         from './src/confirmation/module.js'
 
 angular.bootstrap(document, ['app'])
