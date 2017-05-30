@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "npm-run-all -p live-server dev",
-    "live-server": "live-server --host=localhost --port=8000",
+    "live-server": "live-server --port=8000",
     "dev": "npm-run-all -p style:watch app:watch",
     "prod": "npm-run-all -p app:build vendor:build style:minify",
     "app:watch": "simplifyify 'app.js' --outfile 'dist/bundle.js' --bundle --minify --watch --debug",

@@ -839,6 +839,14 @@ header .navbar .navbar-profile .avatar-circle {
   padding: 6px 15px;
   color: #000 !important;
 }
+header .navbar-default .navbar-nav > .active > a,
+header .navbar-default .navbar-nav > .active > a:hover,
+header .navbar-default .navbar-nav > .active > a:focus,
+header .navbar-default .navbar-nav > .active > a:active,
+header .navbar-default .navbar-nav .open .dropdown-menu > .active > a {
+  color: #3a93d0;
+  background-color: transparent;
+}
 /* /navbar */
 
 /* banner */

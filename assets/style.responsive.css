@@ -3,6 +3,7 @@
   main {
     margin-bottom: 550px;
   }
+
   .portfolio h1 {
     width: 100%;
   }
@@ -20,6 +21,22 @@
     width: 60%;
     padding: 15px 30%;
   }
+  header .navbar-default .navbar-nav > .active > a,
+  header .navbar-default .navbar-nav > .active > a:hover,
+  header .navbar-default .navbar-nav > .active > a:focus,
+  header .navbar-default .navbar-nav > .active > a:active,
+  header .navbar-default .navbar-nav .open .dropdown-menu > .active > a {
+    color: #ffffff;
+    background-color: #0ea4f1;
+  }
+  header .navbar-nav > li > a.photo .inline-ellipsis {
+    max-width: 100%;
+  }
+  header .navbar-nav > li > a.photo {
+    width: 100%;
+    text-align: left;
+  }
+
   .banner {
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -137,6 +154,16 @@
     padding: 40px 40px;
   }
   /* /report */
+  /* campaign */
+  .campaign .cover-content .avatar {
+    width: 60%;
+    margin: 2% 20%;
+  }
+  .campaign .cover-content h2,
+  .campaign .cover-content h3 {
+    color: inherit;
+  }
+  /* /campaign */
 }
 
 /* Small devices */
