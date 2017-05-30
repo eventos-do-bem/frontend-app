@@ -810,6 +810,9 @@ header .navbar .navbar-brand {
   background-position: center;
   padding: 18px 150px;
 }
+header .navbar .nav > li {
+  z-index: 5;
+}
 .navbar-nav {
   margin: 0;
 }
