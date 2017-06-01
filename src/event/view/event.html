@@ -23,54 +23,8 @@
   </section>
   <section class="content container">
     <div class="row">
-      <div class="col-sm-8">
-        <div data-ng-show="ctrl.event.videos.values[0]" class="video-container">
-          <iframe data-ng-src="{{ctrl.event.videos.values[0].url | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.event.description)"></p>
-        <div>
-          <button type="button" class="btn btn-xs btn-share" data-ng-click="ctrl.share()" data-ng-disabled="!ctrl.event.name">
-            <i class="fa fa-facebook" aria-hidden="true"></i>
-            Compartilhar
-          </button>
-        </div>
-        <div data-ng-show="ctrl.event.messages.values.length > 0">
-          <h3>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
-          <ul class="media-list">
-            <li class="media" data-ng-repeat="item in ctrl.event.messages.values">
-              <div class="media-left avatar ">
-                <a>
-                  <img data-ng-show="item.user" class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
-                  <img data-ng-show="!item.user" class="media-object img-circle" data-ng-src="/assets/images/avatars/small/avatar.svg" alt="Anônimo">
-                </a>
-              </div>
-              <div class="media-body">
-                <h4 class="media-heading">
-                  <span data-ng-show="item.user" data-ng-bind="item.user.name"></span>
-                  <span data-ng-show="!item.user">Anônimo</span>
-                </h4>
-                <p data-ng-bind="item.message"></p>
-              </div>
-            </li>
-          </ul>
-          <div class="text-center" data-ng-show="ctrl.pagination.total_pages > 0">
-            <ul uib-pagination
-                total-items="ctrl.pagination.total"
-                ng-model="ctrl.pagination.current_page"
-                max-size="ctrl.pagination.per_page"
-                class="pagination-sm"
-                previous-text="Anterior"
-                next-text="Próxima"
-                first-text="Primeira"
-                last-text="Última"
-                boundary-links="true"
-                num-pages="ctrl.pagination.total_pages"
-                data-ng-change="ctrl.getMessages(ctrl.slug, {})">
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4" fixed-on-scroll offset="250" top="70">
+      <!--<div class="col-md-4 col-md-push-8" fixed-on-scroll offset="250" top="70">-->
+      <div class="col-md-4 col-md-push-8">
         <div class="panel panel-default">
           <div class="panel-heading">
             <button type="button" data-ng-disabled="ctrl.event.closed" ui-sref="donate.event({slug: ctrl.event.slug})" class="btn btn-lg btn-block btn-success" uib-popover="Prazo limite para doações esgotado :(" popover-trigger="mouseenter" popover-enable="ctrl.event.closed">
@@ -122,6 +76,53 @@
               <a href="{{ctrl.event.institution.website}}">{{ctrl.event.institution.website}}</a>
               <a data-ng-show="!ctrl.event.institution.website" ui-sref="institution.page({slug: ctrl.event.institution.slug})">{{ctrl.event.institution.name}}</a>
             </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 col-md-pull-4">
+        <div data-ng-show="ctrl.event.videos.values[0]" class="video-container">
+          <iframe data-ng-src="{{ctrl.event.videos.values[0].url | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class="description ta-editor" data-ng-bind-html="ctrl.getTrustHtml(ctrl.event.description)"></p>
+        <div>
+          <button type="button" class="btn btn-xs btn-share" data-ng-click="ctrl.share()" data-ng-disabled="!ctrl.event.name">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+            Compartilhar
+          </button>
+        </div>
+        <div data-ng-show="ctrl.event.messages.values.length > 0">
+          <h3>Mensagens dos doadores da campanha de <span data-ng-bind="ctrl.event.user.name"></span></h3>
+          <ul class="media-list">
+            <li class="media" data-ng-repeat="item in ctrl.event.messages.values">
+              <div class="media-left avatar ">
+                <a>
+                  <img data-ng-show="item.user" class="media-object img-circle" data-ng-src="{{item.user.avatar.small}}" alt="{{item.user.name}}">
+                  <img data-ng-show="!item.user" class="media-object img-circle" data-ng-src="/assets/images/avatars/small/avatar.svg" alt="Anônimo">
+                </a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">
+                  <span data-ng-show="item.user" data-ng-bind="item.user.name"></span>
+                  <span data-ng-show="!item.user">Anônimo</span>
+                </h4>
+                <p data-ng-bind="item.message"></p>
+              </div>
+            </li>
+          </ul>
+          <div class="text-center" data-ng-show="ctrl.pagination.total_pages > 0">
+            <ul uib-pagination
+                total-items="ctrl.pagination.total"
+                ng-model="ctrl.pagination.current_page"
+                max-size="ctrl.pagination.per_page"
+                class="pagination-sm"
+                previous-text="Anterior"
+                next-text="Próxima"
+                first-text="Primeira"
+                last-text="Última"
+                boundary-links="true"
+                num-pages="ctrl.pagination.total_pages"
+                data-ng-change="ctrl.getMessages(ctrl.slug, {})">
+            </ul>
           </div>
         </div>
       </div>
