@@ -9,7 +9,10 @@
         ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.slug}}">
         <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
       </li>
-      <li data-ng-show="ctrl.institutions.length > 10">
+      <li data-ng-show="$parent.ctrl.loadMoreTotal > $parent.ctrl.loadMorePage">
+        <a data-ng-click="$parent.ctrl.loadMore()">Carregar mais...</a>
+      </li>
+      <li data-ng-show="institutions.length > 8">
         <a>Digite para encontrar mais...</a>
       </li>
     </ul>
@@ -66,10 +69,10 @@
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.institution_uuid.$invalid && start.institution_uuid.$dirty}">
           <label for="institution_uuid" class="control-label">Escolha a causa que irá ajudar</label>
-          <input type="text" name="institution_uuid" data-ng-model="ctrl.event.institution_uuid" placeholder="Encontre uma causa" data-ng-disabled="ctrl.event.hasAnyDonate" uib-typeahead="item.uuid as item.name for item in ctrl.institutions | filter:$viewValue | limitTo:10" typeahead-input-formatter="ctrl.selectInstitution($model)" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('institution')" popover-placement="right" popover-trigger="focus" required>
+          <input type="text" name="institution_uuid" data-ng-model="ctrl.event.institution_uuid" placeholder="Encontre uma causa" data-ng-disabled="ctrl.event.hasAnyDonate" uib-typeahead="item.uuid as item.name for item in ctrl.institutions | filter:$viewValue" typeahead-input-formatter="ctrl.selectInstitution($model)" typeahead-popup-template-url="typeaheadPopupTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" uib-popover-template="'myPopoverTemplate.html'" data-ng-focus="ctrl.setPopoverContent('institution')" popover-placement="right" popover-trigger="focus" required>
           <p data-ng-show="start.institution_uuid.$invalid && start.institution_uuid.$dirty && start.institution_uuid.$touched" class="text-danger">Escolha uma causa</p>
           <p data-ng-show="ctrl.event.hasAnyDonate" class="text-warning">Este campo não pode ser alterado, pois este evento já possui doação.</p>
-          <p>Não tem causa? <a target="_blank" ui-sref="pages.explore">Se inspire aqui</a>. Quer cadastrar sua causa com a gente? <a target="_blank" ui-sref="pages.contact">Entre em contato</a></p>
+          <p><span data-ng-hide="ctrl.event.institution_uuid">Não tem causa? <a target="_blank" ui-sref="pages.explore">Se inspire aqui</a>.</span> Quer cadastrar sua causa com a gente? <a target="_blank" ui-sref="pages.contact">Entre em contato</a></p>
         </div>
         <div class="form-group" data-ng-class="{'has-error':start.categorie_uuid.$invalid && start.categorie_uuid.$dirty}">
           <label for="categorie_uuid" class="control-label">Categoria do Evento do Bem</label>

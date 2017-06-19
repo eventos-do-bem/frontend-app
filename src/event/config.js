@@ -14,10 +14,21 @@ export default function EventConfig($stateProvider) {
         profile: (ProfileService) => {
           return ProfileService.me()
         },
+        institution: (InstitutionService, $stateParams) => {
+          if ($stateParams.causa) {
+            return InstitutionService.findById($stateParams.causa)
+              .then(response => {
+                // console.log(response.data)
+                return response.data
+              })
+          } else {
+            return {}
+          }
+        },        
         institutions: (InstitutionService) => {
           return InstitutionService.findAll()
             .then(response => {
-              return response.data.values
+              return response.data
             })
         },
         categories: (CategoryService) => {
