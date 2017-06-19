@@ -1,5 +1,5 @@
 export default class EventStart {
-  constructor($rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, Regex, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory, profile, institutions, categories, event) {
+  constructor($scope, $rootScope, $state, $window, $stateParams, $timeout, $filter, $location, $anchorScroll, Regex, LocationService, CityService, EventService, CategoryService, InstitutionService, ValidationFactory, profile, institution, institutions, categories, event) {
     if (profile.data.type == 'ong') $state.go('faq.question', {questionId: 'quem-pode-criar-um-evento-do-bem'})
     this.rootScope = $rootScope
     this.state = $state
@@ -9,12 +9,16 @@ export default class EventStart {
     this.anchorScroll = $anchorScroll
     this.service = EventService
     this.institutionService = InstitutionService
-    this.institutions = institutions
+    this.institutions = institutions.values
+    this.loadMoreTotal = institutions.meta.pagination.total_pages
+    this.loadMorePage = 1
     this.categories = categories
     this.event = event
     this.locationService = LocationService
     this.validation = ValidationFactory
     this.urlPattern = Regex.URL
+    // this.event.institution_uuid = institution.uuid
+    // console.log(institution)
     // this.event = {
     //   categorie_uuid: null
     // }
@@ -30,6 +34,7 @@ export default class EventStart {
       vMin: '0.00'
     }
     if ($stateParams.causa) {
+      this.institutions.push(institution)
       this.event.institution_uuid = $stateParams.causa
     }
     if ($stateParams.categoria) {
@@ -86,6 +91,16 @@ export default class EventStart {
         text: 'Você pode gravar um vídeo explicando sua campanha. Caso prefira, pode ser um vídeo institucional da causa beneficiada. Se você deixar em branco o endereço do vídeo, sua página automaticamente utilizará o vídeo-padrão ou uma imagem do projeto salvo em nosso banco de dados.'
       }
     }
+    // $scope.loadMore = this.loadMore
+  }
+  loadMore() {
+    this.loadMorePage = this.loadMorePage + 1
+    let data = { page: this.loadMorePage }
+    this.institutionService.search(data)
+      .then(response => {
+        this.institutions = this.institutions.concat(response.data.values)
+        document.querySelector('input[name="institution_uuid"]').focus()
+      })
   }
   selectInstitution(institution) {
     if (institution) {
@@ -211,4 +226,4 @@ export default class EventStart {
   }
 }
 
-EventStart.$inject = ['$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'Regex', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService','ValidationFactory','profile','institutions','categories','event']
+EventStart.$inject = ['$scope','$rootScope','$state','$window','$stateParams','$timeout','$filter','$location','$anchorScroll', 'Regex', 'LocationService', 'CityService', 'EventService', 'CategoryService', 'InstitutionService','ValidationFactory','profile', 'institution', 'institutions','categories','event']
