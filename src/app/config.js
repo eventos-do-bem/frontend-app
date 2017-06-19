@@ -20,6 +20,7 @@ export default function AppConfig($httpProvider, envServiceProvider, $provide, $
     },
     vars: {
       development: {
+        // apiUrl: 'https://prod.eventosdobem.com/api/',
         apiUrl: 'https://dev.eventosdobem.com/api/',
         staticUrl: 'https://frontend.eventosdobem.com/',
         accept: "application/vnd.api.v1+json",
