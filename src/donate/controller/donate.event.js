@@ -1,10 +1,11 @@
 export default class DonateEvent {
-  constructor($rootScope, $state, $stateParams, $window, $timeout, $anchorScroll, ProfileService, EventService, DonateService, $uibModal, CreditCardFactory, ValidationFactory) {
+  constructor ($rootScope, $state, $stateParams, $window, $timeout, $location, $anchorScroll, ProfileService, EventService, DonateService, $uibModal, CreditCardFactory, ValidationFactory, LocationService, CityService) {
     this.rootScope = $rootScope
     this.state = $state
     this.stateParams = $stateParams
     this.window = $window
     this.timeout = $timeout
+    this.location = $location
     this.anchorScroll = $anchorScroll
     this.profileService = ProfileService
     this.eventService = EventService
@@ -12,7 +13,9 @@ export default class DonateEvent {
     this.modal = $uibModal
     this.creditCard = CreditCardFactory
     this.validation = ValidationFactory
+    this.locationService = LocationService
     this.logged = this.window.localStorage.getItem('token')
+    this.temp = {}
     this.donate = {
       is_anonymous: false
     }
@@ -39,19 +42,19 @@ export default class DonateEvent {
     if (this.logged) {
       this.profileService.me()
         .then(response => {
-          let {name, birthdate, email, document} = response.data
+          let {name, birthdate, email, document, zip_code, street, number, city, district, state} = response.data
           birthdate = birthdate.split('-')
           birthdate = `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`
           this.donate.name = name
           this.donate.birthdate = birthdate
           this.donate.email = email
           this.donate.document = document
-          // this.donate = {
-          //   name: name,
-          //   birthdate: birthdate,
-          //   email: email,
-          //   document: document
-          // }
+          this.donate.zip_code = zip_code
+          this.donate.street = street
+          this.donate.number = number
+          this.donate.city = city
+          this.donate.district = district
+          this.donate.state = state
           this.missingDoc = (this.donate.document) ? false : true
         })
     }
@@ -66,7 +69,7 @@ export default class DonateEvent {
       cvc: '•••'
     }
     this.card = document.querySelector('.card')
-    this.frontInputs = ['amount','card_number','card_name','card_month','card_year']
+    this.frontInputs = ['card_amount', 'card_number', 'card_name', 'card_month', 'card_year']
     this.months = []
     for (let m = 1; m <= 12; m++) {
       if (m <= 9) {
@@ -86,8 +89,12 @@ export default class DonateEvent {
       {question: 'O que os outros podem ver do meu apoio?', answer: 'Como nossa política de transparência, a pessoa que criou o evento do bem poderá visualizar nome, email e valor do apoio. '},
       {question: 'Conseguirei ver o resultado do meu apoio à Organização?', answer: 'Sim! está é a melhor parte, a Organização social apoiada se dispõe a quantificar no que o seu apoio se transformou ( ex. apoio escolar para 30 crianças e etc.), você receberá esse retorno no seu email cadastrado na eventos do bem, por isso se certifique que o email que você se cadastrou está correto.'}
     ]
+    this.inputCity = document.querySelector('input[name="city"]')
+    this.inputNumber = document.querySelector('input[name="number"')
+    this.locationService.getStates()
+      .then(response => { this.states = response.data.values })
   }
-  validateDate(field, date) {
+  validateDate (field, date) {
     if (!field.$error.mask && date) {
       date = date.split('/')
       date = new Date(`${date[2]}-${date[1]}-${date[0]}`)
@@ -97,7 +104,7 @@ export default class DonateEvent {
       field.$setValidity('birthdate', false)
     }
   }
-  donateCard() {
+  donateCard () {
     let donate = angular.copy(this.donate)
     if (this.logged) {
       delete donate.name
@@ -116,7 +123,7 @@ export default class DonateEvent {
         error => this.openCardError(error.data)
       )
   }
-  openCardSuccess(user, donor) {
+  openCardSuccess (user, donor) {
     let modalInstance = this.modal.open({
       templateUrl: './../src/donate/view/donate.card.success.html',
       controller: 'DonateCardSuccess',
@@ -135,13 +142,12 @@ export default class DonateEvent {
     modalInstance.result.then(response => {
       this.state.go('event.slug', {slug: this.stateParams.slug})
     })
-
   }
-  openCardError(error) {
+  openCardError (error) {
     this.anchorScroll('body')
     this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
   }
-  openCard() {
+  openCard () {
     let donate = angular.copy(this.donate)
     if (this.logged) {
       delete donate.name
@@ -179,7 +185,90 @@ export default class DonateEvent {
     }
     )
   }
-  openBillet() {
+
+  open (item) {
+    if (item.active) return item.active = false
+    this.questions.map(q => q.active = false)
+    item.active = true
+  }
+  onFocus (input) {
+    let card = document.querySelector('.card')
+    if (this.frontInputs.indexOf(input) !== -1) {
+      card.classList.remove('validated')
+    }
+  }
+  onValidate (form) {
+    let card = document.querySelector('.card')
+    this.frontInputs.map(name => {
+      if (!form[name].$valid) {
+        card.classList.remove('validated')
+        return
+      }
+    })
+    card.classList.add('validated')
+    // 4111111111111111 SUCESSO
+    // 4242424242424242 SUCESSO
+    // 4012888888881881 FALHA
+  }
+  getFlag (number) {
+    this.flag = this.creditCard.getFlag(number)
+  }
+  changeMethod (method) {
+    let input = document.querySelector(`input[name="${method}_amount"]`)
+    setTimeout(() => {
+      input.focus()
+    }, 100)
+  }
+  changeState () {
+    setTimeout(() => {
+      delete this.donate.city
+      this.inputCity.focus()
+    }, 100)
+  }
+  getCities (state, city) {
+    return this.locationService.getCities(state, city)
+      .then(response => {
+        return response.data.values
+      })
+  }
+  getAddress (zipcode) {
+    if (zipcode) {
+      return this.locationService.getAddressByZipCode(zipcode)
+        .then(response => {
+          let {address, city, district, state} = response.data
+          angular.extend(this.donate, {
+            street: address,
+            city: city,
+            state: state,
+            district: district
+          })
+          this.inputNumber.focus()
+        })
+    }
+  }
+  donateBillet () {
+    let donate = angular.copy(this.donate)
+    if (this.logged) {
+      delete donate.name
+      delete donate.email
+      delete donate.birthdate
+      if (!this.missingDoc) {
+        delete donate.document
+      }
+    }
+    let method = (this.logged) ? 'printLoggedBillet' : 'printPublicBillet'
+    this.donateService[method](this.uuid, donate)
+      .then(response => {
+        let billet = response.data.iugu_url.replace('?bs=true', '.pdf')
+        this.window.open(billet, '_self')
+      },
+      error => {
+        this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error.data})
+        this.location.hash('body')
+        this.anchorScroll()
+      })
+  }
+  openBillet () {
     let donate = angular.copy(this.donate)
     if (this.logged) {
       delete donate.name
@@ -208,39 +297,12 @@ export default class DonateEvent {
     modalInstance.result.then(response => {
       // this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
       // this.anchorScroll('scrollArea')
-      let billet = response.data.iugu_url.replace('?bs=true','.pdf')
+      let billet = response.data.iugu_url.replace('?bs=true', '.pdf')
       let printBillet = this.window.open(billet, '_self')
     }, error => {
-      if (error != 'cancel') this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
+      if (error !== 'cancel') this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
     })
-  }
-  open(item) {
-    if (item.active) return item.active = false
-    this.questions.map(q => q.active = false)
-    item.active = true
-  }
-  onFocus(input) {
-    let card = document.querySelector('.card')
-    if (this.frontInputs.indexOf(input) !== -1) {
-      card.classList.remove('validated')
-    }
-  }
-  onValidate(form) {
-    let card = document.querySelector('.card')
-    this.frontInputs.map(name => {
-      if (!form[name].$valid) {
-        card.classList.remove('validated')
-        return
-      }
-    })
-    card.classList.add('validated')
-    //4111111111111111 SUCESSO
-    //4242424242424242 SUCESSO
-    //4012888888881881 FALHA
-  }
-  getFlag(number) {
-    this.flag = this.creditCard.getFlag(number)
   }
 }
 
-DonateEvent.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$timeout', '$anchorScroll', 'ProfileService', 'EventService', 'DonateService', '$uibModal', 'CreditCardFactory', 'ValidationFactory']
+DonateEvent.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$timeout', '$location', '$anchorScroll', 'ProfileService', 'EventService', 'DonateService', '$uibModal', 'CreditCardFactory', 'ValidationFactory', 'LocationService', 'CityService']

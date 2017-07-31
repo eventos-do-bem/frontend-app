@@ -42,7 +42,10 @@ export default class UserConfigurations {
       this.progress = progress
     }).then(
       response => {
-        this.service.setProfile(response.data)
+        let newProfile = response.data
+        let profile = this.storage.getItem('profile')
+        newProfile = angular.extend(profile, newProfile)
+        this.service.setProfile(newProfile)
         // this.storage.setItem('token', response.data.token)
         // let {name, email, type, avatar, permissions} = response.data
         // this.storage.setItem('profile', {name: name, email: email, type: type, avatar: avatar, permissions: permissions})

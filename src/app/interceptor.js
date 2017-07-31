@@ -18,7 +18,7 @@ export default function config($q, $window, $rootScope, $injector) {
       config.headers = config.headers || {}
       config['headers']['Accept'] = envService.accept
       // console.log($window.localStorage.getItem('token'))
-      if (!config.headers.token && config.url.indexOf('googleapis') === -1) {
+      if (!config.headers.token && config.url.indexOf('googleapis') === -1 &&  config.url.indexOf('apps.widenet') === -1) {
         if ($window.localStorage.getItem('token')) {
           config['headers']['Authorization'] = 'Bearer ' + $window.localStorage.getItem('token')
         }
