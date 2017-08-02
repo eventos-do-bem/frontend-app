@@ -1,4 +1,4 @@
-import CommonService  from './../common/service/common.js'
+import CommonService from './../common/service/common.js'
 
 export default class ProfileService extends CommonService {
   constructor($http, FacebookService, envService, $rootScope, StorageService) {

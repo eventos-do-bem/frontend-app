@@ -5,7 +5,7 @@
         Efetuar login
       </button>
     </div>
-    <div class="image-cover" style="background: url({{ctrl.event.cover.original}}); background-size: cover; background-position-y: {{ctrl.event.cover_position}}%"></div>
+    <div class="image-cover" style="background: url({{ctrl.event.cover.medium}}); background-size: cover; background-position-y: {{ctrl.event.cover_position}}%"></div>
   </div>
   <section class="cover-content container">
     <div class="row">
@@ -23,7 +23,63 @@
   </section>
   <section class="content container">
     <div class="row">
-      <div class="col-md-8">
+      <!--<div class="col-md-4 col-md-push-8" fixed-on-scroll offset="250" top="70">-->
+      <div class="col-md-4 col-md-push-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <button type="button" data-ng-disabled="ctrl.event.closed" ui-sref="donate.event({slug: ctrl.event.slug})" class="btn btn-lg btn-block btn-success" uib-popover="Prazo limite para doações esgotado :(" popover-trigger="mouseenter" popover-enable="ctrl.event.closed">
+              <div data-ng-show="!ctrl.event.closed">
+                Doe agora
+                <br>
+                <small>e ajude a mudar o mundo</small>
+              </div>
+              <div data-ng-show="ctrl.event.closed">
+                Campanha finalizada
+                <br>
+                <small>Veja o impacto social</small>
+              </div>
+            </button>
+            <br>
+            <button type="button" class="btn btn-lg btn-block btn-default inline-ellipsis" data-ng-click="ctrl.seeWhatHappens(ctrl.event)">
+              <span data-ng-show="!ctrl.event.report">Veja o que acontecerá depois</span>
+              <span data-ng-show="ctrl.event.report">Veja o impacto social</span>
+            </button>
+            <p class="text-center gap-top">Você pode doar até: {{ctrl.event.ends | date: 'dd/MM/yyyy'}}</p>
+          </div>
+          <div class="panel-body">
+            <p class="text-center">Como estamos até o momento</p>
+            <div class="progress">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ctrl.event.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ctrl.event.progress}}%">
+                <span class="sr-only">{{ctrl.event.progress}}%</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <p>
+                  <span data-ng-bind="ctrl.event.total_receive | currency: 'R$' : 2"></span>
+                  <br>
+                  <small>levantados</small>
+                </p>
+              </div>
+              <div class="col-xs-6 text-right">
+                <p>
+                  <span data-ng-bind="ctrl.event.goal | currency: 'R$' : 2"></span>
+                  <br>
+                  <small>objetivo</small>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <p>Para saber mais sobre a causa beneficiada, acesse:</p>
+            <p class="text-center">
+              <a href="{{ctrl.event.institution.website}}">{{ctrl.event.institution.website}}</a>
+              <a data-ng-show="!ctrl.event.institution.website" ui-sref="institution.page({slug: ctrl.event.institution.slug})">{{ctrl.event.institution.name}}</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 col-md-pull-4">
         <div data-ng-show="ctrl.event.videos.values[0]" class="video-container">
           <iframe data-ng-src="{{ctrl.event.videos.values[0].url | youtube}}" class="video-inner" frameborder="0" allowfullscreen></iframe>
         </div>
@@ -67,54 +123,6 @@
                 num-pages="ctrl.pagination.total_pages"
                 data-ng-change="ctrl.getMessages(ctrl.slug, {})">
             </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4" fixed-on-scroll offset="250" top="70">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <button type="button" data-ng-disabled="ctrl.event.closed" ui-sref="donate.event({slug: ctrl.event.slug})" class="btn btn-lg btn-block btn-success" uib-popover="Prazo limite para doações esgotado :(" popover-trigger="mouseenter" popover-enable="ctrl.event.closed">
-              Doe agora
-              <br>
-              <small>e ajude a mudar o mundo</small>
-            </button>
-            <br>
-            <button type="button" class="btn btn-lg btn-block btn-default" data-ng-click="ctrl.seeWhatHappens(ctrl.event)">
-              <span data-ng-show="!ctrl.event.report">Veja o que acontecerá depois</span>
-              <span data-ng-show="ctrl.event.report">Veja o impacto social</span>
-            </button>
-            <p class="text-center gap-top">Você pode doar até: {{ctrl.event.ends | date: 'dd/MM/yyyy'}}</p>
-          </div>
-          <div class="panel-body">
-            <p class="text-center">Como estamos até o momento</p>
-            <div class="progress">
-              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ctrl.event.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ctrl.event.progress}}%">
-                <span class="sr-only">{{ctrl.event.progress}}%</span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6">
-                <p>
-                  <span data-ng-bind="ctrl.event.total_receive | currency: 'R$' : 2"></span>
-                  <br>
-                  <small>levantados</small>
-                </p>
-              </div>
-              <div class="col-xs-6 text-right">
-                <p>
-                  <span data-ng-bind="ctrl.event.goal | currency: 'R$' : 2"></span>
-                  <br>
-                  <small>objetivo</small>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="panel-body">
-            <p>Para saber mais sobre a causa beneficiada, acesse:</p>
-            <p class="text-center">
-              <a href="{{ctrl.event.institution.website}}">{{ctrl.event.institution.website}}</a>
-              <a data-ng-show="!ctrl.event.institution.website" ui-sref="institution.page({slug: ctrl.event.institution.slug})">{{ctrl.event.institution.name}}</a>
-            </p>
           </div>
         </div>
       </div>

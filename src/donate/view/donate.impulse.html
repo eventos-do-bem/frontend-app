@@ -4,6 +4,34 @@
   </div>
   <small>Os 3 últimos números no verso do seu cartão.</small>
 </script>
+<script type="text/ng-template" id="typeaheadPopupStatesTemplate.html">
+  <div class="typeahead-popup"
+     ng-style="{top: position().top+'px', left: position().left+'px'}"
+     style="display: block;width: 100%;"
+     ng-show="isOpen() && !moveInProgress"
+     aria-hidden="{{!isOpen()}}">
+    <ul class="dropdown-menu" role="listbox" style="max-height: 200px; overflow: auto">
+      <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+        ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+        <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+      </li>
+    </ul>
+  </div>
+</script>
+<script type="text/ng-template" id="typeaheadPopupCitiesTemplate.html">
+  <div class="typeahead-popup"
+     ng-style="{top: position().top+'px', left: position().left+'px'}"
+     style="display: block;width: 100%;"
+     ng-show="isOpen() && !moveInProgress"
+     aria-hidden="{{!isOpen()}}">
+    <ul class="dropdown-menu" role="listbox" style="max-height: 200px; overflow: auto">
+      <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+        ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+        <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+      </li>
+    </ul>
+  </div>
+</script>
 <div class="modal-body">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-ng-click="ctrl.close()">
     <span aria-hidden="true">&times;</span>
@@ -17,7 +45,7 @@
     <div style="margin: 0 auto; width: 100%;">
       <form name="donate" novalidate data-ng-submit="ctrl.buildBillet(ctrl.donate)">
         <div class="row">
-          <div class="col-sm-10 col-sm-offset-1">
+          <div class="col-md-10 col-md-offset-1">
             <h2 class="text-center" data-ng-show="ctrl.step != 'finish'">
               Doe agora para a Organização
               <br>
@@ -53,8 +81,9 @@
                 </div>
                 <button type="button" class="btn btn-block btn-success" data-ng-disabled="donate.amount.$invalid" data-ng-click="ctrl.chooseCard()">Doar por Cartão de crédito</button>
                 <button type="button" class="btn btn-block btn-default" data-ng-disabled="donate.amount.$invalid" data-ng-click="ctrl.chooseBillet()">Doar por Boleto</button>
+                <!--<button type="button" class="btn btn-block btn-default" data-ng-disabled="donate.amount.$invalid" data-ng-click="ctrl.goToAddress()">Doar por Boleto</button>-->
               </div>
-              <div data-ng-switch-when="perfil" data-ng-class="{fadeIn: ctrl.step == 'perfil', fadeOut: ctrl.step != 'perfil'}" class="donate-impulse-step">
+              <div data-ng-switch-when="profile" data-ng-class="{fadeIn: ctrl.step == 'profile', fadeOut: ctrl.step != 'profile'}" class="donate-impulse-step">
                 <div class="form-group" data-ng-class="{'has-error':donate.name.$invalid && donate.name.$dirty}">
                   <input type="text" name="name" id="name" class="form-control" data-ng-model="ctrl.donate.name" placeholder="Nome completo" required>
                   <div data-ng-show="donate.name.$dirty" data-ng-messages="donate.name.$error">
@@ -81,7 +110,12 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
+                <button type="button" class="btn btn-block btn-success" data-ng-disabled="donate.$invalid" data-ng-click="ctrl.goToAddress()">Preencher endereço</button>
+                <button type="button" class="btn btn-block btn-default" data-ng-click="ctrl.goToAmount()">
+                  <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                  Voltar
+                </button>
+                <!--<div class="row">
                   <div class="col-md-12">
                     <div data-ng-show="ctrl.choose == 'billet'">
                       <button type="button" class="btn btn-block btn-success" data-ng-disabled="donate.$invalid" data-ng-click="ctrl.checkoutBillet()">
@@ -94,6 +128,78 @@
                     </div>
                     <button type="button" class="btn btn-block btn-success" data-ng-show="ctrl.choose == 'card'" data-ng-disabled="donate.$invalid" data-ng-click="ctrl.goToCard()">Prosseguir para dados do cartão</button>
                     <button type="button" class="btn btn-block btn-default" data-ng-click="ctrl.goToAmount()">
+                      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                      Voltar
+                    </button>
+                  </div>
+                </div>-->
+              </div>
+              <div data-ng-switch-when="address" data-ng-class="{fadeIn: ctrl.step == 'address', fadeOut: ctrl.step != 'address'}" class="donate-impulse-step">
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="form-group" data-ng-class="{'has-error':donate.zip_code.$invalid && donate.zip_code.$touched}">
+                      <input type="text" name="zip_code" id="zip_code" class="form-control" placeholder="Qual seu CEP?" mask="99999-999" clean="true" data-ng-model="ctrl.donate.zip_code" data-ng-blur="ctrl.getAddress(ctrl.donate.zip_code)" required>
+                      <div data-ng-show="donate.zip_code.$touched" data-ng-messages="donate.zip_code.$error">
+                        <p data-ng-message="required" class="text-danger">Informe seu CEP</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-7">
+                    <div class="form-group" data-ng-class="{'has-error':donate.district.$invalid && donate.district.$touched}">
+                      <input type="text" name="district" id="district" class="form-control" placeholder="Bairro" data-ng-model="ctrl.donate.district" required>
+                      <div data-ng-show="donate.district.$touched" data-ng-messages="donate.district.$error">
+                        <p data-ng-message="required" class="text-danger">Informe seu bairro</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group" data-ng-class="{'has-error':donate.street.$invalid && donate.street.$touched}">
+                      <input type="text" name="street" id="street" class="form-control" placeholder="Endereço" data-ng-model="ctrl.donate.street" required>
+                      <div data-ng-show="donate.street.$touched" data-ng-messages="donate.street.$error">
+                        <p data-ng-message="required" class="text-danger">Informe seu endereço</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group" data-ng-class="{'has-error':donate.number.$invalid && donate.number.$touched}">
+                      <input type="text" name="number" id="number" class="form-control" placeholder="Número" data-ng-model="ctrl.donate.number" required>
+                      <div data-ng-show="donate.number.$touched" data-ng-messages="donate.number.$error">
+                        <p data-ng-message="required" class="text-danger">Informe o número</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group" data-ng-class="{'has-error':donate.state.$invalid && donate.state.$touched}">
+                      <input type="text" name="state" id="state" data-ng-model="ctrl.donate.state" data-ng-model-options="{getterSetter: true}" typeahead-on-select="ctrl.changeState()" placeholder="Encontre seu estado" uib-typeahead="item.name for item in ctrl.states | filter:$viewValue" typeahead-popup-template-url="typeaheadPopupStatesTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" autocomplete="off" required>
+                      <p data-ng-show="donate.state.$invalid && donate.state.$touched" class="text-danger">Selecione seu estado</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group" data-ng-class="{'has-error':donate.city.$invalid && donate.city.$dirty}">
+                      <input type="text" name="city" data-ng-model="ctrl.donate.city" data-ng-model-options="{getterSetter: true, debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item.name as item.name for item in ctrl.getCities(ctrl.donate.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-min-length="0" class="form-control" aria-describedby="citieHelpBlock" autocomplete="off" required>
+                      <div id="citieHelpBlock" class="help-block" data-ng-show="donate.city.$error && donate.city.$touched">
+                        <p data-ng-show="donate.city.$error.required" class="text-danger">Informe sua cidade</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div data-ng-show="ctrl.choose == 'billet'">
+                      <button type="button" class="btn btn-block btn-success" data-ng-disabled="donate.$invalid" data-ng-click="ctrl.checkoutBillet()">
+                        Doar <span data-ng-bind="ctrl.donate.amount | currency: 'R$ '" ></span>
+                      </button>
+                      <p class="text-center help-text-donate">
+                        <i class="fa fa-lock"></i> Fácil, rápido e com segurança <br>
+                        Ao apoiar, você concorda com os <br> <a ui-sref="pages.terms">Termos de Uso</a> e <a ui-sref="pages.policies">Política de privacidade</a>
+                      </p>
+                    </div>
+                    <button type="button" class="btn btn-block btn-success" data-ng-show="ctrl.choose == 'card'" data-ng-disabled="donate.$invalid" data-ng-click="ctrl.goToCard()">Prosseguir para dados do cartão</button>
+                    <button type="button" class="btn btn-block btn-default" data-ng-click="ctrl.goToProfile()">
                       <i class="fa fa-arrow-left" aria-hidden="true"></i>
                       Voltar
                     </button>

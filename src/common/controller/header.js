@@ -7,6 +7,7 @@ export default class Header {
     this.brand = 'Eventos do Bem'
     this.profile = StorageService.getItem('profile')
     this.navbarCollapsed = true
+    this.status = {}
     this.toggleLoggedAnotherUser()
     $scope.$on('profile.change', () => {
       this.profile = StorageService.getItem('profile')
@@ -50,6 +51,9 @@ export default class Header {
       ]
     }
     this.addMenuLogged()
+    this.toggleNavbarCollapsed = function() {
+      this.navbarCollapsed = !this.navbarCollapsed
+    }
     this.toggleDropdown = function ($event) {
       $event.preventDefault();
       $event.stopPropagation();

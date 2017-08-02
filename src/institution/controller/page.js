@@ -24,11 +24,11 @@ export default class Page {
     if ($stateParams.slug) {
       this.findInstitution($stateParams.slug)
     }
-    if (!this.profile || this.profile.type == 'user') {
-      this.rootScope.timeout = this.timeout(() => {
-        this.rememberBirthday()
-      }, 25000)
-    }
+    // if (!this.profile || this.profile.type == 'user') {
+    //   this.rootScope.timeout = this.timeout(() => {
+    //     this.rememberBirthday()
+    //   }, 25000)
+    // }
   }
   loginAsCreator(uuid) {
     this.authService.loginAnotherUser(uuid)
@@ -37,7 +37,7 @@ export default class Page {
         this.accessLoginAnotherUser = this.profileService.getAccessLoginAnotherUser()
       })
   }
-  share() {
+  share () {
     let picture = (this.institution.cover.medium.indexOf('http') > -1) ? this.institution.cover.medium : `https://www.eventosdobem.com.br${this.institution.cover.medium}`
     this.facebook.share({
       href: this.location.absUrl(),
@@ -47,14 +47,14 @@ export default class Page {
       caption: `Responsável: ${this.institution.user.name}`
     })
   }
-  getProfile() {
+  getProfile () {
     this.profileService.me()
       .then(
         response => {
           this.profile = response.data
           this.donateProfile = angular.copy(response.data)
           let {name, birthdate, email, type} = response.data
-          this.profile.birthdate = this.filter('date')(birthdate, 'dd/MM/yyyy'),
+          this.profile.birthdate = this.filter('date')(birthdate, 'dd/MM/yyyy')
           this.birthday = {
             name: name,
             birthdate: this.filter('date')(birthdate, 'dd/MM/yyyy'),
@@ -64,7 +64,7 @@ export default class Page {
         }
       )
   }
-  findInstitution(slug) {
+  findInstitution (slug) {
     this.service.findById(slug)
       .then(response => {
         this.institution = response.data
@@ -78,6 +78,7 @@ export default class Page {
       templateUrl: './../src/donate/view/donate.impulse.html',
       controller: 'DonateImpulse',
       controllerAs: 'ctrl',
+      size: 'lg',
       windowClass: 'modal-donate',
       resolve: {
         institution: institution,
