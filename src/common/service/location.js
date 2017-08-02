@@ -9,7 +9,7 @@ export default class LocationService extends CommonService {
         token: this.token
       }
     }
-    this.apiAddress = 'http://apps.widenet.com.br/busca-cep/api/cep/'
+    this.apiAddress = 'https://apps.widenet.com.br/busca-cep/api/cep/'
   }
   getStates (state) {
     let route = state ? `states/${state}` : 'states'
