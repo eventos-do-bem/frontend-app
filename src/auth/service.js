@@ -48,6 +48,12 @@ export default class AuthService extends CommonService {
     this.setRoute('auth/recovery/reset')
     return this.$http.post(this.url + this.route, data)
   }
+  checkEmail (email) {
+    this.setRoute('auth/email')
+    this.setPublicToken()
+    this.setParams({email: email})
+    return this.$http.get(this.url + this.route, this.config)
+  }
 }
 
 AuthService.$inject = ['$http','FacebookService','StorageService','envService']

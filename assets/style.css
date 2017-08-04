@@ -23,6 +23,9 @@ html, body {
   background-size: cover;*/
 }
 /* /backgrounds */
+.modal-dialog .form-signin .btn-social {
+  padding: 3px;
+}
 
 main {
   margin-bottom: 400px;
@@ -1595,7 +1598,7 @@ cursor: pointer;
 .form-signin p.or,
 .form-signin .tab-pane p.or {
   margin-bottom: -2rem !important;
-  margin-top: 4rem !important;
+  margin-top: 3rem !important;
   padding: 0;
   border-top: 1px solid #ccc;
 }
@@ -1671,6 +1674,9 @@ cursor: pointer;
 .form-signin select,
 .form-signin button {
   margin-bottom: 10px;
+}
+.modal-dialog .form-signin {
+  margin: 0px auto 0px;
 }
 /* /.form-signin */
 

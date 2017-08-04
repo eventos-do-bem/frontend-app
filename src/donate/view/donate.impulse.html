@@ -91,7 +91,7 @@
                   </div>
                 </div>
                 <div class="form-group" data-ng-class="{'has-error':donate.email.$invalid && donate.email.$dirty}">
-                  <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.donate.email" placeholder="E-mail ativo" required>
+                  <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.donate.email" data-ng-blur="ctrl.checkEmail(ctrl.donate.email)" placeholder="E-mail ativo" required>
                   <div data-ng-show="donate.email.$dirty" data-ng-messages="donate.email.$error">
                     <p data-ng-message="required" class="text-danger">Informe seu email</p>
                   </div>

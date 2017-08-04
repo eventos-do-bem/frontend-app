@@ -1,9 +1,10 @@
 export default class DonateEvent {
-  constructor ($rootScope, $state, $stateParams, $window, $timeout, $location, $anchorScroll, ProfileService, EventService, DonateService, $uibModal, CreditCardFactory, ValidationFactory, LocationService, CityService) {
+  constructor ($rootScope, $state, $stateParams, $window, $filter, $timeout, $location, $anchorScroll, ProfileService, EventService, DonateService, $uibModal, CreditCardFactory, ValidationFactory, LocationService, CityService, AuthService, StorageService) {
     this.rootScope = $rootScope
     this.state = $state
     this.stateParams = $stateParams
     this.window = $window
+    this.filter = $filter
     this.timeout = $timeout
     this.location = $location
     this.anchorScroll = $anchorScroll
@@ -14,6 +15,8 @@ export default class DonateEvent {
     this.creditCard = CreditCardFactory
     this.validation = ValidationFactory
     this.locationService = LocationService
+    this.authService = AuthService
+    this.storageService = StorageService
     this.logged = this.window.localStorage.getItem('token')
     this.temp = {}
     this.donate = {
@@ -40,23 +43,24 @@ export default class DonateEvent {
       })
 
     if (this.logged) {
-      this.profileService.me()
-        .then(response => {
-          let {name, birthdate, email, document, zip_code, street, number, city, district, state} = response.data
-          birthdate = birthdate.split('-')
-          birthdate = `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`
-          this.donate.name = name
-          this.donate.birthdate = birthdate
-          this.donate.email = email
-          this.donate.document = document
-          this.donate.zip_code = zip_code
-          this.donate.street = street
-          this.donate.number = number
-          this.donate.city = city
-          this.donate.district = district
-          this.donate.state = state
-          this.missingDoc = (this.donate.document) ? false : true
-        })
+      this.getProfile()
+      // this.profileService.me()
+      //   .then(response => {
+      //     let {name, birthdate, email, document, zip_code, street, number, city, district, state} = response.data
+      //     birthdate = birthdate.split('-')
+      //     birthdate = `${birthdate[2]}/${birthdate[1]}/${birthdate[0]}`
+      //     this.donate.name = name
+      //     this.donate.birthdate = birthdate
+      //     this.donate.email = email
+      //     this.donate.document = document
+      //     this.donate.zip_code = zip_code
+      //     this.donate.street = street
+      //     this.donate.number = number
+      //     this.donate.city = city
+      //     this.donate.district = district
+      //     this.donate.state = state
+      //     this.missingDoc = (this.donate.document) ? false : true
+      //   })
     }
 
     this.donateOff = {
@@ -93,6 +97,61 @@ export default class DonateEvent {
     this.inputNumber = document.querySelector('input[name="number"')
     this.locationService.getStates()
       .then(response => { this.states = response.data.values })
+  }
+  getProfile () {
+    this.profileService.me()
+      .then(
+        response => {
+          let {...profile} = angular.copy(response.data)
+          profile.birthdate = this.filter('date')(profile.birthdate, 'dd/MM/yyyy')
+          this.missingDoc = (profile.document) ? false : true
+          profile = {
+            name: profile.name,
+            birthdate: this.filter('date')(profile.birthdate, 'dd/MM/yyyy'),
+            email: profile.email,
+            document: profile.document,
+            type: profile.type,
+            city: profile.city,
+            district: profile.district,
+            number: profile.number,
+            state: profile.state,
+            street: profile.street,
+            zip_code: profile.zip_code
+          }
+          angular.extend(this.donate, profile)
+        }
+      )
+  }
+  checkEmail (email) {
+    if (email) {
+      this.authService.checkEmail(email)
+        .then(response => this.login())
+    }
+  }
+  login () {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/auth/view/modal/login.html',
+      controller: 'ModalAuthLogin',
+      controllerAs: 'ctrl',
+      backdrop: 'static',
+      size: 'sm',
+      keyboard: false,
+      resolve: {
+        redirect: () => {
+          return false
+        }
+      }
+    })
+    modalInstance.result.then(profile => {
+      this.inputDocument = document.querySelector('input[name="document"]')
+      if (!profile.document) {
+        setTimeout(() => {
+          this.inputDocument.focus()
+        }, 100)
+      }
+      this.logged = this.storageService.getItem('token')
+      this.getProfile()
+    })
   }
   validateDate (field, date) {
     if (!field.$error.mask && date) {
@@ -305,4 +364,4 @@ export default class DonateEvent {
   }
 }
 
-DonateEvent.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$timeout', '$location', '$anchorScroll', 'ProfileService', 'EventService', 'DonateService', '$uibModal', 'CreditCardFactory', 'ValidationFactory', 'LocationService', 'CityService']
+DonateEvent.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$filter', '$timeout', '$location', '$anchorScroll', 'ProfileService', 'EventService', 'DonateService', '$uibModal', 'CreditCardFactory', 'ValidationFactory', 'LocationService', 'CityService', 'AuthService', 'StorageService']
