@@ -89,8 +89,6 @@ export default class DonateEvent {
       {question: 'O que os outros podem ver do meu apoio?', answer: 'Como nossa política de transparência, a pessoa que criou o evento do bem poderá visualizar nome, email e valor do apoio. '},
       {question: 'Conseguirei ver o resultado do meu apoio à Organização?', answer: 'Sim! está é a melhor parte, a Organização social apoiada se dispõe a quantificar no que o seu apoio se transformou ( ex. apoio escolar para 30 crianças e etc.), você receberá esse retorno no seu email cadastrado na eventos do bem, por isso se certifique que o email que você se cadastrou está correto.'}
     ]
-    this.inputCity = document.querySelector('input[name="city"]')
-    this.inputNumber = document.querySelector('input[name="number"')
     this.locationService.getStates()
       .then(response => { this.states = response.data.values })
   }
@@ -220,9 +218,10 @@ export default class DonateEvent {
     }, 100)
   }
   changeState () {
+    let inputCity = document.querySelector('input[name="city"]')
     setTimeout(() => {
       delete this.donate.city
-      this.inputCity.focus()
+      inputCity.focus()
     }, 100)
   }
   getCities (state, city) {
@@ -233,6 +232,7 @@ export default class DonateEvent {
   }
   getAddress (zipcode) {
     if (zipcode) {
+      let inputNumber = document.querySelector('input[name="number"')
       return this.locationService.getAddressByZipCode(zipcode)
         .then(response => {
           let {address, city, district, state} = response.data
@@ -242,7 +242,7 @@ export default class DonateEvent {
             state: state,
             district: district
           })
-          this.inputNumber.focus()
+          inputNumber.focus()
         })
     }
   }
