@@ -2006,3 +2006,6 @@ img-crop canvas{
   width:100%;
   height:300px;
 }
+.modal.zSuper {
+  z-index: 1000000;
+}

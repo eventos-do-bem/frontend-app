@@ -280,7 +280,7 @@
               <div class="col-md-4">
                 <div class="form-group" data-ng-class="{'has-error':donate.city.$invalid && donate.city.$dirty}">
                   <label for="city" class="control-label">Selecione sua Cidade</label>
-                  <input type="text" name="city" data-ng-model="ctrl.donate.city" data-ng-model-options="{getterSetter: true, debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item.name as item.name for item in ctrl.getCities(ctrl.donate.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" aria-describedby="citieHelpBlock" autocomplete="off" data-ng-required="ctrl.donate.methodPayment == 'billet'">
+                  <input type="text" name="city" id="city" data-ng-model="ctrl.donate.city" data-ng-model-options="{getterSetter: true, debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item.name as item.name for item in ctrl.getCities(ctrl.donate.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" aria-describedby="citieHelpBlock" autocomplete="off" data-ng-required="ctrl.donate.methodPayment == 'billet'">
                   <div id="citieHelpBlock" class="help-block" data-ng-show="donate.city.$error && donate.city.$touched">
                     <p data-ng-show="donate.city.$error.required" class="text-danger">Informe a cidade que este evento irá ocorrer.</p>
                   </div>

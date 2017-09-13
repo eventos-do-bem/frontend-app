@@ -277,11 +277,9 @@ export default class DonateEvent {
     }, 100)
   }
   changeState () {
-    let inputCity = document.querySelector('input[name="city"]')
-    setTimeout(() => {
-      delete this.donate.city
-      inputCity.focus()
-    }, 100)
+    let inputCity = document.getElementById('city')
+    inputCity.focus()
+    delete this.donate.city
   }
   getCities (state, city) {
     return this.locationService.getCities(state, city)
@@ -291,7 +289,7 @@ export default class DonateEvent {
   }
   getAddress (zipcode) {
     if (zipcode) {
-      let inputNumber = document.querySelector('input[name="number"')
+      let inputNumber = document.getElementById('number')
       return this.locationService.getAddressByZipCode(zipcode)
         .then(response => {
           let {address, city, district, state} = response.data
@@ -304,6 +302,14 @@ export default class DonateEvent {
           inputNumber.focus()
         })
     }
+  }
+  waitBillet () {
+    this.modal.open({
+      templateUrl: './../src/donate/view/donate.billet.wait.html',
+      backdrop: 'static',
+      size: 'sm',
+      windowClass: 'zSuper'
+    })
   }
   donateBillet () {
     let donate = angular.copy(this.donate)
@@ -318,7 +324,9 @@ export default class DonateEvent {
     let method = (this.logged) ? 'printLoggedBillet' : 'printPublicBillet'
     this.donateService[method](this.uuid, donate)
       .then(response => {
+        this.waitBillet()
         let billet = response.data.iugu_url.replace('?bs=true', '.pdf')
+        console.log('billet: ',billet)
         this.window.open(billet, '_self')
       },
       error => {
@@ -356,8 +364,9 @@ export default class DonateEvent {
     modalInstance.result.then(response => {
       // this.rootScope.$broadcast('alert', {type: 'alert-success', icon: 'fa-check', message: response.data.status})
       // this.anchorScroll('scrollArea')
+      this.waitBillet()
       let billet = response.data.iugu_url.replace('?bs=true', '.pdf')
-      let printBillet = this.window.open(billet, '_self')
+      this.window.open(billet, '_blank')
     }, error => {
       if (error !== 'cancel') this.rootScope.$broadcast('alert', {type: 'alert-danger', icon: 'fa-exclamation', message: error})
     })
