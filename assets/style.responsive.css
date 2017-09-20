@@ -164,6 +164,11 @@
     color: inherit;
   }
   /* /campaign */
+  /* donate */
+  .donate .flags > div {
+    margin-bottom: 15px;
+  }  
+  /* /donate */
 }
 
 /* Small devices */

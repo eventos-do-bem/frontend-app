@@ -326,7 +326,6 @@ export default class DonateEvent {
       .then(response => {
         this.waitBillet()
         let billet = response.data.iugu_url.replace('?bs=true', '.pdf')
-        console.log('billet: ',billet)
         this.window.open(billet, '_self')
       },
       error => {

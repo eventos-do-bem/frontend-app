@@ -47,7 +47,7 @@
           <i class="fa" uib-tooltip="{{item.method_human}}" data-ng-class="{'fa-credit-card': item.method == 'credit_card', 'fa-barcode': item.method == 'boleto'}"></i>
         </td>
         <td data-ng-bind="item.amount_human"></td>
-        <td data-ng-bind="item.updated_at | date: 'dd/MM/yyyy'"></td>
+        <td data-ng-bind="item.updated_at"></td>
         <td class="text-center">
           <a class="label label-default" href="{{item.iugu_url}}" data-ng-show="item.method == 'boleto' && item.status == 'Em processamento'">2 via boleto</a>
           <a class="label label-success" href="{{item.iugu_url}}" data-ng-show="item.status == 'Autorizado'">comprovante</a>
