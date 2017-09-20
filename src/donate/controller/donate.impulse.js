@@ -1,11 +1,14 @@
 export default class DonateImpulse {
-  constructor ($uibModalInstance, $window, $filter, institution, donate, ProfileService, DonateService, StorageService, LocationService) {
+  constructor ($uibModalInstance, $uibModal, $window, $filter, institution, donate, ProfileService, DonateService, StorageService, LocationService, AuthService) {
     this.instance = $uibModalInstance
+    this.modal = $uibModal
     this.window = $window
     this.filter = $filter
     this.profileService = ProfileService
     this.donateService = DonateService
+    this.storageService = StorageService
     this.locationService = LocationService
+    this.authService = AuthService
     this.institution = institution
     this.step = 'amount'
     this.logged = StorageService.getItem('token')
@@ -28,24 +31,54 @@ export default class DonateImpulse {
     let today = new Date()
     let curYear = today.getFullYear()
     for (let y = curYear; y <= curYear + 10; y++) this.years.push(y)
-    // this.inputCity = document.querySelector('input[name="city"]')
     // this.inputNumber = document.querySelector('input[name="number"')
+  }
+  login () {
+    let modalInstance = this.modal.open({
+      templateUrl: './../src/auth/view/modal/login.html',
+      controller: 'ModalAuthLogin',
+      controllerAs: 'ctrl',
+      backdrop: 'static',
+      size: 'sm',
+      keyboard: false,
+      resolve: {
+        redirect: () => {
+          return false
+        }
+      }
+    })
+    modalInstance.result.then(profile => {
+      this.inputDocument = document.querySelector('input[name="document"]')
+      if (!profile.document) {
+        setTimeout(() => {
+          this.inputDocument.focus()
+        }, 100)
+      }
+      this.logged = this.storageService.getItem('token')
+      this.getProfile()
+    })
   }
   getProfile () {
     this.profileService.me()
       .then(
         response => {
-          this.donate = angular.copy(response.data)
-          let {name, birthdate, email, type, document} = this.donate
-          this.donate.birthdate = this.filter('date')(birthdate, 'dd/MM/yyyy')
-          this.missingDoc = (this.donate.document) ? false : true
-          // this.donate = {
-          //   name: name,
-          //   birthdate: this.filter('date')(birthdate, 'dd/MM/yyyy'),
-          //   email: email,
-          //   document: document,
-          //   type: type
-          // }
+          let {...profile} = angular.copy(response.data)
+          profile.birthdate = this.filter('date')(profile.birthdate, 'dd/MM/yyyy')
+          this.missingDoc = (profile.document) ? false : true
+          profile = {
+            name: profile.name,
+            birthdate: this.filter('date')(profile.birthdate, 'dd/MM/yyyy'),
+            email: profile.email,
+            document: profile.document,
+            type: profile.type,
+            city: profile.city,
+            district: profile.district,
+            number: profile.number,
+            state: profile.state,
+            street: profile.street,
+            zip_code: profile.zip_code
+          }
+          angular.extend(this.donate, profile)
         }
       )
   }
@@ -84,10 +117,16 @@ export default class DonateImpulse {
     this.choose = 'billet'
     if (!this.donate.name || !this.donate.birthdate || !this.donate.document || !this.donate.email) {
       this.goToProfile()
-    } else if (!this.donate.zip_code || !this.donate.street || !this.donate.number || !this.donate.city && !this.donate.state && !this.donate.district) {
+    } else if (!this.donate.zip_code || !this.donate.street || !this.donate.number || !this.donate.city || !this.donate.state || !this.donate.district) {
       this.goToAddress()
     } else {
       this.checkoutBillet()
+    }
+  }
+  checkEmail (email) {
+    if (email) {
+      this.authService.checkEmail(email)
+        .then(response => this.login())
     }
   }
   changeState () {
@@ -123,6 +162,7 @@ export default class DonateImpulse {
       delete donate.name
       delete donate.email
       delete donate.birthdate
+      delete donate.avatar
       if (!this.missingDoc) {
         delete donate.document
       }
@@ -183,4 +223,4 @@ export default class DonateImpulse {
   }
 }
 
-DonateImpulse.$inject = ['$uibModalInstance', '$window', '$filter', 'institution', 'donate', 'ProfileService', 'DonateService', 'StorageService', 'LocationService']
+DonateImpulse.$inject = ['$uibModalInstance', '$uibModal', '$window', '$filter', 'institution', 'donate', 'ProfileService', 'DonateService', 'StorageService', 'LocationService', 'AuthService']

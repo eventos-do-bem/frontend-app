@@ -1,4 +1,5 @@
 export default function run($rootScope, $window, $location, $state, $timeout, $anchorScroll, $templateCache, LastStateUnloggedService, ProfileService, uiTourService) {
+  $window.ga('create', 'UA-67210434-1', 'auto')
   $anchorScroll.yOffset = 50
   $templateCache.put('tour-tpl.html',`
     <p class="tour-step-content" data-ng-bind-html="tourStep.trustedContent"></p>
@@ -46,6 +47,7 @@ export default function run($rootScope, $window, $location, $state, $timeout, $a
     }
   })
   $rootScope.$on("$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) => {
+    $window.ga('send', 'pageview', $location.path())
     $rootScope.$broadcast('alert-clear')
     switch(toState.name) {
       case 'profile.register': $rootScope.background = 'auth-login'; break;

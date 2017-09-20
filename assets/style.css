@@ -9,6 +9,8 @@ html, body {
   /*margin-bottom: 200px;*/
   font-family: 'Lato', sans-serif;
   font-size: 62.5%;
+  min-height: 100%;
+  height: auto;
 }
 * {
   font-size: inherit;
@@ -23,6 +25,9 @@ html, body {
   background-size: cover;*/
 }
 /* /backgrounds */
+.modal-dialog .form-signin .btn-social {
+  padding: 3px;
+}
 
 main {
   margin-bottom: 400px;
@@ -796,11 +801,11 @@ header .navbar a {
   text-align: center;
   margin: auto;
   padding: 15px;
-  height:100%;
+  /* height:100%; Fix iphone bug */
   z-index: 3;
 }
 header .navbar-toggle {
-  z-index: 4;
+  z-index: 5;
 }
 header .navbar .navbar-brand {
   /*background-image: url('images/logo.png');*/
@@ -810,8 +815,9 @@ header .navbar .navbar-brand {
   background-position: center;
   padding: 18px 150px;
 }
-header .navbar .nav > li {
-  z-index: 5;
+header .navbar .nav > li,
+header .navbar .nav > li > a {
+  z-index: 15;
 }
 .navbar-nav {
   margin: 0;
@@ -1595,7 +1601,7 @@ cursor: pointer;
 .form-signin p.or,
 .form-signin .tab-pane p.or {
   margin-bottom: -2rem !important;
-  margin-top: 4rem !important;
+  margin-top: 3rem !important;
   padding: 0;
   border-top: 1px solid #ccc;
 }
@@ -1671,6 +1677,9 @@ cursor: pointer;
 .form-signin select,
 .form-signin button {
   margin-bottom: 10px;
+}
+.modal-dialog .form-signin {
+  margin: 0px auto 0px;
 }
 /* /.form-signin */
 
@@ -1852,7 +1861,7 @@ form[name="donate"] {
   margin-top: 20px;
 }
 .donate .flags {
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
 .donate .flags i {
   font-size: 3.2rem;
@@ -1999,4 +2008,7 @@ img-crop canvas{
   overflow: hidden;
   width:100%;
   height:300px;
+}
+.modal.zSuper {
+  z-index: 1000000;
 }

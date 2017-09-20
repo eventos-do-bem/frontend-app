@@ -1,0 +1,47 @@
+<form name="login" class="form-signin" novalidate data-ng-submit="ctrl.login()">
+  <h2 class="text-center">Login</h2>
+  <p class="text-center text-info">
+    Use sua conta para continuar...
+  </p>
+  <button type="button" class="btn btn-block btn-social" data-ng-click="ctrl.loginFacebook()">
+    <i class="fa fa-facebook" aria-hidden="true"></i>
+    Login com o Facebook
+  </button>
+  <div class="alert alert-danger" data-ng-show="ctrl.error">
+    <strong>Ops...</strong>
+    <ul>
+      <li data-ng-repeat="e in ctrl.error.errors" data-ng-bind-html="e.join(', ')"></li>
+    </ul>
+  </div>
+  <p class="or"></p>
+  <div data-ng-class="{'has-error':login.email.$invalid && login.email.$dirty}">
+    <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.profile.email" placeholder="Qual email você se cadastrou?" aria-describedby="emailHelpBlock" data-ng-required="true">
+    <div id="emailHelpBlock" class="help-block" data-ng-messages="login.email.$error">
+      <p class="text-danger" data-ng-message="email">
+        Seu email deve ser um email válido.
+      </p>
+    </div>
+  </div>
+  <div data-ng-class="{'has-error':login.password.$invalid && login.password.$dirty}">
+    <input type="{{ctrl.typeInputPassword}}" name="password" id="password" class="form-control" data-ng-model="ctrl.profile.password" placeholder="E a senha?" minlength="6" maxlength="10" aria-describedby="passwordHelpBlock" data-ng-required="true">
+    <div id="passwordHelpBlock" class="help-block" data-ng-messages="login.password.$error">
+      <p class="text-danger" data-ng-message="minlength">
+        Sua senha deve ter entre 6 e 10 caracteres.
+      </p>
+    </div>
+  </div>
+  <div class="text-right forgot">
+    <a ui-sref="auth.forgot">Esqueci minha senha</a>
+  </div>
+  <label class="show-password" data-ng-disabled="!login.password.$viewValue" data-ng-model="ctrl.showPassword" data-ng-click="ctrl.toggleShowPassword()" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+    <i data-ng-class="{'glyphicon glyphicon-unchecked': !ctrl.showPassword,'glyphicon glyphicon-check': ctrl.showPassword}"></i>
+    Mostrar sua senha
+  </label>
+  <!--<div>
+    <label class="rememberme" data-ng-model="ctrl.profile.rememberme" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+      <i data-ng-class="{'glyphicon glyphicon-check': ctrl.profile.rememberme,'glyphicon glyphicon-unchecked': !ctrl.profile.rememberme}"></i>
+      Lembrar da senha
+    </label>
+  </div>-->
+  <button class="btn btn-lg btn-success btn-block" type="submit">Entrar</button>
+</form>

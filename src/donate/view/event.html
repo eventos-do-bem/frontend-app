@@ -58,7 +58,7 @@
           </div>
           <div class="form-group col-md-6" data-ng-class="{'has-error':donate.email.$invalid && donate.email.$dirty}">
             <label for="email" class="control-label">E-mail</label>
-            <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.donate.email" data-ng-model-options="{debounce: 600}" data-ng-disabled="ctrl.logged" data-ng-required="!ctrl.logged">
+            <input type="email" name="email" id="email" class="form-control" data-ng-model="ctrl.donate.email" data-ng-blur="ctrl.checkEmail(ctrl.donate.email)" data-ng-disabled="ctrl.logged" data-ng-required="!ctrl.logged">
             <div class="help-block" data-ng-messages="donate.email.$error" data-ng-hide="!donate.email.$dirty">
               <p data-ng-message="required" class="text-danger">O email é obrigatório.</p>
               <p data-ng-message="email" class="text-danger">Seu email deve ser um email válido.</p>
@@ -75,10 +75,9 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <h4>Escolha o meio de pagamento</h4>
             <p class="text-muted">
               <i class="fa fa-lock"></i>
-              PAGAMENTO SEGURO
+              PAGAMENTO SEGURO COM:
             </p>
           </div>
         </div>
@@ -88,29 +87,38 @@
           </div>
         </div>-->
         <div class="flags row">
-          <div class="col-md-6">
+          <div class="col-md-2 col-xs-4">
+            <img src="assets/images/cards/flat/visa.svg" class="img-responsive" alt="">
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <img src="assets/images/cards/flat/amex.svg" class="img-responsive" alt="">
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <img src="assets/images/cards/flat/mastercard.svg" class="img-responsive" alt="">
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <img src="assets/images/cards/flat/diners.svg" class="img-responsive" alt="">
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <img src="assets/images/cards/flat/elo.svg" class="img-responsive" alt="">
+          </div>
+          <div class="col-md-2 col-xs-4">
+            <img src="assets/images/cards/flat/billet.svg" class="img-responsive" alt="">
+          </div>
+        </div>
+        <div class="flags row">
+          <div class="col-md-12">
+            <h4>Escolha o meio de pagamento</h4>              
+          </div>
+          <div class="col-xs-6">
             <p>
               <label class="radio-inline">
                 <input type="radio" name="methodPayment" data-ng-model="ctrl.donate.methodPayment" value="card" data-ng-change="ctrl.changeMethod(ctrl.donate.methodPayment)">
                 Cartão de crédito
               </label>
             </p>
-            <div class="row">
-              <div class="col-md-2">
-                <img src="assets/images/cards/flat/visa.svg" class="img-responsive" alt="">
-              </div>
-              <div class="col-md-2">
-                <img src="assets/images/cards/flat/amex.svg" class="img-responsive" alt="">
-              </div>
-              <div class="col-md-2">
-                <img src="assets/images/cards/flat/mastercard.svg" class="img-responsive" alt="">
-              </div>
-              <div class="col-md-2">
-                <img src="assets/images/cards/flat/diners.svg" class="img-responsive" alt="">
-              </div>
-            </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-xs-6">
             <p>
               <label class="radio-inline">
                 <!--<input type="radio" name="methodPayment" data-ng-click="ctrl.openBillet()" data-ng-model="ctrl.donate.methodPayment" value="billet" checked>-->
@@ -118,14 +126,14 @@
                 Boleto bancário
               </label>
             </p>
-            <div>
+            <!--<div>
               <i class="fa fa-barcode"></i>
-            </div>
+            </div>-->
           </div>
         </div>
 
         <div class="row" data-ng-show="ctrl.donate.methodPayment == 'card'">
-          <div class="col-md-6">
+          <div class="col-md-6 hidden-xs">
             <p>Exemplo do seu cartão</p>
             <div class="creditcard-container">
               <div class="creditcard">
@@ -280,7 +288,7 @@
               <div class="col-md-4">
                 <div class="form-group" data-ng-class="{'has-error':donate.city.$invalid && donate.city.$dirty}">
                   <label for="city" class="control-label">Selecione sua Cidade</label>
-                  <input type="text" name="city" data-ng-model="ctrl.donate.city" data-ng-model-options="{getterSetter: true, debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item.name as item.name for item in ctrl.getCities(ctrl.donate.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" aria-describedby="citieHelpBlock" autocomplete="off" data-ng-required="ctrl.donate.methodPayment == 'billet'">
+                  <input type="text" name="city" id="city" data-ng-model="ctrl.donate.city" data-ng-model-options="{getterSetter: true, debounce: 500}" placeholder="Encontre sua cidade" uib-typeahead="item.name as item.name for item in ctrl.getCities(ctrl.donate.state, $viewValue)" typeahead-popup-template-url="typeaheadPopupCitiesTemplate.html" typeahead-editable="false" typeahead-show-hint="true" typeahead-min-length="0" class="form-control" aria-describedby="citieHelpBlock" autocomplete="off" data-ng-required="ctrl.donate.methodPayment == 'billet'">
                   <div id="citieHelpBlock" class="help-block" data-ng-show="donate.city.$error && donate.city.$touched">
                     <p data-ng-show="donate.city.$error.required" class="text-danger">Informe a cidade que este evento irá ocorrer.</p>
                   </div>
