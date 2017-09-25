@@ -1,5 +1,5 @@
 class EventReport {
-  constructor($state, $stateParams,EventService,StorageService,$uibModal,$rootScope) {
+  constructor ($state, $stateParams, EventService, StorageService, $uibModal, $rootScope) {
     this.state = $state
     this.service = EventService
     this.profile = StorageService.getItem('profile')
@@ -7,9 +7,9 @@ class EventReport {
       this.uuid = $stateParams.uuid
       this.getReport($stateParams.uuid)
     }
-    this.myInterval = 5000;
-    this.noWrapSlides = false;
-    this.active = 0;
+    this.myInterval = 5000
+    this.noWrapSlides = false
+    this.active = 0
     this.pagination = { current_page: 1 }
     this.modal = $uibModal
     this.rootScope = $rootScope
@@ -25,10 +25,10 @@ class EventReport {
       trees: 'árvores'
     }
   }
-  getRepeat(num) {
+  getRepeat (num) {
     return new Array(num)
   }
-  getMessages(id, params) {
+  getMessages (id, params) {
     let method = (this.profile) ? 'getMessages' : 'getMessagesPublic'
     params.page = this.pagination.current_page
     this.service[method](id, params)
@@ -37,7 +37,7 @@ class EventReport {
         this.report.messages = response.data
       })
   }
-  getReport(id) {
+  getReport (id) {
     let method = (this.profile) ? 'getReport' : 'getReportPublic'
     this.service[method](id)
       .then(
@@ -49,11 +49,11 @@ class EventReport {
             }
             this.slides = []
             let x, picture, xInit = 0,
-                hasVideo = this.report.video.indexOf('http') > -1
+              hasVideo = this.report.video.indexOf('http') > -1
             if (hasVideo) {
               this.slides.push({
                 id: 0,
-                video: this.report.video 
+                video: this.report.video
               })
               xInit = 1
             }
@@ -71,11 +71,10 @@ class EventReport {
         },
         error => {
           this.state.go('pages.not-found', {seeking: 'relatório social', message: error.data.message})
-
         }
       )
   }
-  authorizeReport() {
+  authorizeReport () {
     let modalInstance = this.modal.open({
       templateUrl: './../src/event/view/report.authorize.html',
       controller: 'ReportAuthorize',
@@ -94,6 +93,6 @@ class EventReport {
   }
 }
 
-EventReport.$inject = ['$state','$stateParams','EventService','StorageService','$uibModal','$rootScope']
+EventReport.$inject = ['$state', '$stateParams', 'EventService', 'StorageService', '$uibModal', '$rootScope']
 
 export default EventReport

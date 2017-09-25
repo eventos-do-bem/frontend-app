@@ -65,17 +65,25 @@
 				<div class="col-md-10 col-md-offset-1">
 					<div class="row">
 						<div class="col-sm-4">
-							<file ng-model="ctrl.report.picture1" class="btn-block">
+							<!--<div class="btn-group btn-group-lg" role="group">
+								<button type="button" class="btn btn-default">
+									Foto 1
+								</button>
+								<button type="button" class="btn btn-default">
+									IMG
+								</button>
+							</div>-->
+							<file ng-model="ctrl.report.picture1" current="ctrl.images[0].thumb">
 								<span data-ng-bind="ctrl.report.picture1.name || 'Foto 1'"></span>
 							</file>
 						</div>
 						<div class="col-sm-4">
-							<file ng-model="ctrl.report.picture2" class="btn-block">
+							<file ng-model="ctrl.report.picture2" current="ctrl.images[1].thumb">
 								<span data-ng-bind="ctrl.report.picture2.name || 'Foto 2'"></span>
 							</file>
 						</div>
 						<div class="col-sm-4">
-							<file ng-model="ctrl.report.picture3" class="btn-block">
+							<file ng-model="ctrl.report.picture3" current="ctrl.images[2].thumb">
 								<span data-ng-bind="ctrl.report.picture3.name || 'Foto 3'"></span>
 							</file>
 						</div>

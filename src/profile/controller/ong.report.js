@@ -1,5 +1,5 @@
 export default class OngReport {
-  constructor($rootScope, EventService, $stateParams, $uibModal, $location, $anchorScroll, Currency, Regex, TourFactory) {
+  constructor ($rootScope, EventService, $stateParams, $uibModal, $location, $anchorScroll, Currency, Regex, TourFactory) {
     this.rootScope = $rootScope
     this.service = EventService
     this.modal = $uibModal
@@ -9,6 +9,7 @@ export default class OngReport {
     this.regex = Regex
     this.tour = TourFactory
     this.report = {}
+    this.images = []
     if ($stateParams.uuid) {
       this.getEvent($stateParams.uuid)
       this.getReport($stateParams.uuid)
@@ -25,22 +26,33 @@ export default class OngReport {
       {label: 'Árvores', value: 'trees'}
     ]
   }
-  initTour() {
+  initTour () {
     this.tour.init('ongReportTour')
     this.tour.start()
   }
-  getEvent(id) {
+  getEvent (id) {
     this.service.findById(id)
       .then(
         response => this.event = response.data,
         error => console.error(error)
       )
   }
-  getReport(id) {
+  addPicture (list, picture) {
+    if (picture) {
+      list.push(picture)
+    }
+    return list
+  }
+  getReport (id) {
     this.service.getReport(id)
       .then(
         response => {
-          this.report = response.data
+          let report = response.data
+          this.images = this.addPicture(this.images, report.picture1)
+          this.images = this.addPicture(this.images, report.picture2)
+          this.images = this.addPicture(this.images, report.picture3)
+          this.images = this.addPicture(this.images, report.picture4)
+          this.report = report
           delete this.report.picture1
           delete this.report.picture2
           delete this.report.picture3
@@ -49,9 +61,12 @@ export default class OngReport {
         error => console.error(error)
       )
   }
-  save(id, report, submission) {
-    if (report.video && report.video.trim().indexOf('http') != 0) {
+  save (id, report, submission) {
+    if (report.video && report.video.trim().indexOf('http') !== 0) {
       report.video = 'http://' + report.video
+    }
+    if (report.video == null) {
+      delete report.video
     }
     let feedbackMessage
     if (submission) {
@@ -81,4 +96,4 @@ export default class OngReport {
   }
 }
 
-OngReport.$inject = ['$rootScope','EventService','$stateParams','$uibModal', '$location', '$anchorScroll','Currency','Regex','TourFactory']
+OngReport.$inject = ['$rootScope', 'EventService', '$stateParams', '$uibModal', '$location', '$anchorScroll', 'Currency', 'Regex', 'TourFactory']
