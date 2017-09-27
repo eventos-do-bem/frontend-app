@@ -24,7 +24,8 @@ export default function AppConfig ($httpProvider, envServiceProvider, $provide, 
     },
     vars: {
       devlocal: {
-        apiUrl: 'http://dev.eventosdobem.app/api/',
+        // apiUrl: 'http://dev.eventosdobem.app/api/',
+        apiUrl: 'https://dev.eventosdobem.com/api/',
         staticUrl: 'http://localhost:8000/',
         accept: 'application/vnd.api.v1+json',
         contenttype: 'application/json',

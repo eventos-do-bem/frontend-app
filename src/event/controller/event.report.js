@@ -49,7 +49,7 @@ class EventReport {
             }
             this.slides = []
             let x, picture, xInit = 0,
-              hasVideo = this.report.video.indexOf('http') > -1
+              hasVideo = (this.report.video) ? this.report.video.indexOf('http') > -1 : false
             if (hasVideo) {
               this.slides.push({
                 id: 0,

@@ -7,9 +7,14 @@ export default class HydratorService {
     fields = (fields) ? fields : keys
     fields.map(field => {
       if (keys.indexOf(field)) {
-        result[field] = data[field]
+        if (data[field] === null || data[field] === 'null') {
+          delete data[field]
+        } else {
+          result[field] = data[field]
+        }
       }
     })
     return result
   }
+
 }

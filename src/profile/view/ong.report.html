@@ -5,7 +5,7 @@
       Quer ajuda?
     </button>
 		<h3>
-			Relatório pendente
+			Relatório pendente <small>(<span data-ng-bind="ctrl.report.status"></span>)</small>
 		</h3>
 		<h4>
 			Esse é o relatório social pelo qual você deve demonstrar o impacto que os donativos do evento do bem realizado geraram para os beneficiados da sua Organização. O relatório social é de extrema importância para converter os doadores do evento em seus doadores recorrentes, portanto, dê prioridade na qualidade do texto e fotos requisitadas.
@@ -62,30 +62,61 @@
 				</div>
 			</div>
 			<div class="row margin-top-10">
-				<div class="col-md-10 col-md-offset-1">
+				<div class="col-md-12">
 					<div class="row">
 						<div class="col-sm-4">
-							<!--<div class="btn-group btn-group-lg" role="group">
-								<button type="button" class="btn btn-default">
-									Foto 1
-								</button>
-								<button type="button" class="btn btn-default">
-									IMG
-								</button>
-							</div>-->
-							<file ng-model="ctrl.report.picture1" current="ctrl.images[0].thumb">
-								<span data-ng-bind="ctrl.report.picture1.name || 'Foto 1'"></span>
-							</file>
+							<div class="panel panel-default">
+								<p class="alert alert-info" data-ng-hide="ctrl.report.picture1.name || ctrl.images.picture1" role="alert">
+									Selecione uma imagem
+								</p>
+								<p class="alert alert-success" data-ng-show="ctrl.report.picture1.name" role="alert">
+									Clique em salvar e aguarde...
+								</p>
+								<div class="panel-body" data-ng-show="ctrl.images.picture1 && !ctrl.report.picture1.name">
+									<figure class="img-responsive">
+										<img data-ng-src="{{ctrl.images.picture1}}" alt="">
+									</figure>
+								</div>
+								<file class="btn-block" ng-model="ctrl.report.picture1">
+									<span data-ng-bind="ctrl.report.picture1.name || 'Foto 1'"></span>
+								</file>
+							</div>
 						</div>
 						<div class="col-sm-4">
-							<file ng-model="ctrl.report.picture2" current="ctrl.images[1].thumb">
-								<span data-ng-bind="ctrl.report.picture2.name || 'Foto 2'"></span>
-							</file>
+							<div class="panel panel-default">
+								<p class="alert alert-info" data-ng-hide="ctrl.report.picture2.name || ctrl.images.picture2" role="alert">
+									Selecione uma imagem
+								</p>
+								<p class="alert alert-success" data-ng-show="ctrl.report.picture2.name" role="alert">
+									Clique em salvar e aguarde...
+								</p>
+								<div class="panel-body" data-ng-show="ctrl.images.picture2 && !ctrl.report.picture2.name">
+									<figure class="img-responsive">
+										<img data-ng-src="{{ctrl.images.picture2}}" alt="">
+									</figure>
+								</div>
+								<file class="btn-block" ng-model="ctrl.report.picture2" current="ctrl.images.picture2">
+									<span data-ng-bind="ctrl.report.picture2.name || 'Foto 2'"></span>
+								</file>
+							</div>
 						</div>
 						<div class="col-sm-4">
-							<file ng-model="ctrl.report.picture3" current="ctrl.images[2].thumb">
-								<span data-ng-bind="ctrl.report.picture3.name || 'Foto 3'"></span>
-							</file>
+							<div class="panel panel-default">
+								<p class="alert alert-info" data-ng-hide="ctrl.report.picture3.name || ctrl.images.picture3" role="alert">
+									Selecione uma imagem
+								</p>
+								<p class="alert alert-success" data-ng-show="ctrl.report.picture3.name" role="alert">
+									Clique em salvar e aguarde...
+								</p>
+								<div class="panel-body" data-ng-show="ctrl.images.picture3 && !ctrl.report.picture3.name">
+									<figure class="img-responsive">
+										<img data-ng-src="{{ctrl.images.picture3}}" alt="">
+									</figure>
+								</div>
+								<file class="btn-block" ng-model="ctrl.report.picture3">
+									<span data-ng-bind="ctrl.report.picture3.name || 'Foto 3'"></span>
+								</file>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -104,8 +135,8 @@
 						<label for="messageOrganizer" class="text-muted">
 							Escreva uma mensagem agradecendo o organizador que está fazendo o evento do bem para a sua organização
 						</label>
-						<count-down-element model="ctrl.report.messageOrganizer" max="900">
-							<textarea rows="6" class="form-control" id="messageOrganizer" data-ng-model="ctrl.report.messageOrganizer" maxlength="900"></textarea>
+						<count-down-element model="report.messageOrganizer.$viewValue" max="900">
+							<textarea rows="6" name="messageOrganizer" class="form-control" id="messageOrganizer" data-ng-model="ctrl.report.messageOrganizer" maxlength="900"></textarea>
 						</count-down-element>
 					</div>
 				</div>
@@ -142,15 +173,39 @@
 					<input type="text" name="title" id="title" class="form-control" data-ng-model="ctrl.report.title" placeholder="Ex. O João aprendeu a escrever!" maxlength="100">
 				</count-down-element>
 			</div>
-			<count-down-element model="ctrl.report.history" max="700">
-				<textarea rows="6" class="form-control" data-ng-model="ctrl.report.history" placeholder="Nessa parte você tem até 700 caracteres para explicar a história do beneficiado (como por exemplo 'o João'), o objetivo é que isso aproxime os doadores do impacto positivo gerado. Por exemplo, no caso de uma Organização de educação para crianças, se foque na história do 'João', onde ele nasceu, quais as necessidades dele quando começou a ser atendido e o quais avanços que ele obteve com a ajuda da sua Organização. Histórias engraçadas também são legais! O importante é que seja uma história que fique na memória dos apoiadores deste evento do bem, aproximando eles da sua causa." maxlength="700"></textarea>
-			</count-down-element>
+			<div class="form-group"  data-ng-class="{'has-error':report.history.$invalid && report.history.$dirty}">
+				<count-down-element model="ctrl.report.history" max="700">
+					<textarea rows="6" name="history" class="form-control" data-ng-model="ctrl.report.history" placeholder="Ex. Nessa parte você tem até 700 caracteres para explicar a história do beneficiado (como por exemplo 'o João'), o objetivo é que isso aproxime os doadores do impacto positivo gerado. Por exemplo, no caso de uma Organização de educação para crianças, se foque na história do 'João', onde ele nasceu, quais as necessidades dele quando começou a ser atendido e o quais avanços que ele obteve com a ajuda da sua Organização. Histórias engraçadas também são legais! O importante é que seja uma história que fique na memória dos apoiadores deste evento do bem, aproximando eles da sua causa." maxlength="700" aria-describedby="historyHelpBlock"></textarea>
+				</count-down-element>
+				<div id="historyHelpBlock" class="help-block" data-ng-messages="report.history.$error">
+					<p class="text-danger" data-ng-message="maxlength">
+						Texto da história deverá ter no máximo 700 caracteres.
+					</p>
+				</div>
+			</div>
 			<div class="row margin-top-20">
 				<div class="col-sm-4">
-					<file style="display: block" ng-model="ctrl.report.picture4" progress="ctrl.progress">
+					<div class="panel panel-default">
+						<p class="alert alert-info" data-ng-hide="ctrl.report.picture4.name || ctrl.images.picture4" role="alert">
+							Selecione uma imagem
+						</p>
+						<p class="alert alert-success" data-ng-show="ctrl.report.picture4.name" role="alert">
+							Clique em salvar e aguarde...
+						</p>
+						<div class="panel-body" data-ng-show="ctrl.images.picture4 && !ctrl.report.picture4.name">
+							<figure class="img-responsive">
+								<img data-ng-src="{{ctrl.images.picture4}}" alt="">
+							</figure>
+						</div>
+						<file class="btn-block" ng-model="ctrl.report.picture4">
+							<span data-ng-bind="ctrl.report.picture4.name || 'Fotografia do beneficiário'"></span>
+						</file>
+					</div>
+
+					<!--<file class="btn-block" ng-model="ctrl.report.picture4" progress="ctrl.progress">
 						<span data-ng-bind="ctrl.report.picture4.name || 'Fotografia do beneficiário'"></span>
 					</file>
-					<!--<button type="button" class="btn btn-default">
+					<button type="button" class="btn btn-default">
 						<i class="fa fa-upload"></i>
 						Fotografia do beneficiário
 					</button>-->
