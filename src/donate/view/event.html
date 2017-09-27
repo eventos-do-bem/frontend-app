@@ -206,14 +206,14 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <div class="form-group" data-ng-class="{'has-error':donate.message.$invalid && donate.message.$dirty}">
-                  <label for="message" class="control-label">
+                <div class="form-group" data-ng-class="{'has-error':donate.card_message.$invalid && donate.card_message.$dirty}">
+                  <label for="card_message" class="control-label">
                     Escreva uma mensagem de apoio para <span data-ng-bind="ctrl.event.user.name"></span> que aparecerá em sua página de campanha!
                   </label>
-                  <count-down-element model="donate.message.$viewValue" max="165">
-                    <textarea name="message" id="message" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="165" placeholder="Escreva aqui uma mensagem de apoio e união a esta ação de melhora do mundo."></textarea>
+                  <count-down-element model="donate.card_message.$viewValue" max="165">
+                    <textarea name="card_message" id="card_message" class="form-control" data-ng-model="ctrl.donate.message" minlength="20" maxlength="165" placeholder="Escreva aqui uma mensagem de apoio e união a esta ação de melhora do mundo."></textarea>
                   </count-down-element>
-                  <div class="help-block" data-ng-messages="donate.message.$error" data-ng-hide="!donate.message.$dirty">
+                  <div class="help-block" data-ng-messages="donate.card_message.$error">
                     <p data-ng-message="minlength" class="text-danger">Sua mensagem deve ter no mínimo 20 e máximo 165 letras.</p>
                   </div>
                 </div>

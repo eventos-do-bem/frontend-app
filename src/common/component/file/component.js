@@ -5,7 +5,8 @@ let Component = {
   bindings: {
     ngModel: '=',
     progress: '<?',
-    disabled: '<?'
+    disabled: '<?',
+    current: '<?'
   },
   template: `
     <input type="file" ng-model="file" data-ng-hide="true">
@@ -17,17 +18,18 @@ let Component = {
       </span>
     </button>
   `,
-  controller: function($scope,$element,$attrs,$timeout,$parse) {
+  controller: function ($scope, $element, $attrs, $timeout, $parse) {
     let ctrl = this,
-        file,
-        model = $parse($attrs.ngModel),
-        modelSetter = model.assign
-    
+      file,
+      model = $parse($attrs.ngModel),
+      modelSetter = model.assign
+
     ctrl.style = $attrs.class
 
     $scope.click = () => {
       file[0].click()
     }
+
     $timeout(() => {
       file = $element.find('input')
       $element.bind('change', () => {
