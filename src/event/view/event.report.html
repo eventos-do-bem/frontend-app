@@ -96,9 +96,9 @@
           <br>
           que doou para a campanha de <span data-ng-bind="ctrl.report.occurrence.user.name"></span>, encontre sua mensagem digitando seu nome ou e-mail aqui :)
         </p>
-        <form name="search" data-ng-submit="ctrl.getMessages(ctrl.uuid, params)" novalidate>
+        <form id="search" name="search" data-ng-submit="ctrl.getMessages(ctrl.uuid, ctrl.params)" novalidate>
           <div class="input-group input-group-lg">
-            <input type="text" class="form-control" data-ng-model="params.user" data-ng-model-options="{debounce: 1000}" data-ng-change="ctrl.getMessages(ctrl.uuid, params)" placeholder="Use seu nome ou e-mail para procurar...">
+            <input type="text" class="form-control" data-ng-model="ctrl.params.user" data-ng-model-options="{debounce: 1000}" data-ng-change="ctrl.getMessages(ctrl.uuid, ctrl.params)" placeholder="Use seu nome ou e-mail para procurar...">
             <span class="input-group-btn">
               <button class="btn btn-primary">
                 <i class="fa fa-search" aria-hidden="true"></i>
