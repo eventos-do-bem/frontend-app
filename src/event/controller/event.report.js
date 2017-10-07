@@ -1,5 +1,5 @@
 class EventReport {
-  constructor ($state, $stateParams, EventService, StorageService, $uibModal, $rootScope) {
+  constructor ($state, $stateParams, EventService, StorageService, $uibModal, $rootScope, $anchorScroll, $location) {
     this.state = $state
     this.service = EventService
     this.profile = StorageService.getItem('profile')
@@ -7,10 +7,14 @@ class EventReport {
       this.uuid = $stateParams.uuid
       this.getReport($stateParams.uuid)
     }
+    this.anchorScroll = $anchorScroll
+    this.location = $location
+    this.changeMessages = () => this.getMessages(this.uuid, this.params)
     this.myInterval = 5000
     this.noWrapSlides = false
     this.active = 0
     this.pagination = { current_page: 1 }
+    this.params = {}
     this.modal = $uibModal
     this.rootScope = $rootScope
     this.benefit = {
@@ -30,12 +34,18 @@ class EventReport {
   }
   getMessages (id, params) {
     let method = (this.profile) ? 'getMessages' : 'getMessagesPublic'
+    // this.params = params
     params.page = this.pagination.current_page
     this.service[method](id, params)
       .then(response => {
         this.pagination = response.data.meta.pagination
         this.report.messages = response.data
       })
+  }
+  changePage () {
+    this.changeMessages()
+    this.location.hash('search')
+    this.anchorScroll()
   }
   getReport (id) {
     let method = (this.profile) ? 'getReport' : 'getReportPublic'
@@ -93,6 +103,6 @@ class EventReport {
   }
 }
 
-EventReport.$inject = ['$state', '$stateParams', 'EventService', 'StorageService', '$uibModal', '$rootScope']
+EventReport.$inject = ['$state', '$stateParams', 'EventService', 'StorageService', '$uibModal', '$rootScope', '$anchorScroll', '$location']
 
 export default EventReport
