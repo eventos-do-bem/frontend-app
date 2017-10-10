@@ -9,6 +9,11 @@ export default class AppController {
         email: profile.email
       })
     }
+
+    // @https://trello.com/c/JHHTznNj/299-desabilitar-widget-zendesk
+    // @Carlos Eduardo
+    ZendeskWidget.hide()
+
     FacebookFactory.init({
       appId: envService.read('fbAppId'),
       version: envService.read('fbVersion'),
