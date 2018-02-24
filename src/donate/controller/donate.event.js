@@ -176,7 +176,7 @@ export default class DonateEvent {
     let method = (this.logged) ? 'payLogged' : 'payPublic'
     this.donateService[method](this.event.uuid, donate)
       .then(
-        response => this.openCardSuccess(this.event.institution.user, this.donate.name),
+        response => this.openCardSuccess(this.event.user, this.donate.name),
         error => this.openCardError(error.data)
       )
   }
@@ -226,7 +226,7 @@ export default class DonateEvent {
           return {
             uuid: this.uuid,
             donate: donate,
-            user: this.event.institution.user
+            user: this.event.user
           }
         }
       }
@@ -355,7 +355,7 @@ export default class DonateEvent {
           return {
             uuid: this.uuid,
             donate: donate,
-            user: this.event.institution.user
+            user: this.event.user
           }
         }
       }
